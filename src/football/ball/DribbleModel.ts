@@ -1,0 +1,159 @@
+import { BALL_RADIUS } from "../constants";
+import { clamp, lerp, normalize2, stat01 } from "../../core/math";
+import type { Player } from "../players/Player";
+import { topSpeedFromPace } from "../players/PlayerMovement";
+import type { Ball } from "./Ball";
+import { facingDelta, overTurnLooseChance } from "./GroundContest";
+
+export type TouchResult = "keep" | "loose";
+
+export interface DribbleOpts {
+  pressure: number;
+  dt: number;
+  /** 1 = legacy sticky follow; lower = ball freer between / at touches (REAL ~0.5). */
+  magnetMul?: number;
+  /** Scales sharp-turn spill chance. */
+  turnLooseMul?: number;
+  rng?: () => number;
+}
+
+/**
+ * 0–1 how hard the carrier is dashing with the ball.
+ * Near top sprint → control dies and interceptions become easy.
+ */
+export function dashCarryRisk01(player: Player): number {
+  const top = topSpeedFromPace(player.attrs.pace, true, false);
+  const ratio = clamp(player.speed / Math.max(top, 1), 0, 1.08);
+  // Only the upper end of the speed band counts as a "dash".
+  const nearTop = clamp((ratio - 0.7) / 0.3, 0, 1);
+  if (player.sprinting) return nearTop;
+  // Fast non-sprint carries still leak a little control.
+  return nearTop * 0.45;
+}
+
+export function dribbleAhead(speed: number, control: number, sprinting: boolean): number {
+  const run = clamp((speed - 2.2) / 8.5, 0, 1);
+  const base = lerp(0.62, sprinting ? 1.72 : 1.22, run);
+  return base * lerp(1.12, 0.86, stat01(control));
+}
+
+export function touchInterval(speed: number): number {
+  if (speed > 8) return 0.26;
+  if (speed > 5.5) return 0.34;
+  if (speed > 3) return 0.42;
+  return 0.52;
+}
+
+/**
+ * Open-play carry: players only push the ball (partial speed + direction).
+ * No teleport-to-feet magnet — the ball keeps its own motion between touches.
+ */
+export function stepDribble(ball: Ball, player: Player, pressureOrOpts: number | DribbleOpts, maybeDt?: number): TouchResult {
+  const opts: DribbleOpts =
+    typeof pressureOrOpts === "number"
+      ? { pressure: pressureOrOpts, dt: maybeDt ?? 1 / 60 }
+      : pressureOrOpts;
+  const { pressure, dt } = opts;
+  const magnetMul = opts.magnetMul ?? 1;
+  const turnLooseMul = opts.turnLooseMul ?? 1;
+  const rng = opts.rng ?? Math.random;
+
+  player.touchTimer -= dt;
+  const dash = dashCarryRisk01(player);
+  // Dash kills close control — effective touch quality collapses near top speed.
+  const control = clamp(stat01(player.attrs.control) * (1 - dash * 0.62), 0.08, 1);
+  const drib = clamp(stat01(player.attrs.dribbling) * (1 - dash * 0.48), 0.08, 1);
+  const close = player.jockeying;
+  const fx = Math.sin(player.facing);
+  const fz = Math.cos(player.facing);
+  const ahead =
+    dribbleAhead(player.speed, control * 100, player.sprinting) *
+    (close ? 0.88 : 1) *
+    (1 + dash * 0.55);
+  const tx = player.x + fx * ahead;
+  const tz = player.z + fz * ahead;
+  // Collect reach; retain hysteresis is larger so a carry does not drop mid-stride.
+  // Dash pushes the ball further out — easier for a defender to nick.
+  const reach = 1.65 + (1 - control) * 0.22 + (close ? 0.12 : 0) - dash * 0.28;
+
+  // Sharp cut at pace — classic over-turn spill (rare unless heavily pressured).
+  const turnRate = Math.abs(facingDelta(player.prevFacing, player.facing)) / Math.max(dt, 1 / 120);
+  const spill = overTurnLooseChance(player, turnRate, pressure, turnLooseMul * (1 + dash * 1.6));
+  if (spill > 0 && rng() < spill * (0.35 + dash * 0.45)) {
+    const away = normalize2(ball.x - player.x + fx * 0.2, ball.z - player.z + fz * 0.2);
+    const kick = 1.6 + player.speed * 0.28 + pressure * 1.1;
+    ball.vx = ball.vx * 0.45 + away.x * kick + (rng() - 0.5) * 0.9;
+    ball.vz = ball.vz * 0.45 + away.z * kick + (rng() - 0.5) * 0.9;
+    ball.vy = Math.max(ball.vy, 0.15);
+    return "loose";
+  }
+
+  if (player.ballControlLockout > 0) {
+    // After a poke: no magnet — just check the ball hasn't run away.
+    if (player.distTo(ball.x, ball.z) > reach + 0.45) return "loose";
+    return "keep";
+  }
+
+  if (player.touchTimer <= 0) {
+    player.touchTimer = touchInterval(player.speed) * (close ? 1.12 : 0.92) * (1 - dash * 0.18);
+    if (player.distTo(ball.x, ball.z) > reach + 0.35) return "loose";
+
+    // Sticky carry: pull the ball onto the stride and match player velocity.
+    const scatter =
+      ((1 - drib) * 0.18 + pressure * 0.28 + (1 - player.energy.value) * 0.12 + dash * 0.35) *
+      (close ? 0.5 : 1);
+    const ox = (rng() - 0.5) * scatter;
+    const oz = (rng() - 0.5) * scatter;
+    const magnet =
+      lerp(0.62, 0.9, control) * magnetMul * (close ? 1.12 : 1) * (1 - dash * 0.55);
+    ball.x += (tx + ox - ball.x) * clamp(magnet, 0.28, 0.95);
+    ball.z += (tz + oz - ball.z) * clamp(magnet, 0.28, 0.95);
+    if (ball.y < BALL_RADIUS + 0.35) ball.y = BALL_RADIUS;
+
+    const intent = 0.85 + player.speed * 0.62;
+    const keep = lerp(0.18, 0.1, magnetMul);
+    ball.vx = ball.vx * keep + player.vx * 0.62 + fx * intent * (0.22 + control * 0.1);
+    ball.vz = ball.vz * keep + player.vz * 0.62 + fz * intent * (0.22 + control * 0.1);
+    ball.vy *= 0.28;
+
+    const pressSoft = pressure > 0.55 ? 0.7 : 0.45;
+    const looseChance = clamp(
+      (pressure * 0.09 * pressSoft + dash * 0.16) *
+        (1.1 - drib) *
+        (1.05 - player.energy.value * 0.3) *
+        (close ? 0.28 : 1) *
+        (1.0 - magnetMul * 0.35),
+      0,
+      0.28,
+    );
+    if ((pressure > 0.48 || dash > 0.55) && rng() < looseChance) return "loose";
+  } else {
+    // Between touches: keep the ball glued under the stride while running.
+    // Dash: weak follow so the ball sits ahead for a challenge.
+    const follow =
+      lerp(0.32, 0.68, control) * magnetMul * (close ? 1.25 : 1) * (1 - dash * 0.65);
+    const dist = player.distTo(ball.x, ball.z);
+    if (follow > 0.01 && dist < reach + 0.75) {
+      const pull = Math.min(1, follow * dt * 12);
+      ball.x += (tx - ball.x) * pull;
+      ball.z += (tz - ball.z) * pull;
+      ball.vx = lerp(ball.vx, player.vx + fx * player.speed * 0.2, pull * 0.75);
+      ball.vz = lerp(ball.vz, player.vz + fz * player.speed * 0.2, pull * 0.75);
+    }
+    if (ball.y < BALL_RADIUS + 0.08) ball.y = BALL_RADIUS;
+  }
+
+  // Retain beyond collect reach so a take cannot instantly drop (hysteresis).
+  if (player.distTo(ball.x, ball.z) > 3.15 + (1 - control) * 0.22 - dash * 0.55) return "loose";
+  return "keep";
+}
+
+export function firstTouchScatter(control: number, pressure: number, energy: number, aerial: boolean): number {
+  const c = stat01(control);
+  const air = aerial ? 1.55 : 1;
+  return (1 - c) * 0.85 * air + pressure * 0.55 + (1 - energy) * 0.25;
+}
+
+export function scaledFirstTouch(control: number, pressure: number, energy: number, aerial: boolean, mul: number): number {
+  return firstTouchScatter(control, pressure, energy, aerial) * mul;
+}

@@ -1,0 +1,1117 @@
+/** @vitest-environment jsdom */
+import { describe, expect, it } from "vitest";
+import {
+  CharacterSelect,
+  fitFormationTeamTitle,
+  fitPitchCounters,
+  formationToPitchPercent,
+  MARKER_MIN_DX,
+  MARKER_MIN_DY,
+  separatePitchMarkers,
+} from "./CharacterSelect";
+import {
+  fitRosterHeadingElements,
+  fitRosterNameElements,
+  kitCaptionSurname,
+  kitInitialSurnameLabel,
+  kitMarkerHtml,
+  kitSurnameFromName,
+} from "./Portrait";
+import type { SquadPlayer } from "../core/Database";
+import type { PlayerRecord } from "../data/schema";
+
+function makePlayer(id: string, name: string, pos: string, number: number): SquadPlayer {
+  const player: PlayerRecord = {
+    id,
+    name,
+    displayName: name,
+    primaryPosition: pos as PlayerRecord["primaryPosition"],
+    secondaryPositions: [],
+    pace: 80,
+    passing: 70,
+    longPassing: 65,
+    vision: 68,
+    control: 72,
+    dribbling: 74,
+    shooting: 66,
+    finishing: 64,
+    shotPower: 70,
+    longShots: 60,
+    defending: 55,
+    strength: 70,
+    stamina: 78,
+    composure: 70,
+  };
+  return {
+    player,
+    attrs: player,
+    overall: 74,
+    shirtNumber: number,
+    membership: { playerId: id, teamId: "plymouth_argyle_current", shirtNumber: number, squadRole: "FIRST_TEAM" },
+  };
+}
+
+function squad(): SquadPlayer[] {
+  return [
+    makePlayer("gk", "G. Keeper", "GK", 1),
+    makePlayer("p1", "M. Cooper", "CM", 8),
+    makePlayer("p2", "R. Hardie", "ST", 9),
+  ];
+}
+
+describe("character select", () => {
+  it("defaults to team select with a formation pitch", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      roster: [...squad(), makePlayer("b1", "B. Ench", "CM", 14)],
+      starterSlots: ["GK", "CAM", "ST"],
+      team: {
+        id: "plymouth_argyle_current",
+        name: "Plymouth Argyle",
+        abbreviation: "ARG",
+        primaryColor: "#007A3D",
+        secondaryColor: "#C5A572",
+      },
+    });
+    view.render();
+    expect(view.controlMode).toBe("TEAM");
+    expect(view.root.querySelector(".team-pitch")).toBeTruthy();
+    expect(view.root.querySelector(".team-bench")).toBeTruthy();
+    expect(view.root.querySelector(".team-roster")).toBeTruthy();
+    expect(view.root.querySelector(".team-roster-card")).toBeTruthy();
+    const title = view.root.querySelector(".char-team-title");
+    expect(title).toBeTruthy();
+    expect(title?.querySelector(".char-team-crest")).toBeTruthy();
+    expect(title?.textContent).toContain("Plymouth Argyle");
+    expect(view.root.textContent).toContain("START AS TEAM");
+    expect(view.root.textContent).toContain("SUBSTITUTES");
+    expect(view.root.textContent).not.toContain("SQUAD");
+    expect(view.root.querySelector(".team-roster-title")).toBeNull();
+    expect(view.root.querySelector(".formation-toolbar")).toBeTruthy();
+    expect(view.root.querySelector('[data-char="form-side"]')).toBeNull();
+    expect(view.root.querySelector('[data-char="chalk"]')).toBeTruthy();
+    expect(view.root.querySelector(".team-pitch-chalk")).toBeTruthy();
+    const chalk = view.root.querySelector('[data-char="chalk"]');
+    const styleSelect = view.root.querySelector<HTMLSelectElement>('select[data-char="play-style"]');
+    const formSelect = view.root.querySelector<HTMLSelectElement>('select[data-char="form"]');
+    expect(chalk && styleSelect && !!(chalk.compareDocumentPosition(styleSelect) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(true);
+    expect(view.root.querySelector(".formation-toolbar [data-char='form-side']")).toBeNull();
+    expect(styleSelect).toBeTruthy();
+    expect(formSelect).toBeTruthy();
+    expect([...styleSelect!.options].map((o) => o.value)).toContain("auto");
+    expect([...styleSelect!.options].map((o) => o.value)).toContain("counter");
+    expect(styleSelect!.value).toBe("auto");
+    expect(view.playStyle).toBe("auto");
+    view.setPlayStyle("possession");
+    view.render();
+    expect(view.getEditedLineup().playStyle).toBe("possession");
+    expect(view.root.querySelector<HTMLSelectElement>('select[data-char="play-style"]')?.value).toBe("possession");
+  });
+
+  it("opens Flickball / Foosball on the formation pitch, not setup", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "CAM", "ST"],
+      purpose: "match",
+    });
+    view.setTabletopMode("FLICK");
+    view.setControlMode("TEAM");
+    view.render();
+    expect(view.controlMode).toBe("TEAM");
+    expect(view.root.querySelector(".team-pitch-chalk")).toBeTruthy();
+    expect(view.root.querySelector(".tabletop-setup")).toBeNull();
+    expect(view.root.querySelector('[data-char="mode-setup"]')?.textContent).toBe("FLICKBALL");
+    view.setControlMode("SETUP");
+    view.render();
+    expect(view.root.querySelector(".tabletop-setup")).toBeTruthy();
+  });
+
+  it("shows the player card when player select is chosen", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad());
+    view.setControlMode("PLAYER");
+    view.render();
+    expect(view.root.querySelector(".profile-stats")).toBeTruthy();
+    expect(view.root.querySelector(".profile-hex-svg")).toBeTruthy();
+    // PLAYER SELECT replaces the formation markings inside the pitch well.
+    expect(view.root.querySelector(".team-pitch.team-pitch-panel")).toBeTruthy();
+    expect(view.root.querySelector(".player-pitch-select")).toBeTruthy();
+    expect(view.root.querySelector(".team-pitch-chalk")).toBeNull();
+    expect(view.root.textContent).toContain("START AS PLAYER");
+    expect(view.root.querySelector('[data-char="back"]')?.textContent).toBe("BACK");
+    expect(view.root.textContent).toContain("SIMULATE");
+    const nav = [...view.root.querySelectorAll(".char-nav [data-char]")].map((el) => el.getAttribute("data-char"));
+    // Order: ‹ BACK · START · SIMULATE ›
+    expect(nav.indexOf("back")).toBeLessThan(nav.indexOf("start"));
+    expect(nav.indexOf("start")).toBeLessThan(nav.indexOf("simulate"));
+  });
+
+  it("swaps a bench player onto a pitch slot", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    const starters = squad();
+    const bench = makePlayer("b1", "B. Ench", "CM", 14);
+    view.setSquad("Plymouth Argyle", starters, "#007A3D", {
+      formation: "4-2-3-1",
+      roster: [...starters, bench],
+      starterSlots: ["GK", "CAM", "ST"],
+    });
+    const target = view.xi.find((x) => x.player.player.id === "p1") ?? view.xi[1];
+    expect(target).toBeTruthy();
+    const outId = target.player.player.id;
+    view.placePlayerOnSlot("b1", target.slot);
+    expect(view.xi.find((x) => x.slot === target.slot)?.player.player.id).toBe("b1");
+    expect(view.bench.some((p) => p.player.id === outId)).toBe(true);
+  });
+
+  it("swaps two on-field starters between pitch slots", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "CAM", "ST"],
+    });
+    const outfield = view.xi.filter((x) => x.slot !== "GK");
+    expect(outfield.length).toBeGreaterThanOrEqual(2);
+    const a = outfield[0];
+    const b = outfield[1];
+    const aId = a.player.player.id;
+    const bId = b.player.player.id;
+    const aSlot = a.slot;
+    const bSlot = b.slot;
+    view.placePlayerOnSlot(aId, bSlot);
+    expect(view.xi.find((x) => x.slot === bSlot)?.player.player.id).toBe(aId);
+    expect(view.xi.find((x) => x.slot === aSlot)?.player.player.id).toBe(bId);
+  });
+
+  it("stores slight pitch position nudges on the edited lineup", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "CAM", "ST"],
+    });
+    const slot = view.xi.find((x) => x.player.player.id === "p1")?.slot ?? view.xi[1].slot;
+    view.nudgeSlot(slot, 0.08, -0.1);
+    const edited = view.getEditedLineup().starters.find((s) => s.slot === slot);
+    expect(edited?.offsetX).toBeCloseTo(0.08);
+    expect(edited?.offsetZ).toBeCloseTo(-0.1);
+    expect(view.getEditedLineup().selection).toBe("USER");
+    view.nudgeSlot(slot, 0.5, 0.5);
+    const clamped = view.getEditedLineup().starters.find((s) => s.slot === slot);
+    expect(clamped?.offsetX).toBeLessThanOrEqual(0.28);
+    expect(Math.abs(clamped?.offsetZ ?? 0)).toBeLessThanOrEqual(0.4);
+  });
+
+  it("retains a USER formation when switching back to a clean base", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    const fullXi = [
+      makePlayer("gk", "G. Keeper", "GK", 1),
+      makePlayer("rb", "R. Back", "RB", 2),
+      makePlayer("rcb", "R. Centre", "CB", 5),
+      makePlayer("lcb", "L. Centre", "CB", 6),
+      makePlayer("lb", "L. Back", "LB", 3),
+      makePlayer("rdm", "R. Hold", "DM", 4),
+      makePlayer("ldm", "L. Hold", "DM", 8),
+      makePlayer("ram", "R. Wing", "RM", 7),
+      makePlayer("cam", "C. Mid", "CM", 10),
+      makePlayer("lam", "L. Wing", "LM", 11),
+      makePlayer("st", "S. Triker", "ST", 9),
+    ];
+    view.setSquad("Plymouth Argyle", fullXi, "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "RB", "RCB", "LCB", "LB", "RDM", "LDM", "RAM", "CAM", "LAM", "ST"],
+      roster: [...fullXi, makePlayer("b1", "B. Ench", "CM", 14)],
+    });
+    const slot = "CAM";
+    expect(view.xi.some((x) => x.slot === slot)).toBe(true);
+    view.nudgeSlot(slot, 0.06, 0.04);
+    view.setPlayStyle("possession");
+    view.render();
+    expect([...view.root.querySelectorAll('select[data-char="form"] option')].map((o) => (o as HTMLOptionElement).value)).toContain(
+      "USER",
+    );
+    view.setFormation("4-3-3");
+    expect(view.formation).toBe("4-3-3");
+    expect(view.slotOffsets.size).toBe(0);
+    expect(view.userTactics?.formation).toBe("4-2-3-1");
+    expect(view.userTactics?.playStyle).toBe("possession");
+    expect(view.userTactics?.starters.find((s) => s.slot === slot)?.offsetX).toBeCloseTo(0.06);
+    view.setFormation("USER");
+    expect(view.formationSelection).toBe("USER");
+    expect(view.formation).toBe("4-2-3-1");
+    expect(view.playStyle).toBe("possession");
+    expect(view.slotOffsets.get(slot)?.dx).toBeCloseTo(0.06);
+  });
+
+  it("selects a pitch player in the squad list for the formation card", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "CAM", "ST"],
+    });
+    const target = view.xi.find((x) => x.player.player.id === "p2") ?? view.xi[view.xi.length - 1];
+    view.selectPlayerId(target.player.player.id);
+    view.render();
+    expect(view.current().player.id).toBe(target.player.player.id);
+    expect(view.root.querySelector(".roster-row.on .roster-num")?.textContent).toBe(String(target.player.shirtNumber));
+    expect(view.root.querySelector(".team-roster-card .char-num")).toBeNull();
+    expect(view.root.querySelector(".team-roster-card .kit-marker-roster")).toBeTruthy();
+    expect(view.root.querySelector(".team-roster-card .portrait-badge-kit .sur")?.textContent).toMatch(/[A-Z]{2,}/);
+    expect(view.root.querySelector(".team-roster-card h3")?.textContent).toBe(
+      `${target.player.shirtNumber}. ${kitInitialSurnameLabel(target.player.player.displayName, target.player.player.name)}`,
+    );
+    expect(view.root.querySelector(".team-roster-card .char-meta")?.textContent).toMatch(/OVR/);
+    expect(view.root.querySelector(".team-roster-card .profile-stats")).toBeTruthy();
+    expect(view.root.querySelector(".team-roster-card .player-card")).toBeNull();
+    expect(view.root.querySelector(`.pitch-token.on[data-id="${target.player.player.id}"]`)).toBeTruthy();
+  });
+
+  it("flips the PLAYER SELECT sports card on click and browses with arrows", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "CAM", "ST"],
+      team: {
+        id: "plymouth_argyle_current",
+        name: "Plymouth Argyle",
+        abbreviation: "ARG",
+        primaryColor: "#007A3D",
+        secondaryColor: "#C5A572",
+      },
+    });
+    view.setControlMode("PLAYER");
+    view.render();
+    const shell = view.root.querySelector(".player-pitch-select .player-card-shell");
+    const card = view.root.querySelector<HTMLElement>(".player-pitch-select .player-card");
+    const flipNav = view.root.querySelector(".player-pitch-select .player-card-flip-nav");
+    expect(shell).toBeTruthy();
+    expect(card?.classList.contains("is-flipped")).toBe(false);
+    expect(card?.contains(flipNav)).toBe(false);
+    expect(view.root.querySelector(".player-card-front .profile-stats")).toBeTruthy();
+    expect(view.root.querySelector(".player-card-team")?.textContent).toContain("Plymouth Argyle");
+    expect(view.root.querySelector(".player-card-flip-label")).toBeNull();
+    expect(view.root.querySelector(".player-pitch-select .tabletop-setup-kicker")).toBeNull();
+    expect(view.root.querySelector(".player-pitch-select .hint")).toBeNull();
+    expect(view.root.querySelector('[data-char="card-edit"]')?.textContent).toBe("EDIT");
+    // No portrait on the stub squad → club crest fills the photo well.
+    expect(view.root.querySelector(".player-card-photo.has-crest .player-card-crest")).toBeTruthy();
+    view.root.querySelector<HTMLElement>(".player-card-team")?.click();
+    expect(view.root.querySelector(".player-card")?.classList.contains("is-flipped")).toBe(true);
+    expect(view.root.querySelector(".player-card-ratings")).toBeTruthy();
+    expect(view.root.querySelector(".player-card-back-head .player-card-shirt-back")).toBeTruthy();
+    expect(view.root.querySelector(".player-card-back-head .player-card-shirt-num")?.textContent).toMatch(/\d+/);
+    view.root.querySelector<HTMLElement>(".player-card-back-head .player-card-shirt-name")?.click();
+    expect(view.root.querySelector(".player-card")?.classList.contains("is-flipped")).toBe(false);
+    const before = view.current().player.id;
+    flipNav?.querySelector<HTMLElement>("[data-char='card-flip'][data-dir='next']")?.click();
+    expect(view.current().player.id).not.toBe(before);
+    expect(view.root.querySelector(".player-card")?.classList.contains("is-flipped")).toBe(false);
+    view.root.querySelector<HTMLElement>('[data-char="card-edit"]')?.click();
+    expect(view.root.querySelector(".player-card-edit-panel")).toBeTruthy();
+    expect(view.root.querySelector(".player-card-edit-section-title")?.textContent).toMatch(/Details/i);
+    expect(view.root.querySelector('[data-char="card-view"]')?.textContent).toBe("CARD");
+    view.root.querySelector<HTMLInputElement>('[data-edit-field="name"]')!.value = "Edited Name";
+    view.root.querySelector<HTMLInputElement>('[data-edit-field="name"]')!.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(view.root.querySelector('[data-char="card-save"]')?.textContent).toBe("SAVE");
+  });
+
+  it("right-clicks a pitch counter into the PLAYER SELECT card (not edit)", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "CAM", "ST"],
+      team: {
+        id: "plymouth_argyle_current",
+        name: "Plymouth Argyle",
+        abbreviation: "ARG",
+        primaryColor: "#007A3D",
+        secondaryColor: "#C5A572",
+      },
+    });
+    view.render();
+    expect(view.controlMode).toBe("TEAM");
+    const token = view.root.querySelector<HTMLElement>('.pitch-token[data-id="p2"]');
+    expect(token).toBeTruthy();
+    token!.dispatchEvent(new MouseEvent("contextmenu", { bubbles: true, cancelable: true }));
+    expect(view.controlMode).toBe("PLAYER");
+    expect(view.current().player.id).toBe("p2");
+    expect(view.root.querySelector(".player-pitch-select .player-card")).toBeTruthy();
+    expect(view.root.querySelector(".player-card-edit-panel")).toBeNull();
+    expect(view.root.querySelector('[data-char="card-edit"]')?.textContent).toBe("EDIT");
+  });
+
+  it("right-clicks a squad row into the editable PLAYER SELECT card", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "CAM", "ST"],
+      team: {
+        id: "plymouth_argyle_current",
+        name: "Plymouth Argyle",
+        abbreviation: "ARG",
+        primaryColor: "#007A3D",
+        secondaryColor: "#C5A572",
+      },
+    });
+    view.render();
+    expect(view.controlMode).toBe("TEAM");
+    const row = view.root.querySelector<HTMLElement>('.roster-row[data-id="p2"]');
+    expect(row).toBeTruthy();
+    row!.dispatchEvent(new MouseEvent("contextmenu", { bubbles: true, cancelable: true }));
+    expect(view.controlMode).toBe("PLAYER");
+    expect(view.current().player.id).toBe("p2");
+    expect(view.root.querySelector(".player-pitch-select .player-card-edit-panel")).toBeTruthy();
+    const titles = [...view.root.querySelectorAll(".player-card-edit-section-title")].map((el) => el.textContent);
+    expect(titles[0]).toMatch(/Details/i);
+    expect(titles.some((t) => /Statistics/i.test(t ?? ""))).toBe(true);
+    expect(view.root.querySelector('[data-char="card-view"]')?.textContent).toBe("CARD");
+    expect(view.root.querySelector(".player-pitch-select .player-card-flip-nav")).toBeTruthy();
+    expect(view.root.querySelector(".player-card-flip-label")).toBeNull();
+    const before = view.current().player.id;
+    view.root.querySelector<HTMLElement>('[data-char="card-flip"][data-dir="next"]')?.click();
+    expect(view.current().player.id).not.toBe(before);
+    expect(view.root.querySelector(".player-card-edit-panel")).toBeTruthy();
+    view.root.querySelector<HTMLElement>('[data-char="card-flip"][data-dir="prev"]')?.click();
+    expect(view.current().player.id).toBe(before);
+  });
+
+  it("saves EDIT card changes via onSquadPlayerSave and updates the local squad", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    const saved: unknown[] = [];
+    view.onSquadPlayerSave = (edit) => saved.push(edit);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "CAM", "ST"],
+      team: {
+        id: "plymouth_argyle_current",
+        name: "Plymouth Argyle",
+        abbreviation: "ARG",
+        primaryColor: "#007A3D",
+        secondaryColor: "#C5A572",
+      },
+    });
+    view.setControlMode("PLAYER");
+    view.render();
+    view.root.querySelector<HTMLElement>('[data-char="card-edit"]')?.click();
+    const name = view.root.querySelector<HTMLInputElement>('[data-edit-field="name"]')!;
+    name.value = "Ryan Hardie Esq";
+    name.dispatchEvent(new Event("input", { bubbles: true }));
+    const pace = view.root.querySelector<HTMLInputElement>('[data-edit-stat="pace"]');
+    if (pace) {
+      pace.value = "91";
+      pace.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    expect(view.root.querySelector('[data-char="card-save"]')?.textContent).toBe("SAVE");
+    view.root.querySelector<HTMLElement>('[data-char="card-save"]')?.click();
+    expect(saved).toHaveLength(1);
+    const edit = saved[0] as {
+      playerId: string;
+      teamId: string;
+      name: string;
+      stats: { pace?: number };
+    };
+    expect(edit.playerId).toBe(view.current().player.id);
+    expect(edit.teamId).toBe("plymouth_argyle_current");
+    expect(edit.name).toBe("Ryan Hardie Esq");
+    if (pace) expect(edit.stats.pace).toBe(91);
+    expect(view.current().player.name).toBe("Ryan Hardie Esq");
+    if (pace) expect(view.current().player.pace).toBe(91);
+    expect(view.root.querySelector(".player-card-edit-panel")).toBeNull();
+    expect(view.root.querySelector('[data-char="card-edit"]')?.textContent).toBe("EDIT");
+  });
+
+  it("refreshTeamSelection keeps roster scroll and does not show click-hint text", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    const starters = squad();
+    const roster = [
+      ...starters,
+      ...Array.from({ length: 12 }, (_, i) => makePlayer(`x${i}`, `Extra ${i}`, "CM", 20 + i)),
+    ];
+    view.setSquad("Plymouth Argyle", starters, "#007A3D", {
+      formation: "4-2-3-1",
+      roster,
+      starterSlots: ["GK", "CAM", "ST"],
+    });
+    view.render();
+    const list = view.root.querySelector<HTMLElement>(".team-roster-list");
+    expect(list).toBeTruthy();
+    list!.scrollTop = 80;
+    const pitchImg = view.root.querySelector(".pitch-token img");
+    const target = roster[roster.length - 1]!;
+    view.selectPlayerId(target.player.id);
+    view.refreshTeamSelection();
+    expect(view.root.querySelector<HTMLElement>(".team-roster-list")?.scrollTop).toBe(80);
+    // Selection only toggles classes — kit portrait nodes stay mounted.
+    expect(view.root.querySelector(".pitch-token img")).toBe(pitchImg);
+    expect(view.root.textContent ?? "").not.toMatch(/Click for (shape|details)/i);
+    view.toggleProfileView();
+    // Second view: full N-gon attribute shape.
+    expect(view.root.querySelector(".profile-hex-full")).toBeTruthy();
+    expect(view.root.querySelector(".profile-hex-shape")).toBeTruthy();
+    expect(view.root.querySelector(".profile-detail-bars")).toBeNull();
+    const fullBox = view.root.querySelector<HTMLElement>(".profile-stats");
+    expect(fullBox?.style.width).toBe(fullBox?.style.height);
+    view.toggleProfileView();
+    // Third view: six rating bars in the same fixed box.
+    expect(view.root.querySelector(".profile-detail-bars")).toBeTruthy();
+    expect(view.root.querySelector(".profile-hex-shape")).toBeNull();
+    const detailBox = view.root.querySelector<HTMLElement>(".profile-stats");
+    expect(detailBox?.style.width).toBe(fullBox?.style.width);
+    expect(detailBox?.style.height).toBe(fullBox?.style.height);
+    view.toggleProfileView();
+    expect(view.root.querySelector(".profile-hex-six")).toBeTruthy();
+    expect(view.root.querySelector(".profile-detail-bars")).toBeNull();
+  });
+
+  it("spot practice keeps the formation panel with a highlighted Select button", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      starterSlots: ["GK", "CAM", "ST"],
+      purpose: "spot",
+    });
+    view.render();
+    expect(view.purpose).toBe("spot");
+    expect(view.controlMode).toBe("TEAM");
+    expect(view.root.querySelector(".team-pitch")).toBeTruthy();
+    expect(view.root.querySelector('[data-char="mode-team"]')?.classList.contains("on")).toBe(true);
+    expect(view.root.querySelector('[data-char="mode-player"]')).toBeNull();
+    expect(view.root.querySelector('[data-char="simulate"]')).toBeNull();
+    const start = view.root.querySelector(".spot-select-btn") as HTMLButtonElement | null;
+    expect(start?.classList.contains("on")).toBe(true);
+    expect(start?.textContent).toMatch(/^SELECT /);
+    expect(view.root.textContent).toContain("Pick the taker");
+    view.setControlMode("PLAYER");
+    expect(view.controlMode).toBe("TEAM");
+    const target = view.xi.find((x) => x.player.player.id === "p2") ?? view.xi[view.xi.length - 1];
+    view.selectPlayerId(target.player.player.id);
+    view.render();
+    expect(view.root.querySelector(".pitch-token.on")?.getAttribute("data-id")).toBe(target.player.player.id);
+    const surname = kitSurnameFromName(target.player.player.displayName || target.player.player.name);
+    expect(view.root.querySelector(".spot-select-btn")?.textContent).toContain(surname);
+  });
+
+  it("Quick Match shows an AWAY opposition dropdown", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    const home = squad();
+    const away = [
+      makePlayer("a1", "A. Way", "GK", 1),
+      makePlayer("a2", "B. Way", "CM", 8),
+      makePlayer("a3", "C. Way", "ST", 9),
+    ];
+    view.setDualFormationSides(
+      {
+        home: {
+          teamName: "Home FC",
+          starters: home,
+          teamColor: "#007A3D",
+          formation: "4-2-3-1",
+          starterSlots: ["GK", "CAM", "ST"],
+          team: { id: "home_fc", name: "Home FC", abbreviation: "HOM", primaryColor: "#007A3D", secondaryColor: "#fff" },
+        },
+        away: {
+          teamName: "Away FC",
+          starters: away,
+          teamColor: "#c00",
+          formation: "4-2-3-1",
+          starterSlots: ["GK", "CAM", "ST"],
+          team: { id: "away_fc", name: "Away FC", abbreviation: "AWY", primaryColor: "#c00", secondaryColor: "#fff" },
+        },
+      },
+      "away",
+      {
+        quickMatch: true,
+        oppositionOptions: [
+          { id: "away_fc", label: "Away FC" },
+          { id: "other_fc", label: "Other FC" },
+        ],
+        oppositionTeamId: "away_fc",
+      },
+    );
+    view.render();
+    const sel = view.root.querySelector<HTMLSelectElement>("[data-char='quick-opp']");
+    expect(sel).toBeTruthy();
+    expect(sel?.value).toBe("away_fc");
+    expect([...sel!.options].map((o) => o.value)).toEqual(["away_fc", "other_fc"]);
+    view.setFormationSide("home");
+    view.render();
+    expect(view.root.querySelector("[data-char='quick-opp']")).toBeNull();
+  });
+
+  it("keeps goalkeeper tokens on the pitch-floor stop so kit text stays visible", () => {
+    const { bottom: gk } = formationToPitchPercent(0.07, 0);
+    const { bottom: mid } = formationToPitchPercent(0.5, 0);
+    const { bottom: st } = formationToPitchPercent(0.82, 0);
+    expect(gk).toBeGreaterThanOrEqual(1);
+    expect(gk).toBeLessThan(1.4);
+    expect(mid).toBeGreaterThan(38);
+    expect(mid).toBeLessThan(st - 10);
+    expect(st).toBeGreaterThan(64);
+    expect(st).toBeLessThan(72);
+  });
+
+  it("centres the formation laterally on the pitch", () => {
+    const { left: centre } = formationToPitchPercent(0.5, 0);
+    const { left: leftWing } = formationToPitchPercent(0.5, -0.4);
+    const { left: rightWing } = formationToPitchPercent(0.5, 0.4);
+    expect(centre).toBe(50);
+    expect(centre - leftWing).toBeCloseTo(rightWing - centre, 5);
+  });
+
+  it("orders the squad list GK through strikers, with substitutes after in the same order", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    const starters = [
+      makePlayer("st", "S. Triker", "ST", 9),
+      makePlayer("gk", "G. Keeper", "GK", 1),
+      makePlayer("lb", "L. Back", "LB", 3),
+      makePlayer("rb", "R. Back", "RB", 2),
+      makePlayer("rcb", "R. Centre", "CB", 5),
+      makePlayer("lcb", "L. Centre", "CB", 6),
+      makePlayer("lm", "L. Mid", "LM", 11),
+      makePlayer("rm", "R. Mid", "RM", 7),
+      makePlayer("rcm", "R. Midfield", "CM", 8),
+      makePlayer("lcm", "L. Midfield", "CM", 4),
+      makePlayer("lst", "L. Striker", "ST", 10),
+    ];
+    const bench = [
+      makePlayer("bst", "B. Striker", "ST", 19),
+      makePlayer("bgk", "B. Keeper", "GK", 13),
+      makePlayer("bcm", "B. Mid", "CM", 14),
+      makePlayer("brb", "B. Back", "RB", 12),
+    ];
+    view.setSquad("Plymouth Argyle", starters, "#007A3D", {
+      formation: "4-4-2",
+      roster: [...starters, ...bench],
+      starterSlots: ["RST", "GK", "LB", "RB", "RCB", "LCB", "LM", "RM", "RCM", "LCM", "LST"],
+    });
+    view.render();
+    const rows = [...view.root.querySelectorAll(".roster-row")].map((row) => ({
+      num: row.querySelector(".roster-num")?.textContent ?? "",
+      ovr: row.querySelector(".roster-role")?.textContent ?? "",
+    }));
+    expect(rows).toHaveLength(15);
+    expect(rows.every((r) => /^\d+$/.test(r.ovr))).toBe(true);
+    expect(rows[0]?.ovr).toBe("74");
+    expect(rows.map((r) => r.num)).toEqual(["1", "2", "5", "6", "3", "7", "8", "4", "11", "9", "10", "13", "12", "14", "19"]);
+    const benchNums = [...view.root.querySelectorAll(".bench-card .kit-marker-num")].map((el) => el.textContent);
+    expect(benchNums).toEqual(["13.", "12.", "14.", "19."]);
+  });
+
+  it("orders substitutes with GK first then by shirt number", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    const starters = squad();
+    const bench = [
+      makePlayer("bst", "B. Striker", "ST", 32),
+      makePlayer("bcm", "B. Mid", "CM", 15),
+      makePlayer("bgk", "B. Keeper", "GK", 13),
+      makePlayer("bcb", "B. Centre", "CB", 19),
+    ];
+    view.setSquad("Argyle Fans", starters, "#007A3D", {
+      formation: "4-4-2",
+      roster: [...starters, ...bench],
+      starterSlots: ["RST", "GK", "LB", "RB", "RCB", "LCB", "LM", "RM", "RCM", "LCM", "LST"],
+    });
+    view.render();
+    const benchNums = [...view.root.querySelectorAll(".bench-card .kit-marker-num")].map((el) => el.textContent);
+    expect(benchNums).toEqual(["13.", "15.", "19.", "32."]);
+  });
+
+  it("omits pitch/bench name tooltips unless info overlays are on", () => {
+    const host = document.createElement("div");
+    document.body.appendChild(host);
+    const view = new CharacterSelect(host);
+    const starters = squad();
+    view.setSquad("Argyle", starters, "#007A3D", {
+      formation: "4-2-3-1",
+      roster: [...starters, makePlayer("b1", "B. Ench", "CM", 14)],
+      starterSlots: ["GK", "CAM", "ST"],
+    });
+    view.showOverlays = false;
+    view.render();
+    expect(view.root.querySelector(".pitch-token[title]")).toBeNull();
+    expect(view.root.querySelector(".bench-card[title]")).toBeNull();
+    expect(view.root.querySelector(".pitch-token")?.getAttribute("aria-label")).toBeTruthy();
+    expect(view.root.querySelector(".roster-row[title]")).toBeNull();
+    view.showOverlays = true;
+    view.render();
+    const pitchOn = view.root.querySelector(".pitch-token");
+    expect(pitchOn?.getAttribute("title")).toBe(pitchOn?.getAttribute("aria-label"));
+    expect(view.root.querySelector(".bench-card[title]")?.getAttribute("title")).toBe("B. Ench");
+    expect(view.root.querySelector(".roster-row[title]")).toBeTruthy();
+    view.dispose();
+    host.remove();
+  });
+
+  it("keeps substitute GK PNG markers (green badge stays hidden fallback)", () => {
+    const host = document.createElement("div");
+    document.body.appendChild(host);
+    const view = new CharacterSelect(host);
+    const starters = squad();
+    const petey = makePlayer("bgk", "P. Petey", "GK", 13);
+    petey.player.appearance = { portraitAsset: "/images/l13.png" };
+    view.setSquad("Argyle Fans XI", starters, "#007A3D", {
+      formation: "4-4-2",
+      roster: [...starters, petey],
+      starterSlots: ["GK", "LB", "RB", "RCB", "LCB", "LM", "RM", "RCM", "LCM", "LST", "RST"],
+      secondaryColor: "#FFFFFF",
+    });
+    view.render();
+    const marker = view.root.querySelector('.bench-card[data-id="bgk"] .kit-marker');
+    expect(marker?.classList.contains("kit-marker-photo")).toBe(true);
+    expect(marker?.querySelector("img")?.getAttribute("src")).toContain("l13.png");
+    const badge = marker?.querySelector(".portrait-badge-kit") as HTMLElement | null;
+    expect(badge?.hasAttribute("hidden")).toBe(true);
+    expect(badge?.style.background.toLowerCase()).toBe("rgb(31, 174, 91)");
+    view.dispose();
+    host.remove();
+  });
+
+  it("renders badge-only substitute markers without photo class (full disc, no under-caption)", () => {
+    const host = document.createElement("div");
+    document.body.appendChild(host);
+    const view = new CharacterSelect(host);
+    const starters = squad();
+    const bench = makePlayer("b1", "B. Ench", "CM", 14);
+    // No portraitAsset — must stay badge-only so CSS can size the full disc.
+    delete (bench.player as { appearance?: unknown }).appearance;
+    view.setSquad("Argyle", starters, "#007A3D", {
+      formation: "4-2-3-1",
+      roster: [...starters, bench],
+      starterSlots: ["GK", "CAM", "ST"],
+    });
+    view.render();
+    const marker = view.root.querySelector('.bench-card[data-id="b1"] .kit-marker-bench');
+    expect(marker).toBeTruthy();
+    expect(marker?.classList.contains("kit-marker-photo")).toBe(false);
+    expect(marker?.querySelector(".portrait-badge-kit:not([hidden])")).toBeTruthy();
+    expect(marker?.querySelector(".portrait-badge-kit .sur")?.textContent).toBe("ENCH");
+    view.dispose();
+    host.remove();
+  });
+
+  it("shows pause formation nav with Apply/Back and hides player/team mode toggles", () => {
+    const host = document.createElement("div");
+    document.body.appendChild(host);
+    const view = new CharacterSelect(host);
+    const starters = squad();
+    view.setContext("pause", { subsRemaining: 3 });
+    view.setSquad("Argyle", starters, "#007A3D", {
+      formation: "4-2-3-1",
+      roster: [...starters, makePlayer("b1", "B. Ench", "CM", 14)],
+      starterSlots: ["GK", "CAM", "ST"],
+    });
+    view.render();
+    expect(view.root.querySelector('[data-char="pause-apply"]')?.textContent).toBe("APPLY");
+    expect(view.root.querySelector('[data-char="pause-apply"]')?.classList.contains("needs-apply")).toBe(false);
+    expect(view.root.querySelector('[data-char="pause-back"]')?.textContent).toBe("BACK");
+    expect(view.root.querySelector('[data-char="mode-player"]')).toBeNull();
+    expect(view.root.textContent).toContain("3 substitutions remaining");
+    expect(view.root.querySelector(".pitch-kit")).toBeNull();
+    const badge = view.root.querySelector(".pitch-token .portrait-badge-kit") as HTMLElement | null;
+    expect(badge?.querySelector(".num")?.textContent).toBeTruthy();
+    expect(badge?.querySelector(".sur")?.textContent).toBeTruthy();
+    expect(badge?.style.color.toLowerCase()).toBe("rgb(255, 255, 255)");
+    expect(view.root.querySelector(".bench-card .portrait-badge-kit .sur")?.textContent).toBe("ENCH");
+    expect(view.root.querySelector(".bench-meta")).toBeNull();
+    view.setFormation("4-4-2");
+    view.render();
+    expect(view.root.querySelector('[data-char="pause-apply"]')?.classList.contains("needs-apply")).toBe(true);
+    view.dispose();
+    host.remove();
+  });
+
+  it("uses secondary colour for kit-marker text; PNG caption is number then name", () => {
+    const host = document.createElement("div");
+    document.body.appendChild(host);
+    const view = new CharacterSelect(host);
+    const withArt = makePlayer("p2", "R. Hardie", "ST", 9);
+    withArt.player.appearance = { portraitAsset: "/portraits/hardie.png" };
+    view.setSquad("Argyle", [makePlayer("gk", "G. Keeper", "GK", 1), withArt], "#007A3D", {
+      formation: "4-2-3-1",
+      secondaryColor: "#C5A572",
+      starterSlots: ["GK", "ST"],
+    });
+    view.render();
+    const gkBadge = view.root.querySelector(".pitch-token .portrait-badge-kit") as HTMLElement | null;
+    expect(gkBadge?.style.background.toLowerCase()).toBe("rgb(31, 174, 91)");
+    expect(gkBadge?.style.color.toLowerCase()).toBe("rgb(255, 255, 255)");
+    expect(gkBadge?.querySelector(".num")?.textContent).toBe("1");
+    const photo = view.root.querySelector('[data-id="p2"] .kit-marker-photo');
+    expect(photo).toBeTruthy();
+    expect(photo?.querySelector(".kit-marker-num-overlay")).toBeNull();
+    expect(photo?.querySelector(".kit-marker-caption .kit-marker-num")?.textContent).toBe("9.");
+    expect(photo?.querySelector(".kit-marker-caption .kit-marker-name")?.textContent).toBe("HARDIE");
+    const stBadge = photo?.querySelector(".portrait-badge-kit") as HTMLElement | null;
+    // Photo markers keep caption in secondary; hidden fallback badge still carries team colours.
+    expect(stBadge?.style.color.toLowerCase()).toBe("rgb(197, 165, 114)");
+    view.dispose();
+    host.remove();
+  });
+
+  it("separates overlapping outfield markers without moving the goalkeeper", () => {
+    const gk = { id: "GK", left: 48.5, bottom: 5, pinned: true };
+    const a = { id: "RCB", left: 52, bottom: 18 };
+    const b = { id: "RB", left: 53, bottom: 19 };
+    const out = separatePitchMarkers([gk, a, b]);
+    expect(out.get("GK")).toEqual({ left: 48.5, bottom: 5 });
+    const pa = out.get("RCB")!;
+    const pb = out.get("RB")!;
+    const nx = (pb.left - pa.left) / MARKER_MIN_DX;
+    const ny = (pb.bottom - pa.bottom) / MARKER_MIN_DY;
+    expect(Math.hypot(nx, ny)).toBeGreaterThanOrEqual(0.98);
+  });
+
+  it("opens a dedicated Kit Select panel with HOME/AWAY on the team-name line", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    const team = {
+      id: "plymouth_argyle_current",
+      name: "Plymouth Argyle",
+      abbreviation: "ARG",
+      teamType: "CURRENT_TEAM" as const,
+      primaryColor: "#007A3D",
+      secondaryColor: "#C5A572",
+      defaultKit: { shirt: "#007A3D", shorts: "#ffffff", socks: "#007A3D" },
+      awayKit: { shirt: "#ffffff", shorts: "#111111", socks: "#ffffff", numberColor: "#111111" },
+      goalkeeperKit: { shirt: "#111111", shorts: "#111111", socks: "#111111" },
+      defaultStadiumId: "home_park",
+      defaultFormation: "4-2-3-1",
+    };
+    view.setContext("select");
+    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
+      formation: "4-2-3-1",
+      roster: squad(),
+      starterSlots: ["GK", "CAM", "ST"],
+      team,
+      opponentHomeKit: { shirt: "#0A8F4A", shorts: "#fff", socks: "#0A8F4A" },
+      userIsAwaySide: true,
+    });
+    view.render();
+    expect(view.root.querySelector(".char-panel-team")).toBeTruthy();
+    expect(view.root.querySelector(".kit-name-chips")).toBeNull();
+    expect(view.root.textContent).toContain("KIT SELECT");
+    view.setControlMode("KIT");
+    view.render();
+    expect(view.controlMode).toBe("KIT");
+    expect(view.root.querySelector(".char-panel-kit")).toBeTruthy();
+    expect(view.root.querySelector(".team-pitch")).toBeNull();
+    expect(view.root.querySelector(".kit-preview-host")).toBeTruthy();
+    const title = view.root.querySelector(".char-team-title");
+    expect(title?.querySelector(".kit-name-chips")).toBeTruthy();
+    expect(title?.querySelector('[data-kit="home"]')).toBeTruthy();
+    expect(title?.querySelector('[data-kit="away"]')).toBeTruthy();
+    expect(view.root.querySelectorAll(".kit-card").length).toBe(3);
+    view.setKitChoice("away");
+    view.render();
+    expect(view.selectedMatchKit()?.shirt.toLowerCase()).toBe("#ffffff");
+    expect(view.root.querySelector('.kit-card.on[data-kit="away"]')).toBeTruthy();
+    expect(view.root.querySelector(".kit-select-summary-choice")?.textContent).toBe("AWAY");
+    view.setContext("pause");
+    view.render();
+    expect(view.root.querySelector(".char-panel-kit")).toBeNull();
+    expect(view.root.textContent).not.toContain("KIT SELECT");
+  });
+
+  it("switches HOME/AWAY formation drafts and returns both edited lineups", () => {
+    const host = document.createElement("div");
+    const view = new CharacterSelect(host);
+    const homeTeam = {
+      id: "home_fc",
+      name: "Home FC",
+      abbreviation: "HOM",
+      teamType: "CURRENT_TEAM" as const,
+      primaryColor: "#007A3D",
+      secondaryColor: "#C5A572",
+      defaultKit: { shirt: "#007A3D", shorts: "#ffffff", socks: "#007A3D" },
+      goalkeeperKit: { shirt: "#111111", shorts: "#111111", socks: "#111111" },
+      defaultStadiumId: "home_park",
+      defaultFormation: "4-2-3-1",
+    };
+    const awayTeam = {
+      id: "away_fc",
+      name: "Away FC",
+      abbreviation: "AWY",
+      teamType: "CURRENT_TEAM" as const,
+      primaryColor: "#1a3a7a",
+      secondaryColor: "#ffffff",
+      defaultKit: { shirt: "#1a3a7a", shorts: "#ffffff", socks: "#1a3a7a" },
+      goalkeeperKit: { shirt: "#222222", shorts: "#222222", socks: "#222222" },
+      defaultStadiumId: "away_park",
+      defaultFormation: "4-4-2",
+    };
+    const homeSquad = [
+      makePlayer("h_gk", "H. Keep", "GK", 1),
+      makePlayer("h_cm", "H. Mid", "CM", 8),
+      makePlayer("h_st", "H. Striker", "ST", 9),
+    ];
+    const awaySquad = [
+      makePlayer("a_gk", "A. Keep", "GK", 1),
+      makePlayer("a_cm", "A. Mid", "CM", 6),
+      makePlayer("a_st", "A. Striker", "ST", 10),
+    ];
+    view.setContext("select");
+    view.setDualFormationSides(
+      {
+        home: {
+          teamName: "Home FC",
+          starters: homeSquad,
+          teamColor: "#007A3D",
+          formation: "4-2-3-1",
+          roster: homeSquad,
+          starterSlots: ["GK", "CAM", "ST"],
+          team: homeTeam,
+        },
+        away: {
+          teamName: "Away FC",
+          starters: awaySquad,
+          teamColor: "#1a3a7a",
+          formation: "4-4-2",
+          roster: awaySquad,
+          starterSlots: ["GK", "LCM", "ST"],
+          team: awayTeam,
+          playStyle: "counter",
+        },
+      },
+      "home",
+      { purpose: "match", userMatchTeam: homeTeam },
+    );
+    view.render();
+    expect(view.canSwitchFormationSide()).toBe(true);
+    expect(view.formationSide).toBe("home");
+    const homeChip = view.root.querySelector('.formation-toolbar [data-char="form-side"][data-side="home"]');
+    const awayChip = view.root.querySelector('.formation-toolbar [data-char="form-side"][data-side="away"]');
+    expect(homeChip?.textContent).toBe("HOME");
+    expect(awayChip?.textContent).toBe("AWAY");
+    expect(homeChip?.classList.contains("on")).toBe(true);
+    expect(awayChip?.classList.contains("on")).toBe(false);
+    const chalk = view.root.querySelector('.formation-toolbar [data-char="chalk"]');
+    const formSelect = view.root.querySelector<HTMLSelectElement>('.formation-toolbar select[data-char="form"]');
+    expect(
+      homeChip &&
+        chalk &&
+        !!(homeChip.compareDocumentPosition(chalk) & Node.DOCUMENT_POSITION_FOLLOWING),
+    ).toBe(true);
+    expect(
+      awayChip &&
+        formSelect &&
+        !!(awayChip.compareDocumentPosition(formSelect) & Node.DOCUMENT_POSITION_FOLLOWING),
+    ).toBe(true);
+    expect(formSelect?.value).toBe("4-2-3-1");
+    expect([...formSelect!.options].map((o) => o.value)).toContain("4-4-2");
+    expect(view.root.querySelector(".char-team-title")?.textContent).toContain("Home FC");
+    view.setFormation("4-3-3");
+    view.toggleFormationSide();
+    view.render();
+    expect(view.formationSide).toBe("away");
+    expect(view.formation).toBe("4-4-2");
+    expect(view.playStyle).toBe("counter");
+    expect(view.root.querySelector(".char-team-title")?.textContent).toContain("Away FC");
+    expect(view.root.querySelector('[data-char="form-side"][data-side="home"]')?.classList.contains("on")).toBe(false);
+    expect(view.root.querySelector('[data-char="form-side"][data-side="away"]')?.classList.contains("on")).toBe(true);
+    expect(view.xi.some((row) => row.player.player.id === "a_st")).toBe(true);
+    view.setPlayStyle("direct");
+    const edits = view.getEditedLineups();
+    expect(edits.home?.formation).toBe("4-3-3");
+    expect(edits.away?.playStyle).toBe("direct");
+    expect(edits.away?.starters.some((s) => s.playerId === "a_st")).toBe(true);
+    expect(edits.home?.starters.some((s) => s.playerId === "h_st")).toBe(true);
+    view.dispose();
+    host.remove();
+  });
+});
+
+describe("kitSurnameFromName", () => {
+  it("keeps compound surnames with particles", () => {
+    expect(kitSurnameFromName("van der Sar")).toBe("VAN DER SAR");
+    expect(kitSurnameFromName("Edwin van der Sar")).toBe("VAN DER SAR");
+    expect(kitSurnameFromName("Del Piero")).toBe("DEL PIERO");
+    expect(kitSurnameFromName("Alessandro Del Piero")).toBe("DEL PIERO");
+    expect(kitSurnameFromName("F. de Boer")).toBe("DE BOER");
+    expect(kitSurnameFromName("van Vossen")).toBe("VAN VOSSEN");
+    expect(kitSurnameFromName("Di Livio")).toBe("DI LIVIO");
+    expect(kitSurnameFromName("De Rossi")).toBe("DE ROSSI");
+    expect(kitSurnameFromName("M. Cooper")).toBe("COOPER");
+    expect(kitSurnameFromName("Hardie")).toBe("HARDIE");
+  });
+
+  it("uses surname only for under-photo captions", () => {
+    expect(kitCaptionSurname("van der Sar", "Edwin van der Sar")).toBe("VAN DER SAR");
+    expect(kitCaptionSurname("Del Piero", "Alessandro Del Piero")).toBe("DEL PIERO");
+    expect(kitCaptionSurname("de Boer", "Frank de Boer")).toBe("DE BOER");
+    expect(kitCaptionSurname("Hardie", "Ryan Hardie")).toBe("HARDIE");
+    expect(kitCaptionSurname("Del Piero")).toBe("DEL PIERO");
+  });
+
+  it("formats roster headings as given initial + surname", () => {
+    expect(kitInitialSurnameLabel("R. Hardie", "Ryan Hardie")).toBe("R. HARDIE");
+    expect(kitInitialSurnameLabel(undefined, "Ryan Hardie")).toBe("R. HARDIE");
+    expect(kitInitialSurnameLabel("Edwin van der Sar", "Edwin van der Sar")).toBe("E. VAN DER SAR");
+    expect(kitInitialSurnameLabel("Hardie", "Hardie")).toBe("HARDIE");
+    expect(kitSurnameFromName("ARGYLEUSA")).toBe("ARGYLEUSA");
+    expect(kitInitialSurnameLabel("ARGYLEUSA", "ARGYLEUSA")).toBe("ARGYLEUSA");
+    expect(kitCaptionSurname("ARGYLEUSA", "ARGYLEUSA")).toBe("ARGYLEUSA");
+    expect(kitInitialSurnameLabel("PASOTI", "PASOTI")).toBe("PASOTI");
+    expect(kitInitialSurnameLabel("G. Sparks", "G. Sparks")).toBe("G. SPARKS");
+  });
+
+  it("shrinks formation roster headings to one line", () => {
+    const host = document.createElement("div");
+    host.style.width = "120px";
+    host.innerHTML = `<div class="team-roster-card" style="width:120px"><h3>99. E. VAN DER SAR</h3></div>`;
+    document.body.appendChild(host);
+    const h3 = host.querySelector("h3") as HTMLElement;
+    // jsdom often reports scrollWidth === clientWidth; stub an overflow.
+    Object.defineProperty(h3, "scrollWidth", { configurable: true, get: () => 200 });
+    Object.defineProperty(h3, "clientWidth", { configurable: true, get: () => 120 });
+    fitRosterHeadingElements(host);
+    expect(parseFloat(h3.style.fontSize)).toBeLessThan(28);
+    expect(parseFloat(h3.style.fontSize)).toBeGreaterThanOrEqual(13);
+    expect(h3.style.whiteSpace).toBe("nowrap");
+    host.remove();
+  });
+
+  it("shrinks squad-list names instead of ellipsis", () => {
+    const host = document.createElement("div");
+    host.innerHTML = `<button class="roster-row"><span class="roster-name" style="font-size:11px">VAN DER VAART</span></button>`;
+    document.body.appendChild(host);
+    const name = host.querySelector(".roster-name") as HTMLElement;
+    Object.defineProperty(name, "clientWidth", { configurable: true, get: () => 72 });
+    Object.defineProperty(name, "scrollWidth", {
+      configurable: true,
+      get: () => (parseFloat(name.style.fontSize || "11") > 8.5 ? 110 : 70),
+    });
+    fitRosterNameElements(host);
+    expect(parseFloat(name.style.fontSize)).toBeLessThan(11);
+    expect(parseFloat(name.style.fontSize)).toBeGreaterThanOrEqual(7.5);
+    expect(name.style.textOverflow).toBe("clip");
+    host.remove();
+  });
+
+  it("shrinks pitch counters on narrow boards and leaves wide boards alone", () => {
+    const host = document.createElement("div");
+    host.innerHTML = `<div class="team-pitch"></div>`;
+    document.body.appendChild(host);
+    const pitch = host.querySelector(".team-pitch") as HTMLElement;
+    Object.defineProperty(pitch, "clientWidth", { configurable: true, get: () => 320 });
+    fitPitchCounters(host);
+    expect(pitch.style.getPropertyValue("--counter-disc")).toMatch(/px/);
+    expect(parseFloat(pitch.style.getPropertyValue("--counter-disc"))).toBeLessThan(88);
+    expect(parseFloat(pitch.style.getPropertyValue("--counter-disc"))).toBeGreaterThanOrEqual(48);
+    Object.defineProperty(pitch, "clientWidth", { configurable: true, get: () => 700 });
+    fitPitchCounters(host);
+    expect(pitch.style.getPropertyValue("--counter-disc")).toBe("");
+    host.remove();
+  });
+
+  it("fits classic team titles without treating the crest as text width", () => {
+    const host = document.createElement("div");
+    host.className = "char-team-title";
+    host.innerHTML = `<span class="char-team-crest" style="display:inline-block;width:44px;height:44px"></span><div class="eyebrow" style="font-size:30px">Cameroon — 1990</div>`;
+    document.body.appendChild(host);
+    Object.defineProperty(host, "clientWidth", { configurable: true, get: () => 200 });
+    const crest = host.querySelector(".char-team-crest") as HTMLElement;
+    Object.defineProperty(crest, "offsetWidth", { configurable: true, get: () => 44 });
+    const title = host.querySelector(".eyebrow") as HTMLElement;
+    Object.defineProperty(title, "scrollWidth", {
+      configurable: true,
+      get: () => (parseFloat(title.style.fontSize || "30") > 20 ? 190 : 140),
+    });
+    fitFormationTeamTitle(title);
+    expect(title.textContent).toBe("Cameroon — 1990");
+    expect(parseFloat(title.style.fontSize)).toBeLessThan(30);
+    expect(parseFloat(title.style.fontSize)).toBeGreaterThanOrEqual(16);
+    expect(parseFloat(title.style.fontSize)).toBeGreaterThanOrEqual(13);
+    host.remove();
+  });
+});
+
+describe("kitMarkerHtml", () => {
+  it("puts number above surname on the badge fill", () => {
+    const html = kitMarkerHtml({ name: "M. Cooper" }, 8, {
+      primaryColor: "#007A3D",
+      textColor: "#ffffff",
+    });
+    expect(html).toContain('class="num">8<');
+    expect(html).toContain(">COOPER</span>");
+    expect(html.indexOf('class="num">8<')).toBeLessThan(html.indexOf(">COOPER</span>"));
+    expect(html).not.toContain("kit-marker-photo");
+  });
+
+  it("puts surname above number on the formation roster card badge", () => {
+    const html = kitMarkerHtml({ name: "M. Cooper" }, 8, {
+      primaryColor: "#007A3D",
+      textColor: "#ffffff",
+      className: "kit-marker-roster",
+    });
+    expect(html.indexOf(">COOPER</span>")).toBeLessThan(html.indexOf('class="num">8<'));
+  });
+
+  it("renders full compound surnames on kit badges", () => {
+    const sar = kitMarkerHtml({ name: "van der Sar" }, 1);
+    expect(sar).toContain(">VAN DER SAR</span>");
+    const del = kitMarkerHtml({ displayName: "Del Piero" }, 10);
+    expect(del).toContain(">DEL PIERO</span>");
+  });
+
+  it("uses number + surname under PNG and keeps badge text off the photo", () => {
+    const html = kitMarkerHtml(
+      {
+        name: "Edwin van der Sar",
+        displayName: "van der Sar",
+        appearance: { portraitAsset: "/images/l1.png" },
+      },
+      1,
+    );
+    expect(html).toContain("kit-marker-photo");
+    expect(html).toContain(">1.</span>");
+    expect(html).toContain(">VAN DER SAR</span>");
+    expect(html).not.toContain("E. VAN DER SAR");
+    expect(html).toMatch(/portrait-badge-kit" hidden/);
+  });
+
+  it("keeps number/name inside the disc when no known PNG (no under-caption flash)", () => {
+    // Player id alone used to speculative-load /assets/players/{id}.png and show
+    // caption underneath until onerror — that flash is the formation-panel bug.
+    const html = kitMarkerHtml({ id: "player_no_art", name: "A. Ghost" }, 14, {
+      primaryColor: "#007A3D",
+      textColor: "#ffffff",
+    });
+    expect(html.startsWith('<div class="kit-marker">') || html.startsWith('<div class="kit-marker ')).toBe(true);
+    expect(html).not.toMatch(/class="[^"]*kit-marker-photo/);
+    expect(html).toContain('class="num">14<');
+    expect(html).toContain(">GHOST</span>");
+    // Speculative probe may still be present, but must not start in photo mode.
+    if (html.includes("<img")) {
+      expect(html).toContain("onload=");
+      expect(html).toContain('style="display:none"');
+    }
+  });
+
+  it("uses under-disc caption immediately for explicit portrait assets", () => {
+    const html = kitMarkerHtml(
+      { id: "p9", name: "R. Hardie", appearance: { portraitAsset: "/portraits/hardie.png" } },
+      9,
+    );
+    expect(html).toContain("kit-marker-photo");
+    expect(html).toContain("kit-marker-caption");
+    expect(html).toContain(">9.<");
+    expect(html).toContain(">HARDIE</span>");
+  });
+});
