@@ -61,7 +61,7 @@ export const CLASSIC_PEAK_OVR = {
   "Manu Ginobili": 89,
   "Tony Parker": 88,
   "Klay Thompson": 89,
-  "Draymond Green": 88,
+  "Draymond Green": 90,
   "Andre Iguodala": 86,
   "Ray Allen": 89,
   "Paul Pierce": 89,
@@ -189,8 +189,8 @@ export const CLASSIC_PEAK_OVR = {
   "Amar'e Stoudemire": 88,
   "Joe Johnson": 84,
   // 2016/17 Wizards
-  "John Wall": 91,
-  "Bradley Beal": 88,
+  "John Wall": 89,
+  "Bradley Beal": 89,
   "Otto Porter Jr.": 84,
   "Markieff Morris": 80,
   "Marcin Gortat": 80,
@@ -324,7 +324,7 @@ export const CLASSIC_PEAK_OVR = {
   "Jared Dudley": 76,
   "Caron Butler": 84,
   // 2007/08 Wizards (Agent Zero + Swaggy P)
-  "Gilbert Arenas": 91,
+  "Gilbert Arenas": 89,
   "DeShawn Stevenson": 76,
   "Brendan Haywood": 78,
   "Antonio Daniels": 76,

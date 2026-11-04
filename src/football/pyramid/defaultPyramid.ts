@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 9;
+export const PYRAMID_SEED_VERSION = 11;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -159,9 +159,9 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_orl_1994_95_p01", // 40 Anfernee Hardaway (91)
   "classic_hou_2018_19_p01", // 41 Chris Paul (91)
   "classic_sac_2001_02_p04", // 42 Chris Webber (91)
-  "classic_was_2007_08_p01", // 43 Gilbert Arenas (91)
+  "classic_gsw_2016_17_p04", // 43 Draymond Green (90) — peak two-way / dynasty anchor
   "classic_det_1996_97_p03", // 44 Grant Hill (91)
-  "classic_was_2016_17_p01", // 45 John Wall (91)
+  "classic_hou_2018_19_p02", // 45 James Harden (90)
   "classic_cle_2015_16_p01", // 46 Kyrie Irving (91)
   "classic_uta_1976_77_p02", // 47 Pete Maravich (91)
   "classic_cha_1992_93_p05", // 48 Alonzo Mourning (90)
@@ -171,60 +171,60 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
 
 /**
  * Curated reserve 51–100 — elevate/swap into Top 50; excluded from Ring.
- * Ordered by peak overall (then name), not by club — avoids team clumps.
- * When classic eras add/remove high-OVR names, bump {@link PYRAMID_SEED_VERSION}.
+ * Mix of classic peaks + current espn_* stars who miss the Top 50.
+ * Ordered by overall (then name). Bump {@link PYRAMID_SEED_VERSION} when this changes.
  */
 export const DEFAULT_PYRAMID_POOL: readonly string[] = [
-  "classic_hou_2018_19_p02", // 51 James Harden (90)
-  "classic_dal_2010_11_p01", // 52 Jason Kidd (90)
-  "classic_atl_1990_91_p03", // 53 Dominique Wilkins (89)
-  "classic_gsw_2016_17_p02", // 54 Klay Thompson (89)
-  "classic_sas_2013_14_p02", // 55 Manu Ginobili (89)
-  "classic_bos_2007_08_p03", // 56 Paul Pierce (89)
-  "classic_mia_2012_13_p06", // 57 Ray Allen (89)
-  "classic_ind_1999_00_p02", // 58 Reggie Miller (89)
-  "classic_okc_2011_12_p01", // 59 Russell Westbrook (89)
-  "classic_det_2003_04_p01", // 60 Chauncey Billups (88) — 2004 Finals MVP
-  "classic_phx_2004_05_p05", // 61 Amar'e Stoudemire (88)
-  "classic_was_2016_17_p02", // 62 Bradley Beal (88)
-  "classic_mia_2012_13_p05", // 63 Chris Bosh (88)
-  "classic_chi_1995_96_p04", // 64 Dennis Rodman (88)
-  "classic_gsw_2016_17_p04", // 65 Draymond Green (88)
-  "classic_cin_1963_64_p10", // 66 Jerry Lucas (88)
-  "classic_cle_2015_16_p04", // 67 Kevin Love (88)
-  "classic_cha_1992_93_p04", // 68 Larry Johnson (88)
-  "classic_lal_2009_10_p04", // 69 Pau Gasol (88)
-  "classic_dal_2010_11_p07", // 70 Peja Stojakovic (88)
-  "classic_bos_1985_86_p05", // 71 Robert Parish (88)
-  "classic_bos_1964_65_p02", // 72 Sam Jones (88)
-  "classic_okc_1995_96_p04", // 73 Shawn Kemp (88)
-  "classic_bkn_2000_01_p01", // 74 Stephon Marbury (88)
-  "classic_sas_2013_14_p01", // 75 Tony Parker (88)
-  "classic_tor_2000_01_p02", // 76 Vince Carter (88)
-  "classic_hou_2006_07_p05", // 77 Yao Ming (88)
-  "classic_det_2003_04_p05", // 78 Ben Wallace (87) — 2004 title
-  "classic_bos_1985_86_p06", // 79 Bill Walton (87)
-  "classic_den_2022_23_p01", // 80 Jamal Murray (87)
-  "classic_gsw_2016_17_p06", // 81 Andre Iguodala (86)
-  "classic_por_1999_00_p05", // 82 Arvydas Sabonis (86)
-  "classic_ind_1999_00_p10", // 83 Chris Mullin (86)
-  "classic_phi_2000_01_p05", // 84 Dikembe Mutombo (86)
-  "classic_det_1988_89_p02", // 85 Joe Dumars (86)
-  "classic_mil_2020_21_p01", // 86 Jrue Holiday (86)
-  "classic_phx_1992_93_p01", // 87 Kevin Johnson (86)
-  "classic_mil_2020_21_p02", // 88 Khris Middleton (86)
-  "classic_lal_2009_10_p06", // 89 Lamar Odom (86)
-  "classic_phi_1982_83_p01", // 90 Maurice Cheeks (86)
-  "classic_nyk_2011_12_p05", // 91 Tyson Chandler — Knicks form (86)
-  "classic_bos_1985_86_p01", // 92 Dennis Johnson (85)
-  "classic_det_2003_04_p04", // 93 Rasheed Wallace — 2004 title form (85)
-  "classic_det_2003_04_p02", // 94 Richard Hamilton (84)
-  "classic_lal_2000_01_p04", // 95 Horace Grant (84)
-  "classic_uta_1997_98_p02", // 96 Jeff Hornacek (84)
-  "classic_nyk_2011_12_p01", // 97 Jeremy Lin (84)
-  "classic_lal_2009_10_p03", // 98 Metta World Peace (84)
-  "classic_orl_1994_95_p02", // 99 Nick Anderson (84)
-  "classic_det_2003_04_p03", // 100 Tayshaun Prince (83)
+  "espn_4278073", // 51 Shai Gilgeous-Alexander (95)
+  "espn_3945274", // 52 Luka Doncic (94)
+  "espn_5104157", // 53 Victor Wembanyama (92)
+  "espn_4594268", // 54 Anthony Edwards (91)
+  "espn_3934672", // 55 Jalen Brunson (90)
+  "classic_dal_2010_11_p01", // 56 Jason Kidd (90)
+  "espn_6583", // 57 Anthony Davis (89)
+  "classic_was_2016_17_p02", // 58 Bradley Beal (89)
+  "classic_atl_1990_91_p03", // 59 Dominique Wilkins (89)
+  "classic_was_2007_08_p01", // 60 Gilbert Arenas (89)
+  "classic_was_2016_17_p01", // 61 John Wall (89)
+  "classic_gsw_2016_17_p02", // 62 Klay Thompson (89)
+  "classic_sas_2013_14_p02", // 63 Manu Ginobili (89)
+  "classic_bos_2007_08_p03", // 64 Paul Pierce (89)
+  "classic_mia_2012_13_p06", // 65 Ray Allen (89)
+  "classic_ind_1999_00_p02", // 66 Reggie Miller (89)
+  "classic_okc_2011_12_p01", // 67 Russell Westbrook (89)
+  "classic_phx_2004_05_p05", // 68 Amar'e Stoudemire (88)
+  "classic_det_2003_04_p01", // 69 Chauncey Billups (88)
+  "classic_mia_2012_13_p05", // 70 Chris Bosh (88)
+  "classic_chi_1995_96_p04", // 71 Dennis Rodman (88)
+  "espn_3136193", // 72 Devin Booker (88)
+  "espn_3908809", // 73 Donovan Mitchell (88)
+  "espn_4065648", // 74 Jayson Tatum (88)
+  "classic_cin_1963_64_p10", // 75 Jerry Lucas (88)
+  "classic_cle_2015_16_p04", // 76 Kevin Love (88)
+  "classic_cha_1992_93_p04", // 77 Larry Johnson (88)
+  "classic_lal_2009_10_p04", // 78 Pau Gasol (88)
+  "classic_dal_2010_11_p07", // 79 Peja Stojakovic (88)
+  "classic_bos_1985_86_p05", // 80 Robert Parish (88)
+  "classic_bos_1964_65_p02", // 81 Sam Jones (88)
+  "classic_okc_1995_96_p04", // 82 Shawn Kemp (88)
+  "classic_bkn_2000_01_p01", // 83 Stephon Marbury (88)
+  "classic_sas_2013_14_p01", // 84 Tony Parker (88)
+  "classic_tor_2000_01_p02", // 85 Vince Carter (88)
+  "classic_hou_2006_07_p05", // 86 Yao Ming (88)
+  "classic_det_2003_04_p05", // 87 Ben Wallace (87)
+  "classic_bos_1985_86_p06", // 88 Bill Walton (87)
+  "classic_den_2022_23_p01", // 89 Jamal Murray (87)
+  "espn_3059318", // 90 Joel Embiid (87)
+  "espn_4396993", // 91 Tyrese Haliburton (87)
+  "espn_4432166", // 92 Cade Cunningham (86)
+  "espn_4279888", // 93 Ja Morant (86)
+  "espn_4593803", // 94 Jalen Williams (86)
+  "espn_3917376", // 95 Jaylen Brown (86)
+  "espn_3136195", // 96 Karl-Anthony Towns (86)
+  "espn_4277905", // 97 Trae Young (86)
+  "espn_4066261", // 98 Bam Adebayo (85)
+  "espn_4433255", // 99 Chet Holmgren (85)
+  "espn_4066259", // 100 De'Aaron Fox (85)
 ];
 
 export function defaultPyramidSave(): PyramidSave {
