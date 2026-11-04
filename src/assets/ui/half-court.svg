@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 472" width="500" height="472" role="img" aria-label="NBA half court">
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6e4524"/>
+      <stop offset="16%" stop-color="#c9a36a"/>
+      <stop offset="33%" stop-color="#8f5c32"/>
+      <stop offset="50%" stop-color="#d7bc8f"/>
+      <stop offset="67%" stop-color="#9a6438"/>
+      <stop offset="84%" stop-color="#bf9460"/>
+      <stop offset="100%" stop-color="#7a4e28"/>
+    </linearGradient>
+    <pattern id="planks" width="24" height="472" patternUnits="userSpaceOnUse">
+      <rect width="24" height="472" fill="url(#wood)"/>
+      <rect x="0" width="1.1" height="472" fill="rgba(32,18,10,0.3)"/>
+      <rect x="12" width="0.55" height="472" fill="rgba(32,18,10,0.12)"/>
+    </pattern>
+    <radialGradient id="spot" cx="50%" cy="14%" r="58%">
+      <stop offset="0%" stop-color="rgba(255,224,170,0.26)"/>
+      <stop offset="50%" stop-color="rgba(255,210,140,0.08)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+    <linearGradient id="lanePaint" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(29,66,138,0.45)"/>
+      <stop offset="100%" stop-color="rgba(29,66,138,0.2)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Scale: 9.6 units/ft. Court 50' × 47' half, attack basket at TOP. -->
+  <rect width="500" height="472" fill="#3a2414"/>
+  <rect x="10" y="10" width="480" height="451.2" fill="url(#planks)"/>
+  <rect x="10" y="10" width="480" height="451.2" fill="url(#spot)"/>
+
+  <!-- Boundary -->
+  <rect x="10" y="10" width="480" height="451.2" fill="none" stroke="rgba(244,241,234,0.95)" stroke-width="3" rx="1"/>
+
+  <!-- Midcourt -->
+  <line x1="10" y1="461.2" x2="490" y2="461.2" stroke="rgba(244,241,234,0.9)" stroke-width="2.6"/>
+  <path d="M 192.4 461.2 A 57.6 57.6 0 0 1 307.6 461.2" fill="none" stroke="rgba(244,241,234,0.85)" stroke-width="2.4"/>
+
+  <!-- Lane paint + outline (16' × 19') -->
+  <rect x="173.2" y="10" width="153.6" height="182.4" fill="url(#lanePaint)"/>
+  <path d="M 173.2 10 V 192.4 H 326.8 V 10" fill="none" stroke="rgba(244,241,234,0.95)" stroke-width="2.6"/>
+  <line x1="173.2" y1="192.4" x2="326.8" y2="192.4" stroke="rgba(244,241,234,0.95)" stroke-width="2.6"/>
+
+  <!-- Free-throw circle (r=6') -->
+  <circle cx="250" cy="192.4" r="57.6" fill="none" stroke="rgba(244,241,234,0.9)" stroke-width="2.4"/>
+  <path d="M 192.4 192.4 A 57.6 57.6 0 0 1 307.6 192.4" fill="none" stroke="rgba(244,241,234,0.5)" stroke-width="2" stroke-dasharray="7 6"/>
+
+  <!-- Lane hash marks -->
+  <g stroke="rgba(244,241,234,0.78)" stroke-width="2.2">
+    <line x1="161.2" y1="77.2" x2="173.2" y2="77.2"/>
+    <line x1="161.2" y1="106" x2="173.2" y2="106"/>
+    <line x1="161.2" y1="134.8" x2="173.2" y2="134.8"/>
+    <line x1="161.2" y1="158.8" x2="173.2" y2="158.8"/>
+    <line x1="326.8" y1="77.2" x2="338.8" y2="77.2"/>
+    <line x1="326.8" y1="106" x2="338.8" y2="106"/>
+    <line x1="326.8" y1="134.8" x2="338.8" y2="134.8"/>
+    <line x1="326.8" y1="158.8" x2="338.8" y2="158.8"/>
+  </g>
+
+  <!-- Restricted area (r=4' from rim) -->
+  <path d="M 211.6 60.4 A 38.4 38.4 0 0 0 288.4 60.4" fill="none" stroke="rgba(244,241,234,0.72)" stroke-width="2"/>
+
+  <!-- Three-point corner straights + arc (r=23'9" from rim; corners 3' from sideline) -->
+  <path
+    d="M 38.8 10 V 146.3
+       A 228 228 0 0 0 461.2 146.3
+       V 10"
+    fill="none"
+    stroke="rgba(244,241,234,0.92)"
+    stroke-width="2.6"
+  />
+
+  <!-- Backboard (6' wide, 4' from baseline) + rim -->
+  <rect x="221.2" y="46.4" width="57.6" height="4.8" rx="1" fill="rgba(248,246,240,0.96)" stroke="rgba(30,18,10,0.4)" stroke-width="1"/>
+  <circle cx="250" cy="60.4" r="8.6" fill="none" stroke="#e87722" stroke-width="3.2"/>
+  <line x1="250" y1="51.2" x2="250" y2="52.8" stroke="#e87722" stroke-width="2.4"/>
+
+  <rect x="10" y="10" width="480" height="451.2" fill="none" stroke="rgba(20,12,8,0.28)" stroke-width="12"/>
+</svg>

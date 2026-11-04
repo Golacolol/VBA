@@ -1,8 +1,26 @@
-export const PITCH_LENGTH = 105;
-export const PITCH_WIDTH = 68;
-export const HALF_LENGTH = PITCH_LENGTH / 2;
-export const HALF_WIDTH = PITCH_WIDTH / 2;
+/** NBA court (metres). Play space + arena shells use these. */
+export const COURT_LENGTH = 28.65;
+export const COURT_WIDTH = 15.24;
+/** @deprecated Prefer COURT_LENGTH — alias so leftover Match code still compiles. */
+export const PITCH_LENGTH = COURT_LENGTH;
+/** @deprecated Prefer COURT_WIDTH. */
+export const PITCH_WIDTH = COURT_WIDTH;
+export const HALF_LENGTH = COURT_LENGTH / 2;
+export const HALF_WIDTH = COURT_WIDTH / 2;
 
+/** Lane / key (NBA). */
+export const KEY_LENGTH = 5.79;
+export const KEY_WIDTH = 4.88;
+export const FREE_THROW_LINE = 4.57;
+export const THREE_POINT_RADIUS = 7.24;
+export const CENTER_CIRCLE_RADIUS = 1.83;
+export const RESTRICTED_AREA_RADIUS = 1.22;
+export const RIM_HEIGHT = 3.05;
+export const RIM_RADIUS = 0.23;
+export const BACKBOARD_WIDTH = 1.83;
+export const BACKBOARD_HEIGHT = 1.07;
+
+/** @deprecated Football remnants — unused on NBA courts. */
 export const GOAL_WIDTH = 7.32;
 export const GOAL_HEIGHT = 2.44;
 export const GOAL_DEPTH = 2.0;
@@ -11,12 +29,12 @@ export const PENALTY_AREA_LENGTH = 16.5;
 export const PENALTY_AREA_WIDTH = 40.32;
 export const SIX_YARD_LENGTH = 5.5;
 export const SIX_YARD_WIDTH = 18.32;
-export const CENTRE_CIRCLE_RADIUS = 9.15;
+export const CENTRE_CIRCLE_RADIUS = CENTER_CIRCLE_RADIUS;
 export const CORNER_ARC_RADIUS = 1.0;
 
-export const BALL_RADIUS = 0.11;
+export const BALL_RADIUS = 0.12;
 export const PLAYER_RADIUS = 0.42;
-export const PLAYER_HEIGHT = 1.82;
+export const PLAYER_HEIGHT = 1.98;
 /**
  * Vertical acceleration for ball flight (game units/s²).
  * Slightly softer than a hard 18 so lofted balls / crosses hang for headers.
@@ -33,7 +51,7 @@ export const PRESS_RANGE = 7.2;
 export const DEFAULT_HALF_SECONDS = 5 * 60;
 export const DEFAULT_MATCH_DURATION = DEFAULT_HALF_SECONDS * 2;
 export const DEFAULT_KICK_OFF_TIME = "15:00";
-export const DEFAULT_TEAM_ID = "plymouth_argyle_current";
+export const DEFAULT_TEAM_ID = "nba_bos";
 export const MIN_MATCH_DURATION = 2 * 60;
 export const MAX_MATCH_DURATION = 45 * 60;
 export const HALF_TIME_PAUSE = 5;

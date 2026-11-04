@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Seattle SuperSonics">
+  <circle cx="100" cy="100" r="96" fill="#00653A"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="#FFC200" stroke-width="8"/>
+  <circle cx="100" cy="100" r="68" fill="#004D2C"/>
+  <path fill="#FFC200" d="M100 28c-28 22-46 48-46 78 0 18 8 34 22 44-2-10-2-20 2-30 8 14 22 24 38 24s30-10 38-24c4 10 4 20 2 30 14-10 22-26 22-44 0-30-18-56-46-78z"/>
+  <circle cx="100" cy="108" r="18" fill="#00653A" stroke="#FFC200" stroke-width="4"/>
+  <text x="100" y="178" text-anchor="middle" fill="#FFC200" font-family="Arial Black, Impact, sans-serif" font-size="22" font-weight="800" letter-spacing="0.08em">SEA</text>
+</svg>

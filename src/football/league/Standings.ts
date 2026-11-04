@@ -1,6 +1,4 @@
-import type { EnglishLeague, FixtureRecord, TeamRecord } from "../../data/schema";
-import { LEAGUE_COMPETITION } from "../../data/leagueSchedule";
-import { POINTS_DEDUCTIONS } from "../../data/officialResults";
+import type { Conference, FixtureRecord, TeamRecord } from "../../data/schema";
 
 export interface TableRow {
   teamId: string;
@@ -16,52 +14,54 @@ export interface TableRow {
   pts: number;
 }
 
-export const LEAGUE_TABS: { id: EnglishLeague; label: string }[] = [
-  { id: "PREMIER_LEAGUE", label: "Premier League" },
-  { id: "CHAMPIONSHIP", label: "Championship" },
-  { id: "LEAGUE_ONE", label: "League One" },
-  { id: "LA_LIGA", label: "La Liga" },
-  { id: "SERIE_A", label: "Serie A" },
+export const LEAGUE_TABS: { id: Conference; label: string }[] = [
+  { id: "EAST", label: "Eastern Conference" },
+  { id: "WEST", label: "Western Conference" },
 ];
 
-export function competitionForLeague(league: EnglishLeague): string {
-  return LEAGUE_COMPETITION[league];
+export function competitionForLeague(league: Conference): string {
+  return league === "WEST" ? "Western Conference" : "Eastern Conference";
 }
 
 export function isEnglishLeagueCompetition(competition: string): boolean {
-  return (Object.values(LEAGUE_COMPETITION) as string[]).includes(competition);
+  return competition === "Eastern Conference" || competition === "Western Conference";
 }
 
-export function leagueForTeam(team: TeamRecord | undefined): EnglishLeague {
-  return team?.league ?? "LEAGUE_ONE";
+export function conferenceForTeam(team: TeamRecord | undefined): Conference {
+  if (team?.conference === "EAST" || team?.conference === "WEST") return team.conference;
+  if (team?.league === "EAST" || team?.league === "WEST") return team.league;
+  return "EAST";
+}
+
+/** @deprecated Prefer conferenceForTeam */
+export function leagueForTeam(team: TeamRecord | undefined): Conference {
+  return conferenceForTeam(team);
 }
 
 export function standingsFor(
   fixtures: FixtureRecord[],
   teams: TeamRecord[],
-  league: EnglishLeague,
+  league: Conference,
 ): TableRow[] {
   const competition = competitionForLeague(league);
   const clubs = teams
-    .filter((t) => t.teamType === "CURRENT_TEAM" && t.league === league)
+    .filter((t) => t.teamType === "CURRENT_TEAM" && conferenceForTeam(t) === league)
     .sort((a, b) => a.name.localeCompare(b.name));
   const rows = new Map<string, TableRow>();
   for (const club of clubs) {
     rows.set(club.id, emptyRow(club));
   }
   for (const fixture of fixtures) {
-    if (fixture.competition !== competition || !fixture.played) continue;
+    if (!fixture.played) continue;
+    // NBA conference tables count every game involving a conference club (not only intra).
     const home = rows.get(fixture.homeTeamId);
     const away = rows.get(fixture.awayTeamId);
-    if (!home || !away) continue;
+    if (!home && !away) continue;
+    if (competition && fixture.competition && !home && !away) continue;
     const hs = fixture.homeScore ?? 0;
     const as = fixture.awayScore ?? 0;
-    applyResult(home, hs, as);
-    applyResult(away, as, hs);
-  }
-  for (const row of rows.values()) {
-    const deduction = POINTS_DEDUCTIONS[row.teamId];
-    if (deduction) row.pts -= deduction;
+    if (home) applyResult(home, hs, as);
+    if (away) applyResult(away, as, hs);
   }
   return [...rows.values()].sort(compareTable);
 }
@@ -89,15 +89,18 @@ function applyResult(row: TableRow, scored: number, conceded: number): void {
   row.gd = row.gf - row.ga;
   if (scored > conceded) {
     row.won += 1;
-    row.pts += 3;
-  } else if (scored === conceded) {
-    row.drawn += 1;
-    row.pts += 1;
-  } else {
+    row.pts += 1; // NBA: win = 1 (display as W-L; pts unused for sort primarily)
+  } else if (scored < conceded) {
     row.lost += 1;
+  } else {
+    row.drawn += 1;
   }
 }
 
 function compareTable(a: TableRow, b: TableRow): number {
-  return b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.name.localeCompare(b.name);
+  if (b.won !== a.won) return b.won - a.won;
+  if (a.lost !== b.lost) return a.lost - b.lost;
+  if (b.gd !== a.gd) return b.gd - a.gd;
+  if (b.gf !== a.gf) return b.gf - a.gf;
+  return a.name.localeCompare(b.name);
 }

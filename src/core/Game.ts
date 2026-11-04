@@ -7,6 +7,7 @@ import { EventBus } from "./EventBus";
 import { GameLoop } from "./Loop";
 import { GameMode } from "./GameMode";
 import { SaveManager } from "./SaveManager";
+import { isProductMode, type ProductMode } from "./ProductMode";
 import { SceneManager } from "./SceneManager";
 import { AUTOPLAY_IDLE_SECONDS, AUTOPLAY_NEXT_MATCH_HOLD, DEFAULT_KICK_OFF_TIME, DEFAULT_TEAM_ID, HALF_LENGTH, HALF_WIDTH, PRE_MATCH_CARD_SECONDS, SIM_BANNER_DELAY_SECONDS, clampMatchDuration, kickOffRemainingSeconds } from "../football/constants";
 import { MatchCamera } from "../football/camera/MatchCamera";
@@ -23,6 +24,7 @@ import { resolveMatchKits } from "../football/teams/KitClash";
 import { USER_FORMATION } from "../football/teams/Formation";
 import { normalizeFormationName } from "../football/teams/TeamTactics";
 import { Stadium } from "../football/stadium/Stadium";
+import { jumbotronPanelData } from "../football/stadium/Scoreboard";
 import { createPlayerVisual } from "../football/players/PlayerVisual";
 import { DEFAULT_PLAYER_MODEL, preloadPlayerModels } from "../football/players/PlayerModelLoader";
 import { Player } from "../football/players/Player";
@@ -37,6 +39,7 @@ import {
   type SquadPlayerEdit,
 } from "../ui/CharacterSelect";
 import { MiTeamBuilder } from "../ui/MiTeamBuilder";
+import { PyramidHub } from "../ui/Pyramid";
 import { KitPanelPreview } from "../ui/KitPanelPreview";
 import {
   applyMiTeamToDb,
@@ -57,8 +60,8 @@ import {
   oppositionRollLabel,
 } from "../ui/menuTeamSelect";
 import { MatchSimulationLabMenu } from "../ui/MatchSimulationLabMenu";
-import { TableMatch, normalizeTableConfig, type TableMatchConfig } from "../football/table";
-import { FlickMatch, normalizeFlickConfig, type FlickMatchConfig } from "../football/flick";
+import type { TableMatch } from "../football/table";
+import type { FlickMatch } from "../football/flick";
 import {
   runSimulationLab,
   exportReportJson,
@@ -87,7 +90,6 @@ export class Game {
   tableMatch: TableMatch | null = null;
   flickMatch: FlickMatch | null = null;
   preferredPlayerId: string | null = null;
-  private teamControl = false;
   /** Listed fixture started via SIMULATE (AI watch); do not chain attract matches. */
   private fixtureSim = false;
   /** True while the listed fixture is still AI-only; used to mark the league result simulated. */
@@ -101,6 +103,7 @@ export class Game {
   private menu!: MainMenu;
   private chars!: CharacterSelect;
   private miteam!: MiTeamBuilder;
+  private pyramid!: PyramidHub;
   private pause!: PauseMenu;
   private pauseFormationOpen = false;
   private settings!: SettingsMenu;
@@ -179,6 +182,8 @@ export class Game {
     this.chars.onOppositionChange = (teamId) => this.onQuickOppositionChange(teamId);
     this.miteam = new MiTeamBuilder(this.ui);
     this.miteam.onAction = (act) => this.handleMiTeamAction(act);
+    this.pyramid = new PyramidHub(this.ui);
+    this.pyramid.onAction = (act) => this.handlePyramidAction(act);
     this.pause = new PauseMenu(this.ui);
     this.settings = new SettingsMenu(this.ui);
     this.settings.onSectionChange = (section) => {
@@ -270,6 +275,13 @@ export class Game {
       this.audio.ui();
       this.input.lastInputAt = performance.now();
       const act = btn.getAttribute("data-act");
+      if (act === "stub-back") {
+        this.ui.querySelectorAll<HTMLElement>(".match-stub").forEach((el) => {
+          el.hidden = true;
+        });
+        this.goMenu();
+        return;
+      }
       const id = btn.getAttribute("data-id");
       const tod = btn.getAttribute("data-tod");
       const mode = btn.getAttribute("data-mode");
@@ -286,10 +298,7 @@ export class Game {
         this.setMenuTimeOfDay(tod);
         return;
       }
-      if (
-        this.appState === AppState.MAIN_MENU &&
-        (mode === "REAL" || mode === "ARCADE" || mode === "LEAGUE" || mode === "TABLE" || mode === "FLICK")
-      ) {
+      if (this.appState === AppState.MAIN_MENU && isProductMode(mode)) {
         this.setMenuPlayMode(mode);
         return;
       }
@@ -614,6 +623,9 @@ export class Game {
 
   private goMenu(): void {
     this.ui.querySelectorAll(".attract-banner").forEach((el) => el.remove());
+    this.ui.querySelectorAll<HTMLElement>(".match-stub").forEach((el) => {
+      el.hidden = true;
+    });
     this.attractHold = 0;
     this.simBannerPlayT = 0;
     this.fixtureSim = false;
@@ -630,6 +642,7 @@ export class Game {
     this.chars.setContext("select");
     this.chars.hide();
     this.miteam.hide();
+    this.pyramid.hide();
     this.simLab.hide();
     this.pause.hide();
     this.scenes.mode = GameMode.FOOTBALL;
@@ -725,7 +738,7 @@ export class Game {
     this.menu.render(f, this.db.getTeam(f.homeTeamId), this.db.getTeam(f.awayTeamId), {
       timeOfDay: saved.timeOfDay,
       gameplayMode: saved.gameplayMode,
-      playMode: saved.leagueProgression ? "LEAGUE" : saved.gameplayMode,
+      playMode: saved.gameplayMode,
       showLeague: this.hasUserLeagueProgress(),
       kickOffTime: saved.kickOffTime,
       matchDuration: clampMatchDuration(saved.matchDuration),
@@ -747,6 +760,34 @@ export class Game {
     } else if (this.settings.isEmbedded) {
       this.settings.hide();
     }
+    this.paintMenuJumbotron();
+  }
+
+  /** Drive the center-hung arena cube on the main-menu court. */
+  private paintMenuJumbotron(): void {
+    const board = this.menuStadium?.scoreboard;
+    if (!board || board.mount !== "jumbotron") return;
+    const f = this.listedFixture();
+    const home = this.db.getTeam(f.homeTeamId);
+    const away = this.db.getTeam(f.awayTeamId);
+    const panels = jumbotronPanelData(this.db);
+    const clockSecs = kickOffRemainingSeconds(f.date, f.time || DEFAULT_KICK_OFF_TIME);
+    const mins = Math.max(0, Math.floor(clockSecs / 60));
+    const secs = Math.max(0, Math.floor(clockSecs % 60));
+    const clock = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    board.draw({
+      homeAbbr: home.abbreviation,
+      awayAbbr: away.abbreviation,
+      homeName: home.name,
+      awayName: away.name,
+      home: f.homeScore ?? 0,
+      away: f.awayScore ?? 0,
+      clock,
+      state: f.played ? "FINAL" : "TIP-OFF",
+      homeColor: home.primaryColor,
+      awayColor: away.primaryColor,
+      ...panels,
+    });
   }
 
   private menuEnvironment() {
@@ -771,53 +812,18 @@ export class Game {
     this.resetMenuIdleTimer();
   }
 
-  private setMenuPlayMode(mode: "REAL" | "ARCADE" | "LEAGUE" | "TABLE" | "FLICK"): void {
-    if (mode === "LEAGUE" && !this.hasUserLeagueProgress()) {
-      this.paintMainMenu();
-      this.resetMenuIdleTimer();
-      return;
-    }
-    // FOOSBALL / FLICKBALL are gameplay modes like REAL / ARCADE — selecting them
-    // only stores the choice; Play Next / Simulator / Quick Match launch the engine.
-    // LEAGUE is career-calendar mode for the dialed English club (not MiTeam).
+  private setMenuPlayMode(mode: ProductMode): void {
     const wasLeague = this.save.data.settings.leagueProgression;
-    if (mode === "LEAGUE") {
-      this.menuOppositionId = null;
-      this.clearQueuedMiTeamFixture();
-      this.ensureCareerClubSelected();
-      this.save.data.settings.leagueProgression = true;
-      this.save.data.settings.gameplayMode = "REAL";
-      this.restoreCareerFixtures();
-    } else {
-      if (wasLeague && this.hasUserLeagueProgress()) this.snapshotCareerFixtures();
-      this.save.data.settings.leagueProgression = false;
-      this.save.data.settings.gameplayMode = mode;
-      this.enterCasualFixtures();
-    }
+    if (wasLeague && this.hasUserLeagueProgress()) this.snapshotCareerFixtures();
+    this.save.data.settings.leagueProgression = false;
+    this.save.data.settings.gameplayMode = mode;
+    this.enterCasualFixtures();
     this.save.save();
     this.buildMenuWorld();
     this.applyMenuEnvironment();
     this.paintMainMenu();
     this.resetMenuIdleTimer();
-  }
-
-  /** LEAGUE / Play Next need an English-calendar club — not the MiTeam shell. */
-  private ensureCareerClubSelected(): void {
-    const id = this.defaultClubId();
-    if (id !== MITEAM_TEAM_ID && this.db.teams.has(id) && this.db.getTeam(id).teamType === "CURRENT_TEAM") {
-      return;
-    }
-    const restore =
-      (this.clubBeforeMiTeam &&
-        this.clubBeforeMiTeam !== MITEAM_TEAM_ID &&
-        this.db.teams.has(this.clubBeforeMiTeam) &&
-        this.db.getTeam(this.clubBeforeMiTeam).teamType === "CURRENT_TEAM" &&
-        this.clubBeforeMiTeam) ||
-      [...this.db.teams.values()].find((t) => t.teamType === "CURRENT_TEAM" && t.league)?.id ||
-      DEFAULT_TEAM_ID;
-    this.save.data.settings.defaultTeamId = restore;
-    this.db.userTeamId = restore;
-    this.clubBeforeMiTeam = null;
+    if (mode === "PYRAMID") this.openPyramidHub();
   }
 
   private clearQueuedMiTeamFixture(): void {
@@ -825,30 +831,6 @@ export class Game {
     if (!mt?.nextFixtureId) return;
     mt.nextFixtureId = null;
     this.save.save();
-  }
-
-  private flickConfigFromSave(): FlickMatchConfig {
-    const s = this.save.data.settings;
-    const draft = this.chars.tabletopKind === "FLICK" ? this.chars.flickSetup : null;
-    return normalizeFlickConfig({
-      opponent: draft?.opponent ?? s.flickOpponent,
-      difficulty: draft?.difficulty ?? s.flickDifficulty,
-      firstTo: draft?.firstTo ?? s.flickFirstTo,
-      turnBased: draft ? draft.turnBased !== false : s.flickTurnBased !== false,
-      humanSide: "home",
-    });
-  }
-
-  private tableConfigFromSave(): TableMatchConfig {
-    const s = this.save.data.settings;
-    const draft = this.chars.tabletopKind === "TABLE" ? this.chars.tableSetup : null;
-    return normalizeTableConfig({
-      layoutId: draft?.layoutId ?? s.tableLayoutId,
-      opponent: draft?.opponent ?? s.tableOpponent,
-      difficulty: draft?.difficulty ?? s.tableDifficulty,
-      firstTo: draft?.firstTo ?? s.tableFirstTo,
-      customMen: draft?.customMen ?? s.tableCustomMen,
-    });
   }
 
   private persistTabletopSettingsFromFormation(): void {
@@ -873,81 +855,13 @@ export class Game {
     }
   }
 
-  /**
-   * When gameplay is TABLE or FLICK, start that engine with Options defaults.
-   * Returns true if a non-football match was launched.
-   */
-  private launchTableOrFlick(fixture?: FixtureRecord): boolean {
-    const mode = this.save.data.settings.gameplayMode;
-    if (mode !== "TABLE" && mode !== "FLICK") return false;
-    this.menu.hide();
-    if (fixture) this.pendingFixture = fixture;
-    if (mode === "TABLE") this.beginTableMatch(this.tableConfigFromSave());
-    else this.beginFlickMatch(this.flickConfigFromSave());
-    return true;
-  }
-
-  private beginTableMatch(cfg: TableMatchConfig): void {
-    this.save.data.settings.tableLayoutId = cfg.layoutId;
-    this.save.data.settings.tableOpponent = cfg.opponent;
-    this.save.data.settings.tableDifficulty = cfg.difficulty;
-    this.save.data.settings.tableFirstTo = cfg.firstTo;
-    this.save.data.settings.tableCustomMen = cfg.customMen;
-    this.save.data.settings.gameplayMode = "TABLE";
-    this.save.save();
-    this.clearMatch();
-    this.clearWorld();
-    this.scenes.mode = GameMode.TABLE;
-    this.tableMatch = new TableMatch(this.scene, innerWidth / innerHeight, this.ui, cfg);
-    this.appState = AppState.MATCH;
-    this.audio.ui();
-  }
-
-  private beginFlickMatch(cfg: FlickMatchConfig): void {
-    this.save.data.settings.flickOpponent = cfg.opponent;
-    this.save.data.settings.flickDifficulty = cfg.difficulty;
-    this.save.data.settings.flickFirstTo = cfg.firstTo;
-    this.save.data.settings.flickTurnBased = cfg.turnBased !== false;
-    this.save.data.settings.gameplayMode = "FLICK";
-    this.save.save();
-    this.clearMatch();
-    this.clearWorld();
-    this.scenes.mode = GameMode.FLICK;
-    const fixture = this.pendingFixture ?? this.listedFixture();
-    const home = this.db.getTeam(fixture.homeTeamId);
-    const away = this.db.getTeam(fixture.awayTeamId);
-    const kits = resolveMatchKits(home, away);
-    const saved = this.save.data.settings;
-    this.audio.prepareStadiumAmbience();
-    this.flickMatch = new FlickMatch(this.scene, innerWidth / innerHeight, this.ui, cfg, {
-      stadium: this.db.getStadium(fixture.venueId),
-      advertising: this.db.advertising,
-      homePrimary: home.primaryColor,
-      awayPrimary: away.primaryColor,
-      homeKit: kits.home,
-      awayKit: kits.away,
-      env: resolveEnvironment(saved.timeOfDay, saved.weather),
-      graphicsPreset: saved.graphicsPreset ?? "HIGH",
-      homeAbbr: home.abbreviation,
-      awayAbbr: away.abbreviation,
-    });
-    this.flickMatch.attachCanvas(this.canvas);
-    this.appState = AppState.MATCH;
-    void this.audio.startStadiumAmbience();
-    this.audio.ui();
+  /** Foosball / Flickball are not VORTEX modes. */
+  private launchTableOrFlick(_fixture?: FixtureRecord): boolean {
+    return false;
   }
 
   private snapshotCareerFixtures(): void {
     this.save.data.fixtures = this.db.fixtures.map((f) => ({ ...f }));
-  }
-
-  private restoreCareerFixtures(): void {
-    this.db.resetFixturesBaseline();
-    if (this.hasUserLeagueProgress() && this.save.data.fixtures.length) {
-      this.db.applyCareerFixtures(this.save.data.fixtures as FixtureRecord[]);
-    } else {
-      this.catchUpLeague(false);
-    }
   }
 
   /** User has finished at least one Play Next Fixture that wrote into the career calendar. */
@@ -1041,6 +955,7 @@ export class Game {
       { home: kits.home, away: kits.away },
     );
     this.camera.establish();
+    this.paintMenuJumbotron();
   }
 
   private clearWorld(): void {
@@ -1292,7 +1207,7 @@ export class Game {
           : listed.homeTeamId;
     if (!awayId || awayId === homeId || !this.db.teams.has(awayId)) {
       awayId =
-        [...this.db.teams.keys()].find((id) => id !== homeId && this.db.getSquad(id).length >= 11) ?? homeId;
+        [...this.db.teams.keys()].find((id) => id !== homeId && this.db.getSquad(id).length >= 5) ?? homeId;
     }
     this.pendingFixture = this.db.friendlyVs(homeId, awayId);
     this.leagueFixtureId = null;
@@ -1314,9 +1229,7 @@ export class Game {
     const q = new URLSearchParams(location.search);
     if (q.get("debug") === "1") this.save.data.settings.debug = true;
     const mode = q.get("mode");
-    if (mode === "ARCADE" || mode === "REAL" || mode === "LEAGUE" || mode === "TABLE" || mode === "FLICK") {
-      this.setMenuPlayMode(mode);
-    }
+    if (isProductMode(mode)) this.setMenuPlayMode(mode);
     const time = q.get("time") as TimeOfDay | null;
     if (time === "DAY" || time === "EVENING" || time === "NIGHT") this.save.data.settings.timeOfDay = time;
     const weather = q.get("weather") as Weather | null;
@@ -1391,6 +1304,7 @@ export class Game {
   private openMiTeamBuilder(): void {
     this.menu.hide();
     this.chars.hide();
+    this.pyramid.hide();
     this.practice = "none";
     this.leagueFixtureId = null;
     // MiTeam is separate from LEAGUE career — leave calendar mode while packing.
@@ -1407,6 +1321,28 @@ export class Game {
     this.save.save();
     this.miteam.open(this.db, this.save);
     this.appState = AppState.CHARACTER_SELECT;
+  }
+
+  private openPyramidHub(): void {
+    this.menu.hide();
+    this.chars.hide();
+    this.miteam.hide();
+    this.practice = "none";
+    this.leagueFixtureId = null;
+    if (this.save.data.settings.leagueProgression && this.hasUserLeagueProgress()) {
+      this.snapshotCareerFixtures();
+    }
+    this.save.data.settings.leagueProgression = false;
+    this.save.save();
+    this.pyramid.open(this.db, this.save);
+    this.appState = AppState.CHARACTER_SELECT;
+  }
+
+  private handlePyramidAction(act: "back"): void {
+    if (act === "back") {
+      this.pyramid.hide();
+      this.goMenu();
+    }
   }
 
   private restoreClubAfterMiTeam(): void {
@@ -1544,30 +1480,7 @@ export class Game {
           teamId === MITEAM_TEAM_ID ? buildMiTeamPlayerClubLooks(this.db, this.save.data.miteam) : null,
       });
     }
-    // Flickball / Foosball: swap PLAYER SELECT for mode settings (still keep TEAM / KIT).
-    const gplay = this.save.data.settings.gameplayMode;
-    if (purpose === "match" && (gplay === "FLICK" || gplay === "TABLE")) {
-      const s = this.save.data.settings;
-      this.chars.setTabletopMode(gplay, {
-        flick: {
-          opponent: s.flickOpponent,
-          difficulty: s.flickDifficulty,
-          firstTo: s.flickFirstTo,
-          turnBased: s.flickTurnBased !== false,
-        },
-        table: {
-          layoutId: s.tableLayoutId,
-          opponent: s.tableOpponent,
-          difficulty: s.tableDifficulty,
-          firstTo: s.tableFirstTo,
-          customMen: s.tableCustomMen,
-        },
-      });
-      // Pitch / TEAM SELECT first — FLICKBALL / FOOSBALL settings stay on their own tab.
-      this.chars.setControlMode("TEAM");
-    } else {
-      this.chars.setTabletopMode(null);
-    }
+    this.chars.setTabletopMode(null);
     this.chars.render();
     this.appState = AppState.CHARACTER_SELECT;
     this.refreshCharacterPreview();
@@ -1696,109 +1609,30 @@ export class Game {
     this.camera.camera.lookAt(0, 1.2, 8);
   }
 
-  private beginPreMatch(options: { autoplay?: boolean } = {}): void {
-    const autoplay = !!options.autoplay;
-    // Arm stadium audio inside this click/gesture so kick-off isn't blocked by autoplay policy.
-    this.audio.prepareStadiumAmbience();
-    this.applyCharacterLineupEdits();
-    this.preferredPlayerId = this.chars.current().player.id;
-    // Spot practice always starts as the selected taker, not full team control.
-    this.teamControl =
-      autoplay || this.practice === "spot" || this.chars.purpose === "spot"
-        ? false
-        : this.chars.controlMode === "TEAM" ||
-          this.chars.controlMode === "KIT" ||
-          this.chars.controlMode === "MITEAM";
-    this.fixtureSim = autoplay;
-    this.watchSim = autoplay;
+  private showMatchStub(): void {
     this.chars.hide();
-    this.ui.querySelectorAll(".attract-banner").forEach((el) => el.remove());
-    this.input.lastInputAt = performance.now();
-    this.clearWorld();
+    this.menu.hide();
+    this.pause.hide();
+    this.matchCard.hide();
+    this.appState = AppState.MAIN_MENU;
+    let el = this.ui.querySelector<HTMLElement>(".match-stub");
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "match-stub";
+      el.innerHTML = `
+        <div class="match-stub-card">
+          <p class="eyebrow">VORTEX BASKETBALL</p>
+          <h2>Game coming soon</h2>
+          <p>On-court play is not in this build.</p>
+          <button type="button" data-act="stub-back">Back</button>
+        </div>`;
+      this.ui.appendChild(el);
+    }
+    el.hidden = false;
+  }
 
-    // After Formation, Flickball / Foosball use their own engines (not Match + pre-match card).
-    const mode = this.save.data.settings.gameplayMode;
-    if (!autoplay && this.practice !== "spot" && (mode === "TABLE" || mode === "FLICK")) {
-      this.persistTabletopSettingsFromFormation();
-      this.pendingFixture = this.pendingFixture ?? this.listedFixture();
-      if (mode === "TABLE") this.beginTableMatch(this.tableConfigFromSave());
-      else this.beginFlickMatch(this.flickConfigFromSave());
-      return;
-    }
-
-    this.appState = AppState.PRE_MATCH;
-    this.preMatchT = 0;
-    const fixture = this.pendingFixture ?? this.listedFixture();
-    const saved = this.save.data.settings;
-    const userSide = this.userSideFor(fixture);
-    const userKitChoice =
-      this.practice === "spot"
-        ? "auto"
-        : this.chars.kitChoice === "auto"
-          ? this.save.data.settings.menuKitChoice === "away"
-            ? "away"
-            : "home"
-          : this.chars.kitChoice;
-    this.match = new Match(
-      this.scene,
-      this.camera,
-      this.db,
-      {
-        fixture: {
-          ...fixture,
-          durationSeconds: clampMatchDuration(fixture.durationSeconds || saved.matchDuration),
-          time: DEFAULT_KICK_OFF_TIME,
-        },
-        preferredPlayerId: this.preferredPlayerId,
-        userSide,
-        autoplay,
-        invertShotY: saved.invertShotY,
-        gameplayMode:
-          saved.gameplayMode === "TABLE" || saved.gameplayMode === "FLICK" || saved.gameplayMode === "MITEAM"
-            ? "REAL"
-            : saved.gameplayMode,
-        timeOfDay: saved.timeOfDay,
-        weather: saved.weather,
-        graphicsPreset: saved.graphicsPreset,
-        teamControl: this.teamControl,
-        homeHudRing: saved.homeHudRing,
-        awayHudRing: saved.awayHudRing,
-        homeShowPortraits: saved.homeShowPortraits,
-        awayShowPortraits: saved.awayShowPortraits,
-        homePortraitOpacity: saved.homePortraitOpacity,
-        awayPortraitOpacity: saved.awayPortraitOpacity,
-        homePortraitScale: saved.homePortraitScale,
-        awayPortraitScale: saved.awayPortraitScale,
-        homePortraitUpright: saved.homePortraitUpright,
-        awayPortraitUpright: saved.awayPortraitUpright,
-        homeHidePlayers: saved.homeHidePlayers,
-        awayHidePlayers: saved.awayHidePlayers,
-        ballGoldRing: saved.ballGoldRing,
-        showPassTargetHighlight: saved.showPassTargetHighlight,
-        homeKitChoice: userSide === "home" ? userKitChoice : "auto",
-        awayKitChoice: userSide === "away" ? userKitChoice : "auto",
-        miteam: this.save.data.miteam,
-      },
-      this.events,
-    );
-    this.match.camera.mode = "BROADCAST";
-    this.match.camera.setViewMode(this.save.data.settings.viewMode ?? "MEDIUM");
-    this.match.camera.trackMode = this.save.data.settings.trackMode ?? "DYNAMIC";
-    this.match.camera.setCameraZoom(this.save.data.settings.cameraZoom ?? 1);
-    this.match.ball.setVisualScale(this.save.data.settings.ballScale ?? 1);
-    this.attachHud();
-    this.exposeMatch();
-    if (autoplay) {
-      this.simBannerLabel = "SIMULATE · ANY CONTROL TO TAKE OVER · ESC PAUSE";
-      this.simBannerPlayT = 0;
-    }
-    if (this.practice === "spot") {
-      this.matchCard.hide();
-      this.launchMatch();
-      return;
-    }
-    this.matchCard.show(this.match, "kickoff");
-    // Whistle fires once on KICKOFF when play actually starts (not here — avoids a double blast).
+  private beginPreMatch(_options: { autoplay?: boolean } = {}): void {
+    this.showMatchStub();
   }
 
   private launchMatch(): void {
@@ -2151,6 +1985,7 @@ export class Game {
     if (this.appState === AppState.MAIN_MENU) {
       this.menuStadium?.update(dt);
       this.camera.preMatch(performance.now() / 1000);
+      this.paintMenuJumbotron();
       const listed = this.listedFixture();
       this.menu.setKickOffCountdown(kickOffRemainingSeconds(listed.date, listed.time || DEFAULT_KICK_OFF_TIME));
       if (this.menu.panel !== "menu") {
@@ -2166,14 +2001,19 @@ export class Game {
         const left = Math.max(0, AUTOPLAY_IDLE_SECONDS - this.input.idleSeconds());
         this.menu.setCountdown(left);
         this.menu.attract = left < 8;
-        if (left <= 0) this.menuAction("sim");
+        if (left <= 0) {
+          // Match play is stubbed — do not auto-launch the simulator.
+          this.input.lastInputAt = performance.now();
+          this.menu.setCountdown(AUTOPLAY_IDLE_SECONDS);
+          this.menu.attract = false;
+        }
       }
     }
 
     if (this.appState === AppState.CHARACTER_SELECT) {
       // Formation / Play Next Fixture: freeze idle so Back can't instantly auto-sim.
       this.input.lastInputAt = performance.now();
-      if (this.miteam.root.classList.contains("open")) {
+      if (this.miteam.root.classList.contains("open") || this.pyramid.root.classList.contains("open")) {
         if (intent.pause) this.goMenu();
       } else {
         this.handleMenuNav(intent.moveX + intent.moveZ, () => {
@@ -2327,31 +2167,7 @@ export class Game {
   private startSimulator(): void {
     this.practice = "none";
     this.leagueFixtureId = null;
-    const mode = this.save.data.settings.gameplayMode;
-    if (mode === "TABLE" || mode === "FLICK") {
-      // Foosball / Flickball: same entry as Play Next, random fixture for Flick stadium.
-      if (mode === "FLICK") {
-        const fixture = this.db.randomSimulatorFixture(clampMatchDuration(this.save.data.settings.matchDuration));
-        fixture.time = DEFAULT_KICK_OFF_TIME;
-        this.pendingFixture = fixture;
-      }
-      this.audio.prepareStadiumAmbience();
-      this.attractHold = 0;
-      this.simBannerPlayT = 0;
-      this.launchTableOrFlick(this.pendingFixture ?? undefined);
-      return;
-    }
-    // Arm bed in this call stack when Simulator was clicked; idle auto-start falls back to muted.
-    this.audio.prepareStadiumAmbience();
-    this.menu.hide();
-    this.clearWorld();
-    this.attractHold = 0;
-    this.simBannerPlayT = 0;
-    this.simBannerLabel = "SIMULATOR · ANY CONTROL TO TAKE OVER · ESC PAUSE";
-    this.preMatchT = 0;
-    this.appState = AppState.PRE_MATCH;
-    this.spawnAutoplayMatch();
-    if (this.match) this.matchCard.show(this.match, "kickoff");
+    this.showMatchStub();
   }
 
   /** After FT, return to the main menu so the 60s idle countdown can start another sim. */
@@ -2359,50 +2175,6 @@ export class Game {
     this.attractHold = 0;
     this.simBannerPlayT = 0;
     this.goMenu();
-  }
-
-  private spawnAutoplayMatch(): void {
-    const saved = this.save.data.settings;
-    const fixture = this.db.randomSimulatorFixture(clampMatchDuration(saved.matchDuration));
-    fixture.time = DEFAULT_KICK_OFF_TIME;
-    this.match = new Match(
-      this.scene,
-      this.camera,
-      this.db,
-      {
-        fixture,
-        userSide: "home",
-        autoplay: true,
-        gameplayMode:
-          saved.gameplayMode === "TABLE" || saved.gameplayMode === "FLICK" || saved.gameplayMode === "MITEAM"
-            ? "REAL"
-            : saved.gameplayMode,
-        timeOfDay: saved.timeOfDay ?? fixture.timeOfDay,
-        weather: saved.weather ?? fixture.weather,
-        graphicsPreset: saved.graphicsPreset,
-        homeHudRing: saved.homeHudRing,
-        awayHudRing: saved.awayHudRing,
-        homeShowPortraits: saved.homeShowPortraits,
-        awayShowPortraits: saved.awayShowPortraits,
-        homePortraitOpacity: saved.homePortraitOpacity,
-        awayPortraitOpacity: saved.awayPortraitOpacity,
-        homePortraitScale: saved.homePortraitScale,
-        awayPortraitScale: saved.awayPortraitScale,
-        homePortraitUpright: saved.homePortraitUpright,
-        awayPortraitUpright: saved.awayPortraitUpright,
-        homeHidePlayers: saved.homeHidePlayers,
-        awayHidePlayers: saved.awayHidePlayers,
-        ballGoldRing: saved.ballGoldRing,
-        showPassTargetHighlight: saved.showPassTargetHighlight,
-      },
-      this.events,
-    );
-    this.match.camera.setViewMode(this.save.data.settings.viewMode ?? "MEDIUM");
-    this.match.camera.trackMode = this.save.data.settings.trackMode ?? "DYNAMIC";
-    this.match.camera.setCameraZoom(this.save.data.settings.cameraZoom ?? 1);
-    this.match.ball.setVisualScale(this.save.data.settings.ballScale ?? 1);
-    this.attachHud();
-    this.exposeMatch();
   }
 
   private exposeMatch(): void {

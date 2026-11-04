@@ -43,9 +43,10 @@ jobs:
         run: |
           test -f dist/index.html
           test -f dist/CNAME
-          grep -qx 'golaco.lol' dist/CNAME
+          grep -qx 'miteam.lol' dist/CNAME
           test -d dist/assets
           test -d dist/data
+          test -f dist/404.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

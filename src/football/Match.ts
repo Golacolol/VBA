@@ -6,6 +6,8 @@ import type { FixtureRecord, KitChoice, TeamKit } from "../data/schema";
 import type { MiTeamSave } from "../core/SaveManager";
 import { MITEAM_TEAM_ID } from "../core/SaveManager";
 import { resolveMiTeamPlayerKit } from "./miteam/MiTeam";
+import type { ScoreboardFixtureRow, ScoreboardStandingRow } from "./stadium/Scoreboard";
+import { jumbotronPanelData } from "./stadium/Scoreboard";
 import { celebrateAI, celebrationStaysPut, clearCelebration, concedeReaction, type CelebrationRoutine } from "./ai/CelebrationAI";
 import {
   updateGoalkeeper,
@@ -415,6 +417,12 @@ export class Match {
 
   private db: GameDatabase;
   private miteam: MiTeamSave | null;
+  /** Cached once per match — standings / fixture lists for the jumbotron faces. */
+  private _jumboCache: {
+    upcomingFixtures: ScoreboardFixtureRow[];
+    eastStandings: ScoreboardStandingRow[];
+    westStandings: ScoreboardStandingRow[];
+  } | null = null;
 
   constructor(
     scene: THREE.Scene,
@@ -5239,6 +5247,8 @@ export class Match {
   }
 
   private drawScoreboard(): void {
+    const board = this.stadium.scoreboard;
+    const jumbo = board.mount === "jumbotron";
     this.stadium.scoreboard.draw({
       homeAbbr: this.home.record.abbreviation,
       awayAbbr: this.away.record.abbreviation,
@@ -5252,7 +5262,18 @@ export class Match {
       scorerNumber: this.state === FootballState.GOAL_CELEBRATION ? this.lastGoal?.scorerNumber : undefined,
       homeColor: this.home.record.primaryColor,
       awayColor: this.away.record.primaryColor,
+      ...(jumbo ? this.jumbotronBoardData() : {}),
     });
+  }
+
+  /** East / West tables + next fixtures for the four-sided arena jumbotron. */
+  private jumbotronBoardData(): {
+    upcomingFixtures: ScoreboardFixtureRow[];
+    eastStandings: ScoreboardStandingRow[];
+    westStandings: ScoreboardStandingRow[];
+  } {
+    if (!this._jumboCache) this._jumboCache = jumbotronPanelData(this.db);
+    return this._jumboCache;
   }
 
   private updatePassDebug(): void {

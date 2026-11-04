@@ -3,6 +3,13 @@ import { DEFAULT_KICK_OFF_TIME, DEFAULT_MATCH_DURATION, DEFAULT_TEAM_ID } from "
 import { blankPredictions, normalizePredictions, type PredictionsState } from "../football/predictions/Predictions";
 import type { TeamTacticsSave } from "../football/teams/TeamTactics";
 import { DEFAULT_TITLE_FONT, DEFAULT_CLUB_NAME_FONT, DEFAULT_CLUB_NAME_GLOW, DEFAULT_CLUB_NAME_GLOW_DIFFUSION, DEFAULT_CLUB_NAME_INVERT_COLORS, clampClubNameGlowDiffusion } from "../ui/TitleFonts";
+import { normalizeProductMode, type ProductMode } from "./ProductMode";
+import {
+  normalizePyramidSave,
+  type PyramidSave,
+} from "../football/pyramid/defaultPyramid";
+
+export type { PyramidSave };
 
 export interface SavedSettings {
   matchDuration: number;
@@ -20,7 +27,7 @@ export interface SavedSettings {
   formationDebug: boolean;
   masterVolume: number;
   invertShotY: boolean;
-  gameplayMode: "REAL" | "ARCADE" | "TABLE" | "FLICK" | "MITEAM";
+  gameplayMode: ProductMode;
   /** TABLE foosball defaults. */
   tableLayoutId: "FRENCH_CLASSIC" | "TOURNAMENT_MODERN" | "OPEN_CUSTOM";
   tableOpponent: "AI" | "HUMAN";
@@ -94,6 +101,8 @@ export interface SaveData {
   teamTactics: Record<string, TeamTacticsSave>;
   /** One MiTeam pack-built club per browser (null = none). */
   miteam: MiTeamSave | null;
+  /** Editable Top 50 all-time ranking (Pyramid / Ring hub). */
+  pyramid: PyramidSave | null;
 }
 
 export type MiTeamRosterSlot = {
@@ -122,7 +131,7 @@ export type MiTeamSave = {
   nextFixtureId: string | null;
 };
 
-const KEY = "argyle-football-save-v05";
+const KEY = "vortex-basketball-save-v1";
 
 export const DEFAULT_SETTINGS: SavedSettings = {
   matchDuration: DEFAULT_MATCH_DURATION,
@@ -137,7 +146,7 @@ export const DEFAULT_SETTINGS: SavedSettings = {
   formationDebug: false,
   masterVolume: 0.7,
   invertShotY: false,
-  gameplayMode: "REAL",
+  gameplayMode: "BASKETBALL",
   tableLayoutId: "FRENCH_CLASSIC",
   tableOpponent: "AI",
   tableDifficulty: "NORMAL",
@@ -224,15 +233,7 @@ export class SaveManager {
       settings.awayDefLineColor = clampHex(settings.awayDefLineColor, DEFAULT_SETTINGS.awayDefLineColor);
       settings.awayMidLineColor = clampHex(settings.awayMidLineColor, DEFAULT_SETTINGS.awayMidLineColor);
       settings.awayAttLineColor = clampHex(settings.awayAttLineColor, DEFAULT_SETTINGS.awayAttLineColor);
-      if (
-        settings.gameplayMode !== "REAL" &&
-        settings.gameplayMode !== "ARCADE" &&
-        settings.gameplayMode !== "TABLE" &&
-        settings.gameplayMode !== "FLICK"
-      ) {
-        // Drop legacy MITEAM chip mode — MiTeam is a main-menu entry now.
-        settings.gameplayMode = "REAL";
-      }
+      settings.gameplayMode = normalizeProductMode(rawSettings.gameplayMode);
       if (settings.flickOpponent !== "AI" && settings.flickOpponent !== "HUMAN") settings.flickOpponent = "AI";
       if (
         settings.flickDifficulty !== "EASY" &&
@@ -279,6 +280,7 @@ export class SaveManager {
             ? (parsed.teamTactics as Record<string, TeamTacticsSave>)
             : {},
         miteam: normalizeMiTeamSave(parsed.miteam),
+        pyramid: normalizePyramidSave(parsed.pyramid),
       };
     } catch {
       return this.blank();
@@ -307,19 +309,20 @@ export class SaveManager {
       predictions: blankPredictions(),
       teamTactics: {},
       miteam: null,
+      pyramid: null,
     };
   }
 }
 
 export const MITEAM_TEAM_ID = "miteam_user";
 export const MITEAM_DEFAULT_CLUB_NAME = "MiTeam";
-export const MITEAM_DEFAULT_BADGE = "/golaco-logo.png";
+export const MITEAM_DEFAULT_BADGE = "/vba-logo.png";
 export const MITEAM_DEFAULT_PRIMARY = "#A8B0BC";
 export const MITEAM_DEFAULT_SECONDARY = "#1B2430";
 export const MITEAM_ERA = "2025/26";
 export const MITEAM_LINEUP_ID = "miteam_user_lineup";
-export const MITEAM_FORMATION = "4-4-2";
-export const MITEAM_BENCH_SLOTS = 7;
+export const MITEAM_FORMATION = "BASKETBALL_5";
+export const MITEAM_BENCH_SLOTS = 8;
 
 function normalizeHexColor(value: unknown, fallback: string | null = null): string | null {
   if (typeof value !== "string") return fallback;

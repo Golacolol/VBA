@@ -25,7 +25,7 @@ describe("MiTeamPack tiers", () => {
     expect(gold).toContain("miteam-foil-wrap-left");
     expect(gold).toContain("miteam-foil-lip-top");
     expect(gold).toContain("miteam-foil-tear-top");
-    expect(gold.match(/golaco-logo\.png/g)?.length).toBe(1);
+    expect(gold.match(/vba-logo\.png/g)?.length).toBe(1);
     const silver = miteamFoilHtml("silver");
     expect(silver).toContain("miteam-foil-silver");
     expect(silver).toContain("SILVER PACK");

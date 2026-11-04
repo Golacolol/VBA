@@ -6,11 +6,8 @@ export const SEASON_START = "2026-08-15";
 export const REMAINDER_START = "2026-09-19";
 
 export const LEAGUE_COMPETITION: Record<EnglishLeague, string> = {
-  PREMIER_LEAGUE: "Premier League",
-  CHAMPIONSHIP: "Championship",
-  LEAGUE_ONE: "League One",
-  LA_LIGA: "La Liga",
-  SERIE_A: "Serie A",
+  EAST: "Eastern Conference",
+  WEST: "Western Conference",
 };
 
 export function todayIso(now = new Date()): string {
@@ -72,7 +69,7 @@ export function buildEnglishLeagueFixtures(
   template?: Partial<FixtureRecord>,
   lineupId?: (teamId: string) => string | undefined,
 ): FixtureRecord[] {
-  const leagues: EnglishLeague[] = ["PREMIER_LEAGUE", "CHAMPIONSHIP", "LEAGUE_ONE", "LA_LIGA", "SERIE_A"];
+  const leagues: EnglishLeague[] = ["EAST", "WEST"];
   const byId = new Map(teams.map((t) => [t.id, t]));
   const official = officialSeasonMatches().map((match) => fixtureFromOfficial(match, byId, template, lineupId));
   const used = new Set(official.map((f) => pairingKey(f.homeTeamId, f.awayTeamId, f.competition)));
@@ -247,7 +244,7 @@ function makeFixture(
     id: `fix_${round}_${slug}`,
     homeTeamId: homeId,
     awayTeamId: awayId,
-    venueId: home?.defaultStadiumId ?? template?.venueId ?? "home_park",
+    venueId: home?.defaultStadiumId ?? template?.venueId ?? "vortex_arena",
     competition,
     date,
     time,

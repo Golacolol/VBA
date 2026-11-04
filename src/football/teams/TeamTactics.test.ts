@@ -10,17 +10,14 @@ import {
 import type { LineupRecord } from "../../data/schema";
 
 describe("TeamTactics", () => {
-  it("exposes roughly double the original four base formations", () => {
-    expect(FORMATION_NAMES.length).toBeGreaterThanOrEqual(8);
-    for (const name of ["3-5-2", "5-3-2", "4-1-4-1", "4-5-1", "3-4-3"] as const) {
-      expect(FORMATION_NAMES).toContain(name);
-    }
+  it("exposes the basketball five as the selectable formation", () => {
+    expect(FORMATION_NAMES).toEqual(["BASKETBALL_5"]);
   });
 
   it("normalizes unknown shapes and keeps USER out of formation names", () => {
-    expect(normalizeFormationName("4-3-3")).toBe("4-3-3");
-    expect(normalizeFormationName("nope")).toBe("4-2-3-1");
-    expect(normalizeFormationName(USER_FORMATION)).toBe("4-2-3-1");
+    expect(normalizeFormationName("BASKETBALL_5")).toBe("BASKETBALL_5");
+    expect(normalizeFormationName("nope")).toBe("BASKETBALL_5");
+    expect(normalizeFormationName(USER_FORMATION)).toBe("BASKETBALL_5");
   });
 
   it("applies persisted tactics onto an authored lineup", () => {

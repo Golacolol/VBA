@@ -15,7 +15,8 @@ const team = (id: string, name: string, abbr: string): TeamRecord =>
     secondaryColor: "#FFFFFF",
     defaultKit: { primary: "#007A3D", secondary: "#FFFFFF", socks: "#007A3D" },
     teamType: "CURRENT_TEAM",
-    league: "LEAGUE_ONE",
+    league: "EAST",
+    conference: "EAST",
   }) as unknown as TeamRecord;
 
 const stadium = (id: string, name: string): StadiumRecord =>
@@ -31,7 +32,7 @@ describe("MainMenu LEAGUE mode button", () => {
       homeTeamId: home.id,
       awayTeamId: away.id,
       venueId: ground.id,
-      competition: "League One",
+      competition: "Eastern Conference",
       date: "2026-09-08",
       time: "15:00",
       played: false,
@@ -47,8 +48,8 @@ describe("MainMenu LEAGUE mode button", () => {
     const menu = new MainMenu(host);
     const view: MainMenuView = {
       timeOfDay: "EVENING",
-      gameplayMode: "REAL",
-      playMode: "REAL",
+      gameplayMode: "BASKETBALL",
+      playMode: "BASKETBALL",
       showLeague,
       kickOffTime: "15:00",
       matchDuration: 600,
@@ -61,11 +62,11 @@ describe("MainMenu LEAGUE mode button", () => {
   it("hides LEAGUE before the first Play Next Fixture", () => {
     const menu = paint(false);
     expect(menu.root.querySelector('[data-mode="LEAGUE"]')).toBeNull();
-    expect(menu.root.querySelector('[data-mode="REAL"]')?.textContent).toBe("FOOTBALL");
-    expect(menu.root.querySelector('[data-mode="ARCADE"]')?.textContent).toBe("SOCCER");
-    expect(menu.root.querySelector('[data-mode="TABLE"]')?.textContent).toBe("FOOSBALL");
-    expect(menu.root.querySelector('[data-mode="FLICK"]')?.textContent).toBe("FLICKBALL");
-    expect(menu.root.querySelector('[data-mode="MITEAM"]')).toBeNull();
+    expect(menu.root.querySelector('[data-mode="BASKETBALL"]')?.textContent).toBe("BASKETBALL");
+    expect(menu.root.querySelector('[data-mode="STREET"]')?.textContent).toBe("STREET");
+    expect(menu.root.querySelector('[data-mode="MITEAM"]')?.textContent).toBe("MITEAM");
+    expect(menu.root.querySelector('[data-mode="PYRAMID"]')?.textContent).toBe("PYRAMID");
+    expect(menu.root.querySelector('[data-mode="REAL"]')).toBeNull();
   });
 
   it("shows KIT dial after Team Select and Gameplay / Lighting section labels", () => {
@@ -97,12 +98,16 @@ describe("MainMenu LEAGUE mode button", () => {
     const dialKids = [...menu.root.querySelector(".fixture-match-dials")!.children];
     expect(dialKids).toHaveLength(1);
     expect(dialKids[0]?.classList.contains("opposition-dial-field")).toBe(true);
-    expect(menu.root.querySelector(".fixture-detail-row .meta")?.textContent).toContain("League One");
+    expect(menu.root.querySelector(".fixture-detail-row .meta")?.textContent).toContain("Eastern Conference");
   });
 
-  it("shows LEAGUE after career progress is unlocked", () => {
+  it("keeps the four VORTEX modes after career progress", () => {
     const menu = paint(true);
-    expect(menu.root.querySelector('[data-mode="LEAGUE"]')).toBeTruthy();
+    expect(menu.root.querySelector('[data-mode="LEAGUE"]')).toBeNull();
+    expect(menu.root.querySelector('[data-mode="BASKETBALL"]')).toBeTruthy();
+    expect(menu.root.querySelector('[data-mode="STREET"]')).toBeTruthy();
+    expect(menu.root.querySelector('[data-mode="MITEAM"]')).toBeTruthy();
+    expect(menu.root.querySelector('[data-mode="PYRAMID"]')).toBeTruthy();
   });
 
   it("renders kick-off time fully and a countdown after the fixture teams", () => {
@@ -146,7 +151,7 @@ describe("MainMenu LEAGUE mode button", () => {
     document.body.appendChild(host);
     host.innerHTML = `
       <div class="menu-hero-stack">
-        <h1><span class="title-line">GOLAÇO<span class="title-emoji">⚽️</span>SOCCER</span></h1>
+        <h1><span class="title-line">VORTEX<span class="title-emoji">🏀</span>BASKETBALL</span></h1>
         <div class="club-meta">
           <div class="club-crest"></div>
           <span class="club-line"><span class="club-ground">Very Long Stadium Name</span><span class="club-sep">·</span><span class="club-team">Very Long United Football Club</span></span>
@@ -200,13 +205,13 @@ describe("MainMenu LEAGUE mode button", () => {
       <div class="menu-fixture menu-fixture-labeled gameplay-fixture" style="width:420px;padding:8px 12px;box-sizing:border-box">
         <span class="meta fixture-section-label">Gameplay</span>
         <span class="tod-row">
-          <button type="button" class="tod-opt" style="font-size:9px">FOOTBALL</button>
+          <button type="button" class="tod-opt" style="font-size:9px">BASKETBALL</button>
           <span class="vs">·</span>
-          <button type="button" class="tod-opt" style="font-size:9px">SOCCER</button>
+          <button type="button" class="tod-opt" style="font-size:9px">STREET</button>
           <span class="vs">·</span>
-          <button type="button" class="tod-opt" style="font-size:9px">FOOSBALL</button>
+          <button type="button" class="tod-opt" style="font-size:9px">MITEAM</button>
           <span class="vs">·</span>
-          <button type="button" class="tod-opt" style="font-size:9px">FLICKBALL</button>
+          <button type="button" class="tod-opt" style="font-size:9px">PYRAMID</button>
         </span>
       </div>`;
     document.body.appendChild(host);
@@ -250,8 +255,8 @@ describe("MainMenu LEAGUE mode button", () => {
     expect(stack?.contains(title!)).toBe(true);
     expect(stack?.contains(club!)).toBe(true);
     expect(stack?.contains(teamSelect!)).toBe(true);
-    expect(title?.textContent?.replace(/\s+/g, "").trim()).toBe("GOLAÇO⚽️SOCCER");
-    expect(title?.querySelector(".title-emoji")?.textContent).toBe("⚽️");
+    expect(title?.textContent?.replace(/\s+/g, "").trim()).toBe("VORTEX🏀BASKETBALL");
+    expect(title?.querySelector(".title-emoji")?.textContent).toBe("🏀");
     expect(title!.compareDocumentPosition(club!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(club!.compareDocumentPosition(teamSelect!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(gameplay).toBeTruthy();
@@ -259,16 +264,18 @@ describe("MainMenu LEAGUE mode button", () => {
     expect(menu.root.querySelector("[data-team-spin]")).toBeTruthy();
     expect(menu.root.querySelector("[data-league-spin]")).toBeTruthy();
     expect(menu.root.querySelector("[data-kit-spin]")).toBeTruthy();
-    expect(menu.root.querySelector("[data-era-spin]")).toBeNull();
+    expect(menu.root.querySelector("[data-era-spin]")).toBeTruthy();
     expect(teamSelect?.querySelector(".meta")).toBeNull();
     const fields = [...teamSelect!.querySelectorAll(".team-dial-field")];
-    expect(fields).toHaveLength(3);
-    expect(fields[0]?.querySelector(".team-dial-label")?.textContent).toBe("League");
-    expect(fields[1]?.querySelector(".team-dial-label")?.textContent).toBe("Club");
-    expect(fields[2]?.querySelector(".team-dial-label")?.textContent).toBe("Kit");
+    expect(fields).toHaveLength(4);
+    expect(fields[0]?.querySelector(".team-dial-label")?.textContent).toBe("Conference");
+    expect(fields[1]?.querySelector(".team-dial-label")?.textContent).toBe("Team");
+    expect(fields[2]?.querySelector(".team-dial-label")?.textContent).toBe("Era");
+    expect(fields[3]?.querySelector(".team-dial-label")?.textContent).toBe("Kit");
     const dials = [...teamSelect!.querySelectorAll(".time-spin")];
     expect(dials[0]?.hasAttribute("data-league-spin")).toBe(true);
     expect(dials[1]?.hasAttribute("data-team-spin")).toBe(true);
+    expect(dials[2]?.hasAttribute("data-era-spin")).toBe(true);
   });
 
   it("locks team dials and drops pending club commits", () => {
@@ -329,8 +336,8 @@ describe("MainMenu LEAGUE mode button", () => {
       { ...chelsea0405, id: "away", name: "Away" } as never,
       {
         timeOfDay: "EVENING",
-        gameplayMode: "REAL",
-        playMode: "REAL",
+        gameplayMode: "BASKETBALL",
+        playMode: "BASKETBALL",
         showLeague: false,
         kickOffTime: "15:00",
         matchDuration: 600,
@@ -349,8 +356,8 @@ describe("MainMenu LEAGUE mode button", () => {
     expect(teamSelect.querySelector(".team-dials")?.classList.contains("has-era")).toBe(true);
     const fields = [...teamSelect.querySelectorAll(".team-dial-field")];
     expect(fields).toHaveLength(4);
-    expect(fields[1]?.querySelector(".team-dial-label")?.textContent).toBe("Club");
-    expect(fields[2]?.querySelector(".team-dial-label")?.textContent).toBe("Team");
+    expect(fields[1]?.querySelector(".team-dial-label")?.textContent).toBe("Team");
+    expect(fields[2]?.querySelector(".team-dial-label")?.textContent).toBe("Era");
     expect(fields[3]?.querySelector(".team-dial-label")?.textContent).toBe("Kit");
     expect(menu.root.querySelector("[data-team-spin] strong")?.textContent).toBe("Chelsea");
     expect(menu.root.querySelector("[data-era-spin] strong")?.textContent).toBe("04-05");
@@ -377,14 +384,14 @@ describe("MainMenu LEAGUE mode button", () => {
     expect(ids.indexOf("predictions")).toBeGreaterThan(ids.indexOf("spot")!);
     expect(ids.indexOf("predictions")).toBeLessThan(ids.indexOf("database")!);
 
-    menu.openLeagueFixtures("LEAGUE_ONE");
+    menu.openLeagueFixtures("EAST");
     menu.render(
       {
         id: "f1",
         homeTeamId: "home",
         awayTeamId: "away",
         venueId: "ground",
-        competition: "League One",
+        competition: "Eastern Conference",
         date: "2026-09-08",
         time: "15:00",
         played: false,
@@ -393,8 +400,8 @@ describe("MainMenu LEAGUE mode button", () => {
       team("away", "Away", "AWY"),
       {
         timeOfDay: "EVENING",
-        gameplayMode: "REAL",
-        playMode: "REAL",
+        gameplayMode: "BASKETBALL",
+        playMode: "BASKETBALL",
         showLeague: false,
         kickOffTime: "15:00",
         matchDuration: 600,
@@ -418,18 +425,18 @@ describe("MainMenu LEAGUE mode button", () => {
     expect(menu.root.querySelector('[data-lf="league"]')?.classList.contains("on")).toBe(true);
     expect(menu.root.querySelector('[data-lf="fixtures"]')?.classList.contains("on")).toBe(false);
 
-    menu.setLeagueTab("PREMIER_LEAGUE");
+    menu.setLeagueTab("WEST");
     menu.setLeagueFixturesTab("fixtures");
-    expect(menu.fixtureLeague).toBe("PREMIER_LEAGUE");
+    expect(menu.fixtureLeague).toBe("WEST");
 
-    menu.setLeagueFixturesTab("fixtures", "LEAGUE_ONE");
+    menu.setLeagueFixturesTab("fixtures", "EAST");
     expect(menu.leagueFixturesTab).toBe("fixtures");
     expect(menu.panel).toBe("fixtures");
     // Still Premier — currently viewed league, not club default.
-    expect(menu.fixtureLeague).toBe("PREMIER_LEAGUE");
+    expect(menu.fixtureLeague).toBe("WEST");
 
     menu.setPanel("menu", false);
-    menu.openLeagueFixtures("LEAGUE_ONE");
+    menu.openLeagueFixtures("EAST");
     expect(menu.panel).toBe("fixtures");
   });
 
@@ -442,7 +449,7 @@ describe("MainMenu LEAGUE mode button", () => {
         homeTeamId: "home",
         awayTeamId: "away",
         venueId: "ground",
-        competition: "League One",
+        competition: "Eastern Conference",
         date: "2026-09-08",
         time: "15:00",
         played: false,
@@ -451,8 +458,8 @@ describe("MainMenu LEAGUE mode button", () => {
       team("away", "Away", "AWY"),
       {
         timeOfDay: "EVENING",
-        gameplayMode: "REAL",
-        playMode: "REAL",
+        gameplayMode: "BASKETBALL",
+        playMode: "BASKETBALL",
         showLeague: false,
         kickOffTime: "15:00",
         matchDuration: 600,
@@ -484,7 +491,7 @@ describe("MainMenu LEAGUE mode button", () => {
         homeTeamId: "home",
         awayTeamId: "away",
         venueId: "ground",
-        competition: "League One",
+        competition: "Eastern Conference",
         date: "2026-09-08",
         time: "15:00",
         played: false,
@@ -493,8 +500,8 @@ describe("MainMenu LEAGUE mode button", () => {
       team("away", "Away", "AWY"),
       {
         timeOfDay: "EVENING",
-        gameplayMode: "REAL",
-        playMode: "REAL",
+        gameplayMode: "BASKETBALL",
+        playMode: "BASKETBALL",
         showLeague: false,
         kickOffTime: "15:00",
         matchDuration: 600,

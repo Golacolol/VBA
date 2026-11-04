@@ -1,9 +1,8 @@
-export type EnglishLeague =
-  | "PREMIER_LEAGUE"
-  | "CHAMPIONSHIP"
-  | "LEAGUE_ONE"
-  | "LA_LIGA"
-  | "SERIE_A";
+/** NBA conferences (Phase 1 standings / menu dials). */
+export type Conference = "EAST" | "WEST";
+
+/** @deprecated Use Conference — kept as an alias so older call sites still typecheck. */
+export type EnglishLeague = Conference;
 
 export type TeamType =
   | "CURRENT_TEAM"
@@ -17,6 +16,10 @@ export type TeamType =
   | "INTERNATIONAL";
 
 export type VenueType =
+  | "NBA_ARENA"
+  | "STREET_COURT"
+  | "GYM"
+  | "CLASSIC_ARENA"
   | "PRO_STADIUM"
   | "SMALL_STADIUM"
   | "COMMUNITY_PITCH"
@@ -29,6 +32,11 @@ export type ScoreboardType = "LED_VIDEO_SCREEN" | "TRADITIONAL_SCOREBOARD" | "NO
 export type CrowdSupport = "HOME" | "AWAY" | "NEUTRAL";
 
 export type PositionCode =
+  | "PG"
+  | "SG"
+  | "SF"
+  | "PF"
+  | "C"
   | "GK"
   | "RB"
   | "CB"
@@ -61,51 +69,87 @@ export interface AppearanceData {
   birthplace?: string;
   /** Full legal / wiki-friendly name from openfootball (for portraits & bios). */
   fullName?: string;
+  /** College / university (card-back bio). */
+  college?: string;
+  /** Common nickname (card-back bio). */
+  nickname?: string;
 }
 
+/**
+ * Basketball attribute set (1–100).
+ * Football-named mirrors remain optional so leftover Match code can still read them.
+ */
 export interface PlayerAttributes {
-  /** Top running speed (1–100). */
-  pace: number;
-  /** Rate of reaching sprint speed (1–100). */
-  acceleration?: number;
-  /** Turning / change-of-direction (1–100). */
-  agility?: number;
-  /** Stability in turns and contact (1–100). */
-  balance?: number;
-  passing: number;
-  longPassing: number;
-  vision: number;
-  /** Wide delivery technique (1–100). */
-  crossing?: number;
-  control: number;
-  dribbling: number;
-  shooting: number;
+  /** Finish at the rim / in the paint. */
   finishing: number;
-  shotPower: number;
-  longShots: number;
-  /** Heading technique / accuracy — not jump height (1–100). */
+  /** Pull-up / mid-range jumper. */
+  midRange: number;
+  /** Three-point shooting. */
+  threePoint: number;
+  /** Free-throw shooting. */
+  freeThrow: number;
+  /** Handle / creation vs pressure. */
+  ballHandle: number;
+  /** Pass accuracy and delivery. */
+  passAccuracy: number;
+  /** On-ball / perimeter defense. */
+  perimeterD: number;
+  /** Post / paint defense. */
+  interiorD: number;
+  /** Rebound skill (box-outs + tracking). */
+  rebound: number;
+  /** Steal / deflection instinct. */
+  steal: number;
+  /** Shot-blocking / contest length. */
+  block: number;
+  /** Straight-line speed. */
+  speed: number;
+  /** First step / burst. */
+  acceleration?: number;
+  /** Vertical leap. */
+  vertical: number;
+  strength: number;
+  stamina: number;
+  /** Basketball IQ / decision making. */
+  iq: number;
+  /** Late-game / pressure shooting & poise. */
+  clutch: number;
+
+  /** @deprecated Prefer `speed` — mirror for leftover football systems. */
+  pace?: number;
+  /** @deprecated Prefer `passAccuracy`. */
+  passing?: number;
+  longPassing?: number;
+  /** @deprecated Prefer `iq`. */
+  vision?: number;
+  crossing?: number;
+  /** @deprecated Prefer `ballHandle`. */
+  control?: number;
+  /** @deprecated Prefer `ballHandle`. */
+  dribbling?: number;
+  /** @deprecated Prefer scoring mix. */
+  shooting?: number;
+  shotPower?: number;
+  /** @deprecated Prefer `threePoint`. */
+  longShots?: number;
   heading?: number;
   penalties?: number;
   setPieces?: number;
-  defending: number;
+  /** @deprecated Prefer perimeterD/interiorD. */
+  defending?: number;
   defensiveAwareness?: number;
-  /** Slide / standing challenge execution. Defaults to defending when omitted. */
   tackling?: number;
-  /** Aerial jump capability. Defaults from strength/pace when omitted. */
+  /** @deprecated Prefer `vertical`. */
   jumping?: number;
-  /** Press / contest willingness — not tackle success (1–100). */
   aggression?: number;
-  strength: number;
-  stamina: number;
-  composure: number;
-  /** Current match form / confidence (1–100). Soft-blends into mental play. */
+  /** @deprecated Prefer `clutch`. */
+  composure?: number;
   form?: number;
-  /** Focus under pressure / set pieces (1–100). */
   concentration?: number;
-  /** Off-ball run / space selection (1–100). */
   attackingAwareness?: number;
-  /** Response to loose balls, transitions, rebounds (1–100). */
   reactions?: number;
+  agility?: number;
+  balance?: number;
   gkDiving?: number;
   gkHandling?: number;
   gkPositioning?: number;
@@ -116,6 +160,9 @@ export interface PlayerAttributes {
 export interface PlayerPhysicalFacts {
   heightCm?: number;
   weightKg?: number;
+  /** Shooting hand when known. */
+  preferredHand?: "L" | "R" | "left" | "right";
+  /** @deprecated Prefer preferredHand. */
   preferredFoot?: "L" | "R" | "left" | "right";
 }
 
@@ -166,8 +213,14 @@ export interface TeamRecord {
   goalkeeperKit: TeamKit;
   defaultStadiumId: string;
   defaultFormation: string;
-  league?: EnglishLeague;
+  /** NBA conference for current franchises. */
+  conference?: Conference;
+  /** @deprecated Prefer conference — still read for East/West grouping. */
+  league?: Conference | string;
+  /** Historic season label (e.g. 1995/96) for Classic eras. */
   historicSeason?: string;
+  /** Current franchise id for Classic teams (links Era dial to East/West clubs). */
+  franchiseId?: string;
   fanTeam?: boolean;
   custom?: boolean;
 }

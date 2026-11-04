@@ -5,16 +5,38 @@ import { competitionForLeague, LEAGUE_TABS } from "../football/league/Standings"
 import { fixtureDates, pickWeekDate } from "../football/league/Simulate";
 
 export function resolveFixtureDate(db: GameDatabase, league: EnglishLeague, current: string): string {
-  const dates = fixtureDates(db.fixtures, competitionForLeague(league));
+  const dates = fixtureDatesForConference(db, league);
   return dates.includes(current) ? current : pickWeekDate(dates, todayIso());
 }
 
 export function stepFixtureDate(db: GameDatabase, league: EnglishLeague, current: string, dir: "prev" | "next"): string {
-  const dates = fixtureDates(db.fixtures, competitionForLeague(league));
+  const dates = fixtureDatesForConference(db, league);
   const date = dates.includes(current) ? current : pickWeekDate(dates, todayIso());
   const i = dates.indexOf(date);
   const next = dir === "next" ? i + 1 : i - 1;
   return next >= 0 && next < dates.length ? dates[next] : date;
+}
+
+function conferenceTeamIds(db: GameDatabase, league: EnglishLeague): Set<string> {
+  const ids = new Set<string>();
+  for (const t of db.teams.values()) {
+    if (t.teamType !== "CURRENT_TEAM") continue;
+    if (t.conference === league || t.league === league) ids.add(t.id);
+  }
+  return ids;
+}
+
+function fixtureDatesForConference(db: GameDatabase, league: EnglishLeague): string[] {
+  const competition = competitionForLeague(league);
+  const ids = conferenceTeamIds(db, league);
+  const dates = new Set<string>();
+  for (const f of db.fixtures) {
+    if (f.competition === competition || ids.has(f.homeTeamId) || ids.has(f.awayTeamId)) {
+      dates.add(f.date);
+    }
+  }
+  // Prefer dates that already have results when picking a week.
+  return [...dates].sort();
 }
 
 export function fixturePanelHtml(
@@ -25,11 +47,22 @@ export function fixturePanelHtml(
   predictionIds: Set<string> = new Set(),
 ): string {
   const competition = competitionForLeague(league);
-  const dates = fixtureDates(db.fixtures, competition);
+  const dates = fixtureDatesForConference(db, league);
+  const conferenceIds = conferenceTeamIds(db, league);
   const week = db.fixtures
-    .filter((f) => f.competition === competition && f.date === date)
-    .sort((a, b) => a.id.localeCompare(b.id));
-  const label = LEAGUE_TABS.find((t) => t.id === league)?.label ?? "League One";
+    .filter(
+      (f) =>
+        f.date === date &&
+        (f.competition === competition ||
+          conferenceIds.has(f.homeTeamId) ||
+          conferenceIds.has(f.awayTeamId)),
+    )
+    .sort((a, b) => {
+      // Played results first, then kick-off time / id.
+      if (!!a.played !== !!b.played) return a.played ? -1 : 1;
+      return a.time.localeCompare(b.time) || a.id.localeCompare(b.id);
+    });
+  const label = LEAGUE_TABS.find((t) => t.id === league)?.label ?? "Eastern Conference";
   return `
     <div class="panel-head">
       <button type="button" data-act="panel-back">Back</button>

@@ -109,7 +109,7 @@ export function miteamFoilHtml(tier: PackTier = "silver"): string {
         <span class="miteam-foil-tear miteam-foil-tear-bottom" aria-hidden="true"></span>
         <span class="miteam-foil-edge" aria-hidden="true"></span>
         <span class="miteam-foil-glare" aria-hidden="true"></span>
-        <img class="miteam-foil-logo" src="/golaco-logo.png" alt="" aria-hidden="true" />
+        <img class="miteam-foil-logo" src="/vba-logo.png" alt="" aria-hidden="true" />
         <span class="miteam-foil-content">
           <span class="miteam-foil-label">${label}</span>
           <span class="miteam-foil-hint">TAP TO OPEN</span>

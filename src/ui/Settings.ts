@@ -1,4 +1,5 @@
 import type { SavedSettings } from "../core/SaveManager";
+import { isProductMode, PRODUCT_MODES } from "../core/ProductMode";
 import type { AdvertisingBoardRecord } from "../data/schema";
 import { clampMatchDuration } from "../football/constants";
 import { applyClubNameAppearance, applyTitleFont, DEFAULT_CLUB_NAME_FONT, DEFAULT_CLUB_NAME_GLOW, DEFAULT_CLUB_NAME_GLOW_DIFFUSION, DEFAULT_CLUB_NAME_INVERT_COLORS, TITLE_FONTS, clampClubNameGlowDiffusion } from "./TitleFonts";
@@ -42,7 +43,7 @@ export type { OptionsSection };
 /** Short tab labels + menu-item titles/hints for the Options hub. */
 export const OPTIONS_SECTIONS: { id: OptionsSection; label: string; title: string; hint: string }[] = [
   { id: "match", label: "Match", title: "Match Settings", hint: "Length, weather and time of day defaults" },
-  { id: "gameplay", label: "Gameplay", title: "Gameplay", hint: "FOOTBALL / SOCCER mode and aim" },
+  { id: "gameplay", label: "Gameplay", title: "Gameplay", hint: "BASKETBALL / STREET / MITEAM / PYRAMID" },
   { id: "controls", label: "Controls", title: "Controls", hint: "Keyboard bindings" },
   { id: "audio", label: "Audio", title: "Audio", hint: "Master volume and mute" },
   { id: "display", label: "Display", title: "Display", hint: "Graphics, camera, HUD and boards" },
@@ -156,7 +157,7 @@ export class SettingsMenu {
       <div class="editor-card settings-card options-card">
         <div class="settings-header">
           <div>
-            <p class="settings-eyebrow">GOLAÇO SOCCER</p>
+            <p class="settings-eyebrow">VORTEX BASKETBALL</p>
             <h2>Options</h2>
           </div>
           <button type="button" class="settings-reset" data-act="reset">Reset all options</button>
@@ -210,54 +211,10 @@ export class SettingsMenu {
           <h3>Gameplay</h3>
           <label>Default gameplay mode
             <select id="gplay">
-              <option value="REAL" ${settings.gameplayMode === "REAL" ? "selected" : ""}>FOOTBALL</option>
-              <option value="ARCADE" ${settings.gameplayMode === "ARCADE" ? "selected" : ""}>SOCCER</option>
-              <option value="TABLE" ${settings.gameplayMode === "TABLE" ? "selected" : ""}>TABLE</option>
-              <option value="FLICK" ${settings.gameplayMode === "FLICK" ? "selected" : ""}>FLICK</option>
+              ${PRODUCT_MODES.map((id) => `<option value="${id}" ${settings.gameplayMode === id ? "selected" : ""}>${id}</option>`).join("")}
             </select>
           </label>
-          <p class="hint">Also on the main menu. TABLE = foosball, FLICK = Flickball. MiTeam lives under League Fixtures on the main menu. Play Next opens Formation — settings live where PLAYER SELECT normally is (and below as defaults).</p>
-          <label>TABLE layout
-            <select id="table-layout">
-              <option value="FRENCH_CLASSIC" ${settings.tableLayoutId === "FRENCH_CLASSIC" ? "selected" : ""}>French classic</option>
-              <option value="TOURNAMENT_MODERN" ${settings.tableLayoutId === "TOURNAMENT_MODERN" ? "selected" : ""}>Tournament modern</option>
-              <option value="OPEN_CUSTOM" ${settings.tableLayoutId === "OPEN_CUSTOM" ? "selected" : ""}>Open custom</option>
-            </select>
-          </label>
-          <label>TABLE opponent
-            <select id="table-opp">
-              <option value="AI" ${settings.tableOpponent === "AI" ? "selected" : ""}>Computer (AI)</option>
-              <option value="HUMAN" ${settings.tableOpponent === "HUMAN" ? "selected" : ""}>Hotseat 2P</option>
-            </select>
-          </label>
-          <label>TABLE AI difficulty
-            <select id="table-diff">
-              ${(["EASY", "NORMAL", "HARD", "EXPERT"] as const)
-                .map((d) => `<option value="${d}" ${settings.tableDifficulty === d ? "selected" : ""}>${d}</option>`)
-                .join("")}
-            </select>
-          </label>
-          <label>TABLE first to
-            <input id="table-first" type="number" min="1" max="21" value="${settings.tableFirstTo}"/>
-          </label>
-          <label>FLICK opponent
-            <select id="flick-opp">
-              <option value="AI" ${settings.flickOpponent === "AI" ? "selected" : ""}>Computer (AI)</option>
-              <option value="HUMAN" ${settings.flickOpponent === "HUMAN" ? "selected" : ""}>Hotseat 2P</option>
-            </select>
-          </label>
-          <label>FLICK AI difficulty
-            <select id="flick-diff">
-              ${(["EASY", "NORMAL", "HARD", "EXPERT"] as const)
-                .map((d) => `<option value="${d}" ${settings.flickDifficulty === d ? "selected" : ""}>${d}</option>`)
-                .join("")}
-            </select>
-          </label>
-          <label>FLICK first to
-            <input id="flick-first" type="number" min="1" max="21" value="${settings.flickFirstTo}"/>
-          </label>
-          <label class="check"><input id="flick-turns" type="checkbox" ${settings.flickTurnBased !== false ? "checked" : ""}/> FLICK take turns</label>
-          <p class="hint">Off = open play: flick anytime the pitch is settled. AI reacts and shoots on its difficulty timer.</p>
+          <p class="hint">Also on the main menu. BASKETBALL and STREET open formation, then stop — on-court play is not in this build. MITEAM is the pack builder. PYRAMID opens the Top 50 ranking hub (tiers + position ring).</p>
           <label class="check"><input id="invertY" type="checkbox" ${settings.invertShotY ? "checked" : ""}/> Invert vertical aim</label>
           <label class="check"><input id="pass-target" type="checkbox" ${settings.showPassTargetHighlight ? "checked" : ""}/> Highlight pass target</label>
           <p class="hint">Shows a ring under the intended receiver while you aim a pass. Off by default.</p>
@@ -513,10 +470,7 @@ export class SettingsMenu {
       out.weather = weather.value;
     }
     const gplay = root.querySelector("#gplay") as HTMLSelectElement | null;
-    if (
-      gplay &&
-      (gplay.value === "REAL" || gplay.value === "ARCADE" || gplay.value === "TABLE" || gplay.value === "FLICK")
-    ) {
+    if (gplay && isProductMode(gplay.value)) {
       out.gameplayMode = gplay.value;
     }
     const tableLayout = root.querySelector("#table-layout") as HTMLSelectElement | null;

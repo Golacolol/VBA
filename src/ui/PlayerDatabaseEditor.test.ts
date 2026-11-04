@@ -32,7 +32,7 @@ describe("PlayerDatabaseEditor", () => {
     await view.render(db);
 
     const search = view.root.querySelector<HTMLInputElement>("#player-db-search")!;
-    search.value = "gk";
+    search.value = "james";
     search.dispatchEvent(new Event("input", { bubbles: true }));
 
     const rows = [...view.root.querySelectorAll<HTMLElement>(".player-db-row")];
@@ -55,7 +55,9 @@ describe("PlayerDatabaseEditor", () => {
     expect(view.root.querySelector(".player-card")?.classList.contains("is-flipped")).toBe(false);
     view.root.querySelector<HTMLElement>(".player-card-team")?.click();
     expect(view.root.querySelector(".player-card")?.classList.contains("is-flipped")).toBe(true);
+    expect(view.root.querySelector(".player-card-bio")).toBeTruthy();
     expect(view.root.querySelector(".player-card-ratings")).toBeTruthy();
+    expect(view.root.textContent).toContain("Name");
 
     view.root.querySelector<HTMLElement>('[data-char="card-edit"]')?.click();
     expect(view.root.querySelector(".player-card-edit-panel")).toBeTruthy();

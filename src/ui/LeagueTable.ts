@@ -4,12 +4,12 @@ import { LEAGUE_TABS, standingsFor } from "../football/league/Standings";
 
 export function leaguePanelHtml(db: GameDatabase, league: EnglishLeague, highlightId: string): string {
   const rows = standingsFor(db.fixtures, [...db.teams.values()], league);
-  const label = LEAGUE_TABS.find((t) => t.id === league)?.label ?? "League One";
+  const label = LEAGUE_TABS.find((t) => t.id === league)?.label ?? "Eastern Conference";
   return `
     <div class="panel-head">
       <button type="button" data-act="panel-back">Back</button>
-      <div class="lf-tabs" role="tablist" aria-label="League or fixtures">
-        <button type="button" class="on" data-act="lf-tab" data-lf="league" role="tab" aria-selected="true">League</button>
+      <div class="lf-tabs" role="tablist" aria-label="Standings or fixtures">
+        <button type="button" class="on" data-act="lf-tab" data-lf="league" role="tab" aria-selected="true">Standings</button>
         <button type="button" data-act="lf-tab" data-lf="fixtures" role="tab" aria-selected="false">Fixtures</button>
       </div>
       <h2>${label}</h2>
@@ -24,7 +24,7 @@ export function leaguePanelHtml(db: GameDatabase, league: EnglishLeague, highlig
       <table class="league-table">
         <thead>
           <tr>
-            <th>#</th><th>Club</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
+            <th>#</th><th>Team</th><th>P</th><th>W</th><th>L</th><th>PD</th>
           </tr>
         </thead>
         <tbody>
@@ -36,10 +36,8 @@ export function leaguePanelHtml(db: GameDatabase, league: EnglishLeague, highlig
                   <td>${escapeHtml(row.name)}</td>
                   <td>${row.played}</td>
                   <td>${row.won}</td>
-                  <td>${row.drawn}</td>
                   <td>${row.lost}</td>
                   <td>${row.gd > 0 ? `+${row.gd}` : row.gd}</td>
-                  <td>${row.pts}</td>
                 </tr>`,
             )
             .join("")}

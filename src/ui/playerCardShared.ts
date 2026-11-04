@@ -6,26 +6,17 @@ import type { PlayerAttributes, PositionCode, TeamRecord } from "../data/schema"
 import { listProfileAttrSpokes } from "../football/players/PlayerStats";
 import { contrastingKitText } from "./kitContrast";
 import { imageLabel } from "./playerImages";
-import { kitSurnameFromName, portraitAsset, teamBadgeHtml } from "./Portrait";
+import {
+  kitSurnameFromName,
+  portraitAsset,
+  surnameFitPx,
+  surnameLetterSpacingEm,
+  teamBadgeHtml,
+} from "./Portrait";
 import { titleAttr } from "./infoOverlays";
 import { profileStatsBlock, type ProfileStatsMode } from "./ProfileHex";
 
-export const EDIT_POSITIONS: PositionCode[] = [
-  "GK",
-  "RB",
-  "CB",
-  "LB",
-  "RWB",
-  "LWB",
-  "DM",
-  "CM",
-  "AM",
-  "RM",
-  "LM",
-  "RW",
-  "LW",
-  "ST",
-];
+export const EDIT_POSITIONS: PositionCode[] = ["PG", "SG", "SF", "PF", "C"];
 
 export type EditStatKey = keyof PlayerAttributes;
 
@@ -34,67 +25,46 @@ export const EDIT_STAT_GROUPS: {
   fields: { key: EditStatKey; label: string; optional?: boolean }[];
 }[] = [
   {
-    title: "Physical",
+    title: "Shooting",
     fields: [
-      { key: "pace", label: "Pace" },
+      { key: "finishing", label: "Finishing" },
+      { key: "midRange", label: "Mid-range" },
+      { key: "threePoint", label: "3-Point" },
+      { key: "freeThrow", label: "Free throw" },
+    ],
+  },
+  {
+    title: "Ball / Pass",
+    fields: [
+      { key: "ballHandle", label: "Handle" },
+      { key: "passAccuracy", label: "Pass" },
+    ],
+  },
+  {
+    title: "Defense",
+    fields: [
+      { key: "perimeterD", label: "Perimeter D" },
+      { key: "interiorD", label: "Interior D" },
+      { key: "rebound", label: "Rebound" },
+      { key: "steal", label: "Steal" },
+      { key: "block", label: "Block" },
+    ],
+  },
+  {
+    title: "Athleticism",
+    fields: [
+      { key: "speed", label: "Speed" },
       { key: "acceleration", label: "Accel", optional: true },
-      { key: "agility", label: "Agility", optional: true },
-      { key: "balance", label: "Balance", optional: true },
+      { key: "vertical", label: "Vertical" },
       { key: "strength", label: "Strength" },
       { key: "stamina", label: "Stamina" },
-      { key: "jumping", label: "Jump", optional: true },
-    ],
-  },
-  {
-    title: "On the ball",
-    fields: [
-      { key: "control", label: "Control" },
-      { key: "dribbling", label: "Dribble" },
-      { key: "passing", label: "Pass" },
-      { key: "longPassing", label: "Long pass" },
-      { key: "crossing", label: "Crossing", optional: true },
-    ],
-  },
-  {
-    title: "Attacking",
-    fields: [
-      { key: "shooting", label: "Shooting" },
-      { key: "finishing", label: "Finishing" },
-      { key: "shotPower", label: "Shot pwr" },
-      { key: "longShots", label: "Long shot" },
-      { key: "heading", label: "Heading", optional: true },
-      { key: "penalties", label: "Pens", optional: true },
-      { key: "setPieces", label: "Set piece", optional: true },
-    ],
-  },
-  {
-    title: "Defending",
-    fields: [
-      { key: "defending", label: "Defend" },
-      { key: "tackling", label: "Tackle", optional: true },
     ],
   },
   {
     title: "Mental",
     fields: [
-      { key: "form", label: "Form", optional: true },
-      { key: "vision", label: "Vision" },
-      { key: "composure", label: "Composure" },
-      { key: "reactions", label: "Reactions", optional: true },
-      { key: "concentration", label: "Focus", optional: true },
-      { key: "aggression", label: "Aggro", optional: true },
-      { key: "attackingAwareness", label: "Att awr", optional: true },
-      { key: "defensiveAwareness", label: "Def awr", optional: true },
-    ],
-  },
-  {
-    title: "Goalkeeper",
-    fields: [
-      { key: "gkDiving", label: "GK dive", optional: true },
-      { key: "gkHandling", label: "GK hands", optional: true },
-      { key: "gkPositioning", label: "GK pos", optional: true },
-      { key: "gkReflexes", label: "GK ref", optional: true },
-      { key: "gkKicking", label: "GK kick", optional: true },
+      { key: "iq", label: "IQ" },
+      { key: "clutch", label: "Clutch" },
     ],
   },
 ];
@@ -129,6 +99,8 @@ export type PlayerCardRenderState = {
   profileView: ProfileStatsMode;
   /** Hex / radar size on the sports card front (default 172). */
   profileSize?: number;
+  /** Draft / compact pick faces — portrait + kit only (no hex / bars). */
+  hideProfile?: boolean;
   imagePaths: string[];
 };
 
@@ -256,8 +228,11 @@ function photoHtml(sp: SquadPlayer, team: PlayerCardTeamContext): string {
 function shirtHtml(sp: SquadPlayer, team: PlayerCardTeamContext, className = "player-card-shirt"): string {
   const text = contrastingKitText(team.teamColor, team.teamSecondaryColor);
   const surname = kitSurname(sp.player.displayName || sp.player.name);
+  const surSize = surnameFitPx(surname, className.includes("shirt-back") ? 20 : 28);
+  const tracking = surnameLetterSpacingEm(surname);
+  const nameStyle = `font-size:${surSize}px;letter-spacing:${tracking}em;margin-inline-end:-${tracking}em`;
   return `<div class="${className}" style="background:${escapeAttr(team.teamColor)};color:${escapeAttr(text)}">
-    <span class="player-card-shirt-name">${escapeHtml(surname)}</span>
+    <span class="player-card-shirt-name" style="${nameStyle}">${escapeHtml(surname)}</span>
     <span class="player-card-shirt-num">${sp.shirtNumber}</span>
   </div>`;
 }
@@ -291,6 +266,88 @@ function ratingsHtml(sp: SquadPlayer, editing: boolean): string {
   </div>`;
 }
 
+/** NBA-style height: 6'8" (203 cm). */
+export function formatCardHeight(heightCm?: number | null): string {
+  if (heightCm == null || !Number.isFinite(heightCm) || heightCm <= 0) return "";
+  const totalIn = heightCm / 2.54;
+  let feet = Math.floor(totalIn / 12);
+  let inches = Math.round(totalIn - feet * 12);
+  if (inches === 12) {
+    feet += 1;
+    inches = 0;
+  }
+  return `${feet}'${inches}" (${Math.round(heightCm)} cm)`;
+}
+
+/** NBA-style weight: 250 lb (113 kg). */
+export function formatCardWeight(weightKg?: number | null): string {
+  if (weightKg == null || !Number.isFinite(weightKg) || weightKg <= 0) return "";
+  const lb = Math.round(weightKg * 2.2046226218);
+  return `${lb} lb (${Math.round(weightKg)} kg)`;
+}
+
+/** Compact imperial height for card-back rows. */
+export function formatCardHeightShort(heightCm?: number | null): string {
+  if (heightCm == null || !Number.isFinite(heightCm) || heightCm <= 0) return "";
+  const totalIn = heightCm / 2.54;
+  let feet = Math.floor(totalIn / 12);
+  let inches = Math.round(totalIn - feet * 12);
+  if (inches === 12) {
+    feet += 1;
+    inches = 0;
+  }
+  return `${feet}'${inches}"`;
+}
+
+/** Compact imperial weight for card-back rows. */
+export function formatCardWeightShort(weightKg?: number | null): string {
+  if (weightKg == null || !Number.isFinite(weightKg) || weightKg <= 0) return "";
+  return `${Math.round(weightKg * 2.2046226218)} lb`;
+}
+
+function bioRow(label: string, value: string): string {
+  const shown = value.trim();
+  if (!shown) return "";
+  return `<div class="player-card-bio-row">
+    <span class="player-card-bio-label">${escapeHtml(label)}</span>
+    <span class="player-card-bio-value">${escapeHtml(shown)}</span>
+  </div>`;
+}
+
+/** Compact bio strip for the card back (omit empty fields; ratings render separately). */
+export function playerCardBackBioHtml(sp: SquadPlayer, team: PlayerCardTeamContext): string {
+  const app = sp.player.appearance;
+  const name =
+    app?.fullName?.trim() || sp.player.displayName?.trim() || sp.player.name?.trim() || "";
+  const teamLabel = formatPlayerCardTeamName(team.teamName) || team.teamName || "";
+  const ht = formatCardHeightShort(sp.player.heightCm);
+  const wt = formatCardWeightShort(sp.player.weightKg);
+  const size = [ht, wt].filter(Boolean).join(" · ");
+  const age =
+    sp.player.age != null && Number.isFinite(sp.player.age) ? String(Math.round(sp.player.age)) : "";
+  const secondaries = (sp.player.secondaryPositions ?? [])
+    .filter((p) => p && p !== sp.player.primaryPosition)
+    .join(" · ");
+
+  const rows = [
+    bioRow("Name", name),
+    bioRow("Team", teamLabel),
+    bioRow("Nickname", app?.nickname?.trim() || ""),
+    bioRow("Ht / Wt", size),
+    bioRow("College", app?.college?.trim() || ""),
+    bioRow("Age", age),
+    bioRow("Also Plays", secondaries),
+  ].filter(Boolean);
+
+  if (!rows.length) return "";
+  return `<div class="player-card-bio">${rows.join("")}</div>`;
+}
+
+/** Bio strip + attribute bars for the sports-card back. */
+export function playerCardBackBodyHtml(sp: SquadPlayer, team: PlayerCardTeamContext): string {
+  return `${playerCardBackBioHtml(sp, team)}${ratingsHtml(sp, false)}`;
+}
+
 function sportsCardHtml(sp: SquadPlayer, team: PlayerCardTeamContext, state: PlayerCardRenderState): string {
   const flipY = state.flipY ?? (state.flipped ? 180 : 0);
   const flipped = isPlayerCardShowingBack(flipY);
@@ -306,7 +363,11 @@ function sportsCardHtml(sp: SquadPlayer, team: PlayerCardTeamContext, state: Pla
           <span class="player-card-ovr-holo">${Math.round(sp.overall)}</span>
         </div>
         ${photoHtml(sp, team)}
-        ${profileStatsBlock(sp.attrs, { mode: state.profileView, size: state.profileSize ?? 148 })}
+        ${
+          state.hideProfile
+            ? ""
+            : profileStatsBlock(sp.attrs, { mode: state.profileView, size: state.profileSize ?? 148 })
+        }
         ${shirtHtml(sp, team)}
       </div>
       <div class="player-card-face player-card-back">
@@ -321,7 +382,7 @@ function sportsCardHtml(sp: SquadPlayer, team: PlayerCardTeamContext, state: Pla
             <span class="player-card-ovr-value">${Math.round(sp.overall)}</span>
           </div>
         </div>
-        <div class="player-card-back-body">${ratingsHtml(sp, false)}</div>
+        <div class="player-card-back-body">${playerCardBackBodyHtml(sp, team)}</div>
       </div>
     </div>
   </div>`;

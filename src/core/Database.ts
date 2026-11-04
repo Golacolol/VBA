@@ -12,28 +12,7 @@ import { applyOverride, deriveOverall, resolveAttributes } from "../football/pla
 import type { SaveManager } from "./SaveManager";
 import { DEFAULT_TEAM_ID } from "../football/constants";
 import { applyMiTeamToDb } from "../football/miteam/MiTeam";
-import {
-  ARGYLE_101_ABBREVIATION,
-  ARGYLE_101_ERA,
-  ARGYLE_101_FORMATION,
-  ARGYLE_101_LINEUP,
-  ARGYLE_101_MEMBERSHIPS,
-  ARGYLE_101_NAME,
-  ARGYLE_101_PLAYERS,
-  ARGYLE_101_TEAM_ID,
-} from "../data/argyle101";
-import {
-  ARGYLE_FANS_ABBREVIATION,
-  ARGYLE_FANS_ERA,
-  ARGYLE_FANS_FORMATION,
-  ARGYLE_FANS_LINEUP,
-  ARGYLE_FANS_MEMBERSHIPS,
-  ARGYLE_FANS_NAME,
-  ARGYLE_FANS_PLAYERS,
-  ARGYLE_FANS_TEAM_ID,
-} from "../data/argyleFansXi";
-import { CLASSIC_TEAM_DEFINITIONS, buildClassicTeamArtifacts } from "../data/classicTeams";
-import { buildEnglishLeagueFixtures, nextFixtureForTeam, todayIso } from "../data/leagueSchedule";
+import { nextFixtureForTeam, todayIso } from "../data/leagueSchedule";
 import { applyTacticsToLineup, type TeamTacticsSave } from "../football/teams/TeamTactics";
 import { loadAssetPackManifest, resolvePlayerPortraitUrl } from "../data/AssetPack";
 import playersData from "../../public/data/players.json";
@@ -65,6 +44,8 @@ export class GameDatabase {
   userTeamId = DEFAULT_TEAM_ID;
   private attractIndex = 0;
   private fixtureTemplate: FixtureRecord | null = null;
+  /** Seeded NBA schedule restored by resetFixturesBaseline. */
+  private fixtureBaseline: FixtureRecord[] = [];
   /** Stable casual opponent for Classic sides (no league calendar). */
   private classicFriendlyAwayByHome = new Map<string, string>();
 
@@ -80,24 +61,21 @@ export class GameDatabase {
     const stories = storiesData as StoryRecord[];
 
     for (const p of players) db.players.set(p.id, p);
-    for (const t of teams) db.teams.set(t.id, t);
+    for (const t of teams) {
+      if (!t.conference && (t.league === "EAST" || t.league === "WEST")) {
+        t.conference = t.league;
+      }
+      db.teams.set(t.id, t);
+    }
     db.memberships = memberships;
     db.lineups = lineups;
     db.fixtureTemplate = fixtures[0] ?? null;
-    db.fixtures = buildEnglishLeagueFixtures(teams, fixtures[0], (teamId) => db.defaultLineupId(teamId));
-    if (!db.fixtures.length) db.fixtures = fixtures;
+    db.fixtureBaseline = fixtures.map((f) => ({ ...f }));
+    db.fixtures = fixtures.map((f) => ({ ...f }));
     for (const s of stadiums) db.stadiums.set(s.id, s);
     db.advertising = advertising;
     db.stories = stories;
-    // Authored squads first; then save overlays player/membership edits so they persist.
-    db.applyArgyleFansXi();
-    db.applyArgyle101();
-    db.applyClassicTeams();
     db.applySave(save);
-    // Re-assert Argyle classic/fans display names after save — old saves used
-    // "101" / "FANSXI" (and variants) that forked the Classics Club dial.
-    db.applyArgyleFansXi();
-    db.applyArgyle101();
     await db.applyAssetPack();
     return db;
   }
@@ -130,151 +108,35 @@ export class GameDatabase {
     }
   }
 
-  private applyNamedSquad(options: {
-    teamId: string;
-    playerPrefix: string;
-    players: PlayerRecord[];
-    memberships: TeamMembership[];
-    lineup: LineupRecord;
-    formation: string;
-    rename?: { name: string; abbreviation: string; historicSeason?: string };
-  }): void {
-    for (const player of options.players) {
-      const existing = this.players.get(player.id);
-      if (!existing) {
-        this.players.set(player.id, player);
-        continue;
-      }
-      // Named-squad TS is source of truth for ratings/position; keep enriched bios + portraits from JSON.
-      this.players.set(player.id, {
-        ...existing,
-        ...player,
-        id: player.id,
-        heightCm: existing.heightCm ?? player.heightCm,
-        weightKg: existing.weightKg ?? player.weightKg,
-        age: existing.age ?? player.age,
-        appearance: {
-          ...player.appearance,
-          ...existing.appearance,
-          portraitAsset: existing.appearance?.portraitAsset ?? player.appearance?.portraitAsset ?? null,
-          birthplace: existing.appearance?.birthplace ?? player.appearance?.birthplace,
-          heightScale: existing.appearance?.heightScale ?? player.appearance?.heightScale,
-        },
-      });
-    }
-    // Always refresh named-squad memberships + default XI from TS (shirt numbers / slots).
-    // Saved formation edits overlay later via applyTeamTactics.
-    this.memberships = this.memberships.filter((m) => m.teamId !== options.teamId).concat(options.memberships);
-    this.lineups = this.lineups.filter((l) => l.teamId !== options.teamId).concat({
-      ...options.lineup,
-      starters: options.lineup.starters.map((s) => ({ ...s })),
-    });
-    const team = this.teams.get(options.teamId);
-    if (team) {
-      team.defaultFormation = options.formation;
-      if (options.rename) {
-        team.name = options.rename.name;
-        team.abbreviation = options.rename.abbreviation;
-        if (options.rename.historicSeason !== undefined) team.historicSeason = options.rename.historicSeason;
-      }
-    }
-  }
-
-  private applyArgyleFansXi(): void {
-    this.applyNamedSquad({
-      teamId: ARGYLE_FANS_TEAM_ID,
-      playerPrefix: "player_fan_",
-      players: ARGYLE_FANS_PLAYERS,
-      memberships: ARGYLE_FANS_MEMBERSHIPS,
-      lineup: ARGYLE_FANS_LINEUP,
-      formation: ARGYLE_FANS_FORMATION,
-      rename: { name: ARGYLE_FANS_NAME, abbreviation: ARGYLE_FANS_ABBREVIATION, historicSeason: ARGYLE_FANS_ERA },
-    });
-  }
-
-  private applyArgyle101(): void {
-    this.applyNamedSquad({
-      teamId: ARGYLE_101_TEAM_ID,
-      playerPrefix: "player_101_",
-      players: ARGYLE_101_PLAYERS,
-      memberships: ARGYLE_101_MEMBERSHIPS,
-      lineup: ARGYLE_101_LINEUP,
-      formation: ARGYLE_101_FORMATION,
-      rename: { name: ARGYLE_101_NAME, abbreviation: ARGYLE_101_ABBREVIATION, historicSeason: ARGYLE_101_ERA },
-    });
-  }
-
-  private applyClassicTeams(): void {
-    for (const def of CLASSIC_TEAM_DEFINITIONS) {
-      const built = buildClassicTeamArtifacts(def);
-      // Ensure team shell exists (historics are not in English league JSON).
-      if (!this.teams.has(def.teamId)) {
-        this.teams.set(def.teamId, built.team);
-      } else {
-        const existing = this.teams.get(def.teamId)!;
-        this.teams.set(def.teamId, {
-          ...existing,
-          ...built.team,
-          id: def.teamId,
-        });
-      }
-      // Always replace classic squads so authored V1 data wins over any stubs.
-      for (const player of built.players) {
-        this.players.set(player.id, player);
-      }
-      this.memberships = this.memberships.filter((m) => m.teamId !== def.teamId).concat(built.memberships);
-      this.lineups = this.lineups.filter((l) => l.teamId !== def.teamId).concat(built.lineup);
-      const team = this.teams.get(def.teamId);
-      if (team) {
-        team.defaultFormation = def.formation;
-        team.name = def.displayName;
-        team.abbreviation = def.abbreviation;
-        team.historicSeason = def.season;
-        team.teamType = built.team.teamType;
-        delete (team as { league?: string }).league;
-      }
-    }
-    this.applyClassicDeluxeStadiums();
-  }
-
-  /** Non-Plymouth classic homes use the wrap-around deluxe bowl. */
-  private applyClassicDeluxeStadiums(): void {
-    for (const def of CLASSIC_TEAM_DEFINITIONS) {
-      if (def.teamId.includes("plymouth_argyle") || def.stadiumId === "home_park") continue;
-      const stadium = this.stadiums.get(def.stadiumId);
-      if (!stadium || stadium.standConfiguration === "deluxe") continue;
-      this.stadiums.set(def.stadiumId, { ...stadium, standConfiguration: "deluxe" });
-    }
-  }
-
   private applySave(save: SaveManager): void {
     for (const p of save.data.players as PlayerRecord[]) {
       if (p?.id) this.players.set(p.id, { ...(this.players.get(p.id) ?? p), ...p });
     }
     for (const t of save.data.teams as TeamRecord[]) {
-      if (t?.id) this.teams.set(t.id, { ...(this.teams.get(t.id) ?? t), ...t });
+      if (!t?.id) continue;
+      if (!t.conference && (t.league === "EAST" || t.league === "WEST")) t.conference = t.league;
+      this.teams.set(t.id, { ...(this.teams.get(t.id) ?? t), ...t });
     }
     if (save.data.memberships.length) {
-      // Overlay saved memberships onto authored squads so shirt/role edits persist.
       for (const raw of save.data.memberships as TeamMembership[]) {
         if (!raw?.playerId || !raw?.teamId) continue;
         const i = this.memberships.findIndex((m) => m.teamId === raw.teamId && m.playerId === raw.playerId);
         if (i >= 0) this.memberships[i] = { ...this.memberships[i], ...raw };
         else this.memberships.push(raw);
       }
-      this.migrateArgyleFansShirtNumbers();
     }
     const savedTeam = (save.data.settings as { defaultTeamId?: string }).defaultTeamId;
     if (savedTeam && this.teams.has(savedTeam)) this.userTeamId = savedTeam;
+    else if (!this.teams.has(this.userTeamId) && this.teams.has(DEFAULT_TEAM_ID)) {
+      this.userTeamId = DEFAULT_TEAM_ID;
+    }
     if (save.data.settings.leagueProgression && save.data.playedListedFixture && save.data.fixtures.length) {
       this.applyCareerFixtures(save.data.fixtures as FixtureRecord[]);
     } else {
       this.overlayUserFixtureResults(save.data.fixtures as FixtureRecord[]);
     }
     if (save.data.advertising.length) this.advertising = save.data.advertising as AdvertisingBoardRecord[];
-    this.scrubStaleArgyleFansTactics(save);
     this.applyTeamTactics(save.data.teamTactics ?? {});
-    this.migrateArgyleFansStartingXi();
     applyMiTeamToDb(this, save);
   }
 
@@ -288,90 +150,9 @@ export class GameDatabase {
     }
   }
 
-  /** Drop pre-Sparks Fans XI tactics so authored Doo/Life/Sparks XI can load. */
-  private scrubStaleArgyleFansTactics(save: SaveManager): void {
-    const tactics = save.data.teamTactics?.[ARGYLE_FANS_TEAM_ID];
-    if (!tactics?.starters?.length) return;
-    if (!this.isStaleArgyleFansXi(tactics.starters)) return;
-    delete save.data.teamTactics[ARGYLE_FANS_TEAM_ID];
-    save.save();
-  }
-
-  /** True when saved XI still has Life starting / Doo at centre-back / Sparks benched. */
-  private isStaleArgyleFansXi(starters: { playerId: string; slot: string }[]): boolean {
-    const byId = new Map(starters.map((s) => [s.playerId, s.slot]));
-    const dooSlot = byId.get("player_fan_v_doo");
-    return (
-      byId.has("player_fan_a_life") ||
-      dooSlot === "LCB" ||
-      dooSlot === "RCB" ||
-      !byId.has("player_fan_g_sparks")
-    );
-  }
-
-  /** Force authored Fans XI when an old Life/Doo CB arrangement is still loaded. */
-  private migrateArgyleFansStartingXi(): void {
-    const lineup = this.lineups.find((l) => l.teamId === ARGYLE_FANS_TEAM_ID);
-    if (!lineup || !this.isStaleArgyleFansXi(lineup.starters)) return;
-    lineup.formation = ARGYLE_FANS_FORMATION;
-    lineup.starters = ARGYLE_FANS_LINEUP.starters.map((s) => ({ ...s }));
-    const doo = this.players.get("player_fan_v_doo");
-    if (doo) {
-      doo.primaryPosition = "CM";
-      doo.secondaryPositions = ["DM", "CB"];
-    }
-  }
-
-  /** One-shot remap for older saves that still have Doo #21 / Days #11 / ArgoTweets #7. */
-  private migrateArgyleFansShirtNumbers(): void {
-    const doo = this.memberships.find((m) => m.teamId === ARGYLE_FANS_TEAM_ID && m.playerId === "player_fan_v_doo");
-    const days = this.memberships.find((m) => m.teamId === ARGYLE_FANS_TEAM_ID && m.playerId === "player_fan_l_days");
-    const argo = this.memberships.find(
-      (m) => m.teamId === ARGYLE_FANS_TEAM_ID && m.playerId === "player_fan_s_argotweets",
-    );
-    if (doo?.shirtNumber === 21) doo.shirtNumber = 5;
-    if (days?.shirtNumber === 11 && argo?.shirtNumber === 7) {
-      days.shirtNumber = 7;
-      argo.shirtNumber = 11;
-    }
-    // Petey/Bradderz shirt swap from older JSON/saves.
-    const petey = this.memberships.find((m) => m.teamId === ARGYLE_FANS_TEAM_ID && m.playerId === "player_fan_p_petey");
-    const bradderz = this.memberships.find(
-      (m) => m.teamId === ARGYLE_FANS_TEAM_ID && m.playerId === "player_fan_a_bradderz",
-    );
-    if (petey?.shirtNumber === 13 && bradderz?.shirtNumber === 12) {
-      petey.shirtNumber = 12;
-      bradderz.shirtNumber = 13;
-    }
-    // Down #9 / Pilgrim #8 → Down #8 / Pilgrim #9 (then Down ↔ Face below).
-    const down = this.memberships.find((m) => m.teamId === ARGYLE_FANS_TEAM_ID && m.playerId === "player_fan_s_down");
-    const pilgrim = this.memberships.find(
-      (m) => m.teamId === ARGYLE_FANS_TEAM_ID && m.playerId === "player_fan_c_pilgrim",
-    );
-    if (down?.shirtNumber === 9 && pilgrim?.shirtNumber === 8) {
-      down.shirtNumber = 8;
-      pilgrim.shirtNumber = 9;
-    }
-    // Down #8 / Face #10 → Down #10 / Face #8.
-    const face = this.memberships.find((m) => m.teamId === ARGYLE_FANS_TEAM_ID && m.playerId === "player_fan_p_face");
-    if (down?.shirtNumber === 8 && face?.shirtNumber === 10) {
-      down.shirtNumber = 10;
-      face.shirtNumber = 8;
-    }
-    // CapMan #15 → #22.
-    const capman = this.memberships.find(
-      (m) => m.teamId === ARGYLE_FANS_TEAM_ID && m.playerId === "player_fan_a_capman",
-    );
-    if (capman?.shirtNumber === 15) capman.shirtNumber = 22;
-  }
-
-  /** Rebuild the English league calendar from scratch (casual / REAL baseline). */
+  /** Restore the seeded NBA schedule (casual baseline). */
   resetFixturesBaseline(): void {
-    this.fixtures = buildEnglishLeagueFixtures(
-      [...this.teams.values()],
-      this.fixtureTemplate ?? undefined,
-      (teamId) => this.defaultLineupId(teamId),
-    );
+    this.fixtures = this.fixtureBaseline.map((f) => ({ ...f }));
   }
 
   /** Restore played / simulated flags from a saved career season. */
@@ -429,7 +210,11 @@ export class GameDatabase {
   }
 
   getStadium(id: string): StadiumRecord {
-    const s = this.stadiums.get(id);
+    const s =
+      this.stadiums.get(id) ??
+      this.stadiums.get("vortex_arena") ??
+      this.stadiums.get("nba_bos_arena") ??
+      [...this.stadiums.values()][0];
     if (!s) throw new Error(`Unknown stadium ${id}`);
     return s;
   }
@@ -445,7 +230,15 @@ export class GameDatabase {
   resolveSquadPlayer(membership: TeamMembership): SquadPlayer {
     const player = this.getPlayer(membership.playerId);
     const attrs = applyOverride(resolveAttributes(player), membership.ratingOverride);
-    const overall = membership.ratingOverride?.overall ?? deriveOverall(player.primaryPosition, attrs);
+    // Prefer membership override, then authored peak `player.overall` (classic / Pyramid),
+    // then live derive — so Heat LeBron stays ~97 instead of collapsing to a role-player band.
+    const authored =
+      typeof membership.ratingOverride?.overall === "number"
+        ? membership.ratingOverride.overall
+        : typeof player.overall === "number"
+          ? player.overall
+          : null;
+    const overall = authored ?? deriveOverall(player.primaryPosition, attrs);
     return {
       player,
       membership,

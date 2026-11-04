@@ -35,7 +35,7 @@ Object.defineProperty(globalThis, "localStorage", { value: localStorageMock, con
 function stubDb(): GameDatabase {
   const players = new Map<string, PlayerRecord>();
   const teams = new Map<string, TeamRecord>();
-  const addPlayer = (id: string, pos: PlayerRecord["primaryPosition"] = "CM") => {
+  const addPlayer = (id: string, pos: PlayerRecord["primaryPosition"] = "SG") => {
     players.set(id, {
       id,
       name: id,
@@ -43,24 +43,27 @@ function stubDb(): GameDatabase {
       primaryPosition: pos,
       secondaryPositions: [],
       overall: 75,
-      pace: 70,
-      acceleration: 70,
-      passing: 70,
-      longPassing: 70,
-      vision: 70,
-      control: 70,
-      dribbling: 70,
-      shooting: 70,
       finishing: 70,
-      shotPower: 70,
-      longShots: 70,
-      defending: 70,
+      midRange: 70,
+      threePoint: 70,
+      freeThrow: 70,
+      ballHandle: 70,
+      passAccuracy: 70,
+      perimeterD: 70,
+      interiorD: 70,
+      rebound: 70,
+      steal: 70,
+      block: 70,
+      speed: 70,
+      vertical: 70,
       strength: 70,
       stamina: 70,
-      composure: 70,
+      iq: 70,
+      clutch: 70,
     });
   };
-  for (let i = 1; i <= 18; i++) addPlayer(`p${i}`, i === 1 ? "GK" : "CM");
+  const positions: PlayerRecord["primaryPosition"][] = ["PG", "SG", "SF", "PF", "C"];
+  for (let i = 1; i <= 18; i++) addPlayer(`p${i}`, positions[(i - 1) % positions.length]!);
   const memberships: GameDatabase["memberships"] = [];
   const lineups: GameDatabase["lineups"] = [];
   const db = {
@@ -102,17 +105,18 @@ describe("MiTeam save / shell", () => {
     db = stubDb();
   });
 
-  it("creates default save and prefers GK first in fill order", () => {
+  it("creates default save and prefers PG first in fill order", () => {
     const mt = ensureMiTeamSave(save);
     expect(mt.clubName).toBe(MITEAM_DEFAULT_CLUB_NAME);
     expect(mt.roster).toEqual([]);
-    expect(miteamFillOrder()[0]).toBe("GK");
-    expect(nextEmptySlot([])).toBe("GK");
+    expect(miteamFillOrder()[0]).toBe("PG");
+    expect(miteamFillOrder().slice(0, 5)).toEqual(["PG", "SG", "SF", "PF", "C"]);
+    expect(nextEmptySlot([])).toBe("PG");
   });
 
   it("applies roster into DB memberships and lineup", () => {
     ensureMiTeamSave(save);
-    const slots = miteamFillOrder().slice(0, 11);
+    const slots = miteamFillOrder().slice(0, 5);
     setMiTeamRoster(
       save,
       db,
@@ -120,22 +124,23 @@ describe("MiTeam save / shell", () => {
     );
     expect(xiComplete(save.data.miteam!.roster)).toBe(true);
     expect(db.teams.has(MITEAM_TEAM_ID)).toBe(true);
-    expect(db.memberships.filter((m) => m.teamId === MITEAM_TEAM_ID)).toHaveLength(11);
+    expect(db.memberships.filter((m) => m.teamId === MITEAM_TEAM_ID)).toHaveLength(5);
     const lineup = db.lineups.find((l) => l.teamId === MITEAM_TEAM_ID);
-    expect(lineup?.starters).toHaveLength(11);
+    expect(lineup?.starters).toHaveLength(5);
+    expect(lineup?.formation).toBe("BASKETBALL_5");
   });
 
   it("restart clears roster but keeps club name and badge; delete removes shell", () => {
     ensureMiTeamSave(save);
     save.data.miteam!.clubName = "Silver City";
-    setMiTeamBadge(save, db, "/assets/crests/barcelona.png");
-    setMiTeamRoster(save, db, [{ playerId: "p1", slot: "GK", shirtNumber: 1 }]);
+    setMiTeamBadge(save, db, "/assets/emblems/nba_bos.svg");
+    setMiTeamRoster(save, db, [{ playerId: "p1", slot: "PG", shirtNumber: 1 }]);
     restartMiTeam(save);
     applyMiTeamToDb(db, save);
     expect(save.data.miteam!.clubName).toBe("Silver City");
-    expect(save.data.miteam!.badgeAsset).toBe("/assets/crests/barcelona.png");
+    expect(save.data.miteam!.badgeAsset).toBe("/assets/emblems/nba_bos.svg");
     expect(save.data.miteam!.roster).toEqual([]);
-    expect(db.teams.get(MITEAM_TEAM_ID)?.badgeAsset).toBe("/assets/crests/barcelona.png");
+    expect(db.teams.get(MITEAM_TEAM_ID)?.badgeAsset).toBe("/assets/emblems/nba_bos.svg");
     deleteMiTeam(save, db);
     expect(save.data.miteam).toBeNull();
     expect(db.teams.has(MITEAM_TEAM_ID)).toBe(false);
@@ -143,26 +148,38 @@ describe("MiTeam save / shell", () => {
 
   it("round-trips miteam through SaveManager load", () => {
     ensureMiTeamSave(save);
-    setMiTeamRoster(save, db, [{ playerId: "p1", slot: "GK", shirtNumber: 1 }]);
+    setMiTeamRoster(save, db, [{ playerId: "p1", slot: "PG", shirtNumber: 1 }]);
     save.save();
     const again = new SaveManager();
     expect(again.data.miteam?.roster).toHaveLength(1);
-    expect(again.data.miteam?.roster[0]?.slot).toBe("GK");
+    expect(again.data.miteam?.roster[0]?.slot).toBe("PG");
   });
 
-  it("swaps a bench outfielder onto a pitch slot and blocks non-GK onto GK", () => {
+  it("swaps a bench player onto adjacent court slots only", () => {
     const roster = [
-      { playerId: "p1", slot: "GK", shirtNumber: 1 },
-      { playerId: "p2", slot: "LCM", shirtNumber: 8 },
-      { playerId: "p3", slot: "BENCH_1", shirtNumber: 12 },
+      { playerId: "p1", slot: "PG", shirtNumber: 1 },
+      { playerId: "p2", slot: "SG", shirtNumber: 8 },
+      { playerId: "p3", slot: "BENCH_1", shirtNumber: 12 }, // SF
     ];
     const pos = (id: string) => db.players.get(id)?.primaryPosition ?? null;
 
-    const swapped = placeMiTeamPlayerOnSlot(roster, "p3", "LCM", pos);
-    expect(swapped?.find((r) => r.playerId === "p3")?.slot).toBe("LCM");
+    // SF may occupy SG (neighbor band).
+    const swapped = placeMiTeamPlayerOnSlot(roster, "p3", "SG", pos);
+    expect(swapped?.find((r) => r.playerId === "p3")?.slot).toBe("SG");
     expect(swapped?.find((r) => r.playerId === "p2")?.slot).toBe("BENCH_1");
-    expect(placeMiTeamPlayerOnSlot(roster, "p3", "GK", pos)).toBeNull();
-    expect(placeMiTeamPlayerOnSlot(roster, "p2", "GK", pos)).toBeNull();
+    // SF may not occupy PG (only PG/SG).
+    expect(placeMiTeamPlayerOnSlot(roster, "p3", "PG", pos)).toBeNull();
+    // SG may occupy PG.
+    const ontoPg = placeMiTeamPlayerOnSlot(
+      [
+        { playerId: "p1", slot: "PG", shirtNumber: 1 },
+        { playerId: "p2", slot: "BENCH_1", shirtNumber: 8 },
+      ],
+      "p2",
+      "PG",
+      pos,
+    );
+    expect(ontoPg?.find((r) => r.playerId === "p2")?.slot).toBe("PG");
   });
 
   it("uses origin club looks until MiTeam identity is customized", () => {
@@ -179,8 +196,8 @@ describe("MiTeam save / shell", () => {
       defaultKit: { shirt: "#112233", shorts: "#fff", socks: "#112233" },
       awayKit: { shirt: "#445566", shorts: "#112233", socks: "#445566" },
       goalkeeperKit: { shirt: "#C9A227", shorts: "#445566", socks: "#C9A227" },
-      defaultStadiumId: "home_park",
-      defaultFormation: "4-4-2",
+      defaultStadiumId: "vortex_arena",
+      defaultFormation: "BASKETBALL_5",
     } as import("../../data/schema").TeamRecord);
     db.memberships.push({
       playerId: "p2",

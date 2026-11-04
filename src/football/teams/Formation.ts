@@ -1,4 +1,5 @@
 export type FormationName =
+  | "BASKETBALL_5"
   | "4-2-3-1"
   | "4-3-3"
   | "4-4-2"
@@ -13,6 +14,9 @@ export type FormationName =
 /** Special formation select value — restores the team's saved custom tactics. */
 export const USER_FORMATION = "USER";
 
+export const STARTER_COUNT = 5;
+export const BENCH_LIMIT = 8;
+
 export interface FormationSlot {
   id: string;
   role: "GK" | "DEF" | "MID" | "FWD";
@@ -21,6 +25,14 @@ export interface FormationSlot {
 }
 
 const FORMATIONS: Record<FormationName, FormationSlot[]> = {
+  /** Half-court attack toward the top (high x). Spots eased off the rim for the photo court. */
+  BASKETBALL_5: [
+    { id: "PG", role: "MID", x: 0.12, z: 0 },
+    { id: "SG", role: "MID", x: 0.28, z: 0.34 },
+    { id: "SF", role: "FWD", x: 0.28, z: -0.34 },
+    { id: "PF", role: "DEF", x: 0.6, z: 0.16 },
+    { id: "C", role: "DEF", x: 0.8, z: -0.08 },
+  ],
   "4-2-3-1": [
     { id: "GK", role: "GK", x: 0.07, z: 0 },
     { id: "RB", role: "DEF", x: 0.22, z: 0.38 },
@@ -154,26 +166,15 @@ const FORMATIONS: Record<FormationName, FormationSlot[]> = {
 };
 
 export function getFormation(name: string): FormationSlot[] {
-  if (name === USER_FORMATION) return FORMATIONS["4-2-3-1"];
-  return FORMATIONS[(name as FormationName) ?? "4-2-3-1"] ?? FORMATIONS["4-2-3-1"];
+  if (name === USER_FORMATION) return FORMATIONS.BASKETBALL_5;
+  return FORMATIONS[(name as FormationName) ?? "BASKETBALL_5"] ?? FORMATIONS.BASKETBALL_5;
 }
 
 export function isFormationName(name: string): name is FormationName {
   return Object.prototype.hasOwnProperty.call(FORMATIONS, name);
 }
 
-export const FORMATION_NAMES: FormationName[] = [
-  "4-4-2-W",
-  "4-4-2",
-  "4-3-3",
-  "4-2-3-1",
-  "3-4-2-1",
-  "3-5-2",
-  "5-3-2",
-  "4-1-4-1",
-  "4-5-1",
-  "3-4-3",
-];
+export const FORMATION_NAMES: FormationName[] = ["BASKETBALL_5"];
 
 export function playerFormationRole(isGK: boolean, slotId: string, formation?: string): FormationSlot["role"] {
   if (isGK) return "GK";
@@ -233,6 +234,9 @@ export function remapPlayersToFormation(
 
 export function slotRole(slotId: string, _formation?: string): FormationSlot["role"] {
   if (slotId === "GK") return "GK";
+  if (slotId === "PG" || slotId === "SG") return "MID";
+  if (slotId === "SF") return "FWD";
+  if (slotId === "PF" || slotId === "C") return "DEF";
   if (["RB", "RCB", "CB", "LCB", "LB", "RWB", "LWB"].includes(slotId)) return "DEF";
   if (["ST", "RST", "LST", "RW", "LW"].includes(slotId)) return "FWD";
   return "MID";

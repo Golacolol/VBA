@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
 import { defineConfig, type Plugin } from "vite";
 
 const IMAGE_EXTS = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif"]);
@@ -38,20 +37,9 @@ function playerImagesPlugin(): Plugin {
   const audioDir = path.join(root, "audio");
   const manifestPath = path.join(root, "public", "data", "playerImages.json");
 
+  /** Football league feeds are retired — NBA schedule/results scripts come later. */
   const refreshLeagueResults = () => {
-    try {
-      const result = spawnSync(process.execPath, [path.join(root, "scripts", "refresh-league-results.mjs")], {
-        cwd: root,
-        encoding: "utf8",
-        timeout: 45000,
-      });
-      if (result.stdout?.trim()) console.log(result.stdout.trim());
-      if (result.status !== 0) {
-        console.warn("[league-results]", result.stderr?.trim() || `refresh exited ${result.status}`);
-      }
-    } catch (error) {
-      console.warn("[league-results]", error instanceof Error ? error.message : error);
-    }
+    /* no-op: do not fetch English football results on VBA boot */
   };
 
   const sendJson = (res: import("http").ServerResponse, status: number, body: unknown) => {

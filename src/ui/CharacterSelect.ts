@@ -18,9 +18,11 @@ import {
 } from "../football/miteam/MiTeam";
 import { miteamCrestChoices } from "../football/miteam/MiTeamPool";
 import {
+  BENCH_LIMIT,
   FORMATION_NAMES,
   getFormation,
   remapPlayersToFormation,
+  STARTER_COUNT,
   USER_FORMATION,
   type FormationName,
 } from "../football/teams/Formation";
@@ -51,6 +53,8 @@ import {
   kitSurnameFromName,
   portraitAsset,
   portraitHtml,
+  surnameFitPx,
+  surnameLetterSpacingEm,
   teamBadgeHtml,
 } from "./Portrait";
 import { contrastingKitText } from "./kitContrast";
@@ -61,92 +65,57 @@ import {
   formatPlayerCardTeamName,
   isPlayerCardShowingBack,
   nextPlayerCardFlipY,
+  playerCardBackBodyHtml,
   playerCardFlipSideFromClientX,
 } from "./playerCardShared";
 import { setInfoOverlaysEnabled, titleAttr } from "./infoOverlays";
 
-const EDIT_POSITIONS: PositionCode[] = [
-  "GK",
-  "RB",
-  "CB",
-  "LB",
-  "RWB",
-  "LWB",
-  "DM",
-  "CM",
-  "AM",
-  "RM",
-  "LM",
-  "RW",
-  "LW",
-  "ST",
-];
+const EDIT_POSITIONS: PositionCode[] = ["PG", "SG", "SF", "PF", "C"];
 
 type EditStatKey = keyof PlayerAttributes;
 
 const EDIT_STAT_GROUPS: { title: string; fields: { key: EditStatKey; label: string; optional?: boolean }[] }[] = [
   {
-    title: "Physical",
+    title: "Shooting",
     fields: [
-      { key: "pace", label: "Pace" },
+      { key: "finishing", label: "Finishing" },
+      { key: "midRange", label: "Mid-range" },
+      { key: "threePoint", label: "3-Point" },
+      { key: "freeThrow", label: "Free throw" },
+    ],
+  },
+  {
+    title: "Ball / Pass",
+    fields: [
+      { key: "ballHandle", label: "Handle" },
+      { key: "passAccuracy", label: "Pass" },
+    ],
+  },
+  {
+    title: "Defense",
+    fields: [
+      { key: "perimeterD", label: "Perimeter D" },
+      { key: "interiorD", label: "Interior D" },
+      { key: "rebound", label: "Rebound" },
+      { key: "steal", label: "Steal" },
+      { key: "block", label: "Block" },
+    ],
+  },
+  {
+    title: "Athleticism",
+    fields: [
+      { key: "speed", label: "Speed" },
       { key: "acceleration", label: "Accel", optional: true },
-      { key: "agility", label: "Agility", optional: true },
-      { key: "balance", label: "Balance", optional: true },
+      { key: "vertical", label: "Vertical" },
       { key: "strength", label: "Strength" },
       { key: "stamina", label: "Stamina" },
-      { key: "jumping", label: "Jump", optional: true },
-    ],
-  },
-  {
-    title: "On the ball",
-    fields: [
-      { key: "control", label: "Control" },
-      { key: "dribbling", label: "Dribble" },
-      { key: "passing", label: "Pass" },
-      { key: "longPassing", label: "Long pass" },
-      { key: "crossing", label: "Crossing", optional: true },
-    ],
-  },
-  {
-    title: "Attacking",
-    fields: [
-      { key: "shooting", label: "Shooting" },
-      { key: "finishing", label: "Finishing" },
-      { key: "shotPower", label: "Shot pwr" },
-      { key: "longShots", label: "Long shot" },
-      { key: "heading", label: "Heading", optional: true },
-      { key: "penalties", label: "Pens", optional: true },
-      { key: "setPieces", label: "Set piece", optional: true },
-    ],
-  },
-  {
-    title: "Defending",
-    fields: [
-      { key: "defending", label: "Defend" },
-      { key: "tackling", label: "Tackle", optional: true },
     ],
   },
   {
     title: "Mental",
     fields: [
-      { key: "form", label: "Form", optional: true },
-      { key: "vision", label: "Vision" },
-      { key: "composure", label: "Composure" },
-      { key: "reactions", label: "Reactions", optional: true },
-      { key: "concentration", label: "Focus", optional: true },
-      { key: "aggression", label: "Aggro", optional: true },
-      { key: "attackingAwareness", label: "Att awr", optional: true },
-      { key: "defensiveAwareness", label: "Def awr", optional: true },
-    ],
-  },
-  {
-    title: "Goalkeeper",
-    fields: [
-      { key: "gkDiving", label: "GK dive", optional: true },
-      { key: "gkHandling", label: "GK hands", optional: true },
-      { key: "gkPositioning", label: "GK pos", optional: true },
-      { key: "gkReflexes", label: "GK ref", optional: true },
-      { key: "gkKicking", label: "GK kick", optional: true },
+      { key: "iq", label: "IQ" },
+      { key: "clutch", label: "Clutch" },
     ],
   },
 ];
@@ -176,19 +145,17 @@ type TeamBadgeSource = {
 };
 
 /** Max nudge from formation default (normalized pitch units). */
-const MAX_OFFSET_X = 0.28;
-const MAX_OFFSET_Z = 0.4;
+/** Allow counters to be dragged anywhere on the half-court (not stuck near the slot). */
+const MAX_OFFSET_X = 0.95;
+const MAX_OFFSET_Z = 0.55;
 
-/** Squad / bench line order: GK → RB → CBs → LB → RM → CMs → LM → ST. */
+/** Squad / bench line order: PG → SG → SF → PF → C. */
 const LINE_BAND = {
-  GK: 0,
-  RB: 1,
-  CB: 2,
-  LB: 3,
-  RM: 4,
-  CM: 5,
-  LM: 6,
-  ST: 7,
+  PG: 0,
+  SG: 1,
+  SF: 2,
+  PF: 3,
+  C: 4,
 } as const;
 
 /** Formation kit disc: outfield uses club colours; GKs use a standard green kit with white text. */
@@ -209,14 +176,18 @@ function kitMarkerColors(
 }
 
 function lineBandFromSlot(slot: string, _formation: string): number {
-  if (slot === "GK") return LINE_BAND.GK;
-  if (slot === "RB" || slot === "RWB") return LINE_BAND.RB;
-  if (slot === "RCB" || slot === "CB" || slot === "LCB") return LINE_BAND.CB;
-  if (slot === "LB" || slot === "LWB") return LINE_BAND.LB;
-  if (slot === "RM" || slot === "RAM") return LINE_BAND.RM;
-  if (slot === "LM" || slot === "LAM") return LINE_BAND.LM;
-  if (slot === "ST" || slot === "RST" || slot === "LST" || slot === "RW" || slot === "LW") return LINE_BAND.ST;
-  return LINE_BAND.CM;
+  if (slot === "PG") return LINE_BAND.PG;
+  if (slot === "SG") return LINE_BAND.SG;
+  if (slot === "SF") return LINE_BAND.SF;
+  if (slot === "PF") return LINE_BAND.PF;
+  if (slot === "C") return LINE_BAND.C;
+  // Legacy football codes → nearest basketball band
+  if (slot === "GK") return LINE_BAND.C;
+  if (slot === "RB" || slot === "RWB" || slot === "RM" || slot === "RAM" || slot === "RW") return LINE_BAND.SG;
+  if (slot === "LB" || slot === "LWB" || slot === "LM" || slot === "LAM" || slot === "LW") return LINE_BAND.SF;
+  if (slot === "RCB" || slot === "CB" || slot === "LCB" || slot === "DM") return LINE_BAND.PF;
+  if (slot === "ST" || slot === "RST" || slot === "LST" || slot === "AM" || slot === "CAM") return LINE_BAND.SF;
+  return LINE_BAND.SG;
 }
 
 /** Right (0) → centre (1) → left (2). */
@@ -653,9 +624,9 @@ export class CharacterSelect {
   private teamRecord: TeamRecord | null = null;
   /** Club whose kit choice applies (fixed while switching HOME/AWAY drafts). */
   private userMatchTeam: TeamRecord | null = null;
-  formation = "4-2-3-1";
+  formation = "BASKETBALL_5";
   /** Formation dropdown — a base shape or USER. */
-  formationSelection: string = "4-2-3-1";
+  formationSelection: string = "BASKETBALL_5";
   /** Retained custom tactics (survives switching to a clean base). */
   userTactics: TeamTacticsUserSnapshot | null = null;
   /** True after swaps / style / nudges — retain as USER when switching to a clean base. */
@@ -989,7 +960,7 @@ export class CharacterSelect {
     const playStyle = isPlayStyleId(config.playStyle ?? undefined) ? config.playStyle! : "auto";
     const form = getFormation(formation);
     const slots = config.starterSlots;
-    let xi: TeamSelectSlot[] = config.starters.slice(0, 11).map((player, i) => ({
+    let xi: TeamSelectSlot[] = config.starters.slice(0, STARTER_COUNT).map((player, i) => ({
       slot: slots?.[i] ?? form[i]?.id ?? `S${i}`,
       player,
     }));
@@ -1008,10 +979,11 @@ export class CharacterSelect {
         const player = byId.get(row.id);
         return player ? { slot: row.slot, player } : null;
       })
-      .filter((row): row is TeamSelectSlot => !!row);
+      .filter((row): row is TeamSelectSlot => !!row)
+      .slice(0, STARTER_COUNT);
     const onIds = new Set(xi.map((x) => x.player.player.id));
     const roster = config.roster?.length ? config.roster : config.starters;
-    const bench = roster.filter((s) => !onIds.has(s.player.id));
+    const bench = roster.filter((s) => !onIds.has(s.player.id)).slice(0, BENCH_LIMIT);
     const slotOffsets = new Map<string, SlotOffset>();
     for (const off of config.slotOffsets ?? []) {
       if (!off.dx && !off.dz) continue;
@@ -1482,7 +1454,7 @@ export class CharacterSelect {
       used.add(player.player.id);
       nextXi.push({ slot: starter.slot, player });
     }
-    if (nextXi.length < 11) {
+    if (nextXi.length < STARTER_COUNT) {
       const leftovers = pool
         .filter((p) => !used.has(p.player.id))
         .map((p) => ({
@@ -1491,7 +1463,7 @@ export class CharacterSelect {
           isGK: p.player.primaryPosition === "GK",
         }));
       for (const row of remapPlayersToFormation(leftovers, formation, formation)) {
-        if (nextXi.length >= 11) break;
+        if (nextXi.length >= STARTER_COUNT) break;
         if (used.has(row.id)) continue;
         const player = byId.get(row.id);
         if (!player) continue;
@@ -1500,8 +1472,8 @@ export class CharacterSelect {
       }
     }
     if (nextXi.length) {
-      this.xi = nextXi.slice(0, 11);
-      this.bench = pool.filter((p) => !used.has(p.player.id));
+      this.xi = nextXi.slice(0, STARTER_COUNT);
+      this.bench = pool.filter((p) => !used.has(p.player.id)).slice(0, BENCH_LIMIT);
     }
     this.slotOffsets.clear();
     for (const starter of user.starters) {
@@ -1768,8 +1740,11 @@ export class CharacterSelect {
     const look = this.clubLookFor(sp.player.id);
     const text = contrastingKitText(look.teamColor, look.teamSecondaryColor);
     const surname = kitSurname(sp.player.displayName || sp.player.name);
+    const surSize = surnameFitPx(surname, className.includes("shirt-back") ? 20 : 28);
+    const tracking = surnameLetterSpacingEm(surname);
+    const nameStyle = `font-size:${surSize}px;letter-spacing:${tracking}em;margin-inline-end:-${tracking}em`;
     return `<div class="${className}" style="background:${escapeAttr(look.teamColor)};color:${escapeAttr(text)}">
-      <span class="player-card-shirt-name">${escapeHtml(surname)}</span>
+      <span class="player-card-shirt-name" style="${nameStyle}">${escapeHtml(surname)}</span>
       <span class="player-card-shirt-num">${sp.shirtNumber}</span>
     </div>`;
   }
@@ -1834,7 +1809,7 @@ export class CharacterSelect {
     </div>`;
   }
 
-  /** Flipable sports card for PLAYER SELECT — front: shirt + PNG + hex; back: full ratings. */
+  /** Flipable sports card for PLAYER SELECT — front: shirt + PNG + hex; back: bio facts. */
   private playerSportsCardHtml(sp: SquadPlayer, _opts: { variant: "select" }): string {
     const flipped = this.cardFlipped;
     const hexSize = 148;
@@ -1866,7 +1841,7 @@ export class CharacterSelect {
               <span class="player-card-ovr-value">${Math.round(sp.overall)}</span>
             </div>
           </div>
-          <div class="player-card-back-body">${this.playerCardRatingsHtml(sp, false)}</div>
+          <div class="player-card-back-body">${playerCardBackBodyHtml(sp, look)}</div>
         </div>
       </div>
     </div>`;
@@ -2145,7 +2120,7 @@ export class CharacterSelect {
                   <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-char-miteam-crest-upload hidden />
                 </label>
               </div>
-              <p class="hint miteam-settings-hint">Scoreboards and the club header use this crest. Keep the GOLACO mark so packed players still show their origin clubs on cards.</p>
+              <p class="hint miteam-settings-hint">Scoreboards and the club header use this crest. Keep the VORTEX mark so packed players still show their origin clubs on cards.</p>
               <div class="miteam-settings-crest-grid">${crestTiles}</div>
             </section>
           </div>
@@ -2379,15 +2354,23 @@ export class CharacterSelect {
         }">${
           this.controlMode === "SETUP" ? this.tabletopSetupPitchHtml() : this.playerSelectPitchHtml()
         }</div>`
-      : `<div class="team-pitch${this.chalkMode ? " chalking" : ""}" aria-label="Formation pitch">
-            <span class="pitch-goal-mouth pitch-goal-mouth-own" aria-hidden="true"></span>
-            <span class="pitch-goal-mouth pitch-goal-mouth-opp" aria-hidden="true"></span>
-            <div class="team-pitch-markings" aria-hidden="true">
-              <span class="pitch-penalty pitch-penalty-own"></span>
-              <span class="pitch-penalty pitch-penalty-opp"></span>
-              <span class="pitch-six pitch-six-own"></span>
-              <span class="pitch-six pitch-six-opp"></span>
-            </div>
+      : `<div class="team-pitch team-pitch-court${this.chalkMode ? " chalking" : ""}" aria-label="Formation court">
+            ${
+              this.teamBadge
+                ? teamBadgeHtml(
+                    {
+                      id: this.teamBadge.id,
+                      name: this.teamBadge.name ?? this.teamName,
+                      abbreviation: this.teamBadge.abbreviation,
+                      badgeAsset: this.teamBadge.badgeAsset,
+                      primaryColor: this.teamBadge.primaryColor ?? this.teamColor,
+                      secondaryColor: this.teamBadge.secondaryColor ?? this.teamSecondaryColor,
+                    },
+                    { className: "team-pitch-crest", size: 160 },
+                  )
+                : ""
+            }
+            <div class="team-pitch-markings court-markings" aria-hidden="true"></div>
             <canvas class="team-pitch-chalk" aria-hidden="true"></canvas>
             ${(() => {
               const raw = form.map((slot) => {
@@ -2397,7 +2380,7 @@ export class CharacterSelect {
                   id: slot.id,
                   left: pos.left,
                   bottom: pos.bottom,
-                  pinned: slot.id === "GK" || slot.role === "GK",
+                  pinned: false,
                 };
               });
               const laidOut = separatePitchMarkers(raw);
@@ -2406,7 +2389,7 @@ export class CharacterSelect {
                   const pos = laidOut.get(slot.id) ?? formationToPitchPercent(slot.x, slot.z);
                   const row = bySlot.get(slot.id);
                   if (!row) {
-                    return `<div class="pitch-slot empty" data-slot="${slot.id}" style="left:${pos.left}%; bottom:${pos.bottom}%"></div>`;
+                    return `<div class="pitch-slot empty" data-slot="${slot.id}" style="left:${pos.left}%; bottom:${pos.bottom}%"><span class="pitch-slot-label">${slot.id}</span></div>`;
                   }
                   const p = row.player;
                   const on = p.player.id === selectedId ? "on" : "";
@@ -2441,33 +2424,7 @@ export class CharacterSelect {
                 : ""
             }
             ${this.quickMatch && this.formationSide === "away" ? oppositionPicker : ""}
-            ${
-              overlayMode
-                ? ""
-                : `<button type="button" class="formation-chip chalk-chip ${this.chalkMode ? "on" : ""}" data-char="chalk"${titleAttr("Chalk — draw on the pitch. Right-click to wipe.")} aria-pressed="${this.chalkMode ? "true" : "false"}">Chalk</button>`
-            }
-            <label class="formation-select-wrap">
-              <span class="visually-hidden">Play style</span>
-              <select class="formation-chip formation-select play-style-select on" data-char="play-style" aria-label="Play style">
-                ${(["auto", ...PLAY_STYLE_IDS] as PlayStyleChoice[])
-                  .map(
-                    (id) =>
-                      `<option value="${id}" ${id === this.playStyle ? "selected" : ""}>${PLAY_STYLE_LABELS[id]}</option>`,
-                  )
-                  .join("")}
-              </select>
-            </label>
-            <label class="formation-select-wrap">
-              <span class="visually-hidden">Formation</span>
-              <select class="formation-chip formation-select form-select on" data-char="form" aria-label="Formation">
-                ${this.formationSelectOptions()
-                  .map(
-                    (name) =>
-                      `<option value="${name}" ${name === this.formationSelection ? "selected" : ""}>${name}</option>`,
-                  )
-                  .join("")}
-              </select>
-            </label>
+            <span class="formation-chip formation-chip-static on" aria-label="Formation">BASKETBALL 5</span>
           </div>
           ${spotHint}
         </div>
@@ -3193,10 +3150,10 @@ export class CharacterSelect {
           p.shirtNumber,
         ];
       }
-      // Bench: substitute GK stays top; everyone else by shirt number.
+      // Bench: by position band, then shirt number.
       return [
         1,
-        p.player.primaryPosition === "GK" ? 0 : 1,
+        lineBandFromSlot(p.player.primaryPosition, this.formation),
         p.shirtNumber,
         0,
       ];

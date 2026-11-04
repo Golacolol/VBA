@@ -39,8 +39,8 @@ export class PauseMenu {
     if (this.selected >= this.items.length) this.selected = 0;
     this.root.innerHTML = `
       <div class="pause-card">
-        <div class="pause-brand" aria-label="GOLAÇO SOCCER">
-          <span class="title-line">GOLAÇO<span class="title-emoji" aria-hidden="true">⚽️</span>SOCCER</span>
+        <div class="pause-brand" aria-label="VORTEX Basketball">
+          <span class="title-line">VORTEX<span class="title-emoji" aria-hidden="true">🏀</span>BASKETBALL</span>
         </div>
         ${this.note ? `<p class="pause-note">${this.note}</p>` : ""}
         ${this.items

@@ -1,14 +1,8 @@
-import type { TeamRecord } from "../data/schema";
+import type { Conference, TeamRecord } from "../data/schema";
 import { MITEAM_TEAM_ID } from "../core/SaveManager";
+import { conferenceForTeam } from "../football/league/Standings";
 
-export type MenuTeamGroup =
-  | "USER"
-  | "PREMIER_LEAGUE"
-  | "CHAMPIONSHIP"
-  | "LEAGUE_ONE"
-  | "LA_LIGA"
-  | "SERIE_A"
-  | "CLASSIC";
+export type MenuTeamGroup = "USER" | Conference | "CLASSIC";
 
 export interface MenuTeamOption {
   id: string;
@@ -17,103 +11,56 @@ export interface MenuTeamOption {
   group: MenuTeamGroup;
   /**
    * Club identity for Classic era grouping (base name).
-   * Same for every season of e.g. AC Milan.
    */
   clubKey: string;
-  /** Short roll label e.g. "91-92"; empty for current league clubs. */
+  /** Short roll label e.g. "91-92" or "Current". */
   eraLabel: string;
   /** Sort key for eras (season string). */
   eraSort: string;
 }
 
-const GROUP_ORDER: MenuTeamGroup[] = [
-  "USER",
-  "PREMIER_LEAGUE",
-  "CHAMPIONSHIP",
-  "LEAGUE_ONE",
-  "LA_LIGA",
-  "SERIE_A",
-  "CLASSIC",
-];
+const GROUP_ORDER: MenuTeamGroup[] = ["USER", "EAST", "WEST", "CLASSIC"];
 
-export const MENU_TEAM_GROUPS: MenuTeamGroup[] = [...GROUP_ORDER];
+/** Conference dial only — Classic eras hang under each franchise’s Era dial. */
+export const MENU_TEAM_GROUPS: MenuTeamGroup[] = ["USER", "EAST", "WEST"];
 
 export const MENU_TEAM_GROUP_LABEL: Record<MenuTeamGroup, string> = {
   USER: "User",
-  PREMIER_LEAGUE: "Premier League",
-  CHAMPIONSHIP: "Championship",
-  LEAGUE_ONE: "League One",
-  LA_LIGA: "La Liga",
-  SERIE_A: "Serie A",
+  EAST: "East",
+  WEST: "West",
   CLASSIC: "Classic",
 };
 
 /**
- * Strip era suffixes: "Arsenal — 2003/04" → "Arsenal".
- * Accepts em/en dashes and space-hyphen-space (not hyphenated club names like Saint-Germain).
+ * Strip era suffixes: "Bulls — 1995/96" → "Bulls".
  */
 export function clubBaseName(name: string): string {
   return name.split(/\s*[—–]\s*|\s+-\s+/)[0]!.trim();
 }
 
-/** Authored Argyle classic / fans sides — always one Classics Club dial entry. */
-const PLYMOUTH_ARGYLE_CLUB_IDS = new Set([
-  "argyle_historic_sample",
-  "argyle_fans_xi",
-  "classic_plymouth_argyle_1995_96",
-  "classic_plymouth_argyle_2003_04",
-  "classic_plymouth_argyle_2016_17",
-]);
-
-/**
- * Classics Club dial identity. Argyle historic / fans ids (and "Argyle…" name aliases)
- * share Plymouth Argyle even if a stale save renamed the display string.
- */
 export function classicClubIdentity(team: TeamRecord): { key: string; label: string } {
-  const id = team.id.toLowerCase();
-  if (
-    PLYMOUTH_ARGYLE_CLUB_IDS.has(team.id) ||
-    id.includes("plymouth_argyle") ||
-    id.startsWith("argyle_")
-  ) {
-    return { key: "plymouth argyle", label: "Plymouth Argyle" };
-  }
   const base = clubBaseName(team.name);
-  const key = base.toLowerCase();
-  if (key === "argyle" || key === "pafc" || key.startsWith("argyle ")) {
-    return { key: "plymouth argyle", label: "Plymouth Argyle" };
-  }
-  return { key, label: base };
+  return { key: base.toLowerCase(), label: base };
 }
 
-/**
- * Compact era for the roll dial: "2003/04" → "03-04", "1991/92" → "91-92",
- * "2000" → "00", "1990s" → "90s". Never returns nicknames (e.g. Mourinho).
- */
 export function formatEraRoll(season: string | null | undefined): string {
   const raw = (season ?? "").trim();
   if (!raw) return "";
-  // 2003/04 or 2003-04 (optionally with trailing nickname text)
   const pair = /(\d{4})\s*[\/\-–]\s*(\d{2}|\d{4})\b/.exec(raw);
   if (pair) {
     const a = pair[1]!.slice(2);
     const b = pair[2]!.length === 4 ? pair[2]!.slice(2) : pair[2]!;
     return `${a}-${b}`;
   }
-  // Single year 2000 / 1986 (standalone or after em-dash)
   const year = /(?:^|[—–\s])(\d{4})(?:\s|$)/.exec(raw);
   if (year) return year[1]!.slice(2);
-  // Decade label 1990s
   const decade = /^(\d{4})s$/i.exec(raw);
   if (decade) return `${decade[1]!.slice(2)}s`;
-  // Already a short date token like "04-05" / "91/92"
   if (/^\d{2}[\/\-–]\d{2}$/.test(raw)) return raw.replace(/[\/–]/g, "-");
-  // Short era codes (FANS, LEG) — not calendar seasons
   if (/^[A-Za-z0-9]{2,6}$/.test(raw) && !/^\d{4}$/.test(raw)) return raw.toUpperCase();
   return "";
 }
 
-/** Prefer historicSeason; else parse from "Club — 2003/04 …" or "Club — FANS". */
 export function eraFromTeam(team: TeamRecord): string {
   if (team.historicSeason?.trim()) return team.historicSeason.trim();
   const parts = team.name.split(/\s*[—–]\s*|\s+-\s+/);
@@ -150,41 +97,47 @@ function isSelectableClub(team: TeamRecord): boolean {
 
 function groupFor(team: TeamRecord): MenuTeamGroup {
   if (isUserTeam(team)) return "USER";
-  if (
-    team.teamType === "CURRENT_TEAM" &&
-    (team.league === "PREMIER_LEAGUE" ||
-      team.league === "CHAMPIONSHIP" ||
-      team.league === "LEAGUE_ONE" ||
-      team.league === "LA_LIGA" ||
-      team.league === "SERIE_A")
-  ) {
-    return team.league;
-  }
-  return "CLASSIC";
+  // Historic sides use their franchise conference so Era rolls sit under East / West.
+  return conferenceForTeam(team);
+}
+
+/** Franchise key so Current + Classic seasons share one Era dial. */
+function clubKeyFor(team: TeamRecord): string {
+  if (isUserTeam(team)) return team.id;
+  const franchise = team.franchiseId?.trim();
+  if (franchise) return franchise;
+  if (team.teamType === "CURRENT_TEAM") return team.id;
+  return classicClubIdentity(team).key;
 }
 
 /**
  * Flat team list for the main-menu dials.
- * Classic sides use the club base name on the Team dial; era lives on the Era roll.
  */
 export function buildMenuTeamOptions(teams: TeamRecord[]): MenuTeamOption[] {
+  const byId = new Map(teams.map((t) => [t.id, t]));
   const options: MenuTeamOption[] = [];
   for (const team of teams) {
     if (!isSelectableClub(team)) continue;
     const group = groupFor(team);
-    const classic = group === "CLASSIC" ? classicClubIdentity(team) : null;
-    const base = classic?.label ?? clubBaseName(team.name);
-    const eraRaw = group === "CLASSIC" || group === "USER" ? eraFromTeam(team) : "";
+    const clubKey = clubKeyFor(team);
+    const franchise = byId.get(clubKey);
+    const base =
+      franchise && franchise.teamType === "CURRENT_TEAM"
+        ? clubBaseName(franchise.name)
+        : classicClubIdentity(team).label;
+    const historic = isClassicTeam(team) && !isUserTeam(team);
+    const eraRaw = historic || group === "USER" ? eraFromTeam(team) : "";
     options.push({
       id: team.id,
       label: base,
       group,
-      clubKey: classic ? classic.key : team.id,
-      eraLabel:
-        group === "CLASSIC" || group === "USER"
-          ? formatEraRoll(eraRaw) || formatEraRoll(team.name) || (group === "USER" ? "25-26" : "—")
-          : "",
-      eraSort: eraRaw || team.name,
+      clubKey,
+      eraLabel: historic
+        ? formatEraRoll(eraRaw) || formatEraRoll(team.name) || "Classic"
+        : group === "USER"
+          ? formatEraRoll(eraRaw) || "25-26"
+          : "Current",
+      eraSort: historic ? eraRaw || team.name : "9999/99",
     });
   }
   return options.sort((a, b) => {
@@ -192,7 +145,7 @@ export function buildMenuTeamOptions(teams: TeamRecord[]): MenuTeamOption[] {
     if (gi) return gi;
     const club = a.label.localeCompare(b.label);
     if (club) return club;
-    return a.eraSort.localeCompare(b.eraSort);
+    return b.eraSort.localeCompare(a.eraSort);
   });
 }
 
@@ -200,60 +153,56 @@ export function teamsInGroup(options: MenuTeamOption[], group: MenuTeamGroup): M
   return options.filter((o) => o.group === group);
 }
 
-/**
- * Unique clubs for the Team dial (one row per clubKey).
- * Representative id is the first era chronologically.
- */
 export function uniqueClubsInGroup(options: MenuTeamOption[], group: MenuTeamGroup): MenuTeamOption[] {
   const seen = new Set<string>();
   const out: MenuTeamOption[] = [];
   for (const opt of teamsInGroup(options, group)) {
     if (seen.has(opt.clubKey)) continue;
     seen.add(opt.clubKey);
+    // Prefer the Current / newest era as the Team dial representative.
     const eras = erasForClub(options, opt.clubKey);
     out.push(eras[0] ?? opt);
   }
   return out;
 }
 
-/** All era variants for a Classic club, sorted. */
 export function erasForClub(options: MenuTeamOption[], clubKey: string): MenuTeamOption[] {
+  // Newest / Current first so Era dials default to the live squad.
   return options
     .filter((o) => o.clubKey === clubKey)
-    .sort((a, b) => a.eraSort.localeCompare(b.eraSort));
+    .sort((a, b) => b.eraSort.localeCompare(a.eraSort));
 }
 
 export function findTeamOption(options: MenuTeamOption[], teamId: string): MenuTeamOption | undefined {
   return options.find((o) => o.id === teamId);
 }
 
-/** League-select dial label for a team's group. */
 export function secondaryDialLabel(option: MenuTeamOption): string {
   return MENU_TEAM_GROUP_LABEL[option.group];
 }
 
-/** Continuous opposition roll label — classics keep a short era tag. */
 export function oppositionRollLabel(option: MenuTeamOption): string {
-  if (option.group === "CLASSIC" && option.eraLabel && option.eraLabel !== "—") {
+  if (option.eraLabel && option.eraLabel !== "Current" && option.eraLabel !== "—") {
     return `${option.label} ${option.eraLabel}`;
   }
   return option.label;
 }
 
-/**
- * Flat opposition list in league order, excluding the user's club (all eras).
- * Already sorted by buildMenuTeamOptions — keep that order for continuous scrolling.
- */
 export function oppositionRollOptions(
   options: MenuTeamOption[],
   userTeamId: string,
 ): MenuTeamOption[] {
   const user = findTeamOption(options, userTeamId);
   const userKey = user?.clubKey ?? userTeamId;
-  return options.filter((o) => o.id !== userTeamId && o.clubKey !== userKey);
+  const seen = new Set<string>();
+  return options.filter((o) => {
+    if (o.id === userTeamId || o.clubKey === userKey) return false;
+    if (seen.has(o.id)) return false;
+    seen.add(o.id);
+    return true;
+  });
 }
 
-/** Index of the current opposition on the continuous roll (era → club fallback). */
 export function oppositionRollIndex(
   roll: MenuTeamOption[],
   oppositionTeamId: string,

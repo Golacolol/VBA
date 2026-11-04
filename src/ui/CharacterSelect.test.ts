@@ -27,35 +27,38 @@ function makePlayer(id: string, name: string, pos: string, number: number): Squa
     displayName: name,
     primaryPosition: pos as PlayerRecord["primaryPosition"],
     secondaryPositions: [],
-    pace: 80,
-    passing: 70,
-    longPassing: 65,
-    vision: 68,
-    control: 72,
-    dribbling: 74,
-    shooting: 66,
-    finishing: 64,
-    shotPower: 70,
-    longShots: 60,
-    defending: 55,
+    finishing: 72,
+    midRange: 70,
+    threePoint: 68,
+    freeThrow: 74,
+    ballHandle: 76,
+    passAccuracy: 74,
+    perimeterD: 68,
+    interiorD: 62,
+    rebound: 60,
+    steal: 64,
+    block: 55,
+    speed: 80,
+    vertical: 72,
     strength: 70,
     stamina: 78,
-    composure: 70,
+    iq: 74,
+    clutch: 72,
   };
   return {
     player,
     attrs: player,
     overall: 74,
     shirtNumber: number,
-    membership: { playerId: id, teamId: "plymouth_argyle_current", shirtNumber: number, squadRole: "FIRST_TEAM" },
+    membership: { playerId: id, teamId: "nba_bos", shirtNumber: number, squadRole: "FIRST_TEAM" },
   };
 }
 
 function squad(): SquadPlayer[] {
   return [
-    makePlayer("gk", "G. Keeper", "GK", 1),
-    makePlayer("p1", "M. Cooper", "CM", 8),
-    makePlayer("p2", "R. Hardie", "ST", 9),
+    makePlayer("pg", "P. Guard", "PG", 1),
+    makePlayer("p1", "S. Guard", "SG", 8),
+    makePlayer("p2", "F. Forward", "SF", 9),
   ];
 }
 
@@ -63,16 +66,16 @@ describe("character select", () => {
   it("defaults to team select with a formation pitch", () => {
     const host = document.createElement("div");
     const view = new CharacterSelect(host);
-    view.setSquad("Plymouth Argyle", squad(), "#007A3D", {
-      formation: "4-2-3-1",
-      roster: [...squad(), makePlayer("b1", "B. Ench", "CM", 14)],
-      starterSlots: ["GK", "CAM", "ST"],
+    view.setSquad("Boston Celtics", squad(), "#007A33", {
+      formation: "BASKETBALL_5",
+      roster: [...squad(), makePlayer("b1", "B. Ench", "PF", 14)],
+      starterSlots: ["PG", "SG", "SF"],
       team: {
-        id: "plymouth_argyle_current",
-        name: "Plymouth Argyle",
-        abbreviation: "ARG",
-        primaryColor: "#007A3D",
-        secondaryColor: "#C5A572",
+        id: "nba_bos",
+        name: "Boston Celtics",
+        abbreviation: "BOS",
+        primaryColor: "#007A33",
+        secondaryColor: "#BA9653",
       },
     });
     view.render();
@@ -84,30 +87,16 @@ describe("character select", () => {
     const title = view.root.querySelector(".char-team-title");
     expect(title).toBeTruthy();
     expect(title?.querySelector(".char-team-crest")).toBeTruthy();
-    expect(title?.textContent).toContain("Plymouth Argyle");
+    expect(title?.textContent).toContain("Boston Celtics");
     expect(view.root.textContent).toContain("START AS TEAM");
     expect(view.root.textContent).toContain("SUBSTITUTES");
     expect(view.root.textContent).not.toContain("SQUAD");
     expect(view.root.querySelector(".team-roster-title")).toBeNull();
     expect(view.root.querySelector(".formation-toolbar")).toBeTruthy();
     expect(view.root.querySelector('[data-char="form-side"]')).toBeNull();
-    expect(view.root.querySelector('[data-char="chalk"]')).toBeTruthy();
+    expect(view.root.textContent).toContain("BASKETBALL 5");
     expect(view.root.querySelector(".team-pitch-chalk")).toBeTruthy();
-    const chalk = view.root.querySelector('[data-char="chalk"]');
-    const styleSelect = view.root.querySelector<HTMLSelectElement>('select[data-char="play-style"]');
-    const formSelect = view.root.querySelector<HTMLSelectElement>('select[data-char="form"]');
-    expect(chalk && styleSelect && !!(chalk.compareDocumentPosition(styleSelect) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(true);
-    expect(view.root.querySelector(".formation-toolbar [data-char='form-side']")).toBeNull();
-    expect(styleSelect).toBeTruthy();
-    expect(formSelect).toBeTruthy();
-    expect([...styleSelect!.options].map((o) => o.value)).toContain("auto");
-    expect([...styleSelect!.options].map((o) => o.value)).toContain("counter");
-    expect(styleSelect!.value).toBe("auto");
-    expect(view.playStyle).toBe("auto");
-    view.setPlayStyle("possession");
-    view.render();
-    expect(view.getEditedLineup().playStyle).toBe("possession");
-    expect(view.root.querySelector<HTMLSelectElement>('select[data-char="play-style"]')?.value).toBe("possession");
+    expect(view.formation).toBe("BASKETBALL_5");
   });
 
   it("opens Flickball / Foosball on the formation pitch, not setup", () => {
@@ -202,51 +191,41 @@ describe("character select", () => {
     expect(edited?.offsetX).toBeCloseTo(0.08);
     expect(edited?.offsetZ).toBeCloseTo(-0.1);
     expect(view.getEditedLineup().selection).toBe("USER");
-    view.nudgeSlot(slot, 0.5, 0.5);
+    view.nudgeSlot(slot, 1.2, 0.9);
     const clamped = view.getEditedLineup().starters.find((s) => s.slot === slot);
-    expect(clamped?.offsetX).toBeLessThanOrEqual(0.28);
-    expect(Math.abs(clamped?.offsetZ ?? 0)).toBeLessThanOrEqual(0.4);
+    expect(clamped?.offsetX).toBeLessThanOrEqual(0.95);
+    expect(Math.abs(clamped?.offsetZ ?? 0)).toBeLessThanOrEqual(0.55);
   });
 
   it("retains a USER formation when switching back to a clean base", () => {
     const host = document.createElement("div");
     const view = new CharacterSelect(host);
     const fullXi = [
-      makePlayer("gk", "G. Keeper", "GK", 1),
-      makePlayer("rb", "R. Back", "RB", 2),
-      makePlayer("rcb", "R. Centre", "CB", 5),
-      makePlayer("lcb", "L. Centre", "CB", 6),
-      makePlayer("lb", "L. Back", "LB", 3),
-      makePlayer("rdm", "R. Hold", "DM", 4),
-      makePlayer("ldm", "L. Hold", "DM", 8),
-      makePlayer("ram", "R. Wing", "RM", 7),
-      makePlayer("cam", "C. Mid", "CM", 10),
-      makePlayer("lam", "L. Wing", "LM", 11),
-      makePlayer("st", "S. Triker", "ST", 9),
+      makePlayer("pg", "P. Guard", "PG", 1),
+      makePlayer("sg", "S. Guard", "SG", 2),
+      makePlayer("sf", "S. Forward", "SF", 3),
+      makePlayer("pf", "P. Forward", "PF", 4),
+      makePlayer("c", "C. Enter", "C", 5),
     ];
-    view.setSquad("Plymouth Argyle", fullXi, "#007A3D", {
-      formation: "4-2-3-1",
-      starterSlots: ["GK", "RB", "RCB", "LCB", "LB", "RDM", "LDM", "RAM", "CAM", "LAM", "ST"],
-      roster: [...fullXi, makePlayer("b1", "B. Ench", "CM", 14)],
+    view.setSquad("Boston Celtics", fullXi, "#007A33", {
+      formation: "BASKETBALL_5",
+      starterSlots: ["PG", "SG", "SF", "PF", "C"],
+      roster: [...fullXi, makePlayer("b1", "B. Ench", "SF", 14)],
     });
-    const slot = "CAM";
+    const slot = "SG";
     expect(view.xi.some((x) => x.slot === slot)).toBe(true);
     view.nudgeSlot(slot, 0.06, 0.04);
-    view.setPlayStyle("possession");
     view.render();
-    expect([...view.root.querySelectorAll('select[data-char="form"] option')].map((o) => (o as HTMLOptionElement).value)).toContain(
-      "USER",
-    );
-    view.setFormation("4-3-3");
-    expect(view.formation).toBe("4-3-3");
-    expect(view.slotOffsets.size).toBe(0);
-    expect(view.userTactics?.formation).toBe("4-2-3-1");
-    expect(view.userTactics?.playStyle).toBe("possession");
+    expect(view.getEditedLineup().selection).toBe("USER");
+    expect(view.slotOffsets.get(slot)?.dx).toBeCloseTo(0.06);
+    // Snapshot USER, then reset to a clean BASKETBALL_5 board.
+    view.setFormation("BASKETBALL_5");
+    expect(view.formation).toBe("BASKETBALL_5");
+    expect(view.userTactics?.formation).toBe("BASKETBALL_5");
     expect(view.userTactics?.starters.find((s) => s.slot === slot)?.offsetX).toBeCloseTo(0.06);
     view.setFormation("USER");
     expect(view.formationSelection).toBe("USER");
-    expect(view.formation).toBe("4-2-3-1");
-    expect(view.playStyle).toBe("possession");
+    expect(view.formation).toBe("BASKETBALL_5");
     expect(view.slotOffsets.get(slot)?.dx).toBeCloseTo(0.06);
   });
 
@@ -306,7 +285,9 @@ describe("character select", () => {
     expect(view.root.querySelector(".player-card-photo.has-crest .player-card-crest")).toBeTruthy();
     view.root.querySelector<HTMLElement>(".player-card-team")?.click();
     expect(view.root.querySelector(".player-card")?.classList.contains("is-flipped")).toBe(true);
+    expect(view.root.querySelector(".player-card-bio")).toBeTruthy();
     expect(view.root.querySelector(".player-card-ratings")).toBeTruthy();
+    expect(view.root.querySelector(".player-card-bio-label")?.textContent).toBe("Name");
     expect(view.root.querySelector(".player-card-back-head .player-card-shirt-back")).toBeTruthy();
     expect(view.root.querySelector(".player-card-back-head .player-card-shirt-num")?.textContent).toMatch(/\d+/);
     view.root.querySelector<HTMLElement>(".player-card-back-head .player-card-shirt-name")?.click();
@@ -408,10 +389,10 @@ describe("character select", () => {
     const name = view.root.querySelector<HTMLInputElement>('[data-edit-field="name"]')!;
     name.value = "Ryan Hardie Esq";
     name.dispatchEvent(new Event("input", { bubbles: true }));
-    const pace = view.root.querySelector<HTMLInputElement>('[data-edit-stat="pace"]');
-    if (pace) {
-      pace.value = "91";
-      pace.dispatchEvent(new Event("input", { bubbles: true }));
+    const speed = view.root.querySelector<HTMLInputElement>('[data-edit-stat="speed"]');
+    if (speed) {
+      speed.value = "91";
+      speed.dispatchEvent(new Event("input", { bubbles: true }));
     }
     expect(view.root.querySelector('[data-char="card-save"]')?.textContent).toBe("SAVE");
     view.root.querySelector<HTMLElement>('[data-char="card-save"]')?.click();
@@ -420,14 +401,14 @@ describe("character select", () => {
       playerId: string;
       teamId: string;
       name: string;
-      stats: { pace?: number };
+      stats: { speed?: number };
     };
     expect(edit.playerId).toBe(view.current().player.id);
     expect(edit.teamId).toBe("plymouth_argyle_current");
     expect(edit.name).toBe("Ryan Hardie Esq");
-    if (pace) expect(edit.stats.pace).toBe(91);
+    if (speed) expect(edit.stats.speed).toBe(91);
     expect(view.current().player.name).toBe("Ryan Hardie Esq");
-    if (pace) expect(view.current().player.pace).toBe(91);
+    if (speed) expect(view.current().player.speed).toBe(91);
     expect(view.root.querySelector(".player-card-edit-panel")).toBeNull();
     expect(view.root.querySelector('[data-char="card-edit"]')?.textContent).toBe("EDIT");
   });
@@ -573,60 +554,54 @@ describe("character select", () => {
     expect(centre - leftWing).toBeCloseTo(rightWing - centre, 5);
   });
 
-  it("orders the squad list GK through strikers, with substitutes after in the same order", () => {
+  it("orders the squad list guards through centers, with substitutes after", () => {
     const host = document.createElement("div");
     const view = new CharacterSelect(host);
     const starters = [
-      makePlayer("st", "S. Triker", "ST", 9),
-      makePlayer("gk", "G. Keeper", "GK", 1),
-      makePlayer("lb", "L. Back", "LB", 3),
-      makePlayer("rb", "R. Back", "RB", 2),
-      makePlayer("rcb", "R. Centre", "CB", 5),
-      makePlayer("lcb", "L. Centre", "CB", 6),
-      makePlayer("lm", "L. Mid", "LM", 11),
-      makePlayer("rm", "R. Mid", "RM", 7),
-      makePlayer("rcm", "R. Midfield", "CM", 8),
-      makePlayer("lcm", "L. Midfield", "CM", 4),
-      makePlayer("lst", "L. Striker", "ST", 10),
+      makePlayer("c", "C. Enter", "C", 5),
+      makePlayer("pg", "P. Guard", "PG", 1),
+      makePlayer("sf", "S. Forward", "SF", 3),
+      makePlayer("sg", "S. Guard", "SG", 2),
+      makePlayer("pf", "P. Forward", "PF", 4),
     ];
     const bench = [
-      makePlayer("bst", "B. Striker", "ST", 19),
-      makePlayer("bgk", "B. Keeper", "GK", 13),
-      makePlayer("bcm", "B. Mid", "CM", 14),
-      makePlayer("brb", "B. Back", "RB", 12),
+      makePlayer("b1", "B. One", "SG", 11),
+      makePlayer("b2", "B. Two", "PG", 7),
+      makePlayer("b3", "B. Three", "PF", 14),
+      makePlayer("b4", "B. Four", "C", 12),
     ];
-    view.setSquad("Plymouth Argyle", starters, "#007A3D", {
-      formation: "4-4-2",
+    view.setSquad("Boston Celtics", starters, "#007A33", {
+      formation: "BASKETBALL_5",
       roster: [...starters, ...bench],
-      starterSlots: ["RST", "GK", "LB", "RB", "RCB", "LCB", "LM", "RM", "RCM", "LCM", "LST"],
+      starterSlots: ["C", "PG", "SF", "SG", "PF"],
     });
     view.render();
     const rows = [...view.root.querySelectorAll(".roster-row")].map((row) => ({
       num: row.querySelector(".roster-num")?.textContent ?? "",
       ovr: row.querySelector(".roster-role")?.textContent ?? "",
     }));
-    expect(rows).toHaveLength(15);
+    expect(rows).toHaveLength(9);
     expect(rows.every((r) => /^\d+$/.test(r.ovr))).toBe(true);
     expect(rows[0]?.ovr).toBe("74");
-    expect(rows.map((r) => r.num)).toEqual(["1", "2", "5", "6", "3", "7", "8", "4", "11", "9", "10", "13", "12", "14", "19"]);
+    expect(rows.map((r) => r.num)).toEqual(["1", "2", "3", "4", "5", "7", "11", "14", "12"]);
     const benchNums = [...view.root.querySelectorAll(".bench-card .kit-marker-num")].map((el) => el.textContent);
-    expect(benchNums).toEqual(["13.", "12.", "14.", "19."]);
+    expect(benchNums).toEqual(["7.", "11.", "14.", "12."]);
   });
 
-  it("orders substitutes with GK first then by shirt number", () => {
+  it("orders substitutes by position then shirt number", () => {
     const host = document.createElement("div");
     const view = new CharacterSelect(host);
     const starters = squad();
     const bench = [
-      makePlayer("bst", "B. Striker", "ST", 32),
-      makePlayer("bcm", "B. Mid", "CM", 15),
-      makePlayer("bgk", "B. Keeper", "GK", 13),
-      makePlayer("bcb", "B. Centre", "CB", 19),
+      makePlayer("b32", "Z. Late", "PF", 32),
+      makePlayer("bpg", "B. Point", "PG", 13),
+      makePlayer("b19", "S. Sub", "SF", 19),
+      makePlayer("b15", "M. Mid", "SG", 15),
     ];
-    view.setSquad("Argyle Fans", starters, "#007A3D", {
-      formation: "4-4-2",
+    view.setSquad("Boston Celtics", starters, "#007A33", {
+      formation: "BASKETBALL_5",
       roster: [...starters, ...bench],
-      starterSlots: ["RST", "GK", "LB", "RB", "RCB", "LCB", "LM", "RM", "RCM", "LCM", "LST"],
+      starterSlots: ["PG", "SG", "SF"],
     });
     view.render();
     const benchNums = [...view.root.querySelectorAll(".bench-card .kit-marker-num")].map((el) => el.textContent);
@@ -857,14 +832,14 @@ describe("character select", () => {
       defaultFormation: "4-4-2",
     };
     const homeSquad = [
-      makePlayer("h_gk", "H. Keep", "GK", 1),
-      makePlayer("h_cm", "H. Mid", "CM", 8),
-      makePlayer("h_st", "H. Striker", "ST", 9),
+      makePlayer("h_pg", "H. Point", "PG", 1),
+      makePlayer("h_sg", "H. Guard", "SG", 8),
+      makePlayer("h_sf", "H. Wing", "SF", 9),
     ];
     const awaySquad = [
-      makePlayer("a_gk", "A. Keep", "GK", 1),
-      makePlayer("a_cm", "A. Mid", "CM", 6),
-      makePlayer("a_st", "A. Striker", "ST", 10),
+      makePlayer("a_pg", "A. Point", "PG", 1),
+      makePlayer("a_sg", "A. Guard", "SG", 6),
+      makePlayer("a_sf", "A. Wing", "SF", 10),
     ];
     view.setContext("select");
     view.setDualFormationSides(
@@ -873,18 +848,18 @@ describe("character select", () => {
           teamName: "Home FC",
           starters: homeSquad,
           teamColor: "#007A3D",
-          formation: "4-2-3-1",
+          formation: "BASKETBALL_5",
           roster: homeSquad,
-          starterSlots: ["GK", "CAM", "ST"],
+          starterSlots: ["PG", "SG", "SF"],
           team: homeTeam,
         },
         away: {
           teamName: "Away FC",
           starters: awaySquad,
           teamColor: "#1a3a7a",
-          formation: "4-4-2",
+          formation: "BASKETBALL_5",
           roster: awaySquad,
-          starterSlots: ["GK", "LCM", "ST"],
+          starterSlots: ["PG", "SG", "SF"],
           team: awayTeam,
           playStyle: "counter",
         },
@@ -901,37 +876,24 @@ describe("character select", () => {
     expect(awayChip?.textContent).toBe("AWAY");
     expect(homeChip?.classList.contains("on")).toBe(true);
     expect(awayChip?.classList.contains("on")).toBe(false);
-    const chalk = view.root.querySelector('.formation-toolbar [data-char="chalk"]');
-    const formSelect = view.root.querySelector<HTMLSelectElement>('.formation-toolbar select[data-char="form"]');
-    expect(
-      homeChip &&
-        chalk &&
-        !!(homeChip.compareDocumentPosition(chalk) & Node.DOCUMENT_POSITION_FOLLOWING),
-    ).toBe(true);
-    expect(
-      awayChip &&
-        formSelect &&
-        !!(awayChip.compareDocumentPosition(formSelect) & Node.DOCUMENT_POSITION_FOLLOWING),
-    ).toBe(true);
-    expect(formSelect?.value).toBe("4-2-3-1");
-    expect([...formSelect!.options].map((o) => o.value)).toContain("4-4-2");
+    expect(view.root.textContent).toContain("BASKETBALL 5");
+    expect(view.formation).toBe("BASKETBALL_5");
     expect(view.root.querySelector(".char-team-title")?.textContent).toContain("Home FC");
-    view.setFormation("4-3-3");
     view.toggleFormationSide();
     view.render();
     expect(view.formationSide).toBe("away");
-    expect(view.formation).toBe("4-4-2");
+    expect(view.formation).toBe("BASKETBALL_5");
     expect(view.playStyle).toBe("counter");
     expect(view.root.querySelector(".char-team-title")?.textContent).toContain("Away FC");
     expect(view.root.querySelector('[data-char="form-side"][data-side="home"]')?.classList.contains("on")).toBe(false);
     expect(view.root.querySelector('[data-char="form-side"][data-side="away"]')?.classList.contains("on")).toBe(true);
-    expect(view.xi.some((row) => row.player.player.id === "a_st")).toBe(true);
+    expect(view.xi.some((row) => row.player.player.id === "a_sf")).toBe(true);
     view.setPlayStyle("direct");
     const edits = view.getEditedLineups();
-    expect(edits.home?.formation).toBe("4-3-3");
+    expect(edits.home?.formation).toBe("BASKETBALL_5");
     expect(edits.away?.playStyle).toBe("direct");
-    expect(edits.away?.starters.some((s) => s.playerId === "a_st")).toBe(true);
-    expect(edits.home?.starters.some((s) => s.playerId === "h_st")).toBe(true);
+    expect(edits.away?.starters.some((s) => s.playerId === "a_sf")).toBe(true);
+    expect(edits.home?.starters.some((s) => s.playerId === "h_sf")).toBe(true);
     view.dispose();
     host.remove();
   });
@@ -949,6 +911,19 @@ describe("kitSurnameFromName", () => {
     expect(kitSurnameFromName("De Rossi")).toBe("DE ROSSI");
     expect(kitSurnameFromName("M. Cooper")).toBe("COOPER");
     expect(kitSurnameFromName("Hardie")).toBe("HARDIE");
+  });
+
+  it("ignores Jr / Sr / roman-numeral suffixes on kit surnames", () => {
+    expect(kitSurnameFromName("Michael Porter Jr")).toBe("PORTER");
+    expect(kitSurnameFromName("Michael Porter Jr.")).toBe("PORTER");
+    expect(kitSurnameFromName("Michael Porter-Smith Jr")).toBe("PORTER-SMITH");
+    expect(kitSurnameFromName("Kenyon Martin Jr.")).toBe("MARTIN");
+    expect(kitSurnameFromName("Tim Hardaway Jr")).toBe("HARDAWAY");
+    expect(kitSurnameFromName("Gary Payton II")).toBe("PAYTON");
+    expect(kitSurnameFromName("Jaren Jackson Jr")).toBe("JACKSON");
+    expect(kitSurnameFromName("Wendell Carter Jr.")).toBe("CARTER");
+    expect(kitCaptionSurname("Porter Jr", "Michael Porter Jr")).toBe("PORTER");
+    expect(kitInitialSurnameLabel("M. Porter Jr", "Michael Porter Jr")).toBe("M. PORTER");
   });
 
   it("uses surname only for under-photo captions", () => {
@@ -1113,5 +1088,14 @@ describe("kitMarkerHtml", () => {
     expect(html).toContain("kit-marker-caption");
     expect(html).toContain(">9.<");
     expect(html).toContain(">HARDIE</span>");
+  });
+
+  it("sets Pyramid disc tint from the club primary on PNG portraits", () => {
+    const html = kitMarkerHtml(
+      { id: "p9", name: "R. Hardie", appearance: { portraitAsset: "/portraits/hardie.png" } },
+      9,
+      { primaryColor: "#C8102E" },
+    );
+    expect(html).toContain('--pyramid-tint:#C8102E');
   });
 });

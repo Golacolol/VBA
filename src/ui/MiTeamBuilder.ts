@@ -36,6 +36,7 @@ import {
   MITEAM_FILTER_LEAGUES,
   parseFilter,
   pickRandomForSlot,
+  playerIdentityKey,
   serializeFilter,
   type MiTeamPoolFilter,
 } from "../football/miteam/MiTeamPool";
@@ -73,18 +74,13 @@ import {
 } from "./CharacterSelect";
 
 const kitSurname = kitSurnameFromName;
-const GK_MARKER_GREEN = "#1FAE5B";
-
 type MiTeamControlMode = "PLAYER" | "TEAM" | "OPTIONS";
 
 function kitMarkerColors(
-  primaryPosition: string,
+  _primaryPosition: string,
   teamColor: string,
   teamSecondary: string,
 ): { primaryColor: string; textColor: string } {
-  if (primaryPosition === "GK") {
-    return { primaryColor: GK_MARKER_GREEN, textColor: "#FFFFFF" };
-  }
   return {
     primaryColor: teamColor,
     textColor: contrastingKitText(teamColor, teamSecondary),
@@ -700,9 +696,15 @@ export class MiTeamBuilder {
   private discard(): void {
     if (!this.targetSlot) return;
     const prevId = this.candidate?.player.id ?? null;
+    const prevKey = this.candidate ? playerIdentityKey(this.candidate.player) : null;
     for (let i = 0; i < 8; i++) {
       this.drawCandidate();
-      if (!this.candidate || this.candidate.player.id !== prevId) break;
+      if (
+        !this.candidate ||
+        (this.candidate.player.id !== prevId && playerIdentityKey(this.candidate.player) !== prevKey)
+      ) {
+        break;
+      }
     }
     this.cardFlipY = 0;
     this.profileView = "hex";
@@ -900,7 +902,7 @@ export class MiTeamBuilder {
     const pitchHtml = (() => {
       const raw = form.map((slot) => {
         const pos = formationToPitchPercent(slot.x, slot.z);
-        return { id: slot.id, left: pos.left, bottom: pos.bottom, pinned: slot.id === "GK" };
+        return { id: slot.id, left: pos.left, bottom: pos.bottom, pinned: false };
       });
       const laidOut = separatePitchMarkers(raw);
       return form
@@ -929,15 +931,9 @@ export class MiTeamBuilder {
       this.controlMode === "OPTIONS"
         ? this.optionsPanelHtml(team)
         : this.controlMode === "TEAM"
-          ? `<div class="team-pitch" aria-label="MiTeam formation">
-            <span class="pitch-goal-mouth pitch-goal-mouth-own" aria-hidden="true"></span>
-            <span class="pitch-goal-mouth pitch-goal-mouth-opp" aria-hidden="true"></span>
-            <div class="team-pitch-markings" aria-hidden="true">
-              <span class="pitch-penalty pitch-penalty-own"></span>
-              <span class="pitch-penalty pitch-penalty-opp"></span>
-              <span class="pitch-six pitch-six-own"></span>
-              <span class="pitch-six pitch-six-opp"></span>
-            </div>
+          ? `<div class="team-pitch team-pitch-court" aria-label="MiTeam formation court">
+            ${teamBadgeHtml(team, { className: "team-pitch-crest", size: 160 })}
+            <div class="team-pitch-markings court-markings" aria-hidden="true"></div>
             ${pitchHtml}
           </div>`
           : `<div class="team-pitch team-pitch-panel miteam-pack-well" aria-label="Player select">
@@ -1018,7 +1014,7 @@ export class MiTeamBuilder {
                 <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-miteam-crest-upload hidden />
               </label>
             </div>
-            <p class="hint miteam-settings-hint">Scoreboards and the club header use this crest. Keep the GOLACO mark so packed players still show their origin clubs on cards.</p>
+            <p class="hint miteam-settings-hint">Scoreboards and the club header use this crest. Keep the VORTEX mark so packed players still show their origin clubs on cards.</p>
             <div class="miteam-settings-crest-grid">${crestTiles}</div>
           </section>
         </div>
@@ -1180,8 +1176,8 @@ export class MiTeamBuilder {
       .join("");
     return `<select data-miteam-filter aria-label="Pool filter">
       <option value="all" ${cur === "all" ? "selected" : ""}>All</option>
-      ${leagueOpts}
       <option value="classic" ${cur === "classic" ? "selected" : ""}>Classic</option>
+      ${leagueOpts}
       ${clubOpts}
     </select>`;
   }

@@ -1,3353 +1,2569 @@
 [
   {
-    "id": "plymouth_argyle_current",
-    "name": "Plymouth Argyle",
-    "abbreviation": "ARG",
+    "id": "nba_atl",
+    "name": "Atlanta Hawks",
+    "abbreviation": "ATL",
     "teamType": "CURRENT_TEAM",
-    "city": "Plymouth",
-    "primaryColor": "#007A3D",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#007A3D",
-      "shorts": "#FFFFFF",
-      "socks": "#007A3D",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "home_park",
-    "defaultFormation": "4-4-2-W",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#007A3D",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "barnsley_current",
-    "name": "Barnsley",
-    "abbreviation": "BAR",
-    "teamType": "CURRENT_TEAM",
-    "city": "Barnsley",
-    "primaryColor": "#E31C23",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#E31C23",
-      "shorts": "#FFFFFF",
-      "socks": "#E31C23",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#2E8B57",
-      "shorts": "#111111",
-      "socks": "#2E8B57",
-      "trim": "#111111",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "home_park",
-    "defaultFormation": "4-4-2",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#E31C23",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "argyle_fans_xi",
-    "name": "Plymouth Argyle Fans",
-    "abbreviation": "FAN",
-    "teamType": "FANS_TEAM",
-    "city": "Plymouth",
-    "primaryColor": "#0B3D2E",
-    "secondaryColor": "#C5A572",
-    "defaultKit": {
-      "shirt": "#0B3D2E",
-      "shorts": "#C5A572",
-      "socks": "#0B3D2E",
-      "trim": "#C5A572",
-      "numberColor": "#C5A572"
-    },
-    "goalkeeperKit": {
-      "shirt": "#C5A572",
-      "shorts": "#0B3D2E",
-      "socks": "#C5A572",
-      "trim": "#0B3D2E",
-      "numberColor": "#0B3D2E"
-    },
-    "defaultStadiumId": "central_park_pitch",
-    "defaultFormation": "4-4-2-W",
-    "historicSeason": "FANS",
-    "fanTeam": true,
-    "awayKit": {
-      "shirt": "#C5A572",
-      "shorts": "#111111",
-      "socks": "#C5A572",
-      "trim": "#0B3D2E",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "argyle_historic_sample",
-    "name": "Plymouth Argyle — 2021/22",
-    "abbreviation": "ARG",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Plymouth",
-    "primaryColor": "#116B3A",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#116B3A",
-      "shorts": "#000000",
-      "socks": "#116B3A",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#FF8C00",
-      "shorts": "#000000",
-      "socks": "#FF8C00",
-      "trim": "#000000",
-      "numberColor": "#000000"
-    },
-    "defaultStadiumId": "home_park",
-    "defaultFormation": "4-4-2",
-    "historicSeason": "2021/22",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#000000",
-      "socks": "#FFFFFF",
-      "trim": "#116B3A",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "arsenal_current",
-    "name": "Arsenal",
-    "abbreviation": "ARS",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#EF0107",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#EF0107",
-      "shorts": "#FFFFFF",
-      "socks": "#EF0107",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "emirates_stadium",
-    "defaultFormation": "4-3-3",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#EF0107",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "aston_villa_current",
-    "name": "Aston Villa",
-    "abbreviation": "AVL",
-    "teamType": "CURRENT_TEAM",
-    "city": "Birmingham",
-    "primaryColor": "#670E36",
-    "secondaryColor": "#95BFE5",
-    "defaultKit": {
-      "shirt": "#670E36",
-      "shorts": "#670E36",
-      "socks": "#670E36",
-      "trim": "#95BFE5",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "villa_park",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#95BFE5",
-      "shorts": "#670E36",
-      "socks": "#95BFE5",
-      "trim": "#670E36",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "bournemouth_current",
-    "name": "AFC Bournemouth",
-    "abbreviation": "BOU",
-    "teamType": "CURRENT_TEAM",
-    "city": "Bournemouth",
-    "primaryColor": "#DA291C",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#DA291C",
-      "shorts": "#000000",
-      "socks": "#DA291C",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "vitality_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#DA291C",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "brentford_current",
-    "name": "Brentford",
-    "abbreviation": "BRE",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#E30613",
-    "secondaryColor": "#FFB81C",
-    "defaultKit": {
-      "shirt": "#E30613",
-      "shorts": "#FFB81C",
-      "socks": "#E30613",
-      "trim": "#FFB81C",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "gtech_community_stadium",
-    "defaultFormation": "4-3-3",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFB81C",
-      "shorts": "#111111",
-      "socks": "#FFB81C",
-      "trim": "#E30613",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "brighton_current",
-    "name": "Brighton & Hove Albion",
-    "abbreviation": "BHA",
-    "teamType": "CURRENT_TEAM",
-    "city": "Brighton",
-    "primaryColor": "#0057B8",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0057B8",
-      "shorts": "#FFFFFF",
-      "socks": "#0057B8",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "amex_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#0057B8",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "chelsea_current",
-    "name": "Chelsea",
-    "abbreviation": "CHE",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#034694",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#034694",
-      "shorts": "#FFFFFF",
-      "socks": "#034694",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "stamford_bridge",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#034694",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "coventry_city_current",
-    "name": "Coventry City",
-    "abbreviation": "COV",
-    "teamType": "CURRENT_TEAM",
-    "city": "Coventry",
-    "primaryColor": "#77B6E6",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#77B6E6",
-      "shorts": "#FFFFFF",
-      "socks": "#77B6E6",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "coventry_building_society_arena",
-    "defaultFormation": "3-4-2-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#77B6E6",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "crystal_palace_current",
-    "name": "Crystal Palace",
-    "abbreviation": "CRY",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#1B458F",
-    "secondaryColor": "#C4122E",
-    "defaultKit": {
-      "shirt": "#1B458F",
-      "shorts": "#C4122E",
-      "socks": "#1B458F",
-      "trim": "#C4122E",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "selhurst_park",
-    "defaultFormation": "3-4-2-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#C4122E",
-      "shorts": "#ffffff",
-      "socks": "#C4122E",
-      "trim": "#1B458F",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "everton_current",
-    "name": "Everton",
-    "abbreviation": "EVE",
-    "teamType": "CURRENT_TEAM",
-    "city": "Liverpool",
-    "primaryColor": "#003399",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#003399",
-      "shorts": "#FFFFFF",
-      "socks": "#003399",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "hill_dickinson_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#003399",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "fulham_current",
-    "name": "Fulham",
-    "abbreviation": "FUL",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#000000",
-      "socks": "#FFFFFF",
-      "trim": "#CC0000",
-      "numberColor": "#000000"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "craven_cottage",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "hull_city_current",
-    "name": "Hull City",
-    "abbreviation": "HUL",
-    "teamType": "CURRENT_TEAM",
-    "city": "Hull",
-    "primaryColor": "#F5A3C7",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#F5A3C7",
-      "shorts": "#000000",
-      "socks": "#F5A3C7",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "mkm_stadium",
-    "defaultFormation": "4-3-3",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#F5A3C7",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "ipswich_town_current",
-    "name": "Ipswich Town",
-    "abbreviation": "IPS",
-    "teamType": "CURRENT_TEAM",
-    "city": "Ipswich",
-    "primaryColor": "#0000FF",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0000FF",
-      "shorts": "#FFFFFF",
-      "socks": "#0000FF",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "portman_road",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#0000FF",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "leeds_united_current",
-    "name": "Leeds United",
-    "abbreviation": "LEE",
-    "teamType": "CURRENT_TEAM",
-    "city": "Leeds",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#1D428A",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#1D428A",
-      "socks": "#FFFFFF",
-      "trim": "#1D428A",
-      "numberColor": "#1D428A"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "elland_road",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#1D428A",
-      "shorts": "#ffffff",
-      "socks": "#1D428A",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "liverpool_current",
-    "name": "Liverpool",
-    "abbreviation": "LIV",
-    "teamType": "CURRENT_TEAM",
-    "city": "Liverpool",
-    "primaryColor": "#C8102E",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#C8102E",
-      "shorts": "#FFFFFF",
-      "socks": "#C8102E",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "anfield",
-    "defaultFormation": "4-3-3",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#C8102E",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "manchester_city_current",
-    "name": "Manchester City",
-    "abbreviation": "MCI",
-    "teamType": "CURRENT_TEAM",
-    "city": "Manchester",
-    "primaryColor": "#6CABDD",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#6CABDD",
-      "shorts": "#FFFFFF",
-      "socks": "#6CABDD",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "etihad_stadium",
-    "defaultFormation": "4-3-3",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#6CABDD",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "manchester_united_current",
-    "name": "Manchester United",
-    "abbreviation": "MUN",
-    "teamType": "CURRENT_TEAM",
-    "city": "Manchester",
-    "primaryColor": "#DA291C",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#DA291C",
-      "shorts": "#000000",
-      "socks": "#DA291C",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "old_trafford",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#DA291C",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "newcastle_united_current",
-    "name": "Newcastle United",
-    "abbreviation": "NEW",
-    "teamType": "CURRENT_TEAM",
-    "city": "Newcastle",
-    "primaryColor": "#000000",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#000000",
-      "shorts": "#000000",
-      "socks": "#000000",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "st_james_park",
-    "defaultFormation": "4-3-3",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#000000",
-      "socks": "#FFFFFF",
-      "trim": "#000000",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "nottingham_forest_current",
-    "name": "Nottingham Forest",
-    "abbreviation": "NFO",
-    "teamType": "CURRENT_TEAM",
-    "city": "Nottingham",
-    "primaryColor": "#DD0000",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#DD0000",
-      "shorts": "#FFFFFF",
-      "socks": "#DD0000",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "city_ground",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#DD0000",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "sunderland_current",
-    "name": "Sunderland",
-    "abbreviation": "SUN",
-    "teamType": "CURRENT_TEAM",
-    "city": "Sunderland",
-    "primaryColor": "#EB172B",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#EB172B",
-      "shorts": "#FFFFFF",
-      "socks": "#EB172B",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "stadium_of_light",
-    "defaultFormation": "4-2-3-1",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#EB172B",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "tottenham_hotspur_current",
-    "name": "Tottenham Hotspur",
-    "abbreviation": "TOT",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#132257",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#132257",
-      "socks": "#FFFFFF",
-      "trim": "#132257",
-      "numberColor": "#132257"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "tottenham_hotspur_stadium",
-    "defaultFormation": "4-3-3",
-    "league": "PREMIER_LEAGUE",
-    "awayKit": {
-      "shirt": "#132257",
-      "shorts": "#ffffff",
-      "socks": "#132257",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "birmingham_city_current",
-    "name": "Birmingham City",
-    "abbreviation": "BIR",
-    "teamType": "CURRENT_TEAM",
-    "city": "Birmingham",
-    "primaryColor": "#0033A0",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0033A0",
-      "shorts": "#FFFFFF",
-      "socks": "#0033A0",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "st_andrews",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#0033A0",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "blackburn_rovers_current",
-    "name": "Blackburn Rovers",
-    "abbreviation": "BLB",
-    "teamType": "CURRENT_TEAM",
-    "city": "Blackburn",
-    "primaryColor": "#009EE0",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#009EE0",
-      "shorts": "#FFFFFF",
-      "socks": "#009EE0",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "ewood_park",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#009EE0",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "bolton_wanderers_current",
-    "name": "Bolton Wanderers",
-    "abbreviation": "BOL",
-    "teamType": "CURRENT_TEAM",
-    "city": "Bolton",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#2B4E9B",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#2B4E9B",
-      "socks": "#FFFFFF",
-      "trim": "#2B4E9B",
-      "numberColor": "#2B4E9B"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "toughsheet_community_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#2B4E9B",
-      "shorts": "#ffffff",
-      "socks": "#2B4E9B",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "bristol_city_current",
-    "name": "Bristol City",
-    "abbreviation": "BRC",
-    "teamType": "CURRENT_TEAM",
-    "city": "Bristol",
-    "primaryColor": "#E21A23",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#E21A23",
-      "shorts": "#FFFFFF",
-      "socks": "#E21A23",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "ashton_gate",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#E21A23",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "burnley_current",
-    "name": "Burnley",
-    "abbreviation": "BUR",
-    "teamType": "CURRENT_TEAM",
-    "city": "Burnley",
-    "primaryColor": "#6C1D45",
-    "secondaryColor": "#99D6EA",
-    "defaultKit": {
-      "shirt": "#6C1D45",
-      "shorts": "#99D6EA",
-      "socks": "#6C1D45",
-      "trim": "#99D6EA",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "turf_moor",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#99D6EA",
-      "shorts": "#111111",
-      "socks": "#99D6EA",
-      "trim": "#6C1D45",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "cardiff_city_current",
-    "name": "Cardiff City",
-    "abbreviation": "CAR",
-    "teamType": "CURRENT_TEAM",
-    "city": "Cardiff",
-    "primaryColor": "#0070B5",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0070B5",
-      "shorts": "#FFFFFF",
-      "socks": "#0070B5",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "cardiff_city_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#0070B5",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "charlton_athletic_current",
-    "name": "Charlton Athletic",
-    "abbreviation": "CHA",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#D4021D",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#D4021D",
-      "shorts": "#FFFFFF",
-      "socks": "#D4021D",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "the_valley",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#D4021D",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "derby_county_current",
-    "name": "Derby County",
-    "abbreviation": "DER",
-    "teamType": "CURRENT_TEAM",
-    "city": "Derby",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#000000",
-      "socks": "#FFFFFF",
-      "trim": "#000000",
-      "numberColor": "#000000"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "pride_park",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "lincoln_city_current",
-    "name": "Lincoln City",
-    "abbreviation": "LIN",
-    "teamType": "CURRENT_TEAM",
-    "city": "Lincoln",
-    "primaryColor": "#E30613",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#E30613",
-      "shorts": "#FFFFFF",
-      "socks": "#E30613",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "sincil_bank",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#E30613",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "middlesbrough_current",
-    "name": "Middlesbrough",
-    "abbreviation": "MID",
-    "teamType": "CURRENT_TEAM",
-    "city": "Middlesbrough",
-    "primaryColor": "#E11B22",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#E11B22",
-      "shorts": "#FFFFFF",
-      "socks": "#E11B22",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "riverside_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#E11B22",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "millwall_current",
-    "name": "Millwall",
-    "abbreviation": "MIL",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#003087",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#003087",
-      "shorts": "#FFFFFF",
-      "socks": "#003087",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "the_den",
-    "defaultFormation": "4-4-2",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#003087",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "norwich_city_current",
-    "name": "Norwich City",
-    "abbreviation": "NOR",
-    "teamType": "CURRENT_TEAM",
-    "city": "Norwich",
-    "primaryColor": "#FFF200",
-    "secondaryColor": "#00A650",
-    "defaultKit": {
-      "shirt": "#FFF200",
-      "shorts": "#00A650",
-      "socks": "#FFF200",
-      "trim": "#00A650",
-      "numberColor": "#00A650"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "carrow_road",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#00A650",
-      "shorts": "#ffffff",
-      "socks": "#00A650",
-      "trim": "#FFF200",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "portsmouth_current",
-    "name": "Portsmouth",
-    "abbreviation": "POR",
-    "teamType": "CURRENT_TEAM",
-    "city": "Portsmouth",
-    "primaryColor": "#001489",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#001489",
-      "shorts": "#FFFFFF",
-      "socks": "#001489",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "fratton_park",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#001489",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "preston_north_end_current",
-    "name": "Preston North End",
-    "abbreviation": "PNE",
-    "teamType": "CURRENT_TEAM",
-    "city": "Preston",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#241F20",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#241F20",
-      "socks": "#FFFFFF",
-      "trim": "#241F20",
-      "numberColor": "#241F20"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "deepdale",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#241F20",
-      "shorts": "#ffffff",
-      "socks": "#241F20",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "queens_park_rangers_current",
-    "name": "Queens Park Rangers",
-    "abbreviation": "QPR",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#1D5BA4",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#1D5BA4",
-      "shorts": "#FFFFFF",
-      "socks": "#1D5BA4",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "loftus_road",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#1D5BA4",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "sheffield_united_current",
-    "name": "Sheffield United",
-    "abbreviation": "SHU",
-    "teamType": "CURRENT_TEAM",
-    "city": "Sheffield",
-    "primaryColor": "#EE2737",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#EE2737",
-      "shorts": "#FFFFFF",
-      "socks": "#EE2737",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "bramall_lane",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#EE2737",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "stoke_city_current",
-    "name": "Stoke City",
-    "abbreviation": "STK",
-    "teamType": "CURRENT_TEAM",
-    "city": "Stoke",
+    "city": "Atlanta",
     "primaryColor": "#E03A3E",
-    "secondaryColor": "#FFFFFF",
+    "secondaryColor": "#C1D32F",
+    "badgeAsset": "/assets/emblems/nba_atl.svg",
     "defaultKit": {
       "shirt": "#E03A3E",
-      "shorts": "#FFFFFF",
+      "shorts": "#C1D32F",
       "socks": "#E03A3E",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
+      "trim": "#C1D32F",
       "numberColor": "#111111"
     },
-    "defaultStadiumId": "bet365_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
     "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
+      "shirt": "#C1D32F",
+      "shorts": "#E03A3E",
+      "socks": "#C1D32F",
       "trim": "#E03A3E",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "swansea_city_current",
-    "name": "Swansea City",
-    "abbreviation": "SWA",
-    "teamType": "CURRENT_TEAM",
-    "city": "Swansea",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#000000",
-      "socks": "#FFFFFF",
-      "trim": "#000000",
-      "numberColor": "#000000"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "swansea_com_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "watford_current",
-    "name": "Watford",
-    "abbreviation": "WAT",
-    "teamType": "CURRENT_TEAM",
-    "city": "Watford",
-    "primaryColor": "#FBEE23",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#FBEE23",
-      "shorts": "#000000",
-      "socks": "#FBEE23",
-      "trim": "#000000",
-      "numberColor": "#000000"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "vicarage_road",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#FBEE23",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "west_bromwich_albion_current",
-    "name": "West Bromwich Albion",
-    "abbreviation": "WBA",
-    "teamType": "CURRENT_TEAM",
-    "city": "West Bromwich",
-    "primaryColor": "#002F6C",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#002F6C",
-      "shorts": "#FFFFFF",
-      "socks": "#002F6C",
-      "trim": "#FFFFFF",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#E03A3E",
+      "socks": "#222222",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "the_hawthorns",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#002F6C",
-      "numberColor": "#111111"
-    }
+    "defaultStadiumId": "nba_atl_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
   },
   {
-    "id": "west_ham_united_current",
-    "name": "West Ham United",
-    "abbreviation": "WHU",
+    "id": "nba_bos",
+    "name": "Boston Celtics",
+    "abbreviation": "BOS",
     "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#7A263A",
-    "secondaryColor": "#1BB1E7",
+    "city": "Boston",
+    "primaryColor": "#007A33",
+    "secondaryColor": "#BA9653",
+    "badgeAsset": "/assets/emblems/nba_bos.svg",
     "defaultKit": {
-      "shirt": "#7A263A",
-      "shorts": "#1BB1E7",
-      "socks": "#7A263A",
-      "trim": "#1BB1E7",
+      "shirt": "#007A33",
+      "shorts": "#BA9653",
+      "socks": "#007A33",
+      "trim": "#BA9653",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#BA9653",
+      "shorts": "#007A33",
+      "socks": "#BA9653",
+      "trim": "#007A33",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "london_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#1BB1E7",
-      "shorts": "#ffffff",
-      "socks": "#1BB1E7",
-      "trim": "#7A263A",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "wolverhampton_wanderers_current",
-    "name": "Wolverhampton Wanderers",
-    "abbreviation": "WOL",
-    "teamType": "CURRENT_TEAM",
-    "city": "Wolverhampton",
-    "primaryColor": "#FDB913",
-    "secondaryColor": "#111111",
-    "defaultKit": {
-      "shirt": "#FDB913",
-      "shorts": "#111111",
-      "socks": "#FDB913",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "molineux",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#111111",
-      "shorts": "#ffffff",
-      "socks": "#111111",
-      "trim": "#FDB913",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "wrexham_current",
-    "name": "Wrexham",
-    "abbreviation": "WRX",
-    "teamType": "CURRENT_TEAM",
-    "city": "Wrexham",
-    "primaryColor": "#FF0000",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#FF0000",
-      "shorts": "#FFFFFF",
-      "socks": "#FF0000",
-      "trim": "#FFFFFF",
+      "shirt": "#222222",
+      "shorts": "#007A33",
+      "socks": "#222222",
+      "trim": "#007A33",
       "numberColor": "#FFFFFF"
     },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "racecourse_ground",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#FF0000",
-      "numberColor": "#111111"
-    }
+    "defaultStadiumId": "nba_bos_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
   },
   {
-    "id": "southampton_current",
-    "name": "Southampton",
-    "abbreviation": "SOU",
+    "id": "nba_bkn",
+    "name": "Brooklyn Nets",
+    "abbreviation": "BKN",
     "teamType": "CURRENT_TEAM",
-    "city": "Southampton",
-    "primaryColor": "#D71920",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#D71920",
-      "shorts": "#FFFFFF",
-      "socks": "#D71920",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "st_marys",
-    "defaultFormation": "4-2-3-1",
-    "league": "CHAMPIONSHIP",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#D71920",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "afc_wimbledon_current",
-    "name": "AFC Wimbledon",
-    "abbreviation": "WIM",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#0033A0",
-    "secondaryColor": "#FFD100",
-    "defaultKit": {
-      "shirt": "#0033A0",
-      "shorts": "#FFD100",
-      "socks": "#0033A0",
-      "trim": "#FFD100",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "plough_lane",
-    "defaultFormation": "4-4-2",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFD100",
-      "shorts": "#111111",
-      "socks": "#FFD100",
-      "trim": "#0033A0",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "blackpool_current",
-    "name": "Blackpool",
-    "abbreviation": "BPL",
-    "teamType": "CURRENT_TEAM",
-    "city": "Blackpool",
-    "primaryColor": "#F68712",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#F68712",
-      "shorts": "#FFFFFF",
-      "socks": "#F68712",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "bloomfield_road",
-    "defaultFormation": "4-4-2",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#F68712",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "bradford_city_current",
-    "name": "Bradford City",
-    "abbreviation": "BRA",
-    "teamType": "CURRENT_TEAM",
-    "city": "Bradford",
-    "primaryColor": "#C8102E",
-    "secondaryColor": "#F5A100",
-    "defaultKit": {
-      "shirt": "#C8102E",
-      "shorts": "#F5A100",
-      "socks": "#C8102E",
-      "trim": "#F5A100",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "valley_parade",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#F5A100",
-      "shorts": "#111111",
-      "socks": "#F5A100",
-      "trim": "#C8102E",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "bromley_current",
-    "name": "Bromley",
-    "abbreviation": "BRM",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#C8102E",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#C8102E",
-      "socks": "#FFFFFF",
-      "trim": "#C8102E",
-      "numberColor": "#C8102E"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "hayes_lane",
-    "defaultFormation": "4-4-2",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#C8102E",
-      "shorts": "#ffffff",
-      "socks": "#C8102E",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "burton_albion_current",
-    "name": "Burton Albion",
-    "abbreviation": "BRT",
-    "teamType": "CURRENT_TEAM",
-    "city": "Burton",
-    "primaryColor": "#FFD200",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#FFD200",
-      "shorts": "#000000",
-      "socks": "#FFD200",
-      "trim": "#000000",
-      "numberColor": "#000000"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "prow_pilsner_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#FFD200",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "cambridge_united_current",
-    "name": "Cambridge United",
-    "abbreviation": "CAM",
-    "teamType": "CURRENT_TEAM",
-    "city": "Cambridge",
-    "primaryColor": "#FFB81C",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#FFB81C",
-      "shorts": "#000000",
-      "socks": "#FFB81C",
-      "trim": "#000000",
-      "numberColor": "#000000"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "abbey_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#FFB81C",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "doncaster_rovers_current",
-    "name": "Doncaster Rovers",
-    "abbreviation": "DON",
-    "teamType": "CURRENT_TEAM",
-    "city": "Doncaster",
-    "primaryColor": "#ED1B2F",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#ED1B2F",
-      "shorts": "#FFFFFF",
-      "socks": "#ED1B2F",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "ecopower_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#ED1B2F",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "huddersfield_town_current",
-    "name": "Huddersfield Town",
-    "abbreviation": "HUD",
-    "teamType": "CURRENT_TEAM",
-    "city": "Huddersfield",
-    "primaryColor": "#0B63A8",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0B63A8",
-      "shorts": "#FFFFFF",
-      "socks": "#0B63A8",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "kirklees_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#0B63A8",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "leicester_city_current",
-    "name": "Leicester City",
-    "abbreviation": "LEI",
-    "teamType": "CURRENT_TEAM",
-    "city": "Leicester",
-    "primaryColor": "#003090",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#003090",
-      "shorts": "#FFFFFF",
-      "socks": "#003090",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "king_power_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#003090",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "leyton_orient_current",
-    "name": "Leyton Orient",
-    "abbreviation": "LEY",
-    "teamType": "CURRENT_TEAM",
-    "city": "London",
-    "primaryColor": "#ED1C24",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#ED1C24",
-      "shorts": "#FFFFFF",
-      "socks": "#ED1C24",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "brisbane_road",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#ED1C24",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "luton_town_current",
-    "name": "Luton Town",
-    "abbreviation": "LUT",
-    "teamType": "CURRENT_TEAM",
-    "city": "Luton",
-    "primaryColor": "#F78F1E",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#F78F1E",
-      "shorts": "#FFFFFF",
-      "socks": "#F78F1E",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "kenilworth_road",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#F78F1E",
-      "numberColor": "#111111"
-    }
-  },
-  {
-    "id": "mansfield_town_current",
-    "name": "Mansfield Town",
-    "abbreviation": "MAN",
-    "teamType": "CURRENT_TEAM",
-    "city": "Mansfield",
-    "primaryColor": "#FFD100",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#FFD100",
-      "shorts": "#000000",
-      "socks": "#FFD100",
-      "trim": "#000000",
-      "numberColor": "#000000"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "field_mill",
-    "defaultFormation": "4-4-2",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#ffffff",
-      "socks": "#000000",
-      "trim": "#FFD100",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "mk_dons_current",
-    "name": "Milton Keynes Dons",
-    "abbreviation": "MKD",
-    "teamType": "CURRENT_TEAM",
-    "city": "Milton Keynes",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#E21A23",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#E21A23",
-      "socks": "#FFFFFF",
-      "trim": "#E21A23",
-      "numberColor": "#E21A23"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "stadium_mk",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#E21A23",
-      "shorts": "#ffffff",
-      "socks": "#E21A23",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "notts_county_current",
-    "name": "Notts County",
-    "abbreviation": "NCO",
-    "teamType": "CURRENT_TEAM",
-    "city": "Nottingham",
+    "city": "Brooklyn",
     "primaryColor": "#000000",
     "secondaryColor": "#FFFFFF",
+    "badgeAsset": "/assets/emblems/nba_bkn.svg",
     "defaultKit": {
       "shirt": "#000000",
-      "shorts": "#000000",
+      "shorts": "#FFFFFF",
       "socks": "#000000",
       "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
       "numberColor": "#111111"
     },
-    "defaultStadiumId": "meadow_lane",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
     "awayKit": {
       "shirt": "#FFFFFF",
       "shorts": "#000000",
       "socks": "#FFFFFF",
       "trim": "#000000",
-      "numberColor": "#111111"
-    }
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#000000",
+      "socks": "#222222",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bkn_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
   },
   {
-    "id": "oxford_united_current",
-    "name": "Oxford United",
-    "abbreviation": "OXF",
+    "id": "nba_cha",
+    "name": "Charlotte Hornets",
+    "abbreviation": "CHA",
     "teamType": "CURRENT_TEAM",
-    "city": "Oxford",
-    "primaryColor": "#FFD100",
+    "city": "Charlotte",
+    "primaryColor": "#1D1160",
+    "secondaryColor": "#00788C",
+    "badgeAsset": "/assets/emblems/nba_cha.svg",
+    "defaultKit": {
+      "shirt": "#1D1160",
+      "shorts": "#00788C",
+      "socks": "#1D1160",
+      "trim": "#00788C",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#00788C",
+      "shorts": "#1D1160",
+      "socks": "#00788C",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#1D1160",
+      "socks": "#222222",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_cha_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
+  },
+  {
+    "id": "nba_chi",
+    "name": "Chicago Bulls",
+    "abbreviation": "CHI",
+    "teamType": "CURRENT_TEAM",
+    "city": "Chicago",
+    "primaryColor": "#CE1141",
     "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_chi.svg",
     "defaultKit": {
-      "shirt": "#FFD100",
+      "shirt": "#CE1141",
       "shorts": "#000000",
-      "socks": "#FFD100",
+      "socks": "#CE1141",
       "trim": "#000000",
-      "numberColor": "#000000"
+      "numberColor": "#FFFFFF"
     },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "kassam_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
     "awayKit": {
       "shirt": "#000000",
-      "shorts": "#ffffff",
+      "shorts": "#CE1141",
       "socks": "#000000",
-      "trim": "#FFD100",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "peterborough_united_current",
-    "name": "Peterborough United",
-    "abbreviation": "PET",
-    "teamType": "CURRENT_TEAM",
-    "city": "Peterborough",
-    "primaryColor": "#004FA3",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#004FA3",
-      "shorts": "#FFFFFF",
-      "socks": "#004FA3",
-      "trim": "#FFFFFF",
+      "trim": "#CE1141",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "london_road",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#004FA3",
-      "numberColor": "#111111"
-    }
+    "defaultStadiumId": "nba_chi_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
   },
   {
-    "id": "reading_current",
-    "name": "Reading",
-    "abbreviation": "REA",
+    "id": "nba_cle",
+    "name": "Cleveland Cavaliers",
+    "abbreviation": "CLE",
     "teamType": "CURRENT_TEAM",
-    "city": "Reading",
-    "primaryColor": "#004C97",
-    "secondaryColor": "#FFFFFF",
+    "city": "Cleveland",
+    "primaryColor": "#860038",
+    "secondaryColor": "#FDBB30",
+    "badgeAsset": "/assets/emblems/nba_cle.svg",
     "defaultKit": {
-      "shirt": "#004C97",
-      "shorts": "#FFFFFF",
-      "socks": "#004C97",
-      "trim": "#FFFFFF",
+      "shirt": "#860038",
+      "shorts": "#FDBB30",
+      "socks": "#860038",
+      "trim": "#FDBB30",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDBB30",
+      "shorts": "#860038",
+      "socks": "#FDBB30",
+      "trim": "#860038",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#860038",
+      "socks": "#222222",
+      "trim": "#860038",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "madejski_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#004C97",
-      "numberColor": "#111111"
-    }
+    "defaultStadiumId": "nba_cle_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
   },
   {
-    "id": "sheffield_wednesday_current",
-    "name": "Sheffield Wednesday",
-    "abbreviation": "SHW",
+    "id": "nba_det",
+    "name": "Detroit Pistons",
+    "abbreviation": "DET",
     "teamType": "CURRENT_TEAM",
-    "city": "Sheffield",
-    "primaryColor": "#007A3D",
-    "secondaryColor": "#FFFFFF",
+    "city": "Detroit",
+    "primaryColor": "#C8102E",
+    "secondaryColor": "#1D42BA",
+    "badgeAsset": "/assets/emblems/nba_det.svg",
     "defaultKit": {
-      "shirt": "#007A3D",
-      "shorts": "#FFFFFF",
-      "socks": "#007A3D",
-      "trim": "#FFFFFF",
+      "shirt": "#C8102E",
+      "shorts": "#1D42BA",
+      "socks": "#C8102E",
+      "trim": "#1D42BA",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D42BA",
+      "shorts": "#C8102E",
+      "socks": "#1D42BA",
+      "trim": "#C8102E",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "hillsborough",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#007A3D",
-      "numberColor": "#111111"
-    }
+    "defaultStadiumId": "nba_det_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
   },
   {
-    "id": "stevenage_current",
-    "name": "Stevenage",
-    "abbreviation": "STE",
+    "id": "nba_ind",
+    "name": "Indiana Pacers",
+    "abbreviation": "IND",
     "teamType": "CURRENT_TEAM",
-    "city": "Stevenage",
-    "primaryColor": "#E30613",
-    "secondaryColor": "#FFFFFF",
+    "city": "Indiana",
+    "primaryColor": "#002D62",
+    "secondaryColor": "#FDBB30",
+    "badgeAsset": "/assets/emblems/nba_ind.svg",
     "defaultKit": {
-      "shirt": "#E30613",
-      "shorts": "#FFFFFF",
-      "socks": "#E30613",
-      "trim": "#FFFFFF",
+      "shirt": "#002D62",
+      "shorts": "#FDBB30",
+      "socks": "#002D62",
+      "trim": "#FDBB30",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDBB30",
+      "shorts": "#002D62",
+      "socks": "#FDBB30",
+      "trim": "#002D62",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#002D62",
+      "socks": "#222222",
+      "trim": "#002D62",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "broadhall_way",
-    "defaultFormation": "4-4-2",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#E30613",
-      "numberColor": "#111111"
-    }
+    "defaultStadiumId": "nba_ind_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
   },
   {
-    "id": "stockport_county_current",
-    "name": "Stockport County",
-    "abbreviation": "STO",
+    "id": "nba_mia",
+    "name": "Miami Heat",
+    "abbreviation": "MIA",
     "teamType": "CURRENT_TEAM",
-    "city": "Stockport",
-    "primaryColor": "#004B87",
-    "secondaryColor": "#FFFFFF",
+    "city": "Miami",
+    "primaryColor": "#98002E",
+    "secondaryColor": "#F9A01B",
+    "badgeAsset": "/assets/emblems/nba_mia.svg",
     "defaultKit": {
-      "shirt": "#004B87",
-      "shorts": "#FFFFFF",
-      "socks": "#004B87",
-      "trim": "#FFFFFF",
+      "shirt": "#98002E",
+      "shorts": "#F9A01B",
+      "socks": "#98002E",
+      "trim": "#F9A01B",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#F9A01B",
+      "shorts": "#98002E",
+      "socks": "#F9A01B",
+      "trim": "#98002E",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#98002E",
+      "socks": "#222222",
+      "trim": "#98002E",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "edgeley_park",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#111111",
-      "socks": "#FFFFFF",
-      "trim": "#004B87",
-      "numberColor": "#111111"
-    }
+    "defaultStadiumId": "nba_mia_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
   },
   {
-    "id": "wigan_athletic_current",
-    "name": "Wigan Athletic",
-    "abbreviation": "WIG",
+    "id": "nba_mil",
+    "name": "Milwaukee Bucks",
+    "abbreviation": "MIL",
     "teamType": "CURRENT_TEAM",
-    "city": "Wigan",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#0033A0",
+    "city": "Milwaukee",
+    "primaryColor": "#00471B",
+    "secondaryColor": "#EEE1C6",
+    "badgeAsset": "/assets/emblems/nba_mil.svg",
     "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#0033A0",
-      "socks": "#FFFFFF",
-      "trim": "#0033A0",
-      "numberColor": "#0033A0"
+      "shirt": "#00471B",
+      "shorts": "#EEE1C6",
+      "socks": "#00471B",
+      "trim": "#EEE1C6",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#EEE1C6",
+      "shorts": "#00471B",
+      "socks": "#EEE1C6",
+      "trim": "#00471B",
+      "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#00471B",
+      "socks": "#222222",
+      "trim": "#00471B",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "dw_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
-    "awayKit": {
-      "shirt": "#0033A0",
-      "shorts": "#ffffff",
-      "socks": "#0033A0",
-      "trim": "#FFFFFF",
-      "numberColor": "#ffffff"
-    }
+    "defaultStadiumId": "nba_mil_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
   },
   {
-    "id": "wycombe_wanderers_current",
-    "name": "Wycombe Wanderers",
-    "abbreviation": "WYC",
+    "id": "nba_nyk",
+    "name": "New York Knicks",
+    "abbreviation": "NYK",
     "teamType": "CURRENT_TEAM",
-    "city": "High Wycombe",
-    "primaryColor": "#7AC143",
-    "secondaryColor": "#002B5C",
+    "city": "New York",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#F58426",
+    "badgeAsset": "/assets/emblems/nba_nyk.svg",
     "defaultKit": {
-      "shirt": "#7AC143",
+      "shirt": "#006BB6",
+      "shorts": "#F58426",
+      "socks": "#006BB6",
+      "trim": "#F58426",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#F58426",
+      "shorts": "#006BB6",
+      "socks": "#F58426",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_nyk_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
+  },
+  {
+    "id": "nba_orl",
+    "name": "Orlando Magic",
+    "abbreviation": "ORL",
+    "teamType": "CURRENT_TEAM",
+    "city": "Orlando",
+    "primaryColor": "#0077C0",
+    "secondaryColor": "#C4CED4",
+    "badgeAsset": "/assets/emblems/nba_orl.svg",
+    "defaultKit": {
+      "shirt": "#0077C0",
+      "shorts": "#C4CED4",
+      "socks": "#0077C0",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#C4CED4",
+      "shorts": "#0077C0",
+      "socks": "#C4CED4",
+      "trim": "#0077C0",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#0077C0",
+      "socks": "#222222",
+      "trim": "#0077C0",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_orl_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
+  },
+  {
+    "id": "nba_phi",
+    "name": "Philadelphia 76ers",
+    "abbreviation": "PHI",
+    "teamType": "CURRENT_TEAM",
+    "city": "Philadelphia",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#ED174C",
+    "badgeAsset": "/assets/emblems/nba_phi.svg",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#ED174C",
+      "socks": "#006BB6",
+      "trim": "#ED174C",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#ED174C",
+      "shorts": "#006BB6",
+      "socks": "#ED174C",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phi_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
+  },
+  {
+    "id": "nba_tor",
+    "name": "Toronto Raptors",
+    "abbreviation": "TOR",
+    "teamType": "CURRENT_TEAM",
+    "city": "Toronto",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_tor.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_tor_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
+  },
+  {
+    "id": "nba_was",
+    "name": "Washington Wizards",
+    "abbreviation": "WAS",
+    "teamType": "CURRENT_TEAM",
+    "city": "Washington",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#E31837",
+    "badgeAsset": "/assets/emblems/nba_was.svg",
+    "defaultKit": {
+      "shirt": "#002B5C",
+      "shorts": "#E31837",
+      "socks": "#002B5C",
+      "trim": "#E31837",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E31837",
       "shorts": "#002B5C",
-      "socks": "#7AC143",
+      "socks": "#E31837",
       "trim": "#002B5C",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "adams_park",
-    "defaultFormation": "4-2-3-1",
-    "league": "LEAGUE_ONE",
+    "defaultStadiumId": "nba_was_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST"
+  },
+  {
+    "id": "nba_dal",
+    "name": "Dallas Mavericks",
+    "abbreviation": "DAL",
+    "teamType": "CURRENT_TEAM",
+    "city": "Dallas",
+    "primaryColor": "#00538C",
+    "secondaryColor": "#002B5E",
+    "badgeAsset": "/assets/emblems/nba_dal.svg",
+    "defaultKit": {
+      "shirt": "#00538C",
+      "shorts": "#002B5E",
+      "socks": "#00538C",
+      "trim": "#002B5E",
+      "numberColor": "#FFFFFF"
+    },
     "awayKit": {
-      "shirt": "#002B5C",
-      "shorts": "#ffffff",
-      "socks": "#002B5C",
-      "trim": "#7AC143",
-      "numberColor": "#ffffff"
-    }
-  },
-  {
-    "id": "athletic_current",
-    "name": "Athletic Club",
-    "abbreviation": "ATH",
-    "teamType": "CURRENT_TEAM",
-    "city": "Bilbao",
-    "primaryColor": "#EE2523",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#EE2523",
-      "shorts": "#FFFFFF",
-      "socks": "#EE2523",
-      "trim": "#FFFFFF",
+      "shirt": "#002B5E",
+      "shorts": "#00538C",
+      "socks": "#002B5E",
+      "trim": "#00538C",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#00538C",
+      "socks": "#222222",
+      "trim": "#00538C",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "san_mames",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
+    "defaultStadiumId": "nba_dal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
   },
   {
-    "id": "osasuna_current",
-    "name": "CA Osasuna",
-    "abbreviation": "OSA",
+    "id": "nba_den",
+    "name": "Denver Nuggets",
+    "abbreviation": "DEN",
     "teamType": "CURRENT_TEAM",
-    "city": "Pamplona",
-    "primaryColor": "#D10000",
-    "secondaryColor": "#000000",
+    "city": "Denver",
+    "primaryColor": "#0E2240",
+    "secondaryColor": "#FEC524",
+    "badgeAsset": "/assets/emblems/nba_den.svg",
     "defaultKit": {
-      "shirt": "#D10000",
+      "shirt": "#0E2240",
+      "shorts": "#FEC524",
+      "socks": "#0E2240",
+      "trim": "#FEC524",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FEC524",
+      "shorts": "#0E2240",
+      "socks": "#FEC524",
+      "trim": "#0E2240",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#0E2240",
+      "socks": "#222222",
+      "trim": "#0E2240",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_den_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_gsw",
+    "name": "Golden State Warriors",
+    "abbreviation": "GSW",
+    "teamType": "CURRENT_TEAM",
+    "city": "San Francisco",
+    "primaryColor": "#1D428A",
+    "secondaryColor": "#FFC72C",
+    "badgeAsset": "/assets/emblems/nba_gsw.svg",
+    "defaultKit": {
+      "shirt": "#1D428A",
+      "shorts": "#FFC72C",
+      "socks": "#1D428A",
+      "trim": "#FFC72C",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#FFC72C",
+      "shorts": "#1D428A",
+      "socks": "#FFC72C",
+      "trim": "#1D428A",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#1D428A",
+      "socks": "#222222",
+      "trim": "#1D428A",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_gsw_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_hou",
+    "name": "Houston Rockets",
+    "abbreviation": "HOU",
+    "teamType": "CURRENT_TEAM",
+    "city": "Houston",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
       "shorts": "#000000",
-      "socks": "#D10000",
+      "socks": "#CE1141",
       "trim": "#000000",
       "numberColor": "#FFFFFF"
     },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "el_sadar",
-    "defaultFormation": "4-3-3",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "atletico_current",
-    "name": "Club Atlético de Madrid",
-    "abbreviation": "ATM",
-    "teamType": "CURRENT_TEAM",
-    "city": "Madrid",
-    "primaryColor": "#CB3524",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#CB3524",
-      "shorts": "#FFFFFF",
-      "socks": "#CB3524",
-      "trim": "#FFFFFF",
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "civitas_metropolitano",
-    "defaultFormation": "4-4-2",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "alaves_current",
-    "name": "Deportivo Alavés",
-    "abbreviation": "ALA",
-    "teamType": "CURRENT_TEAM",
-    "city": "Vitoria",
-    "primaryColor": "#004FA3",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#004FA3",
-      "shorts": "#FFFFFF",
-      "socks": "#004FA3",
-      "trim": "#FFFFFF",
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
       "numberColor": "#FFFFFF"
     },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "mendizorroza",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
+    "defaultStadiumId": "nba_hou_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
   },
   {
-    "id": "elche_current",
-    "name": "Elche CF",
-    "abbreviation": "ELC",
+    "id": "nba_lac",
+    "name": "LA Clippers",
+    "abbreviation": "LAC",
     "teamType": "CURRENT_TEAM",
-    "city": "Elche",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#007A33",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#007A33",
-      "socks": "#FFFFFF",
-      "trim": "#007A33",
-      "numberColor": "#007A33"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "martinez_valero",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "barcelona_current",
-    "name": "FC Barcelona",
-    "abbreviation": "FCB",
-    "teamType": "CURRENT_TEAM",
-    "city": "Barcelona",
-    "primaryColor": "#A50044",
-    "secondaryColor": "#004D98",
-    "defaultKit": {
-      "shirt": "#A50044",
-      "shorts": "#004D98",
-      "socks": "#A50044",
-      "trim": "#004D98",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "camp_nou",
-    "defaultFormation": "4-3-3",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "getafe_current",
-    "name": "Getafe CF",
-    "abbreviation": "GET",
-    "teamType": "CURRENT_TEAM",
-    "city": "Getafe",
-    "primaryColor": "#0057B8",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0057B8",
-      "shorts": "#FFFFFF",
-      "socks": "#0057B8",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "coliseum",
-    "defaultFormation": "4-4-2",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "levante_current",
-    "name": "Levante UD",
-    "abbreviation": "LEV",
-    "teamType": "CURRENT_TEAM",
-    "city": "Valencia",
-    "primaryColor": "#B5003C",
-    "secondaryColor": "#0057A8",
-    "defaultKit": {
-      "shirt": "#B5003C",
-      "shorts": "#0057A8",
-      "socks": "#B5003C",
-      "trim": "#0057A8",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "ciutat_de_valencia",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "malaga_current",
-    "name": "Málaga CF",
-    "abbreviation": "MLG",
-    "teamType": "CURRENT_TEAM",
-    "city": "Málaga",
-    "primaryColor": "#0057B8",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0057B8",
-      "shorts": "#FFFFFF",
-      "socks": "#0057B8",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "la_rosaleda",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "celta_current",
-    "name": "RC Celta de Vigo",
-    "abbreviation": "CEL",
-    "teamType": "CURRENT_TEAM",
-    "city": "Vigo",
-    "primaryColor": "#8AC7E8",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#8AC7E8",
-      "shorts": "#FFFFFF",
-      "socks": "#8AC7E8",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "balaidos",
-    "defaultFormation": "4-3-3",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "deportivo_current",
-    "name": "RC Deportivo La Coruña",
-    "abbreviation": "DEP",
-    "teamType": "CURRENT_TEAM",
-    "city": "A Coruña",
-    "primaryColor": "#0057B8",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0057B8",
-      "shorts": "#FFFFFF",
-      "socks": "#0057B8",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "riazor",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "espanyol_current",
-    "name": "RCD Espanyol de Barcelona",
-    "abbreviation": "ESP",
-    "teamType": "CURRENT_TEAM",
-    "city": "Barcelona",
-    "primaryColor": "#0072BC",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0072BC",
-      "shorts": "#FFFFFF",
-      "socks": "#0072BC",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "rcde_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "rayo_current",
-    "name": "Rayo Vallecano de Madrid",
-    "abbreviation": "RAY",
-    "teamType": "CURRENT_TEAM",
-    "city": "Madrid",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#E30613",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#E30613",
-      "socks": "#FFFFFF",
-      "trim": "#E30613",
-      "numberColor": "#E30613"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "vallecas",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "betis_current",
-    "name": "Real Betis Balompié",
-    "abbreviation": "BET",
-    "teamType": "CURRENT_TEAM",
-    "city": "Seville",
-    "primaryColor": "#0BB906",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0BB906",
-      "shorts": "#FFFFFF",
-      "socks": "#0BB906",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "benito_villamarin",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "realmadrid_current",
-    "name": "Real Madrid CF",
-    "abbreviation": "RMA",
-    "teamType": "CURRENT_TEAM",
-    "city": "Madrid",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#00529F",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#FFFFFF",
-      "socks": "#FFFFFF",
-      "trim": "#00529F",
-      "numberColor": "#00529F"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "santiago_bernabeu",
-    "defaultFormation": "4-3-3",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "racing_current",
-    "name": "Real Racing Club de Santander",
-    "abbreviation": "RAC",
-    "teamType": "CURRENT_TEAM",
-    "city": "Santander",
-    "primaryColor": "#007A33",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#007A33",
-      "shorts": "#FFFFFF",
-      "socks": "#007A33",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "el_sardinero",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "realsociedad_current",
-    "name": "Real Sociedad de Fútbol",
-    "abbreviation": "RSO",
-    "teamType": "CURRENT_TEAM",
-    "city": "San Sebastián",
-    "primaryColor": "#0067B1",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#0067B1",
-      "shorts": "#FFFFFF",
-      "socks": "#0067B1",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "anoeta",
-    "defaultFormation": "4-3-3",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "sevilla_current",
-    "name": "Sevilla FC",
-    "abbreviation": "SEV",
-    "teamType": "CURRENT_TEAM",
-    "city": "Seville",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#D10000",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#FFFFFF",
-      "socks": "#FFFFFF",
-      "trim": "#D10000",
-      "numberColor": "#D10000"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "ramon_sanchez_pizjuan",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "valencia_current",
-    "name": "Valencia CF",
-    "abbreviation": "VCF",
-    "teamType": "CURRENT_TEAM",
-    "city": "Valencia",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#EE3524",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#FFFFFF",
-      "socks": "#FFFFFF",
-      "trim": "#EE3524",
-      "numberColor": "#EE3524"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "mestalla",
-    "defaultFormation": "4-2-3-1",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "villarreal_current",
-    "name": "Villarreal CF",
-    "abbreviation": "VIL",
-    "teamType": "CURRENT_TEAM",
-    "city": "Villarreal",
-    "primaryColor": "#FFFF00",
-    "secondaryColor": "#0057B8",
-    "defaultKit": {
-      "shirt": "#FFFF00",
-      "shorts": "#0057B8",
-      "socks": "#FFFF00",
-      "trim": "#0057B8",
-      "numberColor": "#0057B8"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "estadio_de_la_ceramica",
-    "defaultFormation": "4-4-2",
-    "league": "LA_LIGA"
-  },
-  {
-    "id": "milan_current",
-    "name": "AC Milan",
-    "abbreviation": "ACM",
-    "teamType": "CURRENT_TEAM",
-    "city": "Milan",
-    "primaryColor": "#FB090B",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#FB090B",
-      "shorts": "#000000",
-      "socks": "#FB090B",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "san_siro",
-    "defaultFormation": "4-2-3-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "monza_current",
-    "name": "AC Monza",
-    "abbreviation": "MON",
-    "teamType": "CURRENT_TEAM",
-    "city": "Monza",
-    "primaryColor": "#ED1C24",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#ED1C24",
-      "shorts": "#FFFFFF",
-      "socks": "#ED1C24",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "brianteo",
-    "defaultFormation": "3-4-2-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "fiorentina_current",
-    "name": "ACF Fiorentina",
-    "abbreviation": "FIO",
-    "teamType": "CURRENT_TEAM",
-    "city": "Florence",
-    "primaryColor": "#482E92",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#482E92",
-      "shorts": "#FFFFFF",
-      "socks": "#482E92",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "stadio_artemio_franchi",
-    "defaultFormation": "4-2-3-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "roma_current",
-    "name": "AS Roma",
-    "abbreviation": "ROM",
-    "teamType": "CURRENT_TEAM",
-    "city": "Rome",
-    "primaryColor": "#8E1F2F",
-    "secondaryColor": "#F0BC42",
-    "defaultKit": {
-      "shirt": "#8E1F2F",
-      "shorts": "#F0BC42",
-      "socks": "#8E1F2F",
-      "trim": "#F0BC42",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "stadio_olimpico",
-    "defaultFormation": "4-2-3-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "atalanta_current",
-    "name": "Atalanta BC",
-    "abbreviation": "ATA",
-    "teamType": "CURRENT_TEAM",
-    "city": "Bergamo",
-    "primaryColor": "#1E3A8A",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#1E3A8A",
-      "shorts": "#000000",
-      "socks": "#1E3A8A",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "gewiss_stadium",
-    "defaultFormation": "3-4-2-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "bologna_current",
-    "name": "Bologna FC 1909",
-    "abbreviation": "BFC",
-    "teamType": "CURRENT_TEAM",
-    "city": "Bologna",
-    "primaryColor": "#1A1F71",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#1A1F71",
-      "shorts": "#FFFFFF",
-      "socks": "#1A1F71",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "renato_dall_ara",
-    "defaultFormation": "4-2-3-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "cagliari_current",
-    "name": "Cagliari Calcio",
-    "abbreviation": "CAG",
-    "teamType": "CURRENT_TEAM",
-    "city": "Cagliari",
-    "primaryColor": "#AD191D",
-    "secondaryColor": "#003DA5",
-    "defaultKit": {
-      "shirt": "#AD191D",
-      "shorts": "#003DA5",
-      "socks": "#AD191D",
-      "trim": "#003DA5",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "unica_stadium",
-    "defaultFormation": "4-3-3",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "como_current",
-    "name": "Como 1907",
-    "abbreviation": "COM",
-    "teamType": "CURRENT_TEAM",
-    "city": "Como",
-    "primaryColor": "#003DA5",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#003DA5",
-      "shorts": "#FFFFFF",
-      "socks": "#003DA5",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "giuseppe_sinigaglia",
-    "defaultFormation": "4-2-3-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "inter_current",
-    "name": "FC Internazionale Milano",
-    "abbreviation": "INT",
-    "teamType": "CURRENT_TEAM",
-    "city": "Milan",
-    "primaryColor": "#010E80",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#010E80",
-      "shorts": "#000000",
-      "socks": "#010E80",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "san_siro",
-    "defaultFormation": "3-4-2-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "frosinone_current",
-    "name": "Frosinone Calcio",
-    "abbreviation": "FRO",
-    "teamType": "CURRENT_TEAM",
-    "city": "Frosinone",
-    "primaryColor": "#FFD100",
-    "secondaryColor": "#003DA5",
-    "defaultKit": {
-      "shirt": "#FFD100",
-      "shorts": "#003DA5",
-      "socks": "#FFD100",
-      "trim": "#003DA5",
-      "numberColor": "#003DA5"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "benito_stirpe",
-    "defaultFormation": "4-3-3",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "genoa_current",
-    "name": "Genoa CFC",
-    "abbreviation": "GEN",
-    "teamType": "CURRENT_TEAM",
-    "city": "Genoa",
+    "city": "Los Angeles",
     "primaryColor": "#C8102E",
-    "secondaryColor": "#003DA5",
+    "secondaryColor": "#1D428A",
+    "badgeAsset": "/assets/emblems/nba_lac.svg",
     "defaultKit": {
       "shirt": "#C8102E",
-      "shorts": "#003DA5",
+      "shorts": "#1D428A",
       "socks": "#C8102E",
-      "trim": "#003DA5",
+      "trim": "#1D428A",
       "numberColor": "#FFFFFF"
     },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "luigi_ferraris",
-    "defaultFormation": "4-2-3-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "juventus_current",
-    "name": "Juventus FC",
-    "abbreviation": "JUV",
-    "teamType": "CURRENT_TEAM",
-    "city": "Turin",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#000000",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#000000",
-      "socks": "#FFFFFF",
-      "trim": "#000000",
-      "numberColor": "#000000"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "juventus_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "parma_current",
-    "name": "Parma Calcio 1913",
-    "abbreviation": "PAR",
-    "teamType": "CURRENT_TEAM",
-    "city": "Parma",
-    "primaryColor": "#FFFFFF",
-    "secondaryColor": "#0066B3",
-    "defaultKit": {
-      "shirt": "#FFFFFF",
-      "shorts": "#FFFFFF",
-      "socks": "#FFFFFF",
-      "trim": "#0066B3",
-      "numberColor": "#0066B3"
-    },
-    "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "stadio_tardini",
-    "defaultFormation": "4-2-3-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "lazio_current",
-    "name": "SS Lazio",
-    "abbreviation": "LAZ",
-    "teamType": "CURRENT_TEAM",
-    "city": "Rome",
-    "primaryColor": "#87D8F7",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#87D8F7",
-      "shorts": "#FFFFFF",
-      "socks": "#87D8F7",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F27A1A",
-      "shorts": "#111111",
-      "socks": "#F27A1A",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "stadio_olimpico",
-    "defaultFormation": "4-3-3",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "napoli_current",
-    "name": "SSC Napoli",
-    "abbreviation": "NAP",
-    "teamType": "CURRENT_TEAM",
-    "city": "Naples",
-    "primaryColor": "#12A0D7",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#12A0D7",
-      "shorts": "#FFFFFF",
-      "socks": "#12A0D7",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "stadio_san_paolo",
-    "defaultFormation": "4-3-3",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "torino_current",
-    "name": "Torino FC",
-    "abbreviation": "TOR",
-    "teamType": "CURRENT_TEAM",
-    "city": "Turin",
-    "primaryColor": "#8B0000",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
-      "shirt": "#8B0000",
-      "shorts": "#FFFFFF",
-      "socks": "#8B0000",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#7B5CFF",
-      "shorts": "#111111",
-      "socks": "#7B5CFF",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "olimpico_grande_torino",
-    "defaultFormation": "3-4-2-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "lecce_current",
-    "name": "US Lecce",
-    "abbreviation": "LEC",
-    "teamType": "CURRENT_TEAM",
-    "city": "Lecce",
-    "primaryColor": "#FFD100",
-    "secondaryColor": "#C8102E",
-    "defaultKit": {
-      "shirt": "#FFD100",
+    "awayKit": {
+      "shirt": "#1D428A",
       "shorts": "#C8102E",
-      "socks": "#FFD100",
+      "socks": "#1D428A",
       "trim": "#C8102E",
-      "numberColor": "#C8102E"
+      "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#E8D44D",
-      "shorts": "#111111",
-      "socks": "#E8D44D",
-      "trim": "#111111",
-      "numberColor": "#111111"
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
     },
-    "defaultStadiumId": "via_del_mare",
-    "defaultFormation": "4-3-3",
-    "league": "SERIE_A"
+    "defaultStadiumId": "nba_lac_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
   },
   {
-    "id": "sassuolo_current",
-    "name": "US Sassuolo Calcio",
+    "id": "nba_lal",
+    "name": "Los Angeles Lakers",
+    "abbreviation": "LAL",
+    "teamType": "CURRENT_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_mem",
+    "name": "Memphis Grizzlies",
+    "abbreviation": "MEM",
+    "teamType": "CURRENT_TEAM",
+    "city": "Memphis",
+    "primaryColor": "#5D76A9",
+    "secondaryColor": "#12173F",
+    "badgeAsset": "/assets/emblems/nba_mem.svg",
+    "defaultKit": {
+      "shirt": "#5D76A9",
+      "shorts": "#12173F",
+      "socks": "#5D76A9",
+      "trim": "#12173F",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#12173F",
+      "shorts": "#5D76A9",
+      "socks": "#12173F",
+      "trim": "#5D76A9",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#5D76A9",
+      "socks": "#222222",
+      "trim": "#5D76A9",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_mem_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_min",
+    "name": "Minnesota Timberwolves",
+    "abbreviation": "MIN",
+    "teamType": "CURRENT_TEAM",
+    "city": "Minnesota",
+    "primaryColor": "#0C2340",
+    "secondaryColor": "#236192",
+    "badgeAsset": "/assets/emblems/nba_min.svg",
+    "defaultKit": {
+      "shirt": "#0C2340",
+      "shorts": "#236192",
+      "socks": "#0C2340",
+      "trim": "#236192",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#236192",
+      "shorts": "#0C2340",
+      "socks": "#236192",
+      "trim": "#0C2340",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#0C2340",
+      "socks": "#222222",
+      "trim": "#0C2340",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_min_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_nop",
+    "name": "New Orleans Pelicans",
+    "abbreviation": "NOP",
+    "teamType": "CURRENT_TEAM",
+    "city": "New Orleans",
+    "primaryColor": "#0C2340",
+    "secondaryColor": "#C8102E",
+    "badgeAsset": "/assets/emblems/nba_nop.svg",
+    "defaultKit": {
+      "shirt": "#0C2340",
+      "shorts": "#C8102E",
+      "socks": "#0C2340",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#C8102E",
+      "shorts": "#0C2340",
+      "socks": "#C8102E",
+      "trim": "#0C2340",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#0C2340",
+      "socks": "#222222",
+      "trim": "#0C2340",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_nop_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_okc",
+    "name": "Oklahoma City Thunder",
+    "abbreviation": "OKC",
+    "teamType": "CURRENT_TEAM",
+    "city": "Oklahoma City",
+    "primaryColor": "#007AC1",
+    "secondaryColor": "#EF3B24",
+    "badgeAsset": "/assets/emblems/nba_okc.svg",
+    "defaultKit": {
+      "shirt": "#007AC1",
+      "shorts": "#EF3B24",
+      "socks": "#007AC1",
+      "trim": "#EF3B24",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#EF3B24",
+      "shorts": "#007AC1",
+      "socks": "#EF3B24",
+      "trim": "#007AC1",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007AC1",
+      "socks": "#222222",
+      "trim": "#007AC1",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_okc_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_phx",
+    "name": "Phoenix Suns",
+    "abbreviation": "PHX",
+    "teamType": "CURRENT_TEAM",
+    "city": "Phoenix",
+    "primaryColor": "#1D1160",
+    "secondaryColor": "#E56020",
+    "badgeAsset": "/assets/emblems/nba_phx.svg",
+    "defaultKit": {
+      "shirt": "#1D1160",
+      "shorts": "#E56020",
+      "socks": "#1D1160",
+      "trim": "#E56020",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E56020",
+      "shorts": "#1D1160",
+      "socks": "#E56020",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#1D1160",
+      "socks": "#222222",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phx_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_por",
+    "name": "Portland Trail Blazers",
+    "abbreviation": "POR",
+    "teamType": "CURRENT_TEAM",
+    "city": "Portland",
+    "primaryColor": "#E03A3E",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_por.svg",
+    "defaultKit": {
+      "shirt": "#E03A3E",
+      "shorts": "#000000",
+      "socks": "#E03A3E",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#E03A3E",
+      "socks": "#000000",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#E03A3E",
+      "socks": "#222222",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_por_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_sac",
+    "name": "Sacramento Kings",
+    "abbreviation": "SAC",
+    "teamType": "CURRENT_TEAM",
+    "city": "Sacramento",
+    "primaryColor": "#5A2D81",
+    "secondaryColor": "#63727A",
+    "badgeAsset": "/assets/emblems/nba_sac.svg",
+    "defaultKit": {
+      "shirt": "#5A2D81",
+      "shorts": "#63727A",
+      "socks": "#5A2D81",
+      "trim": "#63727A",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#63727A",
+      "shorts": "#5A2D81",
+      "socks": "#63727A",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#5A2D81",
+      "socks": "#222222",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_sac_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "nba_sas",
+    "name": "San Antonio Spurs",
     "abbreviation": "SAS",
     "teamType": "CURRENT_TEAM",
-    "city": "Sassuolo",
-    "primaryColor": "#00A651",
+    "city": "San Antonio",
+    "primaryColor": "#C4CED4",
     "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_sas.svg",
     "defaultKit": {
-      "shirt": "#00A651",
+      "shirt": "#C4CED4",
       "shorts": "#000000",
-      "socks": "#00A651",
+      "socks": "#C4CED4",
       "trim": "#000000",
       "numberColor": "#FFFFFF"
     },
-    "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "mapi_stadium",
-    "defaultFormation": "4-2-3-1",
-    "league": "SERIE_A"
-  },
-  {
-    "id": "udinese_current",
-    "name": "Udinese Calcio",
-    "abbreviation": "UDI",
-    "teamType": "CURRENT_TEAM",
-    "city": "Udine",
-    "primaryColor": "#000000",
-    "secondaryColor": "#FFFFFF",
-    "defaultKit": {
+    "awayKit": {
       "shirt": "#000000",
-      "shorts": "#000000",
+      "shorts": "#C4CED4",
       "socks": "#000000",
-      "trim": "#FFFFFF",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#F4A7C3",
-      "shorts": "#111111",
-      "socks": "#F4A7C3",
-      "trim": "#111111",
+      "trim": "#C4CED4",
       "numberColor": "#111111"
     },
-    "defaultStadiumId": "friuli",
-    "defaultFormation": "3-4-2-1",
-    "league": "SERIE_A"
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C4CED4",
+      "socks": "#222222",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "defaultStadiumId": "nba_sas_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
   },
   {
-    "id": "venezia_current",
-    "name": "Venezia FC",
-    "abbreviation": "VEN",
+    "id": "nba_uta",
+    "name": "Utah Jazz",
+    "abbreviation": "UTA",
     "teamType": "CURRENT_TEAM",
-    "city": "Venice",
-    "primaryColor": "#FF6600",
-    "secondaryColor": "#009639",
+    "city": "Utah",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#00471B",
+    "badgeAsset": "/assets/emblems/nba_uta.svg",
     "defaultKit": {
-      "shirt": "#FF6600",
-      "shorts": "#009639",
-      "socks": "#FF6600",
-      "trim": "#009639",
+      "shirt": "#002B5C",
+      "shorts": "#00471B",
+      "socks": "#002B5C",
+      "trim": "#00471B",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#00471B",
+      "shorts": "#002B5C",
+      "socks": "#00471B",
+      "trim": "#002B5C",
       "numberColor": "#FFFFFF"
     },
     "goalkeeperKit": {
-      "shirt": "#3DDC97",
-      "shorts": "#111111",
-      "socks": "#3DDC97",
-      "trim": "#111111",
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_uta_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST"
+  },
+  {
+    "id": "classic_chi_1995_96",
+    "name": "Chicago Bulls — 1995/96",
+    "abbreviation": "CHI",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Chicago",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_chi.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_chi_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1995/96",
+    "franchiseId": "nba_chi"
+  },
+  {
+    "id": "classic_gsw_2016_17",
+    "name": "Golden State Warriors — 2016/17",
+    "abbreviation": "GSW",
+    "teamType": "HISTORIC_TEAM",
+    "city": "San Francisco",
+    "primaryColor": "#1D428A",
+    "secondaryColor": "#FFC72C",
+    "badgeAsset": "/assets/emblems/nba_gsw.svg",
+    "defaultKit": {
+      "shirt": "#1D428A",
+      "shorts": "#FFC72C",
+      "socks": "#1D428A",
+      "trim": "#FFC72C",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#FFC72C",
+      "shorts": "#1D428A",
+      "socks": "#FFC72C",
+      "trim": "#1D428A",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#1D428A",
+      "socks": "#222222",
+      "trim": "#1D428A",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_gsw_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2016/17",
+    "franchiseId": "nba_gsw"
+  },
+  {
+    "id": "classic_bos_1985_86",
+    "name": "Boston Celtics — 1985/86",
+    "abbreviation": "BOS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Boston",
+    "primaryColor": "#007A33",
+    "secondaryColor": "#BA9653",
+    "badgeAsset": "/assets/emblems/nba_bos.svg",
+    "defaultKit": {
+      "shirt": "#007A33",
+      "shorts": "#BA9653",
+      "socks": "#007A33",
+      "trim": "#BA9653",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#BA9653",
+      "shorts": "#007A33",
+      "socks": "#BA9653",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007A33",
+      "socks": "#222222",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bos_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1985/86",
+    "franchiseId": "nba_bos"
+  },
+  {
+    "id": "classic_lal_2000_01",
+    "name": "Los Angeles Lakers — 2000/01",
+    "abbreviation": "LAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
       "numberColor": "#111111"
     },
-    "defaultStadiumId": "pier_luigi_penzo",
-    "defaultFormation": "4-3-3",
-    "league": "SERIE_A"
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2000/01",
+    "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_sas_2013_14",
+    "name": "San Antonio Spurs — 2013/14",
+    "abbreviation": "SAS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "San Antonio",
+    "primaryColor": "#C4CED4",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_sas.svg",
+    "defaultKit": {
+      "shirt": "#C4CED4",
+      "shorts": "#000000",
+      "socks": "#C4CED4",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#C4CED4",
+      "socks": "#000000",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C4CED4",
+      "socks": "#222222",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "defaultStadiumId": "nba_sas_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2013/14",
+    "franchiseId": "nba_sas"
+  },
+  {
+    "id": "classic_mia_2012_13",
+    "name": "Miami Heat — 2012/13",
+    "abbreviation": "MIA",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Miami",
+    "primaryColor": "#98002E",
+    "secondaryColor": "#F9A01B",
+    "badgeAsset": "/assets/emblems/nba_mia.svg",
+    "defaultKit": {
+      "shirt": "#98002E",
+      "shorts": "#F9A01B",
+      "socks": "#98002E",
+      "trim": "#F9A01B",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#F9A01B",
+      "shorts": "#98002E",
+      "socks": "#F9A01B",
+      "trim": "#98002E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#98002E",
+      "socks": "#222222",
+      "trim": "#98002E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_mia_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2012/13",
+    "franchiseId": "nba_mia"
+  },
+  {
+    "id": "classic_den_2022_23",
+    "name": "Denver Nuggets — 2022/23",
+    "abbreviation": "DEN",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Denver",
+    "primaryColor": "#0E2240",
+    "secondaryColor": "#FEC524",
+    "badgeAsset": "/assets/emblems/nba_den.svg",
+    "defaultKit": {
+      "shirt": "#0E2240",
+      "shorts": "#FEC524",
+      "socks": "#0E2240",
+      "trim": "#FEC524",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FEC524",
+      "shorts": "#0E2240",
+      "socks": "#FEC524",
+      "trim": "#0E2240",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#0E2240",
+      "socks": "#222222",
+      "trim": "#0E2240",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_den_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2022/23",
+    "franchiseId": "nba_den"
+  },
+  {
+    "id": "classic_bos_2007_08",
+    "name": "Boston Celtics — 2007/08",
+    "abbreviation": "BOS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Boston",
+    "primaryColor": "#007A33",
+    "secondaryColor": "#BA9653",
+    "badgeAsset": "/assets/emblems/nba_bos.svg",
+    "defaultKit": {
+      "shirt": "#007A33",
+      "shorts": "#BA9653",
+      "socks": "#007A33",
+      "trim": "#BA9653",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#BA9653",
+      "shorts": "#007A33",
+      "socks": "#BA9653",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007A33",
+      "socks": "#222222",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bos_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2007/08",
+    "franchiseId": "nba_bos"
+  },
+  {
+    "id": "classic_dal_2010_11",
+    "name": "Dallas Mavericks — 2010/11",
+    "abbreviation": "DAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Dallas",
+    "primaryColor": "#00538C",
+    "secondaryColor": "#002B5E",
+    "badgeAsset": "/assets/emblems/nba_dal.svg",
+    "defaultKit": {
+      "shirt": "#00538C",
+      "shorts": "#002B5E",
+      "socks": "#00538C",
+      "trim": "#002B5E",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#002B5E",
+      "shorts": "#00538C",
+      "socks": "#002B5E",
+      "trim": "#00538C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#00538C",
+      "socks": "#222222",
+      "trim": "#00538C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_dal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2010/11",
+    "franchiseId": "nba_dal"
+  },
+  {
+    "id": "classic_lal_1986_87",
+    "name": "Los Angeles Lakers — 1986/87",
+    "abbreviation": "LAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1986/87",
+    "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_hou_1994_95",
+    "name": "Houston Rockets — 1994/95",
+    "abbreviation": "HOU",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Houston",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_hou_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1994/95",
+    "franchiseId": "nba_hou"
+  },
+  {
+    "id": "classic_hou_1993_94",
+    "name": "Houston Rockets — 1993/94",
+    "abbreviation": "HOU",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Houston",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_hou_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1993/94",
+    "franchiseId": "nba_hou"
+  },
+  {
+    "id": "classic_hou_2006_07",
+    "name": "Houston Rockets — 2006/07",
+    "abbreviation": "HOU",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Houston",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_hou_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2006/07",
+    "franchiseId": "nba_hou"
+  },
+  {
+    "id": "classic_phx_1992_93",
+    "name": "Phoenix Suns — 1992/93",
+    "abbreviation": "PHX",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Phoenix",
+    "primaryColor": "#1D1160",
+    "secondaryColor": "#E56020",
+    "badgeAsset": "/assets/emblems/nba_phx.svg",
+    "defaultKit": {
+      "shirt": "#1D1160",
+      "shorts": "#E56020",
+      "socks": "#1D1160",
+      "trim": "#E56020",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E56020",
+      "shorts": "#1D1160",
+      "socks": "#E56020",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#1D1160",
+      "socks": "#222222",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phx_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1992/93",
+    "franchiseId": "nba_phx"
+  },
+  {
+    "id": "classic_ind_1999_00",
+    "name": "Indiana Pacers — 1999/00",
+    "abbreviation": "IND",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Indiana",
+    "primaryColor": "#002D62",
+    "secondaryColor": "#FDBB30",
+    "badgeAsset": "/assets/emblems/nba_ind.svg",
+    "defaultKit": {
+      "shirt": "#002D62",
+      "shorts": "#FDBB30",
+      "socks": "#002D62",
+      "trim": "#FDBB30",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDBB30",
+      "shorts": "#002D62",
+      "socks": "#FDBB30",
+      "trim": "#002D62",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002D62",
+      "socks": "#222222",
+      "trim": "#002D62",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_ind_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1999/00",
+    "franchiseId": "nba_ind"
+  },
+  {
+    "id": "classic_tor_2000_01",
+    "name": "Toronto Raptors — 2000/01",
+    "abbreviation": "TOR",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Toronto",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_tor.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_tor_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2000/01",
+    "franchiseId": "nba_tor"
+  },
+  {
+    "id": "classic_uta_1997_98",
+    "name": "Utah Jazz — 1997/98",
+    "abbreviation": "UTA",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Utah",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#00471B",
+    "badgeAsset": "/assets/emblems/nba_uta.svg",
+    "defaultKit": {
+      "shirt": "#002B5C",
+      "shorts": "#00471B",
+      "socks": "#002B5C",
+      "trim": "#00471B",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#00471B",
+      "shorts": "#002B5C",
+      "socks": "#00471B",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_uta_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1997/98",
+    "franchiseId": "nba_uta"
+  },
+  {
+    "id": "classic_phi_2000_01",
+    "name": "Philadelphia 76ers — 2000/01",
+    "abbreviation": "PHI",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Philadelphia",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#ED174C",
+    "badgeAsset": "/assets/emblems/nba_phi.svg",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#ED174C",
+      "socks": "#006BB6",
+      "trim": "#ED174C",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#ED174C",
+      "shorts": "#006BB6",
+      "socks": "#ED174C",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phi_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2000/01",
+    "franchiseId": "nba_phi"
+  },
+  {
+    "id": "classic_det_1988_89",
+    "name": "Detroit Pistons — 1988/89",
+    "abbreviation": "DET",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Detroit",
+    "primaryColor": "#C8102E",
+    "secondaryColor": "#1D42BA",
+    "badgeAsset": "/assets/emblems/nba_det.svg",
+    "defaultKit": {
+      "shirt": "#C8102E",
+      "shorts": "#1D42BA",
+      "socks": "#C8102E",
+      "trim": "#1D42BA",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D42BA",
+      "shorts": "#C8102E",
+      "socks": "#1D42BA",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_det_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1988/89",
+    "franchiseId": "nba_det"
+  },
+  {
+    "id": "classic_nyk_1993_94",
+    "name": "New York Knicks — 1993/94",
+    "abbreviation": "NYK",
+    "teamType": "HISTORIC_TEAM",
+    "city": "New York",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#F58426",
+    "badgeAsset": "/assets/emblems/nba_nyk.svg",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#F58426",
+      "socks": "#006BB6",
+      "trim": "#F58426",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#F58426",
+      "shorts": "#006BB6",
+      "socks": "#F58426",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_nyk_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1993/94",
+    "franchiseId": "nba_nyk"
+  },
+  {
+    "id": "classic_sas_1998_99",
+    "name": "San Antonio Spurs — 1998/99",
+    "abbreviation": "SAS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "San Antonio",
+    "primaryColor": "#C4CED4",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_sas.svg",
+    "defaultKit": {
+      "shirt": "#C4CED4",
+      "shorts": "#000000",
+      "socks": "#C4CED4",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#C4CED4",
+      "socks": "#000000",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C4CED4",
+      "socks": "#222222",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "defaultStadiumId": "nba_sas_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1998/99",
+    "franchiseId": "nba_sas"
+  },
+  {
+    "id": "classic_mil_2020_21",
+    "name": "Milwaukee Bucks — 2020/21",
+    "abbreviation": "MIL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Milwaukee",
+    "primaryColor": "#00471B",
+    "secondaryColor": "#EEE1C6",
+    "badgeAsset": "/assets/emblems/nba_mil.svg",
+    "defaultKit": {
+      "shirt": "#00471B",
+      "shorts": "#EEE1C6",
+      "socks": "#00471B",
+      "trim": "#EEE1C6",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#EEE1C6",
+      "shorts": "#00471B",
+      "socks": "#EEE1C6",
+      "trim": "#00471B",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#00471B",
+      "socks": "#222222",
+      "trim": "#00471B",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_mil_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2020/21",
+    "franchiseId": "nba_mil"
+  },
+  {
+    "id": "classic_atl_1990_91",
+    "name": "Atlanta Hawks — 1990/91",
+    "abbreviation": "ATL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Atlanta",
+    "primaryColor": "#E03A3E",
+    "secondaryColor": "#C1D32F",
+    "badgeAsset": "/assets/emblems/nba_atl.svg",
+    "defaultKit": {
+      "shirt": "#E03A3E",
+      "shorts": "#C1D32F",
+      "socks": "#E03A3E",
+      "trim": "#C1D32F",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#C1D32F",
+      "shorts": "#E03A3E",
+      "socks": "#C1D32F",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#E03A3E",
+      "socks": "#222222",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_atl_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1990/91",
+    "franchiseId": "nba_atl"
+  },
+  {
+    "id": "classic_phx_2004_05",
+    "name": "Phoenix Suns — 2004/05",
+    "abbreviation": "PHX",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Phoenix",
+    "primaryColor": "#1D1160",
+    "secondaryColor": "#E56020",
+    "badgeAsset": "/assets/emblems/nba_phx.svg",
+    "defaultKit": {
+      "shirt": "#1D1160",
+      "shorts": "#E56020",
+      "socks": "#1D1160",
+      "trim": "#E56020",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E56020",
+      "shorts": "#1D1160",
+      "socks": "#E56020",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#1D1160",
+      "socks": "#222222",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phx_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2004/05",
+    "franchiseId": "nba_phx"
+  },
+  {
+    "id": "classic_phi_1982_83",
+    "name": "Philadelphia 76ers — 1982/83",
+    "abbreviation": "PHI",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Philadelphia",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#ED174C",
+    "badgeAsset": "/assets/emblems/nba_phi.svg",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#ED174C",
+      "socks": "#006BB6",
+      "trim": "#ED174C",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#ED174C",
+      "shorts": "#006BB6",
+      "socks": "#ED174C",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phi_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1982/83",
+    "franchiseId": "nba_phi"
+  },
+  {
+    "id": "classic_bos_1964_65",
+    "name": "Boston Celtics — 1964/65",
+    "abbreviation": "BOS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Boston",
+    "primaryColor": "#007A33",
+    "secondaryColor": "#BA9653",
+    "badgeAsset": "/assets/emblems/nba_bos.svg",
+    "defaultKit": {
+      "shirt": "#007A33",
+      "shorts": "#BA9653",
+      "socks": "#007A33",
+      "trim": "#BA9653",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#BA9653",
+      "shorts": "#007A33",
+      "socks": "#BA9653",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007A33",
+      "socks": "#222222",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bos_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1964/65",
+    "franchiseId": "nba_bos"
+  },
+  {
+    "id": "classic_lal_1971_72",
+    "name": "Los Angeles Lakers — 1971/72",
+    "abbreviation": "LAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1971/72",
+    "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_okc_1995_96",
+    "name": "Seattle SuperSonics — 1995/96",
+    "abbreviation": "SEA",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Seattle",
+    "primaryColor": "#00653A",
+    "secondaryColor": "#FFC200",
+    "badgeAsset": "/assets/emblems/nba_sea.svg",
+    "defaultKit": {
+      "shirt": "#00653A",
+      "shorts": "#FFC200",
+      "socks": "#00653A",
+      "trim": "#FFC200",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#FFC200",
+      "shorts": "#00653A",
+      "socks": "#FFC200",
+      "trim": "#00653A",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#00653A",
+      "socks": "#222222",
+      "trim": "#00653A",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_okc_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1995/96",
+    "franchiseId": "nba_okc"
+  },
+  {
+    "id": "classic_cin_1963_64",
+    "name": "Cincinnati Royals — 1963/64",
+    "abbreviation": "SAC",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Sacramento",
+    "primaryColor": "#5A2D81",
+    "secondaryColor": "#63727A",
+    "badgeAsset": "/assets/emblems/nba_sac.svg",
+    "defaultKit": {
+      "shirt": "#5A2D81",
+      "shorts": "#63727A",
+      "socks": "#5A2D81",
+      "trim": "#63727A",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#63727A",
+      "shorts": "#5A2D81",
+      "socks": "#63727A",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#5A2D81",
+      "socks": "#222222",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_sac_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1963/64",
+    "franchiseId": "nba_sac"
+  },
+  {
+    "id": "classic_was_2016_17",
+    "name": "Washington Wizards — 2016/17",
+    "abbreviation": "WAS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Washington",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#E31837",
+    "badgeAsset": "/assets/emblems/nba_was.svg",
+    "defaultKit": {
+      "shirt": "#002B5C",
+      "shorts": "#E31837",
+      "socks": "#002B5C",
+      "trim": "#E31837",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E31837",
+      "shorts": "#002B5C",
+      "socks": "#E31837",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_was_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2016/17",
+    "franchiseId": "nba_was"
+  },
+  {
+    "id": "classic_orl_1994_95",
+    "name": "Orlando Magic — 1994/95",
+    "abbreviation": "ORL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Orlando",
+    "primaryColor": "#0077C0",
+    "secondaryColor": "#C4CED4",
+    "badgeAsset": "/assets/emblems/nba_orl.svg",
+    "defaultKit": {
+      "shirt": "#0077C0",
+      "shorts": "#C4CED4",
+      "socks": "#0077C0",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#C4CED4",
+      "shorts": "#0077C0",
+      "socks": "#C4CED4",
+      "trim": "#0077C0",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#0077C0",
+      "socks": "#222222",
+      "trim": "#0077C0",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_orl_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1994/95",
+    "franchiseId": "nba_orl"
+  },
+  {
+    "id": "classic_cle_2015_16",
+    "name": "Cleveland Cavaliers — 2015/16",
+    "abbreviation": "CLE",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Cleveland",
+    "primaryColor": "#860038",
+    "secondaryColor": "#FDBB30",
+    "badgeAsset": "/assets/emblems/nba_cle.svg",
+    "defaultKit": {
+      "shirt": "#860038",
+      "shorts": "#FDBB30",
+      "socks": "#860038",
+      "trim": "#FDBB30",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDBB30",
+      "shorts": "#860038",
+      "socks": "#FDBB30",
+      "trim": "#860038",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#860038",
+      "socks": "#222222",
+      "trim": "#860038",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_cle_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2015/16",
+    "franchiseId": "nba_cle"
+  },
+  {
+    "id": "classic_det_1996_97",
+    "name": "Detroit Pistons — 1996/97",
+    "abbreviation": "DET",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Detroit",
+    "primaryColor": "#C8102E",
+    "secondaryColor": "#1D42BA",
+    "badgeAsset": "/assets/emblems/nba_det.svg",
+    "defaultKit": {
+      "shirt": "#C8102E",
+      "shorts": "#1D42BA",
+      "socks": "#C8102E",
+      "trim": "#1D42BA",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D42BA",
+      "shorts": "#C8102E",
+      "socks": "#1D42BA",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_det_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1996/97",
+    "franchiseId": "nba_det"
+  },
+  {
+    "id": "classic_sac_2001_02",
+    "name": "Sacramento Kings — 2001/02",
+    "abbreviation": "SAC",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Sacramento",
+    "primaryColor": "#5A2D81",
+    "secondaryColor": "#63727A",
+    "badgeAsset": "/assets/emblems/nba_sac.svg",
+    "defaultKit": {
+      "shirt": "#5A2D81",
+      "shorts": "#63727A",
+      "socks": "#5A2D81",
+      "trim": "#63727A",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#63727A",
+      "shorts": "#5A2D81",
+      "socks": "#63727A",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#5A2D81",
+      "socks": "#222222",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_sac_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2001/02",
+    "franchiseId": "nba_sac"
+  },
+  {
+    "id": "classic_por_1999_00",
+    "name": "Portland Trail Blazers — 1999/00",
+    "abbreviation": "POR",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Portland",
+    "primaryColor": "#E03A3E",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_por.svg",
+    "defaultKit": {
+      "shirt": "#E03A3E",
+      "shorts": "#000000",
+      "socks": "#E03A3E",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#E03A3E",
+      "socks": "#000000",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#E03A3E",
+      "socks": "#222222",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_por_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1999/00",
+    "franchiseId": "nba_por"
+  },
+  {
+    "id": "classic_bkn_2000_01",
+    "name": "New Jersey Nets — 2000/01",
+    "abbreviation": "NJN",
+    "teamType": "HISTORIC_TEAM",
+    "city": "New Jersey",
+    "primaryColor": "#002A60",
+    "secondaryColor": "#D21033",
+    "badgeAsset": "/assets/emblems/nba_bkn.svg",
+    "defaultKit": {
+      "shirt": "#002A60",
+      "shorts": "#D21033",
+      "socks": "#002A60",
+      "trim": "#D21033",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#D21033",
+      "shorts": "#002A60",
+      "socks": "#D21033",
+      "trim": "#002A60",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002A60",
+      "socks": "#222222",
+      "trim": "#002A60",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bkn_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2000/01",
+    "franchiseId": "nba_bkn"
+  },
+  {
+    "id": "classic_cha_1992_93",
+    "name": "Charlotte Hornets — 1992/93",
+    "abbreviation": "CHA",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Charlotte",
+    "primaryColor": "#00788C",
+    "secondaryColor": "#1D1160",
+    "badgeAsset": "/assets/emblems/nba_cha.svg",
+    "defaultKit": {
+      "shirt": "#00788C",
+      "shorts": "#1D1160",
+      "socks": "#00788C",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D1160",
+      "shorts": "#00788C",
+      "socks": "#1D1160",
+      "trim": "#00788C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#00788C",
+      "socks": "#222222",
+      "trim": "#00788C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_cha_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1992/93",
+    "franchiseId": "nba_cha"
+  },
+  {
+    "id": "classic_hou_2018_19",
+    "name": "Houston Rockets — 2018/19",
+    "abbreviation": "HOU",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Houston",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_hou_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2018/19",
+    "franchiseId": "nba_hou"
+  },
+  {
+    "id": "classic_okc_2011_12",
+    "name": "Oklahoma City Thunder — 2011/12",
+    "abbreviation": "OKC",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Oklahoma City",
+    "primaryColor": "#007AC1",
+    "secondaryColor": "#EF3B24",
+    "badgeAsset": "/assets/emblems/nba_okc.svg",
+    "defaultKit": {
+      "shirt": "#007AC1",
+      "shorts": "#EF3B24",
+      "socks": "#007AC1",
+      "trim": "#EF3B24",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#EF3B24",
+      "shorts": "#007AC1",
+      "socks": "#EF3B24",
+      "trim": "#007AC1",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007AC1",
+      "socks": "#222222",
+      "trim": "#007AC1",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_okc_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2011/12",
+    "franchiseId": "nba_okc"
+  },
+  {
+    "id": "classic_uta_1976_77",
+    "name": "New Orleans Jazz — 1976/77",
+    "abbreviation": "NOJ",
+    "teamType": "HISTORIC_TEAM",
+    "city": "New Orleans",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#E31837",
+    "badgeAsset": "/assets/emblems/nba_uta.svg",
+    "defaultKit": {
+      "shirt": "#002B5C",
+      "shorts": "#E31837",
+      "socks": "#002B5C",
+      "trim": "#E31837",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E31837",
+      "shorts": "#002B5C",
+      "socks": "#E31837",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_uta_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1976/77",
+    "franchiseId": "nba_uta"
+  },
+  {
+    "id": "classic_lac_2013_14",
+    "name": "Los Angeles Clippers — 2013/14",
+    "abbreviation": "LAC",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#C8102E",
+    "secondaryColor": "#1D428A",
+    "badgeAsset": "/assets/emblems/nba_lac.svg",
+    "defaultKit": {
+      "shirt": "#C8102E",
+      "shorts": "#1D428A",
+      "socks": "#C8102E",
+      "trim": "#1D428A",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D428A",
+      "shorts": "#C8102E",
+      "socks": "#1D428A",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lac_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2013/14",
+    "franchiseId": "nba_lac"
   }
 ]

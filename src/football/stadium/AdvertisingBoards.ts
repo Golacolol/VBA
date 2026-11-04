@@ -44,10 +44,10 @@ export class AdvertisingBoards {
   readonly group = new THREE.Group();
   private boards: THREE.Mesh[] = [];
 
-  constructor(records: AdvertisingBoardRecord[]) {
-    const spans = pitchAdSpans();
+  constructor(records: AdvertisingBoardRecord[], length = PITCH_LENGTH, width = PITCH_WIDTH) {
+    const spans = pitchAdSpans(length, width, length < 40 ? 0.2 : 0.35);
     spans.forEach((spec, i) => {
-      const rec = records[i % Math.max(1, records.length)] ?? { board: i, label: "ARGYLE", color: "#007A3D", textColor: "#FFFFFF" };
+      const rec = records[i % Math.max(1, records.length)] ?? { board: i, label: "VORTEX", color: "#070b14", textColor: "#3ec6ff" };
       const tex = makeAdTexture(rec, spec.w);
       const mat = new THREE.MeshStandardMaterial({
         map: tex,

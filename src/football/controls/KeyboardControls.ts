@@ -1,6 +1,11 @@
 import type { InputIntent } from "./InputIntent";
 import { DEFAULT_KEY_BINDINGS, type KeyBindings, mergeKeyBindings } from "./KeyBindings";
 
+function isTextEntryTarget(target: EventTarget | null): boolean {
+  const el = target as HTMLElement | null;
+  return !!el?.closest?.("input, textarea, select, [contenteditable='true']");
+}
+
 export class KeyboardControls {
   private keys = new Set<string>();
   private passLatch = false;
@@ -34,11 +39,14 @@ export class KeyboardControls {
   }
 
   private onDown = (e: KeyboardEvent): void => {
+    // Let Space / arrows type and navigate in UI fields (Pyramid search, editors, etc.).
+    if (isTextEntryTarget(e.target)) return;
     this.keys.add(e.code);
     if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.code)) e.preventDefault();
   };
 
   private onUp = (e: KeyboardEvent): void => {
+    if (isTextEntryTarget(e.target)) return;
     this.keys.delete(e.code);
   };
 

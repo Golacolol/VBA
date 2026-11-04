@@ -16,6 +16,7 @@ import {
 } from "../../core/SaveManager";
 import { DEFAULT_TEAM_ID } from "../constants";
 import { getFormation } from "../teams/Formation";
+import { positionFitsMiTeamSlot } from "./MiTeamPool";
 
 export type MiTeamShellColors = {
   primaryColor?: string | null;
@@ -62,7 +63,7 @@ export function miteamTeamShell(
       trim: secondary,
       numberColor: secondary,
     },
-    defaultStadiumId: "home_park",
+    defaultStadiumId: "vortex_arena",
     defaultFormation: MITEAM_FORMATION,
     historicSeason: MITEAM_ERA,
   };
@@ -82,12 +83,9 @@ export function miteamBenchSlotIds(): string[] {
   return Array.from({ length: MITEAM_BENCH_SLOTS }, (_, i) => `BENCH_${i + 1}`);
 }
 
-/** Guided fill order: GK first, then remaining formation slots, then bench. */
+/** Guided fill order: starting five (PG→C), then bench. */
 export function miteamFillOrder(formation = MITEAM_FORMATION): string[] {
-  const xi = miteamXiSlots(formation);
-  const gk = xi.filter((s) => s === "GK");
-  const rest = xi.filter((s) => s !== "GK");
-  return [...gk, ...rest, ...miteamBenchSlotIds()];
+  return [...miteamXiSlots(formation), ...miteamBenchSlotIds()];
 }
 
 export function ensureMiTeamSave(save: SaveManager, clubName = MITEAM_DEFAULT_CLUB_NAME): MiTeamSave {
@@ -340,42 +338,34 @@ export function resolveMiTeamPlayerKit(
   const row = mt.roster.find((r) => r.playerId === playerId);
   const origin = findMiTeamOriginTeam(db, playerId, row?.sourceTeamId);
   if (!origin) return fallback;
-  return isGk ? origin.goalkeeperKit : origin.defaultKit;
+  void isGk;
+  return origin.defaultKit;
 }
 
 /**
- * Move / swap a roster player onto `toSlot` (bench↔XI or XI↔XI).
- * Bench → XI onto GK requires a goalkeeper (and vice versa), matching Formation.
- * Returns a new roster array, or null if the move is illegal / a no-op.
+ * Move / swap a roster player onto `toSlot` (bench↔five or five↔five).
+ * Court slots only accept the slot position plus adjacent ones (see positionsForSlot);
+ * bench accepts anyone. Returns a new roster array, or null if illegal / no-op.
  */
 export function placeMiTeamPlayerOnSlot(
   roster: MiTeamRosterSlot[],
   playerId: string,
   toSlot: string,
-  primaryPositionOf: (playerId: string) => string | null | undefined,
+  primaryPositionOf?: (playerId: string) => string | null | undefined,
 ): MiTeamRosterSlot[] | null {
   const from = roster.find((r) => r.playerId === playerId);
   if (!from || from.slot === toSlot) return null;
 
-  const fromIsBench = isBenchSlot(from.slot);
-  const toIsXi = !isBenchSlot(toSlot);
-  if (fromIsBench && toIsXi) {
-    const toIsGk = toSlot === "GK";
-    const inIsGk = primaryPositionOf(playerId) === "GK";
-    if (toIsGk !== inIsGk) return null;
-  }
+  const posOf = (id: string) => primaryPositionOf?.(id) ?? null;
+  if (!positionFitsMiTeamSlot(toSlot, posOf(playerId))) return null;
 
   const occupant = roster.find((r) => r.slot === toSlot);
   if (!occupant) {
     return roster.map((r) => (r.playerId === playerId ? { ...r, slot: toSlot } : r));
   }
 
-  // When swapping a starter onto the GK slot (or GK off it), enforce GK pairing.
-  if (!fromIsBench && (from.slot === "GK" || toSlot === "GK")) {
-    const movingIsGk = primaryPositionOf(playerId) === "GK";
-    const otherIsGk = primaryPositionOf(occupant.playerId) === "GK";
-    if (movingIsGk !== otherIsGk) return null;
-  }
+  // Swap: the displaced player must also fit the mover's current slot.
+  if (!positionFitsMiTeamSlot(from.slot, posOf(occupant.playerId))) return null;
 
   const fromSlot = from.slot;
   return roster.map((r) => {
@@ -388,7 +378,7 @@ export function placeMiTeamPlayerOnSlot(
 export function randomOpponentTeamId(db: GameDatabase): string {
   const ids = [...db.teams.values()]
     .map((t) => t.id)
-    .filter((id) => id !== MITEAM_TEAM_ID && db.getSquad(id).length >= 11);
+    .filter((id) => id !== MITEAM_TEAM_ID && db.getSquad(id).length >= 5);
   if (!ids.length) return DEFAULT_TEAM_ID;
   return ids[Math.floor(Math.random() * ids.length)]!;
 }

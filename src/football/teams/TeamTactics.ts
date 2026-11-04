@@ -21,7 +21,7 @@ export type TeamTacticsSave = {
   user?: TeamTacticsUserSnapshot;
 };
 
-export function normalizeFormationName(name: string | null | undefined, fallback: FormationName = "4-2-3-1"): FormationName {
+export function normalizeFormationName(name: string | null | undefined, fallback: FormationName = "BASKETBALL_5"): FormationName {
   if (name && isFormationName(name)) return name;
   return fallback;
 }

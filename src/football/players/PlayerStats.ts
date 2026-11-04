@@ -8,6 +8,66 @@ type WeightMap = Partial<Record<keyof PlayerAttributes, number>>;
  * Must never be used as a gameplay multiplier.
  */
 export const OVERALL_WEIGHTS: Record<string, WeightMap> = {
+  PG: {
+    passAccuracy: 0.16,
+    ballHandle: 0.14,
+    iq: 0.12,
+    threePoint: 0.1,
+    speed: 0.1,
+    finishing: 0.08,
+    midRange: 0.08,
+    perimeterD: 0.08,
+    clutch: 0.08,
+    stamina: 0.06,
+  },
+  SG: {
+    threePoint: 0.16,
+    midRange: 0.12,
+    finishing: 0.12,
+    ballHandle: 0.1,
+    speed: 0.1,
+    freeThrow: 0.08,
+    perimeterD: 0.08,
+    iq: 0.08,
+    clutch: 0.08,
+    stamina: 0.08,
+  },
+  SF: {
+    finishing: 0.12,
+    threePoint: 0.1,
+    midRange: 0.1,
+    speed: 0.1,
+    ballHandle: 0.1,
+    perimeterD: 0.1,
+    rebound: 0.08,
+    vertical: 0.08,
+    iq: 0.08,
+    strength: 0.08,
+    stamina: 0.06,
+  },
+  PF: {
+    finishing: 0.12,
+    rebound: 0.14,
+    interiorD: 0.12,
+    strength: 0.12,
+    vertical: 0.1,
+    midRange: 0.08,
+    block: 0.08,
+    iq: 0.08,
+    stamina: 0.08,
+    speed: 0.08,
+  },
+  C: {
+    rebound: 0.16,
+    interiorD: 0.16,
+    block: 0.14,
+    strength: 0.12,
+    finishing: 0.12,
+    vertical: 0.1,
+    iq: 0.08,
+    stamina: 0.06,
+    freeThrow: 0.06,
+  },
   GK: {
     gkReflexes: 0.22,
     gkDiving: 0.2,
@@ -192,7 +252,7 @@ export const OVERALL_WEIGHTS: Record<string, WeightMap> = {
   },
 };
 
-/** Alias CDM → DM, CAM → AM, CF → ST for weight lookup. */
+/** Alias legacy football codes; basketball positions map to themselves. */
 const POSITION_ALIAS: Record<string, string> = {
   CDM: "DM",
   CAM: "AM",
@@ -205,9 +265,17 @@ const POSITION_ALIAS: Record<string, string> = {
   RAM: "AM",
   LCM: "CM",
   RCM: "CM",
+  G: "C",
+  F: "SF",
 };
 
 export type InferredAttrKey =
+  | "midRange"
+  | "freeThrow"
+  | "steal"
+  | "block"
+  | "vertical"
+  | "clutch"
   | "acceleration"
   | "agility"
   | "balance"
@@ -240,19 +308,17 @@ function blend(...parts: number[]): number {
   return roundStat(vals.reduce((a, b) => a + b, 0) / vals.length);
 }
 
-function isAttackingPos(pos: PositionCode | string): boolean {
-  const p = String(pos);
-  return p.includes("ST") || p === "CF" || p.includes("W") || p === "AM" || p === "CAM" || p === "LAM" || p === "RAM";
+function num(v: unknown, fallback: number): number {
+  return typeof v === "number" && Number.isFinite(v) ? roundStat(v) : roundStat(fallback);
 }
 
 /**
- * Resolve authored + inferred attributes. Explicit values always win.
- * Inferred keys are reported so callers never treat defaults as authoritative.
+ * Resolve authored basketball attributes; dual-write football mirrors for Match stub.
+ * Explicit values always win. Inferred keys are reported for diagnostics.
  */
 export function resolveAttributesDetailed(
   player: PlayerRecord | (Partial<PlayerAttributes> & { primaryPosition?: PositionCode }),
 ): ResolveResult {
-  const pos = ("primaryPosition" in player && player.primaryPosition) || "CM";
   const inferred: InferredAttrKey[] = [];
   const take = <K extends InferredAttrKey>(key: K, fallback: number): number => {
     const raw = (player as PlayerAttributes)[key];
@@ -261,22 +327,55 @@ export function resolveAttributesDetailed(
     return roundStat(fallback);
   };
 
-  const pace = roundStat(player.pace ?? 60);
-  const passing = roundStat(player.passing ?? 60);
-  const longPassing = roundStat(player.longPassing ?? passing);
-  const vision = roundStat(player.vision ?? 60);
-  const control = roundStat(player.control ?? 60);
-  const dribbling = roundStat(player.dribbling ?? 60);
-  const shooting = roundStat(player.shooting ?? 60);
-  const finishing = roundStat(player.finishing ?? 60);
-  const shotPower = roundStat(player.shotPower ?? 60);
-  const longShots = roundStat(player.longShots ?? 60);
-  const defending = roundStat(player.defending ?? 60);
-  const strength = roundStat(player.strength ?? 60);
-  const stamina = roundStat(player.stamina ?? 60);
-  const composure = roundStat(player.composure ?? 60);
+  const finishing = num(player.finishing ?? player.shooting, 60);
+  const midRange = take("midRange", num(player.midRange ?? player.longShots, finishing));
+  const threePoint = num(player.threePoint ?? player.longShots, midRange);
+  const freeThrow = take("freeThrow", num(player.freeThrow ?? player.penalties, blend(finishing, midRange)));
+  const ballHandle = num(player.ballHandle ?? player.dribbling ?? player.control, 60);
+  const passAccuracy = num(player.passAccuracy ?? player.passing, 60);
+  const perimeterD = num(player.perimeterD ?? player.defending, 60);
+  const interiorD = num(player.interiorD ?? player.defending, perimeterD);
+  const rebound = num(player.rebound ?? player.jumping ?? player.heading, 60);
+  const steal = take("steal", blend(perimeterD, ballHandle));
+  const block = take("block", blend(interiorD, rebound));
+  const speed = num(player.speed ?? player.pace, 60);
+  const vertical = take("vertical", num(player.vertical ?? player.jumping, blend(rebound, speed)));
+  const strength = num(player.strength, 60);
+  const stamina = num(player.stamina, 60);
+  const iq = num(player.iq ?? player.vision ?? player.composure, 60);
+  const clutch = take("clutch", num(player.clutch ?? player.composure, iq));
+
+  // Football mirrors (Match stub / legacy UI)
+  const pace = speed;
+  const passing = passAccuracy;
+  const longPassing = passAccuracy;
+  const vision = iq;
+  const control = ballHandle;
+  const dribbling = ballHandle;
+  const shooting = blend(finishing, midRange);
+  const shotPower = blend(finishing, strength);
+  const longShots = threePoint;
+  const defending = blend(perimeterD, interiorD);
+  const composure = clutch;
 
   const attrs: PlayerAttributes = {
+    finishing,
+    midRange,
+    threePoint,
+    freeThrow,
+    ballHandle,
+    passAccuracy,
+    perimeterD,
+    interiorD,
+    rebound,
+    steal,
+    block,
+    speed,
+    vertical,
+    strength,
+    stamina,
+    iq,
+    clutch,
     pace,
     passing,
     longPassing,
@@ -284,40 +383,25 @@ export function resolveAttributesDetailed(
     control,
     dribbling,
     shooting,
-    finishing,
     shotPower,
     longShots,
     defending,
-    strength,
-    stamina,
     composure,
     acceleration: take("acceleration", pace),
-    agility: take("agility", blend(dribbling, control, pace)),
-    balance: take("balance", blend(strength, control)),
-    crossing: take("crossing", blend(passing, longPassing)),
-    heading: take(
-      "heading",
-      isAttackingPos(pos) ? blend(finishing, player.jumping ?? blend(strength, pace)) : blend(defending, player.jumping ?? blend(strength, pace)),
-    ),
-    penalties: take("penalties", blend(finishing, composure)),
-    setPieces: take("setPieces", blend(passing, shooting)),
-    aggression: take("aggression", blend(defending, strength)),
-    form: take("form", composure),
-    // Default to composure (not vision blend) so inferred soft-fills do not shift gameplay.
-    concentration: take("concentration", composure),
-    attackingAwareness: take(
-      "attackingAwareness",
-      isAttackingPos(pos) ? blend(vision, composure, finishing) : blend(vision, composure),
-    ),
-    reactions: take("reactions", blend(composure, vision)),
-    defensiveAwareness: take("defensiveAwareness", defending),
-    tackling: take("tackling", defending),
-    jumping: take("jumping", blend(strength, pace)),
-    gkDiving: typeof player.gkDiving === "number" ? roundStat(player.gkDiving) : player.gkDiving,
-    gkHandling: typeof player.gkHandling === "number" ? roundStat(player.gkHandling) : player.gkHandling,
-    gkPositioning: typeof player.gkPositioning === "number" ? roundStat(player.gkPositioning) : player.gkPositioning,
-    gkReflexes: typeof player.gkReflexes === "number" ? roundStat(player.gkReflexes) : player.gkReflexes,
-    gkKicking: typeof player.gkKicking === "number" ? roundStat(player.gkKicking) : player.gkKicking,
+    agility: take("agility", blend(ballHandle, speed)),
+    balance: take("balance", blend(strength, ballHandle)),
+    crossing: take("crossing", passAccuracy),
+    heading: take("heading", rebound),
+    penalties: take("penalties", freeThrow),
+    setPieces: take("setPieces", freeThrow),
+    aggression: take("aggression", blend(interiorD, strength)),
+    form: take("form", clutch),
+    concentration: take("concentration", iq),
+    attackingAwareness: take("attackingAwareness", blend(iq, finishing)),
+    reactions: take("reactions", blend(iq, speed)),
+    defensiveAwareness: take("defensiveAwareness", blend(perimeterD, interiorD)),
+    tackling: take("tackling", steal),
+    jumping: take("jumping", vertical),
   };
 
   return { attrs, inferred };
@@ -353,90 +437,85 @@ export function applyOverride(base: PlayerAttributes, override?: RatingOverride)
 function attr(source: PlayerAttributes, key: keyof PlayerAttributes): number {
   const value = source[key];
   if (typeof value === "number") return value;
-  if (key === "form" || key === "concentration") return source.composure;
-  if (String(key).startsWith("gk")) return source.composure;
+  // Basketball → football mirror fallbacks
+  if (key === "speed" && typeof source.pace === "number") return source.pace;
+  if (key === "passAccuracy" && typeof source.passing === "number") return source.passing;
+  if (key === "ballHandle" && typeof source.dribbling === "number") return source.dribbling;
+  if (key === "threePoint" && typeof source.longShots === "number") return source.longShots;
+  if (key === "iq" && typeof source.vision === "number") return source.vision;
+  if (key === "clutch" && typeof source.composure === "number") return source.composure;
+  if (key === "perimeterD" && typeof source.defending === "number") return source.defending;
+  if (key === "interiorD" && typeof source.defending === "number") return source.defending;
+  if (key === "rebound" && typeof source.jumping === "number") return source.jumping;
+  if (key === "vertical" && typeof source.jumping === "number") return source.jumping;
+  if (key === "form" || key === "concentration") return source.clutch ?? source.composure ?? 60;
+  if (String(key).startsWith("gk")) return source.clutch ?? source.composure ?? 60;
   return 60;
 }
 
-/** Composure blended with form + focus for pressure / decision feel. */
+/** Clutch blended with form + focus for pressure / decision feel. */
 export function effectiveComposure(attrs: PlayerAttributes): number {
-  const base = attrs.composure;
+  const base = attrs.clutch ?? attrs.composure ?? 60;
   const form = attrs.form ?? base;
-  const focus = attrs.concentration ?? base;
+  const focus = attrs.concentration ?? attrs.iq ?? base;
   return roundStat(base * 0.55 + form * 0.25 + focus * 0.2);
 }
 
 /** Six display axes for the formation hex / comparison chart (not gameplay multipliers). */
-export const PROFILE_AXIS_IDS = ["attack", "defence", "passing", "fitness", "mental", "technique"] as const;
+/** Top spoke is rim/finishing (dunks + paint); SHT stays jump shooting. */
+export const PROFILE_AXIS_IDS = ["rim", "defence", "playmaking", "athleticism", "iq", "shooting"] as const;
 export type ProfileAxisId = (typeof PROFILE_AXIS_IDS)[number];
 
 export const PROFILE_AXIS_LABELS: Record<ProfileAxisId, string> = {
-  attack: "Attack",
+  rim: "Rim",
   defence: "Defence",
-  passing: "Passing",
-  fitness: "Fitness",
-  mental: "Mental",
-  technique: "Technique",
+  playmaking: "Playmaking",
+  athleticism: "Athleticism",
+  iq: "IQ",
+  shooting: "Shooting",
 };
 
-/** Compact hex tags — avoid awkward clips like MEN for Mental. */
+/** Compact hex tags — RIM sits at the top of the radar. */
 export const PROFILE_AXIS_SHORT: Record<ProfileAxisId, string> = {
-  attack: "ATT",
+  rim: "RIM",
   defence: "DEF",
-  passing: "PAS",
-  fitness: "FIT",
-  mental: "PSY",
-  technique: "TEC",
+  playmaking: "PLY",
+  athleticism: "ATH",
+  iq: "IQ",
+  shooting: "SHT",
 };
 
 export type ProfileAxes = Record<ProfileAxisId, number>;
 
 /**
- * Full radar spokes — one vertex per authored gameplay attribute.
- * Add / remove entries here when PlayerAttributes grows; the full-shape view
- * rebuilds from this list so the polygon always matches the live stat set.
+ * Full radar spokes — basketball gameplay attributes.
  */
 export const PROFILE_ATTR_SPOKES: ReadonlyArray<{
   key: keyof PlayerAttributes;
   short: string;
   label: string;
-  /** Keeper-only — omitted for outfielders unless they have GK ratings set. */
+  /** Keeper-only — omitted unless they have GK ratings set. */
   gk?: boolean;
 }> = [
-  { key: "pace", short: "PAC", label: "Pace" },
-  { key: "acceleration", short: "ACC", label: "Acceleration" },
-  { key: "agility", short: "AGI", label: "Agility" },
-  { key: "balance", short: "BAL", label: "Balance" },
-  { key: "stamina", short: "STA", label: "Stamina" },
-  { key: "strength", short: "STR", label: "Strength" },
-  { key: "jumping", short: "JMP", label: "Jumping" },
-  { key: "passing", short: "PAS", label: "Passing" },
-  { key: "longPassing", short: "LPA", label: "Long Passing" },
-  { key: "vision", short: "VIS", label: "Vision" },
-  { key: "crossing", short: "CRO", label: "Crossing" },
-  { key: "control", short: "CTL", label: "Control" },
-  { key: "dribbling", short: "DRI", label: "Dribbling" },
-  { key: "shooting", short: "SHO", label: "Shooting" },
+  /** Paint / dunk / layup finishing — dunk ability is Finishing + Vertical, not a separate attr. */
   { key: "finishing", short: "FIN", label: "Finishing" },
-  { key: "shotPower", short: "POW", label: "Shot Power" },
-  { key: "longShots", short: "LSH", label: "Long Shots" },
-  { key: "heading", short: "HEA", label: "Heading" },
-  { key: "penalties", short: "PEN", label: "Penalties" },
-  { key: "setPieces", short: "SET", label: "Set Pieces" },
-  { key: "defending", short: "DEF", label: "Defending" },
-  { key: "defensiveAwareness", short: "DAW", label: "Def Awareness" },
-  { key: "tackling", short: "TAC", label: "Tackling" },
-  { key: "aggression", short: "AGG", label: "Aggression" },
-  { key: "composure", short: "CMP", label: "Composure" },
-  { key: "form", short: "FRM", label: "Form" },
-  { key: "concentration", short: "FOC", label: "Concentration" },
-  { key: "attackingAwareness", short: "AAW", label: "Att Awareness" },
-  { key: "reactions", short: "REA", label: "Reactions" },
-  { key: "gkDiving", short: "DIV", label: "GK Diving", gk: true },
-  { key: "gkHandling", short: "HAN", label: "GK Handling", gk: true },
-  { key: "gkPositioning", short: "POS", label: "GK Positioning", gk: true },
-  { key: "gkReflexes", short: "REF", label: "GK Reflexes", gk: true },
-  { key: "gkKicking", short: "KIC", label: "GK Kicking", gk: true },
+  { key: "midRange", short: "MID", label: "Mid-Range" },
+  { key: "threePoint", short: "3PT", label: "Three-Point" },
+  { key: "freeThrow", short: "FT", label: "Free Throw" },
+  { key: "ballHandle", short: "HND", label: "Ball Handle" },
+  { key: "passAccuracy", short: "PAS", label: "Pass Accuracy" },
+  { key: "perimeterD", short: "PRD", label: "Perimeter D" },
+  { key: "interiorD", short: "INT", label: "Interior D" },
+  { key: "rebound", short: "REB", label: "Rebound" },
+  { key: "steal", short: "STL", label: "Steal" },
+  { key: "block", short: "BLK", label: "Block" },
+  { key: "speed", short: "SPD", label: "Speed" },
+  { key: "acceleration", short: "ACC", label: "Acceleration" },
+  { key: "vertical", short: "VRT", label: "Vertical" },
+  { key: "strength", short: "STR", label: "Strength" },
+  { key: "stamina", short: "STA", label: "Stamina" },
+  { key: "iq", short: "IQ", label: "Basketball IQ" },
+  { key: "clutch", short: "CLT", label: "Clutch" },
 ];
 
 export type ProfileAttrSpoke = {
@@ -475,57 +554,46 @@ function weightedMean(attrs: PlayerAttributes, parts: { key: keyof PlayerAttribu
 }
 
 /**
- * Six overalls from accumulated attrs — Attack / Defence / Passing / Fitness / Mental / Technique.
- * Technique = on-the-ball craft (control, dribble, first-touch feel). Display only.
+ * Six overalls from basketball attrs — Rim / Defence / Playmaking / Athleticism / IQ / Shooting.
+ * Rim = finishing + vertical (dunks/paint); Shooting = jumpers + FT. Display only.
  */
 export function deriveProfileAxes(attrs: PlayerAttributes): ProfileAxes {
   return {
-    attack: weightedMean(attrs, [
-      { key: "finishing", w: 0.22 },
-      { key: "shooting", w: 0.18 },
-      { key: "shotPower", w: 0.14 },
-      { key: "longShots", w: 0.14 },
-      { key: "heading", w: 0.12 },
-      { key: "attackingAwareness", w: 0.12 },
-      { key: "penalties", w: 0.08 },
+    rim: weightedMean(attrs, [
+      { key: "finishing", w: 0.55 },
+      { key: "vertical", w: 0.25 },
+      { key: "strength", w: 0.12 },
+      { key: "clutch", w: 0.08 },
     ]),
     defence: weightedMean(attrs, [
-      { key: "defending", w: 0.28 },
-      { key: "defensiveAwareness", w: 0.24 },
-      { key: "tackling", w: 0.22 },
-      { key: "aggression", w: 0.14 },
-      { key: "strength", w: 0.12 },
+      { key: "perimeterD", w: 0.28 },
+      { key: "interiorD", w: 0.28 },
+      { key: "steal", w: 0.16 },
+      { key: "block", w: 0.16 },
+      { key: "rebound", w: 0.12 },
     ]),
-    passing: weightedMean(attrs, [
-      { key: "passing", w: 0.32 },
-      { key: "longPassing", w: 0.22 },
-      { key: "vision", w: 0.22 },
-      { key: "crossing", w: 0.16 },
-      { key: "setPieces", w: 0.08 },
+    playmaking: weightedMean(attrs, [
+      { key: "passAccuracy", w: 0.4 },
+      { key: "ballHandle", w: 0.35 },
+      { key: "iq", w: 0.25 },
     ]),
-    fitness: weightedMean(attrs, [
-      { key: "pace", w: 0.24 },
+    athleticism: weightedMean(attrs, [
+      { key: "speed", w: 0.28 },
       { key: "acceleration", w: 0.16 },
-      { key: "stamina", w: 0.24 },
-      { key: "strength", w: 0.16 },
-      { key: "agility", w: 0.1 },
-      { key: "jumping", w: 0.1 },
+      { key: "vertical", w: 0.22 },
+      { key: "strength", w: 0.18 },
+      { key: "stamina", w: 0.16 },
     ]),
-    mental: weightedMean(attrs, [
-      { key: "composure", w: 0.22 },
-      { key: "form", w: 0.16 },
-      { key: "vision", w: 0.14 },
-      { key: "reactions", w: 0.14 },
-      { key: "concentration", w: 0.12 },
-      { key: "attackingAwareness", w: 0.11 },
-      { key: "defensiveAwareness", w: 0.11 },
+    iq: weightedMean(attrs, [
+      { key: "iq", w: 0.45 },
+      { key: "clutch", w: 0.3 },
+      { key: "passAccuracy", w: 0.15 },
+      { key: "perimeterD", w: 0.1 },
     ]),
-    technique: weightedMean(attrs, [
-      { key: "control", w: 0.32 },
-      { key: "dribbling", w: 0.28 },
-      { key: "balance", w: 0.14 },
-      { key: "agility", w: 0.14 },
-      { key: "setPieces", w: 0.12 },
+    shooting: weightedMean(attrs, [
+      { key: "threePoint", w: 0.4 },
+      { key: "midRange", w: 0.35 },
+      { key: "freeThrow", w: 0.25 },
     ]),
   };
 }
@@ -546,19 +614,25 @@ export function deriveOverall(position: PositionCode | string, attrs: PlayerAttr
   return Math.round(clamp(sum / Math.max(1e-6, weightTotal), 1, 100));
 }
 
-export function passStatForDistance(attrs: PlayerAttributes, distance: number): number {
-  const blendT = clamp((distance - 12) / 28, 0, 1);
-  return attrs.passing + (attrs.longPassing - attrs.passing) * blendT;
+export function passStatForDistance(attrs: PlayerAttributes, _distance: number): number {
+  return attrs.passAccuracy ?? attrs.passing ?? 60;
 }
 
 export function crossingStat(attrs: PlayerAttributes): number {
-  return attrs.crossing ?? blend(attrs.passing, attrs.longPassing);
+  return attrs.passAccuracy ?? attrs.passing ?? 60;
 }
 
 export function normalizePreferredFoot(foot?: string | null): "L" | "R" {
   if (!foot) return "R";
   const f = foot.toLowerCase();
   if (f === "l" || f === "left") return "L";
+  return "R";
+}
+
+export function normalizePreferredHand(hand?: string | null): "L" | "R" {
+  if (!hand) return "R";
+  const h = hand.toLowerCase();
+  if (h === "l" || h === "left") return "L";
   return "R";
 }
 
@@ -574,11 +648,14 @@ export function validatePlayerAttributes(
 ): AttributeValidationIssue[] {
   const issues: AttributeValidationIssue[] = [];
   const ratingKeys: (keyof PlayerAttributes)[] = [
-    "pace", "acceleration", "agility", "balance", "passing", "longPassing", "vision", "crossing",
-    "control", "dribbling", "shooting", "finishing", "shotPower", "longShots", "heading", "penalties",
-    "setPieces", "defending", "defensiveAwareness", "tackling", "jumping", "aggression", "strength",
-    "stamina", "composure", "form", "concentration", "attackingAwareness", "reactions",
-    "gkDiving", "gkHandling", "gkPositioning", "gkReflexes", "gkKicking",
+    "finishing", "midRange", "threePoint", "freeThrow", "ballHandle", "passAccuracy",
+    "perimeterD", "interiorD", "rebound", "steal", "block",
+    "speed", "acceleration", "vertical", "strength", "stamina", "iq", "clutch",
+    // Football mirrors (optional)
+    "pace", "passing", "longPassing", "vision", "control", "dribbling", "shooting",
+    "shotPower", "longShots", "heading", "penalties", "setPieces", "defending",
+    "defensiveAwareness", "tackling", "jumping", "aggression", "composure",
+    "form", "concentration", "attackingAwareness", "reactions", "agility", "balance", "crossing",
   ];
   for (const key of ratingKeys) {
     const v = player[key];
@@ -588,13 +665,20 @@ export function validatePlayerAttributes(
     }
   }
   if (player.heightCm !== undefined) {
-    if (typeof player.heightCm !== "number" || player.heightCm < 150 || player.heightCm > 220) {
-      issues.push({ field: "heightCm", message: "expected 150–220 cm", value: player.heightCm });
+    // NBA range: ~5'7"–7'7"
+    if (typeof player.heightCm !== "number" || player.heightCm < 165 || player.heightCm > 235) {
+      issues.push({ field: "heightCm", message: "expected 165–235 cm", value: player.heightCm });
     }
   }
   if (player.weightKg !== undefined) {
-    if (typeof player.weightKg !== "number" || player.weightKg < 50 || player.weightKg > 120) {
-      issues.push({ field: "weightKg", message: "expected 50–120 kg", value: player.weightKg });
+    if (typeof player.weightKg !== "number" || player.weightKg < 70 || player.weightKg > 160) {
+      issues.push({ field: "weightKg", message: "expected 70–160 kg", value: player.weightKg });
+    }
+  }
+  if (player.preferredHand !== undefined) {
+    const h = String(player.preferredHand).toLowerCase();
+    if (!["l", "r", "left", "right"].includes(h)) {
+      issues.push({ field: "preferredHand", message: "expected L/R/left/right", value: player.preferredHand });
     }
   }
   if (player.preferredFoot !== undefined) {
@@ -606,11 +690,11 @@ export function validatePlayerAttributes(
   return issues;
 }
 
-/** Map measured height (cm) onto the procedural mesh heightScale (180cm ≈ 1.0). */
+/** Map measured height (cm) onto the procedural mesh heightScale (198cm ≈ 1.0 for NBA). */
 export function heightScaleFromCm(heightCm?: number): number {
   if (heightCm === undefined || !Number.isFinite(heightCm)) return 1;
-  const t = (heightCm - 165) / 35;
-  return clamp(0.92 + t * 0.2, 0.88, 1.16);
+  const t = (heightCm - 185) / 45;
+  return clamp(0.9 + t * 0.28, 0.86, 1.22);
 }
 
 /** BMI-ish build label from height + weight (falls back to height-only bands). */

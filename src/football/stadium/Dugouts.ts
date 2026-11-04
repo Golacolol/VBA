@@ -26,13 +26,20 @@ const ATTRS: PlayerAttributes = {
 export const HOME_DUGOUT_X = -11;
 export const AWAY_DUGOUT_X = 11;
 
-export function technicalArea(side: "home" | "away"): { minX: number; maxX: number; minZ: number; maxZ: number } {
+/** NBA sideline benches sit closer / shorter than football dugouts. */
+export const HOME_BENCH_X = -7.5;
+export const AWAY_BENCH_X = 7.5;
+
+export function technicalArea(
+  side: "home" | "away",
+  halfW = HALF_WIDTH,
+): { minX: number; maxX: number; minZ: number; maxZ: number } {
   const cx = side === "home" ? HOME_DUGOUT_X : AWAY_DUGOUT_X;
   return {
     minX: cx - 6.4,
     maxX: cx + 6.4,
-    minZ: HALF_WIDTH + 0.55,
-    maxZ: HALF_WIDTH + 3.2,
+    minZ: halfW + 0.55,
+    maxZ: halfW + 3.2,
   };
 }
 
@@ -45,19 +52,56 @@ interface SidelineActor {
   dir: number;
 }
 
+export type DugoutsMode = "football" | "arena";
+
 export class Dugouts {
   readonly group = new THREE.Group();
   private actors: SidelineActor[] = [];
   private time = 0;
+  private readonly halfW: number;
+  private readonly mode: DugoutsMode;
 
-  constructor(homeKit: TeamKit, awayKit: TeamKit, homeColor: string, awayColor: string) {
-    this.buildShelter(HOME_DUGOUT_X, homeColor, "HOME");
-    this.buildShelter(AWAY_DUGOUT_X, awayColor, "AWAY");
-    this.spawnSide("home", homeKit, homeColor);
-    this.spawnSide("away", awayKit, awayColor);
+  constructor(
+    homeKit: TeamKit,
+    awayKit: TeamKit,
+    homeColor: string,
+    awayColor: string,
+    halfW = HALF_WIDTH,
+    mode: DugoutsMode = "football",
+  ) {
+    this.halfW = halfW;
+    this.mode = mode;
+    if (mode === "arena") {
+      this.buildArenaBench(HOME_BENCH_X, homeColor);
+      this.buildArenaBench(AWAY_BENCH_X, awayColor);
+      this.spawnArenaSide("home", homeKit, homeColor);
+      this.spawnArenaSide("away", awayKit, awayColor);
+    } else {
+      this.buildShelter(HOME_DUGOUT_X, homeColor, "HOME");
+      this.buildShelter(AWAY_DUGOUT_X, awayColor, "AWAY");
+      this.spawnSide("home", homeKit, homeColor);
+      this.spawnSide("away", awayKit, awayColor);
+    }
+  }
+
+  /** Open NBA team bench — seat + backrest only (no dugout roof / posts / warm-up zone). */
+  private buildArenaBench(x: number, color: string): void {
+    const z = this.halfW + 2.35;
+    const dark = new THREE.MeshStandardMaterial({ color: 0x1c2228, roughness: 0.55, metalness: 0.12 });
+    const seat = new THREE.MeshStandardMaterial({ color: 0x2a3238, roughness: 0.7 });
+    const paint = new THREE.MeshStandardMaterial({ color: hexColor(color), roughness: 0.55 });
+
+    const deck = new THREE.Mesh(new THREE.BoxGeometry(9.6, 0.1, 1.55), dark);
+    deck.position.set(x, 0.06, z);
+    const bench = new THREE.Mesh(new THREE.BoxGeometry(9.2, 0.32, 0.72), seat);
+    bench.position.set(x, 0.42, z + 0.12);
+    const back = new THREE.Mesh(new THREE.BoxGeometry(9.2, 0.85, 0.12), paint);
+    back.position.set(x, 0.95, z + 0.55);
+    this.group.add(deck, bench, back);
   }
 
   private buildShelter(x: number, color: string, label: string): void {
+    const HALF_WIDTH = this.halfW;
     const dark = new THREE.MeshStandardMaterial({ color: 0x2a3036, roughness: 0.55, metalness: 0.12 });
     const seat = new THREE.MeshStandardMaterial({ color: 0x3a4248, roughness: 0.7 });
     const paint = new THREE.MeshStandardMaterial({ color: hexColor(color), roughness: 0.55 });
@@ -94,6 +138,32 @@ export class Dugouts {
     plaque.position.set(x, 2.05, HALF_WIDTH + 5.42);
     this.group.add(plaque);
     void label;
+  }
+
+  /** Seated substitutes + standing coach — no warm-up jogs/stretches. */
+  private spawnArenaSide(side: "home" | "away", kit: TeamKit, color: string): void {
+    const cx = side === "home" ? HOME_BENCH_X : AWAY_BENCH_X;
+    const zSeat = this.halfW + 2.45;
+    const coach = dummyPlayer(`${side}-coach`, 0, side, "CM");
+    coach.x = cx + (side === "home" ? -5.1 : 5.1);
+    coach.z = this.halfW + 1.55;
+    coach.facing = Math.PI;
+    const vis = createPlayerVisual(coach, kit, false);
+    coach.mesh = vis.group;
+    addCoat(vis.group, color);
+    this.group.add(vis.group);
+    this.actors.push({ player: coach, kind: "manager", side, phase: Math.random() * 8, pause: 0, dir: 1 });
+
+    for (let i = 0; i < 7; i++) {
+      const sit = dummyPlayer(`${side}-sub${i}`, 10 + i, side, "CM");
+      sit.x = cx - 3.6 + i * 1.2;
+      sit.z = zSeat;
+      sit.facing = Math.PI;
+      const bv = createPlayerVisual(sit, kit, false);
+      sit.mesh = bv.group;
+      this.group.add(bv.group);
+      this.actors.push({ player: sit, kind: "sit", side, phase: i * 0.4, pause: 0, dir: 1 });
+    }
   }
 
   private spawnSide(side: "home" | "away", kit: TeamKit, color: string): void {
@@ -147,6 +217,31 @@ export class Dugouts {
       a.phase += dt;
       const p = a.player;
       if (a.kind === "manager") {
+        if (this.mode === "arena") {
+          // Coach stands beside the bench — light pace, no technical-area box.
+          const cx = a.side === "home" ? HOME_BENCH_X : AWAY_BENCH_X;
+          const minX = cx - 4.6;
+          const maxX = cx + 4.6;
+          a.pause = Math.max(0, a.pause - dt);
+          if (a.pause <= 0) {
+            p.x += a.dir * dt * 0.85;
+            if (p.x > maxX) {
+              a.dir = -1;
+              a.pause = 1.2 + (a.phase % 1.4);
+            }
+            if (p.x < minX) {
+              a.dir = 1;
+              a.pause = 1.0 + (a.phase % 1.1);
+            }
+            p.x = clamp(p.x, minX, maxX);
+          }
+          p.z = this.halfW + 1.55;
+          p.facing = Math.PI;
+          p.vx = a.pause > 0 ? 0 : a.dir * 0.85;
+          p.vz = 0;
+          updatePlayerAnimation(p, dt, this.time);
+          continue;
+        }
         const area = technicalArea(a.side);
         a.pause = Math.max(0, a.pause - dt);
         if (a.pause <= 0) {
@@ -217,10 +312,15 @@ export class Dugouts {
       p.vx = 0;
       p.vz = 0;
       if (p.mesh) {
-        p.mesh.position.set(p.x, 0.42, p.z);
+        p.mesh.position.set(p.x, this.mode === "arena" ? 0.34 : 0.42, p.z);
         p.mesh.rotation.y = p.facing;
         p.mesh.rotation.x = 0.18;
-        const rig = p.mesh.userData.rig as { leftLeg: THREE.Object3D; rightLeg: THREE.Object3D; leftArm: THREE.Object3D; rightArm: THREE.Object3D } | undefined;
+        const rig = p.mesh.userData.rig as {
+          leftLeg: THREE.Object3D;
+          rightLeg: THREE.Object3D;
+          leftArm: THREE.Object3D;
+          rightArm: THREE.Object3D;
+        } | undefined;
         if (rig) {
           rig.leftLeg.rotation.x = -1.15;
           rig.rightLeg.rotation.x = -1.15;

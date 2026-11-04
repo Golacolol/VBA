@@ -1,6 +1,6 @@
 import type { StadiumRecord, TeamRecord, FixtureRecord, EnglishLeague } from "../data/schema";
 import type { TimeOfDay } from "../football/environment/Environment";
-import type { GameplayMode } from "../football/gameplay/GameplayTuning";
+import { PRODUCT_MODES, type ProductMode } from "../core/ProductMode";
 import type { GameDatabase } from "../core/Database";
 import { DEFAULT_KICK_OFF_TIME, HALF_LENGTH_CHOICES, formatKickCountdown, kickOffRemainingSeconds, type KickCountdownPhase } from "../football/constants";
 import { todayIso } from "../data/leagueSchedule";
@@ -39,11 +39,11 @@ import { teamBadgeHtml } from "./Portrait";
 
 export type MenuPanel = "menu" | "league" | "fixtures" | "database" | "predictions" | "options";
 
-export type MenuPlayMode = GameplayMode | "LEAGUE";
+export type MenuPlayMode = ProductMode;
 
 export interface MainMenuView {
   timeOfDay: TimeOfDay;
-  gameplayMode: GameplayMode;
+  gameplayMode: ProductMode;
   playMode: MenuPlayMode;
   /** Only show LEAGUE once the user has career matches saved. */
   showLeague: boolean;
@@ -59,7 +59,7 @@ export class MainMenu {
   attract = false;
   countdown = 60;
   timeOfDay: TimeOfDay = "EVENING";
-  gameplayMode: GameplayMode = "REAL";
+  gameplayMode: ProductMode = "BASKETBALL";
   kickOffTime = DEFAULT_KICK_OFF_TIME;
   matchDuration = 600;
   /** Team Select kit dial — HOME or AWAY only. */
@@ -69,8 +69,8 @@ export class MainMenu {
   leagueFixturesTab: "league" | "fixtures" = "league";
   /** null = Options hub (section buttons); set = detail with tabs. */
   optionsSection: OptionsSection | null = null;
-  league: EnglishLeague = "LEAGUE_ONE";
-  fixtureLeague: EnglishLeague = "LEAGUE_ONE";
+  league: EnglishLeague = "EAST";
+  fixtureLeague: EnglishLeague = "EAST";
   fixtureDate = todayIso();
   fadePanel = false;
   predictionsMode: PredictionsViewMode = "predict";
@@ -87,7 +87,7 @@ export class MainMenu {
   private teamOptions: MenuTeamOption[] = [];
   private oppositionOptions: MenuTeamOption[] = [];
   private oppositionIndex = 0;
-  private teamGroup: MenuTeamGroup = "LEAGUE_ONE";
+  private teamGroup: MenuTeamGroup = "EAST";
   private pendingTeamId: string | null = null;
   private clubCommitTimer: ReturnType<typeof setTimeout> | null = null;
   private oppositionCommitTimer: ReturnType<typeof setTimeout> | null = null;
@@ -101,14 +101,14 @@ export class MainMenu {
   onPredictionsChange: ((state: PredictionsState) => void) | null = null;
   onPredictionsRefresh: (() => void) | null = null;
   readonly items = [
-    { id: "sim", label: "Simulator", hint: "Uses selected gameplay · random side when football" },
-    { id: "next", label: "Play Next Fixture", hint: "Listed match in the selected gameplay mode" },
-    { id: "league-fixtures", label: "League Fixtures", hint: "Tables and week-to-week matches" },
-    { id: "miteam", label: "MiTeam", hint: "Build a User XI from silver and gold packs" },
-    { id: "quick", label: "Quick Match", hint: "Pick opposition and kick off, or Foosball / Flickball from Options" },
-    { id: "spot", label: "Spot-kick Practice", hint: "Place a free kick or penalty on the pitch" },
-    { id: "predictions", label: "Predictions", hint: "Ten gold fixtures · score rollers · weekly points" },
-    { id: "database", label: "Database", hint: "Teams and player ratings" },
+    { id: "sim", label: "Simulator", hint: "Coming soon — on-court play is not in this build" },
+    { id: "next", label: "Play Next Fixture", hint: "Formation, then a coming-soon match" },
+    { id: "league-fixtures", label: "League Fixtures", hint: "East / West standings and fixtures" },
+    { id: "miteam", label: "MiTeam", hint: "Build a User five from packs" },
+    { id: "quick", label: "Quick Match", hint: "Pick opposition, then a coming-soon match" },
+    { id: "spot", label: "Spot-kick Practice", hint: "Coming soon" },
+    { id: "predictions", label: "Predictions", hint: "Coming soon" },
+    { id: "database", label: "Database", hint: "NBA teams and player ratings" },
     { id: "settings", label: "Options", hint: "Match settings, controls, display, advanced" },
   ] as const;
 
@@ -152,7 +152,6 @@ export class MainMenu {
     const eraIdx = Math.max(0, eras.findIndex((t) => t.id === selected?.id));
     const leagueIdx = Math.max(0, MENU_TEAM_GROUPS.indexOf(this.teamGroup));
     const leagueDialLabel = MENU_TEAM_GROUP_LABEL[this.teamGroup];
-    const showEra = this.teamGroup === "CLASSIC";
     this.oppositionOptions = oppositionRollOptions(this.teamOptions, club.team.id);
     const listedOppositionId =
       fixture.homeTeamId === club.team.id ? fixture.awayTeamId : fixture.homeTeamId;
@@ -161,7 +160,7 @@ export class MainMenu {
       <div class="menu-shell ${embed ? "panel-open" : ""}">
         <div class="menu-hero">
           <div class="menu-hero-stack">
-            <h1><span class="title-line">GOLAÇO<span class="title-emoji" aria-hidden="true">⚽️</span>SOCCER</span></h1>
+            <h1><span class="title-line">VORTEX<span class="title-emoji" aria-hidden="true">🏀</span>BASKETBALL</span></h1>
             <div class="club-wrap">
               <div class="club-meta" style="${clubBadgeStyle(club.team)}">
                 ${teamBadgeHtml(club.team, { className: "club-crest", size: 52 })}
@@ -169,23 +168,19 @@ export class MainMenu {
               </div>
             </div>
             <div class="menu-fixture team-select-fixture">
-              <span class="tod-row team-dials${showEra ? " has-era" : ""} has-kit">
+              <span class="tod-row team-dials has-era has-kit">
                 <span class="team-dial-field">
-                  <span class="team-dial-label">League</span>
+                  <span class="team-dial-label">Conference</span>
                   ${leagueSpinHtml(leagueIdx, leagueDialLabel)}
                 </span>
                 <span class="team-dial-field">
-                  <span class="team-dial-label">Club</span>
+                  <span class="team-dial-label">Team</span>
                   ${teamSpinHtml(clubs, teamIdx)}
                 </span>
-                ${
-                  showEra
-                    ? `<span class="team-dial-field" data-era-field>
-                  <span class="team-dial-label">Team</span>
+                <span class="team-dial-field" data-era-field>
+                  <span class="team-dial-label">Era</span>
                   ${eraSpinHtml(eras, eraIdx)}
-                </span>`
-                    : ""
-                }
+                </span>
                 <span class="team-dial-field team-dial-kit">
                   <span class="team-dial-label">Kit</span>
                   ${kitSpinHtml(this.kitChoice)}
@@ -195,19 +190,7 @@ export class MainMenu {
             <div class="menu-fixture menu-fixture-labeled gameplay-fixture">
               <span class="meta fixture-section-label">Gameplay</span>
               <span class="tod-row">
-                ${mode("REAL", "FOOTBALL")}
-                <span class="vs">·</span>
-                ${mode("ARCADE", "SOCCER")}
-                <span class="vs">·</span>
-                ${mode("TABLE", "FOOSBALL")}
-                <span class="vs">·</span>
-                ${mode("FLICK", "FLICKBALL")}
-                ${
-                  view.showLeague === true
-                    ? `<span class="vs">·</span>
-                ${mode("LEAGUE", "LEAGUE")}`
-                    : ""
-                }
+                ${PRODUCT_MODES.map((id, i) => `${i ? '<span class="vs">·</span>' : ""}${mode(id, id)}`).join("")}
               </span>
             </div>
             <div class="menu-fixture menu-fixture-labeled lighting-fixture">
@@ -297,7 +280,7 @@ export class MainMenu {
       this.predictionsMode = "predict";
       this.optionsSection = null;
     }
-    if (panel === "league" && this.panel === "menu") this.league = "LEAGUE_ONE";
+    if (panel === "league" && this.panel === "menu") this.league = "EAST";
     if (panel === "fixtures" && this.panel === "menu") {
       this.fixtureLeague = clubLeague ?? leagueForTeam(undefined);
       this.fixtureDate = todayIso();
@@ -827,7 +810,6 @@ export class MainMenu {
 
   private stepEra(delta: number): void {
     if (this.teamSelectLocked) return;
-    if (this.teamGroup !== "CLASSIC") return;
     const eraEl = this.root.querySelector<HTMLElement>("[data-era-spin]");
     const clubKey = eraEl?.getAttribute("data-club-key");
     if (!clubKey) return;
@@ -863,8 +845,7 @@ export class MainMenu {
     const teamEl = this.root.querySelector<HTMLElement>("[data-team-spin]");
     const leagueEl = this.root.querySelector<HTMLElement>("[data-league-spin]");
     const dials = this.root.querySelector<HTMLElement>(".team-dials");
-    const showEra = this.teamGroup === "CLASSIC";
-    if (dials) dials.classList.toggle("has-era", showEra);
+    if (dials) dials.classList.add("has-era");
 
     if (teamEl && clubs.length) {
       const n = clubs.length;
@@ -876,12 +857,8 @@ export class MainMenu {
       teamEl.setAttribute("aria-label", `Club select ${cur.label}`);
       teamEl.innerHTML = spinTriplet(prev.label, cur.label, next.label);
 
-      if (showEra) {
-        const eras = erasForClub(this.teamOptions, cur.clubKey);
-        this.ensureEraField(dials, eras, eraIdx);
-      } else {
-        dials?.querySelector("[data-era-field]")?.remove();
-      }
+      const eras = erasForClub(this.teamOptions, cur.clubKey);
+      this.ensureEraField(dials, eras, eraIdx);
     }
     if (leagueEl) {
       const leagueIdx = MENU_TEAM_GROUPS.indexOf(this.teamGroup);
@@ -891,7 +868,7 @@ export class MainMenu {
       const center = MENU_TEAM_GROUP_LABEL[this.teamGroup];
       const next = MENU_TEAM_GROUP_LABEL[MENU_TEAM_GROUPS[(i + 1) % n]!];
       leagueEl.setAttribute("data-league-index", String(i));
-      leagueEl.setAttribute("aria-label", `League select ${center}`);
+      leagueEl.setAttribute("aria-label", `Conference select ${center}`);
       leagueEl.innerHTML = spinTriplet(prev, center, next);
     }
     scheduleFitMenuLabels(this.root);
@@ -908,11 +885,13 @@ export class MainMenu {
       field = document.createElement("span");
       field.className = "team-dial-field";
       field.setAttribute("data-era-field", "");
-      field.innerHTML = `<span class="team-dial-label">Team</span>`;
-      dials.appendChild(field);
+      field.innerHTML = `<span class="team-dial-label">Era</span>`;
+      const kit = dials.querySelector(".team-dial-kit");
+      if (kit) dials.insertBefore(field, kit);
+      else dials.appendChild(field);
     } else {
       const lab = field.querySelector(".team-dial-label");
-      if (lab) lab.textContent = "Team";
+      if (lab) lab.textContent = "Era";
     }
     let eraEl = field.querySelector<HTMLElement>("[data-era-spin]");
     if (!eraEl) {
@@ -1056,7 +1035,7 @@ function teamSpinHtml(teams: MenuTeamOption[], index: number): string {
 
 function eraSpinHtml(eras: MenuTeamOption[], index: number): string {
   if (!eras.length) {
-    return `<span class="time-spin era-spin" data-era-spin data-era-index="0" data-club-key="" tabindex="0" role="button" aria-label="Team select">—</span>`;
+    return `<span class="time-spin era-spin" data-era-spin data-era-index="0" data-club-key="" tabindex="0" role="button" aria-label="Era select">—</span>`;
   }
   const n = eras.length;
   const i = ((index % n) + n) % n;
@@ -1064,7 +1043,7 @@ function eraSpinHtml(eras: MenuTeamOption[], index: number): string {
   const locked = n <= 1;
   const prev = locked ? cur : eras[(i - 1 + n) % n]!;
   const next = locked ? cur : eras[(i + 1) % n]!;
-  return `<span class="time-spin era-spin${locked ? " era-locked" : ""}" data-era-spin data-era-index="${i}" data-club-key="${escapeHtml(cur.clubKey)}" tabindex="0" role="button" aria-label="Team select ${cur.eraLabel}">${spinTriplet(prev.eraLabel, cur.eraLabel, next.eraLabel)}</span>`;
+  return `<span class="time-spin era-spin${locked ? " era-locked" : ""}" data-era-spin data-era-index="${i}" data-club-key="${escapeHtml(cur.clubKey)}" tabindex="0" role="button" aria-label="Era select ${cur.eraLabel}">${spinTriplet(prev.eraLabel, cur.eraLabel, next.eraLabel)}</span>`;
 }
 
 function paintEraSpin(eraEl: HTMLElement, eras: MenuTeamOption[], eraIdx: number): void {
@@ -1085,7 +1064,7 @@ function paintEraSpin(eraEl: HTMLElement, eras: MenuTeamOption[], eraIdx: number
   eraEl.setAttribute("data-era-index", String(i));
   eraEl.setAttribute("data-club-key", cur.clubKey);
   eraEl.classList.toggle("era-locked", locked);
-  eraEl.setAttribute("aria-label", `Team select ${cur.eraLabel}`);
+  eraEl.setAttribute("aria-label", `Era select ${cur.eraLabel}`);
   eraEl.innerHTML = spinTriplet(prev.eraLabel, cur.eraLabel, next.eraLabel);
 }
 
@@ -1094,7 +1073,7 @@ function leagueSpinHtml(index: number, centerLabel: string): string {
   const i = ((index % n) + n) % n;
   const prev = MENU_TEAM_GROUP_LABEL[MENU_TEAM_GROUPS[(i - 1 + n) % n]!];
   const next = MENU_TEAM_GROUP_LABEL[MENU_TEAM_GROUPS[(i + 1) % n]!];
-  return `<span class="time-spin league-spin" data-league-spin data-league-index="${i}" tabindex="0" role="button" aria-label="League select ${centerLabel}">${spinTriplet(prev, centerLabel, next)}</span>`;
+  return `<span class="time-spin league-spin" data-league-spin data-league-index="${i}" tabindex="0" role="button" aria-label="Conference select ${centerLabel}">${spinTriplet(prev, centerLabel, next)}</span>`;
 }
 
 function oppositionSpinHtml(teams: MenuTeamOption[], index: number): string {

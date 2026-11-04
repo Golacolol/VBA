@@ -11,35 +11,24 @@ import {
 import { nextProfileStatsMode, profileFullSvg, profileStatsBlock } from "../../ui/ProfileHex";
 
 const attrs: PlayerAttributes = {
-  pace: 80,
-  acceleration: 78,
-  agility: 72,
-  balance: 70,
-  passing: 75,
-  longPassing: 70,
-  vision: 74,
-  crossing: 68,
-  control: 76,
-  dribbling: 73,
-  shooting: 82,
   finishing: 84,
-  shotPower: 80,
-  longShots: 78,
-  heading: 70,
-  penalties: 72,
-  setPieces: 71,
-  defending: 40,
-  defensiveAwareness: 42,
-  tackling: 38,
-  jumping: 65,
-  aggression: 55,
+  midRange: 78,
+  threePoint: 80,
+  freeThrow: 82,
+  ballHandle: 76,
+  passAccuracy: 74,
+  perimeterD: 42,
+  interiorD: 40,
+  rebound: 55,
+  steal: 48,
+  block: 38,
+  speed: 80,
+  acceleration: 78,
+  vertical: 72,
   strength: 68,
   stamina: 77,
-  composure: 79,
-  form: 82,
-  concentration: 77,
-  attackingAwareness: 81,
-  reactions: 76,
+  iq: 79,
+  clutch: 81,
 };
 
 describe("deriveProfileAxes", () => {
@@ -50,45 +39,52 @@ describe("deriveProfileAxes", () => {
       expect(axes[id]).toBeGreaterThanOrEqual(1);
       expect(axes[id]).toBeLessThanOrEqual(100);
     }
-    expect(axes.attack).toBeGreaterThan(axes.defence);
-    expect(axes.technique).toBeGreaterThan(50);
+    expect(axes.rim).toBeGreaterThan(axes.defence);
+    expect(axes.shooting).toBeGreaterThan(50);
+  });
+
+  it("labels the top hex axis as RIM (finishing / dunks), not SCR", () => {
+    const hex = profileStatsBlock(attrs, { mode: "hex", size: 168 });
+    expect(hex).toContain(">RIM<");
+    expect(hex).not.toContain(">SCR<");
+    expect(hex).toContain(">SHT<");
   });
 
   it("infers form and concentration and blends them into effective composure", () => {
     const resolved = resolveAttributes({
-      pace: 70,
-      passing: 70,
-      longPassing: 70,
-      vision: 70,
-      control: 70,
-      dribbling: 70,
-      shooting: 70,
       finishing: 70,
-      shotPower: 70,
-      longShots: 70,
-      defending: 70,
+      midRange: 70,
+      threePoint: 70,
+      freeThrow: 70,
+      ballHandle: 70,
+      passAccuracy: 70,
+      perimeterD: 70,
+      interiorD: 70,
+      rebound: 70,
+      steal: 70,
+      block: 70,
+      speed: 70,
+      vertical: 70,
       strength: 70,
       stamina: 70,
-      composure: 80,
-      primaryPosition: "CM",
+      iq: 70,
+      clutch: 80,
+      primaryPosition: "PG",
     });
     expect(resolved.form).toBe(80);
-    expect(resolved.concentration).toBe(80);
+    expect(resolved.concentration).toBe(70);
     expect(effectiveComposure({ ...resolved, form: 40, concentration: 40 })).toBeLessThan(80);
     expect(effectiveComposure({ ...resolved, form: 95, concentration: 95 })).toBeGreaterThan(80);
   });
 });
 
 describe("full attribute radar spokes", () => {
-  it("lists every non-GK spoke and grows when GK ratings are present", () => {
-    const outfield = listProfileAttrSpokes(attrs);
-    const expectedOutfield = PROFILE_ATTR_SPOKES.filter((s) => !s.gk).length;
-    expect(outfield).toHaveLength(expectedOutfield);
-    expect(outfield.every((s) => s.value >= 1 && s.value <= 100)).toBe(true);
-
-    const keeper = listProfileAttrSpokes({ ...attrs, gkReflexes: 82, gkDiving: 78 });
-    expect(keeper.length).toBe(PROFILE_ATTR_SPOKES.length);
-    expect(keeper.some((s) => s.key === "gkReflexes")).toBe(true);
+  it("lists every basketball attribute spoke", () => {
+    const spokes = listProfileAttrSpokes(attrs);
+    expect(spokes).toHaveLength(PROFILE_ATTR_SPOKES.length);
+    expect(spokes.every((s) => s.value >= 1 && s.value <= 100)).toBe(true);
+    expect(spokes.some((s) => s.key === "threePoint")).toBe(true);
+    expect(spokes.some((s) => s.key === "ballHandle")).toBe(true);
   });
 
   it("keeps the full shape inside the same fixed footprint as the hex", () => {

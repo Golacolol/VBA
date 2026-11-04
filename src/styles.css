@@ -1,17 +1,17 @@
 :root {
   color-scheme: dark;
-  --green: #007a3d;
-  --green-2: #0b3d2e;
-  --gold: #c5a572;
-  --ink: #07140d;
-  --paper: #f4f7f2;
+  --green: #16324f;
+  --green-2: #0b1524;
+  --gold: #e8a84a;
+  --ink: #070b14;
+  --paper: #f4f1ea;
   --title-font: "Righteous", Impact, sans-serif;
   --club-name-font: "Oswald", "Arial Narrow", sans-serif;
   font-family: "Helvetica Neue", "Segoe UI", sans-serif;
 }
 
 * { box-sizing: border-box; }
-html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #04110a; }
+html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #070b14; }
 #app { position: relative; }
 #game-canvas { display: block; width: 100%; height: 100%; position: relative; z-index: 0; }
 #ui-root { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
@@ -479,7 +479,7 @@ html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #04110
   inset: 0;
   display: grid;
   place-items: center;
-  background: linear-gradient(180deg, rgba(4,17,10,0.28), rgba(4,17,10,0.82));
+  background: linear-gradient(180deg, rgba(7,11,20,0.28), rgba(7,11,20,0.82));
   pointer-events: auto;
   color: var(--paper);
   z-index: 40;
@@ -492,6 +492,40 @@ html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #04110
 }
 .menu-screen[hidden], .char-select[hidden], .editor-screen[hidden], .pause-menu[hidden] {
   display: none !important;
+}
+.match-stub {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(7, 11, 20, 0.78);
+  z-index: 50;
+  pointer-events: auto;
+  color: var(--paper);
+}
+.match-stub[hidden] { display: none !important; }
+.match-stub-card {
+  background: rgba(8, 14, 24, 0.96);
+  border: 1px solid rgba(62, 198, 255, 0.45);
+  padding: 28px 32px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 420px;
+}
+.match-stub-card h2 {
+  margin: 8px 0 12px;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+}
+.match-stub-card p { margin: 0 0 10px; line-height: 1.45; }
+.match-stub-card button {
+  margin-top: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--paper);
+  letter-spacing: 0.08em;
+  cursor: pointer;
 }
 .menu-shell {
   display: grid;
@@ -920,10 +954,10 @@ html.club-name-glow-off .club-line {
   font-size: clamp(22px, 5.2vw, 52px);
   letter-spacing: 0.015em;
   line-height: 0.94;
-  color: rgba(255, 214, 92, 0.82);
+  color: #f3f6fb;
   text-shadow:
-    0 0 14px rgba(255, 186, 40, 0.45),
-    0 2px 0 rgba(90, 48, 0, 0.45),
+    0 0 16px rgba(62, 198, 255, 0.35),
+    0 2px 0 rgba(12, 24, 40, 0.55),
     0 8px 22px rgba(0, 0, 0, 0.5);
 }
 .menu-hero h1 .title-line,
@@ -1284,7 +1318,7 @@ html.club-name-glow-off .club-line {
   align-items: baseline;
   width: 100%;
 }
-/* Gameplay / Lighting chips — all-caps; Gameplay row must fit FOOTBALL…FLICKBALL. */
+/* Gameplay / Lighting chips — all-caps; Gameplay row must fit BASKETBALL…PYRAMID. */
 .menu-fixture-labeled .tod-row {
   gap: 8px;
   min-width: 0;
@@ -1556,6 +1590,9 @@ html.club-name-glow-off .club-line {
   overflow: auto;
   touch-action: auto;
   padding: 14px 12px;
+}
+.team-pitch.team-pitch-panel::before {
+  display: none;
 }
 .pitch-overlay-card {
   width: min(100%, 400px);
@@ -2319,36 +2356,54 @@ select.formation-chip.formation-select option {
 }
 .team-roster-card .kit-marker-roster .portrait-badge,
 .team-roster-card .kit-marker-roster .portrait-badge-kit {
+  --kit-name-band: 28px;
   width: 100%;
   height: 100%;
   border-radius: 2px;
-  padding: 10px 6px 8px;
+  /* Slightly more top inset so name/number sit lower in the kit panel. */
+  padding: 11px 6px 3px;
   box-sizing: border-box;
+  /* Flex + fixed name band: number never shifts with surname size. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   gap: 2px;
-  justify-content: center;
 }
 /* Kit-back style: surname arched above a large shirt number. */
 .team-roster-card .kit-marker-roster .portrait-badge-kit .num {
   font-family: "Oswald", "Arial Narrow", Impact, sans-serif;
   font-size: 64px;
   font-weight: 800;
-  line-height: 0.92;
+  line-height: 0.86;
   letter-spacing: -0.02em;
   order: 2;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
 }
 .team-roster-card .kit-marker-roster .portrait-badge-kit .sur {
   font-family: "Oswald", "Arial Narrow", sans-serif;
-  font-size: 18px;
+  font-size: 32px;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  line-height: 1.05;
+  letter-spacing: 0.08em;
+  line-height: 1;
   max-width: 100%;
+  width: 100%;
+  flex: 0 0 var(--kit-name-band);
+  height: var(--kit-name-band);
+  min-width: 0;
+  min-height: 0;
   overflow: hidden;
   white-space: nowrap;
   padding: 0 6px;
   text-align: center;
   text-transform: uppercase;
   order: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 /* Top-left card already shows the name in <h3> — never a caption under PNG or badge. */
 .team-roster-card .kit-marker-roster .kit-marker-caption,
@@ -2866,19 +2921,22 @@ select.formation-chip.formation-select option {
   padding: 4px;
 }
 .player-card-shirt {
+  --kit-name-band: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1px;
+  gap: 2px;
   font-family: "Oswald", "Arial Narrow", Impact, sans-serif;
   text-transform: uppercase;
   text-align: center;
   flex: 0 0 auto;
   width: 100%;
+  min-width: 0;
+  overflow: hidden;
   border-radius: 5px;
-  /* Equal inset so name + number sit centred in the kit panel. */
-  padding: 5px 9px 6px;
+  /* Even inset — surname reads smaller than the shirt number. */
+  padding: 5px 8px;
   box-sizing: border-box;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -2887,37 +2945,54 @@ select.formation-chip.formation-select option {
   margin-top: auto;
 }
 .player-card-shirt-name {
-  display: block;
-  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  line-height: 1.1;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  /* Shrink-wrap so letter-spacing compensation stays centred over the number. */
   max-width: 100%;
+  width: max-content;
+  flex: 0 0 var(--kit-name-band);
+  height: var(--kit-name-band);
+  min-width: 0;
+  min-height: 0;
   overflow: hidden;
   white-space: nowrap;
+  text-align: center;
+  box-sizing: border-box;
   order: 1;
+  align-self: center;
 }
 .player-card-shirt-num {
   display: block;
-  font-size: 30px;
+  flex: 0 0 auto;
+  font-size: 34px;
   font-weight: 800;
-  line-height: 1;
+  line-height: 0.88;
   letter-spacing: -0.03em;
   order: 2;
+  margin: 0;
+  padding: 0;
+  align-self: center;
+  text-align: center;
 }
 /* Back head is a short strip beside POS/OVR — keep it compact so the badges don’t drop. */
 .player-card-back-head .player-card-shirt-back {
-  padding: 2px 6px 3px;
+  --kit-name-band: 16px;
+  padding: 3px 6px 1px;
   gap: 0;
 }
 .player-card-shirt-back .player-card-shirt-name {
-  font-size: 12px;
-  letter-spacing: 0.12em;
+  font-size: 18px;
+  letter-spacing: 0.06em;
   line-height: 1;
 }
 .player-card-shirt-back .player-card-shirt-num {
   font-size: 24px;
-  line-height: 0.95;
+  line-height: 0.85;
   padding-bottom: 0;
 }
 .player-card-front .profile-stats {
@@ -2982,10 +3057,43 @@ select.formation-chip.formation-select option {
   width: 0;
   height: 0;
 }
+.player-card-bio {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  text-align: left;
+  padding: 0 0 6px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.player-card-bio-row {
+  display: grid;
+  grid-template-columns: 4.6em minmax(0, 1fr);
+  gap: 6px;
+  align-items: baseline;
+  padding: 2px 0;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+.player-card-bio-label {
+  color: rgba(230, 236, 245, 0.5);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.player-card-bio-value {
+  min-width: 0;
+  color: #f3f6fb;
+  font-weight: 650;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
 .player-card-ratings {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   text-align: left;
 }
 .player-card-rating-row {
@@ -2994,8 +3102,8 @@ select.formation-chip.formation-select option {
   justify-content: space-between;
   align-items: baseline;
   gap: 8px;
-  padding-bottom: 5px;
-  font-size: 11px;
+  padding-bottom: 4px;
+  font-size: 10px;
   letter-spacing: 0.03em;
 }
 .player-card-rating-row b {
@@ -3334,13 +3442,97 @@ select.formation-chip.formation-select option {
   max-height: none;
   aspect-ratio: unset;
   border-radius: 14px;
-  overflow: hidden;
-  background:
-    linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px) 0 0 / 100% 12.5%,
-    linear-gradient(90deg, #1f7a3a 0%, #146330 50%, #0f5228 100%);
+  /* Allow counter rings near the rim/edges to paint; court art is on ::before. */
+  overflow: visible;
+  background: transparent;
   border: 2px solid rgba(244, 247, 242, 0.55);
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
   touch-action: none;
+}
+.team-pitch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px) 0 0 / 100% 12.5%,
+    linear-gradient(90deg, #1f7a3a 0%, #146330 50%, #0f5228 100%);
+}
+.team-pitch.team-pitch-court {
+  border-color: rgba(232, 168, 74, 0.55);
+}
+.team-pitch.team-pitch-court::before {
+  /* Photo half-court (basket/attack at top) — stretch so % markers align with the panel. */
+  background:
+    linear-gradient(180deg, rgba(20, 12, 8, 0.1), transparent 35%, rgba(20, 12, 8, 0.14)),
+    url("./assets/ui/half-court.png") center / 100% 100% no-repeat,
+    #1a2740;
+}
+.team-pitch > * {
+  z-index: 1;
+}
+.team-pitch > .team-pitch-crest {
+  position: absolute;
+  top: 34%;
+  left: 22.5%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: clamp(88px, 28cqw, 168px);
+  height: clamp(88px, 28cqw, 168px);
+  pointer-events: none;
+  opacity: 0.72;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4));
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  background: transparent;
+}
+.team-pitch-crest.team-badge,
+.team-pitch-crest .team-badge {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  background: transparent;
+}
+.team-pitch-crest img,
+.team-pitch-crest .team-badge-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 0;
+  background: transparent;
+}
+.team-pitch.team-pitch-court .team-pitch-markings,
+.team-pitch.team-pitch-court .court-markings {
+  inset: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  pointer-events: none;
+}
+.team-pitch.team-pitch-court .team-pitch-markings::before,
+.team-pitch.team-pitch-court .team-pitch-markings::after,
+.team-pitch.team-pitch-court .court-markings > * {
+  display: none;
+}
+.pitch-slot-label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(244, 241, 234, 0.55);
+  pointer-events: none;
+}
+.formation-chip-static {
+  pointer-events: none;
+  opacity: 0.95;
 }
 .team-pitch-chalk {
   position: absolute;
@@ -3464,7 +3656,7 @@ select.formation-chip.formation-select option {
   transform: translate(-50%, 0);
   z-index: 3;
   width: var(--counter-width, 112px);
-  min-height: calc(var(--counter-disc, 88px) + 3px + var(--counter-caption, 22px) + 12px);
+  min-height: calc(var(--counter-disc, 88px) + 3px + var(--counter-caption, 22px) + 16px);
 }
 .pitch-slot.empty {
   min-height: var(--counter-disc, 88px);
@@ -3556,13 +3748,30 @@ select.formation-chip.formation-select option {
   overflow: hidden;
   box-sizing: border-box;
 }
-/* Formation pitch / bench PNG counters stay circular discs (HUD keeps its own square frames). */
-.team-pitch .kit-marker-photo .portrait,
+/* Formation pitch / bench PNG discs — same tinted ring + radial fill as Pyramid portraits.
+   Selectors must beat `.char-panel-team .kit-marker:not(...):not(...) .portrait` (white ring). */
+.char-panel-team .kit-marker.kit-marker-photo:not(.kit-marker-roster):not(.kit-marker-bench) .portrait,
 .char-panel-team .pitch-token .kit-marker-photo .portrait,
-.bench-card .kit-marker-photo .portrait {
+.team-pitch .pitch-token .kit-marker-photo .portrait,
+.team-pitch .kit-marker.kit-marker-photo .portrait,
+.bench-card .kit-marker-bench.kit-marker-photo .portrait {
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  border: 0;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--pyramid-tint, #3ec6ff) 55%, transparent),
+    0 6px 14px rgba(0, 0, 0, 0.35);
+  background:
+    radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--pyramid-tint, #3ec6ff) 42%, #1a2436) 0%, #0a1018 72%);
+}
+/* Selected pitch PNG: keep club tint ring; gold as outer halo only. */
+.pitch-token.on .kit-marker-photo .portrait,
+.pitch-slot.on .pitch-token .kit-marker-photo .portrait {
+  border: 0;
+  border-color: transparent;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--pyramid-tint, #3ec6ff) 70%, transparent),
+    0 0 0 4px rgba(197, 165, 114, 0.85),
+    0 8px 18px rgba(0, 0, 0, 0.5);
 }
 .kit-marker-photo .portrait-badge-kit {
   display: none !important;
@@ -3580,11 +3789,13 @@ select.formation-chip.formation-select option {
   grid-template-rows: var(--counter-disc, 88px) var(--counter-caption, 22px);
   gap: 3px;
   width: var(--counter-width, 112px);
-  height: calc(var(--counter-disc, 88px) + 3px + var(--counter-caption, 22px));
+  /* Extra top air so the tinted ring / soft disc mask is not clipped. */
+  height: calc(var(--counter-disc, 88px) + 3px + var(--counter-caption, 22px) + 4px);
+  padding-top: 4px;
   min-width: 0;
   max-width: var(--counter-width, 112px);
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible;
 }
 /* Off-pitch defaults. Pitch markers must NOT reset these — they inherit from .team-pitch. */
 .char-panel-team .kit-marker:not(.kit-marker-roster):not(.kit-marker-bench) {
@@ -3643,60 +3854,55 @@ select.formation-chip.formation-select option {
 }
 .char-panel-team .kit-marker-caption,
 .team-pitch .kit-marker-caption {
-  display: block;
-  width: var(--counter-width, 112px);
+  --caption-type: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28em;
+  width: auto;
   max-width: var(--counter-width, 112px);
-  margin: 2px auto 0;
-  padding: 1px 0 0;
+  margin: 4px auto 0;
+  padding: 3px 7px;
   overflow: hidden;
   text-align: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
   white-space: nowrap;
-  /* Keep caption clear of the disc (no bleed into the counter). */
   position: relative;
   z-index: 0;
   box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(6, 14, 10, 0.78);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  text-shadow: none;
+  color: #f2f4f0;
+  line-height: 1;
 }
 .char-panel-team .kit-marker-photo .kit-marker-caption,
 .team-pitch .kit-marker-photo .kit-marker-caption {
-  margin-top: 0;
-  padding-top: 0;
+  margin-top: 4px;
 }
 .char-panel-team .kit-marker-caption .kit-marker-num,
-.team-pitch .kit-marker-caption .kit-marker-num {
-  display: inline;
-  font-family: "Oswald", "Arial Narrow", sans-serif;
-  font-weight: 700;
-  font-size: 17px;
-  letter-spacing: 0.03em;
-  margin-inline-end: -0.03em;
-  line-height: 1.1;
-}
-.char-panel-team .kit-marker-caption .kit-marker-num::after {
-  /* Fixed thin gap before the surname — never a leading space on the name. */
-  content: "";
-  display: inline-block;
-  width: 0.28em;
-  margin-inline-end: 0;
-}
 .team-pitch .kit-marker-caption .kit-marker-num,
-.team-pitch .kit-marker-caption .kit-marker-name {
-  font-size: calc(var(--counter-disc, 88px) * 0.19);
-}
 .char-panel-team .kit-marker-caption .kit-marker-name,
 .team-pitch .kit-marker-caption .kit-marker-name {
   display: inline;
   min-width: 0;
   font-family: "Oswald", "Arial Narrow", sans-serif;
-  font-size: 17px;
+  font-size: var(--caption-type);
   font-weight: 700;
-  letter-spacing: 0.03em;
-  margin-inline-end: -0.03em;
-  line-height: 1.1;
+  letter-spacing: 0.04em;
+  margin: 0;
+  line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: clip;
   text-align: center;
+}
+.char-panel-team .kit-marker-caption .kit-marker-num::after {
+  content: none;
+}
+.team-pitch .kit-marker-caption {
+  --caption-type: calc(var(--counter-disc, 88px) * 0.145);
 }
 .kit-marker:not(.kit-marker-photo) .kit-marker-caption {
   /* Keep the caption lane so badge counters match PNG counter height. */
@@ -3762,7 +3968,7 @@ select.formation-chip.formation-select option {
   gap: 2px;
   width: 100%;
   margin: 0;
-  padding: 6px 4px;
+  padding: 8px 4px 6px;
   border: 1px solid rgba(197, 165, 114, 0.28);
   border-radius: 8px;
   background: rgba(7, 20, 13, 0.8);
@@ -3770,6 +3976,7 @@ select.formation-chip.formation-select option {
   cursor: grab;
   text-align: center;
   flex: 0 0 auto;
+  overflow: visible;
   height: auto;
   box-sizing: border-box;
 }
@@ -3808,14 +4015,13 @@ select.formation-chip.formation-select option {
 }
 .char-panel .bench-card .kit-marker-bench.kit-marker-photo,
 .bench-card .kit-marker-bench.kit-marker-photo {
-  height: calc(var(--bench-disc) + 2px + var(--bench-caption));
+  height: calc(var(--bench-disc) + 2px + var(--bench-caption) + 4px);
   grid-template-rows: var(--bench-disc) var(--bench-caption);
-  overflow: hidden;
+  padding-top: 4px;
+  overflow: visible;
 }
 .char-panel .bench-card .kit-marker-bench .portrait,
-.char-panel .bench-card .kit-marker-bench.kit-marker-photo .portrait,
-.bench-card .kit-marker-bench .portrait,
-.bench-card .kit-marker-bench.kit-marker-photo .portrait {
+.bench-card .kit-marker-bench .portrait {
   position: relative;
   width: var(--bench-disc);
   height: var(--bench-disc);
@@ -3826,17 +4032,36 @@ select.formation-chip.formation-select option {
   overflow: hidden;
   box-sizing: border-box;
 }
+.char-panel .bench-card .kit-marker-bench.kit-marker-photo .portrait,
+.bench-card .kit-marker-bench.kit-marker-photo .portrait {
+  position: relative;
+  width: var(--bench-disc);
+  height: var(--bench-disc);
+  margin: 0;
+  border-radius: 50%;
+  border: 0;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--pyramid-tint, #3ec6ff) 55%, transparent),
+    0 6px 14px rgba(0, 0, 0, 0.35);
+  background:
+    radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--pyramid-tint, #3ec6ff) 42%, #1a2436) 0%, #0a1018 72%);
+  overflow: hidden;
+  box-sizing: border-box;
+}
 .bench-card .kit-marker-bench .kit-marker-caption {
-  display: flex;
+  --caption-type: 11px;
+  display: inline-flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 0.28em;
   max-width: 100%;
-  width: 100%;
-  margin: 0 auto;
+  width: auto;
+  margin: 4px auto 0;
+  padding: 2px 6px;
   text-align: center;
+  line-height: 1;
 }
 .bench-card .kit-marker-bench:not(.kit-marker-photo) .kit-marker-caption {
   display: none;
@@ -3867,7 +4092,10 @@ select.formation-chip.formation-select option {
 }
 .bench-card .kit-marker-caption .kit-marker-num,
 .bench-card .kit-marker-caption .kit-marker-name {
-  font-size: 15px;
+  font-size: var(--caption-type, 11px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
   text-align: center;
 }
 /* Mid widths: keep the desktop triad (roster | pitch | bench), just tighter. */
@@ -3894,6 +4122,9 @@ select.formation-chip.formation-select option {
     width: var(--roster-marker);
     height: var(--roster-marker);
     padding: 6px;
+  }
+  .team-roster-card .kit-marker-roster .portrait-badge-kit {
+    --kit-name-band: 22px;
   }
   .team-roster-card .kit-marker-roster .portrait-badge-kit .num {
     font-size: 48px;
@@ -4146,6 +4377,14 @@ select.formation-chip.formation-select option {
 .league-tabs button.on {
   background: var(--green);
   border-color: var(--gold);
+}
+.league-tabs button[data-league="EAST"].on {
+  background: #1d428a;
+  border-color: #6ea0ff;
+}
+.league-tabs button[data-league="WEST"].on {
+  background: #c8102e;
+  border-color: #ff7a8a;
 }
 .week-nav {
   display: flex;
@@ -5308,12 +5547,14 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 .miteam-foil-shell-gold .miteam-foil-card-face {
   box-shadow: inset 0 0 14px rgba(255, 200, 80, 0.1);
 }
-.miteam-foil {
-  --foil-hi: #f4f7fb;
-  --foil-mid: #b8c0cc;
-  --foil-lo: #6e7888;
-  --foil-ink: #1a222e;
-  --foil-glow: rgba(210, 220, 235, 0.55);
+.miteam-foil,
+.miteam-foil-silver {
+  /* Chrome / brushed steel — high specular contrast. */
+  --foil-hi: #ffffff;
+  --foil-mid: #c5ceda;
+  --foil-lo: #5a6574;
+  --foil-ink: #121820;
+  --foil-glow: rgba(230, 240, 255, 0.75);
   /* Zigzag depth (match MITEAM_FOIL_TOOTH_PCT). Indent sits a hair inside it. */
   --foil-tooth: 2.8%;
   --foil-indent: 1.15%;
@@ -5328,7 +5569,7 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   isolation: isolate;
   padding: 0;
   color: var(--foil-ink);
-  background: #5c6573;
+  background: #7a8494;
   box-shadow: none;
   transition: transform 0.22s ease, filter 0.22s ease;
   transform-style: preserve-3d;
@@ -5341,6 +5582,12 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   --foil-ink: #3a2a08;
   --foil-glow: rgba(255, 214, 110, 0.65);
   background: #a87918;
+}
+.miteam-foil-shell-silver {
+  filter:
+    drop-shadow(0 16px 28px rgba(8, 14, 24, 0.55))
+    drop-shadow(0 0 16px rgba(190, 210, 235, 0.32))
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.18));
 }
 .miteam-foil-shell-gold {
   filter: drop-shadow(0 16px 28px rgba(120, 80, 0, 0.45)) drop-shadow(0 0 18px rgba(255, 200, 80, 0.28));
@@ -5513,6 +5760,22 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
     );
   z-index: 0;
 }
+.miteam-foil-silver .miteam-foil-base {
+  background:
+    linear-gradient(
+      152deg,
+      #ffffff 0%,
+      #e8eef6 8%,
+      #9aa7b8 20%,
+      #4e5968 34%,
+      #dce4ee 46%,
+      #ffffff 52%,
+      #a8b4c4 62%,
+      #6a7586 76%,
+      #f2f6fb 88%,
+      #8e9aab 100%
+    );
+}
 .miteam-foil-grain {
   z-index: 1;
   opacity: 0.35;
@@ -5526,6 +5789,26 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
     repeating-linear-gradient(
       90deg,
       rgba(0, 0, 0, 0.035) 0 1px,
+      transparent 1px 3px
+    );
+}
+.miteam-foil-silver .miteam-foil-grain {
+  opacity: 0.55;
+  mix-blend-mode: overlay;
+  background-image:
+    repeating-linear-gradient(
+      105deg,
+      rgba(255, 255, 255, 0.14) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.06) 0 1px,
+      transparent 1px 2px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.05) 0 1px,
       transparent 1px 3px
     );
 }
@@ -5545,6 +5828,21 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
     );
   background-size: 220% 220%;
   animation: miteam-foil-holo 4.8s linear infinite;
+}
+.miteam-foil-silver .miteam-foil-holo {
+  opacity: 0.72;
+  mix-blend-mode: soft-light;
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.7),
+      rgba(180, 210, 255, 0.45),
+      rgba(220, 230, 240, 0.55),
+      rgba(140, 190, 255, 0.4),
+      rgba(255, 255, 255, 0.65),
+      rgba(190, 200, 220, 0.4)
+    );
+  background-size: 240% 240%;
 }
 .miteam-foil-gold .miteam-foil-holo {
   opacity: 0.7;
@@ -5572,6 +5870,16 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
     );
   mask-image: linear-gradient(180deg, transparent 8%, #000 22%, #000 78%, transparent 92%);
 }
+.miteam-foil-silver .miteam-foil-ridges {
+  opacity: 0.62;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 8px,
+      rgba(255, 255, 255, 0.16) 8px 9px,
+      rgba(0, 0, 0, 0.12) 9px 10px
+    );
+}
 .miteam-foil-edge {
   z-index: 4;
   box-shadow:
@@ -5579,6 +5887,14 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
     inset 0 -3px 8px rgba(0, 0, 0, 0.32),
     inset 2px 0 0 rgba(255, 255, 255, 0.18),
     inset -2px 0 0 rgba(0, 0, 0, 0.2);
+}
+.miteam-foil-silver .miteam-foil-edge {
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -3px 10px rgba(0, 0, 0, 0.38),
+    inset 2px 0 0 rgba(255, 255, 255, 0.28),
+    inset -2px 0 0 rgba(20, 28, 40, 0.28),
+    inset 0 0 24px rgba(200, 220, 245, 0.12);
 }
 .miteam-foil-glare {
   z-index: 5;
@@ -5593,6 +5909,17 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   background-size: 220% 100%;
   animation: miteam-foil-glare 2.8s ease-in-out infinite;
   mix-blend-mode: screen;
+}
+.miteam-foil-silver .miteam-foil-glare {
+  background: linear-gradient(
+    118deg,
+    transparent 22%,
+    rgba(210, 230, 255, 0.2) 36%,
+    rgba(255, 255, 255, 0.95) 48%,
+    rgba(180, 210, 255, 0.28) 58%,
+    transparent 74%
+  );
+  background-size: 220% 100%;
 }
 .miteam-foil-gold .miteam-foil-glare {
   background: linear-gradient(
@@ -5618,6 +5945,12 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   pointer-events: none;
   filter: grayscale(0.15) contrast(1.05);
   mix-blend-mode: soft-light;
+}
+.miteam-foil-silver .miteam-foil-logo {
+  width: 108%;
+  opacity: 0.48;
+  filter: contrast(1.12) saturate(1.05) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+  mix-blend-mode: normal;
 }
 .miteam-foil-gold .miteam-foil-logo {
   opacity: 0.28;
@@ -5827,16 +6160,23 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 .miteam-pack-under .player-card-shirt {
   flex: 0 0 auto;
   margin-top: auto;
-  padding: 5px 9px 6px;
+  /* Even inset so name + number sit centred in the kit panel (not bottom-heavy). */
+  padding: 6px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
 }
 .miteam-reveal .player-card-shirt-name,
 .miteam-pack-under .player-card-shirt-name {
   font-size: 13px;
+  align-self: center;
 }
 .miteam-reveal .player-card-shirt-num,
 .miteam-pack-under .player-card-shirt-num {
   font-size: 30px;
-  line-height: 1;
+  line-height: 0.85;
+  align-self: center;
+  text-align: center;
 }
 .miteam-reveal-card-wrap .miteam-keep-row {
   position: absolute;
@@ -5909,3 +6249,1333 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 }
 .bench-empty { font-size: 18px; opacity: 0.7; }
 .roster-row.empty { opacity: 0.45; }
+
+/* ── Pyramid hub (Top 50 + position ring) ─────────────────────────── */
+.pyramid-hub {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: none;
+  align-items: stretch;
+  justify-content: center;
+  padding: 12px 10px 16px;
+  box-sizing: border-box;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(62, 198, 255, 0.16), transparent 55%),
+    linear-gradient(180deg, rgba(6, 10, 18, 0.72), rgba(6, 10, 18, 0.92));
+  color: #f3f6fb;
+  overflow: hidden;
+  /* #ui-root is pointer-events:none except form controls — hub must opt back in. */
+  pointer-events: auto;
+}
+.pyramid-hub.open {
+  display: flex;
+}
+.pyramid-shell {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  height: 100%;
+}
+.pyramid-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 18px;
+  flex: 0 0 auto;
+}
+.pyramid-eyebrow {
+  margin: 0;
+  color: #3ec6ff;
+  letter-spacing: 0.28em;
+  font-size: 11px;
+}
+.pyramid-head h2 {
+  margin: 4px 0 0;
+  font-family: var(--title-font, "Righteous", Impact, sans-serif);
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: 0.06em;
+  line-height: 0.95;
+}
+.pyramid-sub {
+  margin: 6px 0 0;
+  opacity: 0.7;
+  font-size: 13px;
+}
+.pyramid-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.pyramid-view-toggle {
+  display: inline-flex;
+  border: 1px solid rgba(62, 198, 255, 0.35);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.pyramid-view-btn {
+  border: 0;
+  background: transparent;
+  color: rgba(243, 246, 251, 0.7);
+  padding: 8px 10px;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  cursor: pointer;
+}
+.pyramid-view-btn.on {
+  background: rgba(62, 198, 255, 0.22);
+  color: #f3f6fb;
+}
+.pyramid-btn {
+  border: 1px solid rgba(232, 168, 74, 0.55);
+  background: rgba(232, 168, 74, 0.12);
+  color: #f4f1ea;
+  padding: 8px 14px;
+  border-radius: 8px;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  cursor: pointer;
+}
+.pyramid-btn.ghost {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+}
+.pyramid-btn:hover,
+.pyramid-view-btn:hover {
+  filter: brightness(1.08);
+}
+.pyramid-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border: 1px solid rgba(62, 198, 255, 0.18);
+  border-radius: 14px;
+  background: rgba(8, 14, 24, 0.72);
+  padding: 16px 12px 20px;
+}
+.pyramid-body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+.pyramid-zoom {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid rgba(62, 198, 255, 0.35);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.pyramid-zoom .pyramid-btn {
+  border: 0;
+  border-radius: 0;
+  min-width: 34px;
+  padding: 8px 10px;
+  font-size: 16px;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.04);
+}
+.pyramid-zoom .pyramid-btn:hover {
+  background: rgba(62, 198, 255, 0.18);
+}
+.pyramid-tiers {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  /* `zoom` grows layout/scroll height; transform alone would clip. */
+  zoom: var(--pyramid-zoom, 1);
+  width: 100%;
+  box-sizing: border-box;
+}
+.pyramid-tier {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.pyramid-cell {
+  position: relative;
+  /* Use available row width per seat, but never stretch a short tier across the screen. */
+  flex: 0 1 auto;
+  width: min(
+    calc(148px * var(--tier-scale, 1)),
+    calc((100% - (var(--tier-count, 1) - 1) * 8px) / var(--tier-count, 1))
+  );
+  min-width: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px 8px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: grab;
+  user-select: none;
+  box-sizing: border-box;
+}
+.pyramid-cell.is-compact {
+  padding: 8px 4px 6px;
+  gap: 4px;
+}
+.pyramid-cell.is-dragging {
+  opacity: 0.45;
+}
+.pyramid-cell.is-drag-over {
+  border-color: rgba(62, 198, 255, 0.75);
+  box-shadow: 0 0 0 1px rgba(62, 198, 255, 0.35);
+}
+.pyramid-cell-rank,
+.pyramid-ring-node-rank,
+.pyramid-ring-center-rank {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #e8a84a;
+}
+.pyramid-cell-rank {
+  /* Absolute so the PNG stays centred — rank sits after the portrait, bottom-right. */
+  position: absolute;
+  top: auto;
+  left: auto;
+  right: 8px;
+  bottom: 6px;
+  z-index: 2;
+  pointer-events: none;
+}
+.pyramid-cell-photo {
+  width: min(72px, 58%);
+  aspect-ratio: 1;
+  height: auto;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  border: 0;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--pyramid-tint, #3ec6ff) 55%, transparent),
+    0 6px 14px rgba(0, 0, 0, 0.35);
+  background:
+    radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--pyramid-tint, #3ec6ff) 42%, #1a2436) 0%, #0a1018 72%);
+}
+.pyramid-cell.is-compact .pyramid-cell-photo {
+  width: min(64px, 56%);
+}
+/* Shared head crop / soft disc mask — Pyramid cells + Formation pitch/bench counters. */
+.pyramid-player-png,
+.team-pitch .kit-marker-photo .portrait img,
+.char-panel-team .pitch-token .kit-marker-photo .portrait img,
+.bench-card .kit-marker-bench.kit-marker-photo .portrait img {
+  width: 118%;
+  height: 118%;
+  /* Slight upward bias for heads; keep enough top margin so crowns are not clipped. */
+  margin: -4% 0 0 -9%;
+  object-fit: cover;
+  object-position: 50% 18%;
+  display: block;
+  pointer-events: none;
+  /* Soften the hard NBA cutout crown line. */
+  -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 64%, transparent 80%);
+  mask-image: radial-gradient(circle at 50% 42%, #000 64%, transparent 80%);
+}
+.pyramid-photo-fallback {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-content: center;
+  font-family: "Oswald", "Arial Narrow", Impact, sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+}
+.pyramid-cell-kit-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  order: 0;
+}
+.pyramid-cell .pyramid-cell-photo {
+  order: 1;
+}
+.pyramid-cell-kit {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+}
+.pyramid-cell.is-compact .pyramid-cell-kit {
+  width: 44px;
+  height: 44px;
+}
+.pyramid-kit-badge.kit-marker-roster {
+  --roster-marker: 100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: grid;
+  place-items: stretch;
+}
+.pyramid-kit-badge .portrait {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 2px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+.pyramid-kit-badge .portrait-badge-kit {
+  --kit-name-band: 11px;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 0;
+  padding: 2px 1px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.pyramid-kit-badge .portrait-badge-kit .sur {
+  order: 1;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-inline-end: 0 !important;
+  line-height: 1;
+  max-width: 100%;
+  width: 100%;
+  flex: 0 0 var(--kit-name-band);
+  height: var(--kit-name-band);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0 1px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pyramid-kit-badge .portrait-badge-kit .num {
+  order: 2;
+  flex: 0 0 auto;
+  font-family: "Oswald", "Arial Narrow", Impact, sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  margin: 0;
+  padding: 0;
+}
+.pyramid-cell.is-compact .pyramid-kit-badge .portrait-badge-kit {
+  --kit-name-band: 10px;
+}
+.pyramid-cell.is-compact .pyramid-kit-badge .portrait-badge-kit .num {
+  font-size: 18px;
+}
+.pyramid-cell.is-compact .pyramid-kit-badge .portrait-badge-kit .sur {
+  font-size: 9px;
+}
+.pyramid-kit-badge .kit-marker-caption {
+  display: none !important;
+}
+.pyramid-move {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f3f6fb;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  font-size: 13px;
+  display: inline-grid;
+  place-items: center;
+}
+.pyramid-move:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+.pyramid-pool {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(62, 198, 255, 0.22);
+}
+.pyramid-pool-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-bottom: 12px;
+}
+.pyramid-pool-head h3 {
+  margin: 0;
+  font-family: var(--title-font, "Righteous", Impact, sans-serif);
+  letter-spacing: 0.12em;
+  font-size: 16px;
+  color: #9ec9e8;
+}
+.pyramid-pool-head p {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.65;
+}
+.pyramid-pool-search {
+  flex: 1 1 220px;
+  min-width: 180px;
+  max-width: 360px;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pyramid-pool-search input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(158, 201, 232, 0.35);
+  border-radius: 8px;
+  background: rgba(8, 14, 24, 0.85);
+  color: #f3f6fb;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 13px;
+  pointer-events: auto;
+}
+.pyramid-pool-search input::placeholder {
+  color: rgba(243, 246, 251, 0.45);
+}
+.pyramid-pool-search-hits {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 180px;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.pyramid-pool-hit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  border: 1px solid rgba(158, 201, 232, 0.22);
+  border-radius: 8px;
+  background: rgba(12, 22, 34, 0.9);
+  color: #f3f6fb;
+  padding: 7px 9px;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.pyramid-pool-hit:hover {
+  border-color: rgba(62, 198, 255, 0.55);
+  background: rgba(20, 36, 52, 0.95);
+}
+.pyramid-pool-hit-meta {
+  opacity: 0.55;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.pyramid-pool-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+.pyramid-pool-cell {
+  flex: 0 1 auto;
+  width: clamp(88px, 8.5vw, 112px);
+  max-width: 112px;
+  opacity: 0.92;
+  border-style: dashed;
+  border-color: rgba(158, 201, 232, 0.28);
+  background: linear-gradient(180deg, rgba(20, 36, 52, 0.55), rgba(8, 14, 24, 0.4));
+}
+.pyramid-pool-cell .pyramid-cell-rank {
+  color: #9ec9e8;
+}
+.pyramid-pool-tag {
+  display: inline-grid;
+  place-content: center;
+  min-width: 22px;
+  height: 28px;
+  padding: 0 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(158, 201, 232, 0.28);
+  background: rgba(158, 201, 232, 0.08);
+  color: #9ec9e8;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.pyramid-elevate {
+  color: #9ec9e8;
+  border-color: rgba(158, 201, 232, 0.4);
+}
+
+.pyramid-ring-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.pyramid-ring-hint {
+  margin-left: auto;
+  font-size: 11px;
+  opacity: 0.55;
+  letter-spacing: 0.06em;
+}
+.pyramid-ring-viewport {
+  position: relative;
+  width: 100%;
+  min-height: min(72vh, 680px);
+  height: min(72vh, 680px);
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: grab;
+  touch-action: none;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(62, 198, 255, 0.1), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.55) 72%);
+}
+.pyramid-ring-viewport:active {
+  cursor: grabbing;
+}
+.pyramid-ring-stage {
+  --ring-orbit-px: 280px;
+  position: absolute;
+  inset: 0;
+  transform: scale(var(--ring-zoom, 1));
+  transform-origin: center center;
+  transition: transform 0.12s ease-out;
+}
+.pyramid-ring-orbit {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--ring-angle, 0deg));
+  transform-origin: center center;
+  will-change: transform;
+}
+.pyramid-ring-wedges {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  border: 1px dashed rgba(62, 198, 255, 0.2);
+  pointer-events: none;
+}
+.pyramid-ring-wedge {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.pyramid-ring-wedge-ray {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 44%;
+  margin-left: -0.5px;
+  transform-origin: center top;
+  transform: rotate(var(--wedge-angle)) translateY(-100%);
+  background: linear-gradient(to top, transparent, rgba(62, 198, 255, 0.28));
+}
+.pyramid-ring-wedge-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.8em;
+  margin-left: -1.4em;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: rgba(62, 198, 255, 0.7);
+  transform-origin: center center;
+  /* Sit on the outer ring; --ring-orbit-px is set from the viewport size in JS. */
+  transform:
+    rotate(var(--wedge-angle))
+    translateY(calc(var(--ring-orbit-px, 280px) * -0.48))
+    rotate(calc(-1 * (var(--wedge-angle) + var(--ring-angle, 0deg))));
+}
+
+/* Polar layout via JS left/top (px from centre). Card size never shifts spacing. */
+.pyramid-ring-node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.pyramid-ring-node-spin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* Stay level while the parent orbit turns; --ring-card-scale shrinks outer rings. */
+  transform:
+    translate(-50%, -50%)
+    rotate(calc(-1 * var(--ring-angle, 0deg)))
+    scale(var(--ring-card-scale, 1));
+  transform-origin: center center;
+}
+
+.pyramid-ring-card {
+  position: relative;
+  width: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 3px 4px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: var(--ring-ink, #fff);
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--ring-tint, #1a2740) 88%, #fff) 0%, var(--ring-tint, #1a2740) 55%, color-mix(in srgb, var(--ring-tint, #1a2740) 70%, #000) 100%);
+  border: 1px solid color-mix(in srgb, var(--ring-ink, #fff) 35%, transparent);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 8px 16px rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+}
+.pyramid-ring-card.is-center {
+  width: 96px;
+  padding: 7px 5px 6px;
+  border-color: rgba(232, 168, 74, 0.65);
+  box-shadow:
+    0 0 0 1px rgba(232, 168, 74, 0.35),
+    0 0 28px rgba(232, 168, 74, 0.28),
+    0 12px 24px rgba(0, 0, 0, 0.45);
+}
+.pyramid-ring-card-rank {
+  position: absolute;
+  right: 5px;
+  bottom: 4px;
+  z-index: 2;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #e8a84a;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+.pyramid-ring-bound {
+  width: 24px;
+  height: 24px;
+  border: 1px solid color-mix(in srgb, var(--ring-ink, #fff) 28%, transparent);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.22);
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  margin: 0 auto;
+  color: var(--ring-ink, #fff);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  font-size: 12px;
+  flex: 0 0 auto;
+}
+.pyramid-ring-bound:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.38);
+}
+.pyramid-ring-bound:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+.pyramid-ring-card-kit {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+}
+.pyramid-ring-card.is-center .pyramid-ring-card-kit {
+  width: 48px;
+  height: 48px;
+}
+.pyramid-ring-card .pyramid-cell-kit,
+.pyramid-ring-card-kit .pyramid-kit-badge {
+  width: 100%;
+  height: 100%;
+}
+.pyramid-ring-card .pyramid-cell-photo {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--ring-ink, #fff) 40%, transparent),
+    0 4px 10px rgba(0, 0, 0, 0.35);
+}
+.pyramid-ring-card.is-center .pyramid-cell-photo {
+  width: 56px;
+  height: 56px;
+  box-shadow:
+    0 0 0 2px rgba(232, 168, 74, 0.7),
+    0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.pyramid-ring-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.pyramid-ring-center-spin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+}
+
+/* Jersey 0–99 · 10×10 — same panel rhythm as Pyramid (kit + PNG), no ↑↓ arrows. */
+.pyramid-jersey {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  zoom: var(--pyramid-zoom, 1);
+}
+.pyramid-jersey-toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.pyramid-jersey-hint {
+  margin-left: auto;
+  font-size: 11px;
+  opacity: 0.55;
+  letter-spacing: 0.06em;
+}
+.pyramid-jersey-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 12px 8px;
+  width: 100%;
+  align-items: stretch;
+}
+.pyramid-jersey-cell {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 6px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+  box-sizing: border-box;
+  overflow: hidden;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  user-select: none;
+}
+.pyramid-jersey-cell:hover,
+.pyramid-jersey-cell:focus-visible {
+  border-color: rgba(232, 168, 74, 0.55);
+  outline: none;
+}
+.pyramid-jersey-cell.is-empty {
+  opacity: 0.42;
+  background: rgba(8, 14, 22, 0.45);
+  justify-content: center;
+  min-height: 108px;
+}
+.pyramid-jersey-cell .pyramid-cell-kit-row {
+  order: 0;
+  width: 100%;
+  justify-content: center;
+}
+.pyramid-jersey-cell .pyramid-cell-kit {
+  /* Wide and short — leave enough height so the # isn't clipped. */
+  width: 88%;
+  max-width: 96px;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.pyramid-jersey-cell .pyramid-kit-badge,
+.pyramid-jersey-cell .kit-marker-roster {
+  width: 100%;
+  height: 100%;
+}
+.pyramid-jersey-cell .portrait-badge-kit {
+  --kit-name-band: 11px;
+  justify-content: space-evenly;
+  gap: 0;
+  padding: 2px;
+  overflow: hidden;
+}
+.pyramid-jersey-cell .portrait-badge-kit .sur {
+  flex: 0 0 var(--kit-name-band);
+  height: var(--kit-name-band);
+  font-size: clamp(7px, 0.95vw, 9px) !important;
+}
+.pyramid-jersey-cell .portrait-badge-kit .num {
+  display: block;
+  flex: 0 0 auto;
+  min-height: 0;
+  font-size: clamp(22px, 3.2vw, 34px);
+  line-height: 0.88;
+  overflow: visible;
+}
+.pyramid-jersey-cell .pyramid-cell-photo {
+  order: 1;
+  width: min(64px, 72%);
+  aspect-ratio: 1;
+  height: auto;
+  flex: 0 0 auto;
+  z-index: 1;
+}
+/* Empty cells only — filled cells show the # on the kit panel. */
+.pyramid-jersey-num {
+  font-family: "Oswald", "Arial Narrow", Impact, sans-serif;
+  font-size: clamp(18px, 2.6vw, 26px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.55);
+}
+.pyramid-jersey-cell.is-filled .pyramid-jersey-num {
+  display: none;
+}
+.pyramid-jersey-option-kit .portrait-badge-kit {
+  --kit-name-band: 12px;
+  justify-content: flex-start;
+  padding: 3px 2px 0;
+}
+.pyramid-jersey-option-kit .portrait-badge-kit .sur {
+  flex: 0 0 var(--kit-name-band);
+  height: var(--kit-name-band);
+  font-size: 10px;
+}
+.pyramid-jersey-option-kit .portrait-badge-kit .num {
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  font-size: 20px;
+  line-height: 0.85;
+  overflow: hidden;
+}
+
+/* Replacement picker */
+.pyramid-jersey-picker {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: rgba(4, 8, 14, 0.72);
+  box-sizing: border-box;
+}
+.pyramid-jersey-picker-card {
+  width: min(720px, 100%);
+  max-height: min(78vh, 640px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, #152032, #0c121c);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+}
+.pyramid-jersey-picker-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pyramid-jersey-picker-head h3 {
+  margin: 0;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.pyramid-jersey-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 8px;
+  overflow: auto;
+  padding: 2px;
+  min-height: 0;
+}
+.pyramid-jersey-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 0;
+}
+.pyramid-jersey-option:hover,
+.pyramid-jersey-option:focus-visible {
+  border-color: rgba(232, 168, 74, 0.55);
+  outline: none;
+}
+.pyramid-jersey-option.is-on {
+  border-color: rgba(232, 168, 74, 0.85);
+  background: rgba(232, 168, 74, 0.12);
+}
+.pyramid-jersey-option-kit {
+  width: 52px;
+  height: 52px;
+  overflow: hidden;
+}
+.pyramid-jersey-option-kit .pyramid-kit-badge,
+.pyramid-jersey-option-kit .kit-marker-roster {
+  width: 100%;
+  height: 100%;
+}
+.pyramid-jersey-option .pyramid-cell-photo {
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.pyramid-jersey-option .pyramid-cell-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+.pyramid-jersey-option-name {
+  max-width: 100%;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pyramid-jersey-option-ovr {
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.7;
+}
+.pyramid-jersey-picker-empty {
+  grid-column: 1 / -1;
+  padding: 28px 12px;
+  text-align: center;
+  opacity: 0.65;
+  font-size: 13px;
+}
+
+@media (max-width: 720px) {
+  .pyramid-hub {
+    padding: 10px;
+  }
+  .pyramid-ring-viewport {
+    min-height: 56vh;
+    height: 56vh;
+  }
+  .pyramid-jersey-grid {
+    gap: 8px 6px;
+  }
+  .pyramid-jersey-hint {
+    display: none;
+  }
+  .pyramid-jersey-cell {
+    padding: 8px 4px 6px;
+    gap: 4px;
+  }
+  .pyramid-jersey-cell .pyramid-cell-kit {
+    width: 90%;
+    max-width: none;
+  }
+  .pyramid-jersey-cell .pyramid-cell-photo {
+    width: min(56px, 68%);
+  }
+  .pyramid-ring-hint {
+    display: none;
+  }
+  .pyramid-ring-card {
+    width: 80px;
+  }
+  .pyramid-ring-card.is-center {
+    width: 96px;
+  }
+  .pyramid-ring-card .pyramid-cell-photo {
+    width: 48px;
+    height: 48px;
+  }
+  .pyramid-ring-card-kit {
+    width: 42px;
+    height: 42px;
+  }
+  .pyramid-draft-seats {
+    grid-template-columns: 1fr;
+  }
+  .pyramid-draft-board {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+/* Draft — snake BPA into 13-man squads */
+.pyramid-draft {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+}
+.pyramid-draft-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.pyramid-draft-status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pyramid-draft-onclock {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #e8a84a;
+}
+.pyramid-draft-first {
+  font-size: 11px;
+  opacity: 0.55;
+  letter-spacing: 0.06em;
+}
+.pyramid-draft-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pyramid-draft-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pyramid-draft-filter {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(243, 246, 251, 0.78);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.pyramid-draft-filter.on {
+  border-color: rgba(62, 198, 255, 0.55);
+  background: rgba(62, 198, 255, 0.16);
+  color: #f3f6fb;
+}
+.pyramid-draft-seats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+.pyramid-draft-seat {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  padding: 10px;
+  box-sizing: border-box;
+  min-width: 0;
+}
+.pyramid-draft-seat.is-on {
+  border-color: rgba(232, 168, 74, 0.7);
+  box-shadow: 0 0 0 1px rgba(232, 168, 74, 0.25);
+}
+.pyramid-draft-seat-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.pyramid-draft-seat-head h3 {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+.pyramid-draft-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.pyramid-draft-slot {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 6px;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.18);
+  font-size: 10px;
+}
+.pyramid-draft-slot.is-empty {
+  opacity: 0.4;
+}
+.pyramid-draft-slot-pos {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #9ec9e8;
+}
+.pyramid-draft-slot-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pyramid-draft-slot-ovr {
+  font-weight: 700;
+  opacity: 0.75;
+}
+.pyramid-draft-seat-meta {
+  margin-top: 8px;
+  font-size: 11px;
+  opacity: 0.55;
+  text-align: right;
+}
+.pyramid-draft-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 10px;
+  padding-top: 4px;
+}
+.pyramid-draft-card {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(8, 14, 22, 0.55);
+  padding: 6px;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  min-width: 0;
+  overflow: hidden;
+}
+.pyramid-draft-card:hover,
+.pyramid-draft-card:focus-visible {
+  border-color: rgba(232, 168, 74, 0.65);
+  outline: none;
+}
+.pyramid-draft-card .player-card-shell {
+  pointer-events: none;
+  transform: scale(0.92);
+  transform-origin: top center;
+}
+.pyramid-draft-card .profile-stats,
+.pyramid-draft-card .player-card-flip-nav,
+.pyramid-draft-card .player-card-shell-head {
+  display: none !important;
+}
+.pyramid-draft-card .player-card-front {
+  gap: 6px;
+}
+.pyramid-draft-card .player-card-top {
+  grid-template-columns: minmax(26px, 0.75fr) minmax(0, 1.5fr) minmax(26px, 0.75fr);
+  column-gap: 4px;
+}
+.pyramid-draft-card .player-card-team {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  overflow: hidden;
+  text-overflow: clip;
+  padding: 0 1px;
+  box-sizing: border-box;
+}
+.pyramid-draft-empty {
+  grid-column: 1 / -1;
+  padding: 28px 12px;
+  text-align: center;
+  opacity: 0.65;
+  font-size: 13px;
+}
+.pyramid-draft.is-ai-picking .pyramid-draft-board {
+  pointer-events: none;
+}
+.pyramid-draft-card.is-ai-flash {
+  border-color: rgba(232, 168, 74, 0.95);
+  z-index: 2;
+  animation: pyramid-draft-ai-flash 3s ease-in-out;
+  box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+@keyframes pyramid-draft-ai-flash {
+  0%,
+  100% {
+    filter: brightness(1);
+    box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.35), 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    filter: brightness(1.22);
+    box-shadow: 0 0 0 3px rgba(232, 168, 74, 0.7), 0 12px 32px rgba(232, 168, 74, 0.22);
+  }
+}
+
+/* Draft team inspect — full Formation panel */
+.pyramid-draft-seat.is-complete {
+  cursor: pointer;
+}
+.pyramid-draft-seat.is-complete:hover {
+  border-color: rgba(232, 168, 74, 0.55);
+}
+.pyramid-draft-inspect-view {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  overflow: auto;
+}
+/* Match CharacterSelect formation panel footprint — don't stretch edge-to-edge. */
+.pyramid-draft-formation-panel.char-panel-team {
+  width: min(1380px, 96%);
+  min-width: min(1100px, 96%);
+  max-width: min(1470px, 98%);
+  height: min(86vh, 920px);
+  max-height: min(86vh, 920px);
+  margin: 0 auto;
+  background: linear-gradient(180deg, rgba(8, 18, 28, 0.96), rgba(4, 10, 16, 0.98));
+  border-color: rgba(232, 168, 74, 0.45);
+  padding: 12px 14px 14px;
+  box-sizing: border-box;
+  flex: 0 1 auto;
+}
+.pyramid-draft-formation-panel .team-select-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-bottom: 10px;
+  flex: 0 0 auto;
+}
+.pyramid-draft-inspect-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.pyramid-draft-inspect-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pyramid-draft-inspect-title h3 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  color: #f3f6fb;
+}
+.pyramid-draft-inspect-title span {
+  font-size: 11px;
+  opacity: 0.55;
+  letter-spacing: 0.06em;
+}
+.pyramid-draft-inspect-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+}
+.pyramid-draft-inspect-tab {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(243, 246, 251, 0.78);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.pyramid-draft-inspect-tab.on {
+  border-color: rgba(232, 168, 74, 0.65);
+  background: rgba(232, 168, 74, 0.14);
+  color: #f3f6fb;
+}
+.pyramid-draft-formation-panel .team-select-body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pyramid-draft-formation-panel .team-pitch-court {
+  min-height: 0;
+  height: 100%;
+}
+.pyramid-draft-formation-panel .formation-chip[data-pyramid="draft-start-team"],
+.pyramid-draft-formation-panel .formation-chip[data-pyramid="draft-simulate"] {
+  cursor: default;
+  opacity: 0.85;
+}
+@media (max-width: 1100px) {
+  .pyramid-draft-formation-panel.char-panel-team {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: min(82vh, 860px);
+    max-height: min(82vh, 860px);
+  }
+}

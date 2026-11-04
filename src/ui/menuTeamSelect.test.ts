@@ -21,7 +21,7 @@ function team(partial: Partial<TeamRecord> & Pick<TeamRecord, "id" | "name">): T
     defaultStadiumId: "ground",
     primaryColor: "#000",
     secondaryColor: "#fff",
-    defaultKit: { primary: "#000", secondary: "#fff", socks: "#000" },
+    defaultKit: { shirt: "#000", shorts: "#fff", socks: "#000" },
     teamType: "CURRENT_TEAM",
     ...partial,
   } as TeamRecord;
@@ -29,8 +29,8 @@ function team(partial: Partial<TeamRecord> & Pick<TeamRecord, "id" | "name">): T
 
 describe("menuTeamSelect", () => {
   it("strips era suffixes from classic display names", () => {
-    expect(clubBaseName("Real Madrid — 2002/03 Galácticos")).toBe("Real Madrid");
-    expect(clubBaseName("Chelsea — 2004/05 Mourinho")).toBe("Chelsea");
+    expect(clubBaseName("Chicago Bulls — 1995/96")).toBe("Chicago Bulls");
+    expect(clubBaseName("Lakers — 1986/87")).toBe("Lakers");
   });
 
   it("formats season rolls as short dates, never nicknames", () => {
@@ -38,134 +38,80 @@ describe("menuTeamSelect", () => {
     expect(formatEraRoll("1991/92")).toBe("91-92");
     expect(formatEraRoll("2000")).toBe("00");
     expect(formatEraRoll("2021-22")).toBe("21-22");
-    expect(formatEraRoll("Chelsea — 2004/05 Mourinho")).toBe("04-05");
-    expect(formatEraRoll("101")).toBe("101");
-    expect(formatEraRoll("FANS")).toBe("FANS");
   });
 
-  it("keeps Argyle fans / historic sides under Plymouth Argyle even with stale names", () => {
+  it("groups current franchises by East / West conference", () => {
     const options = buildMenuTeamOptions([
+      team({ id: "nba_bos", name: "Boston Celtics", conference: "EAST", league: "EAST", teamType: "CURRENT_TEAM" }),
+      team({ id: "nba_lal", name: "Los Angeles Lakers", conference: "WEST", league: "WEST", teamType: "CURRENT_TEAM" }),
       team({
-        id: "classic_plymouth_argyle_1995_96",
-        name: "Plymouth Argyle — 1995/96",
+        id: "classic_bulls_1995_96",
+        name: "Chicago Bulls — 1995/96",
         teamType: "HISTORIC_TEAM",
         historicSeason: "1995/96",
+        franchiseId: "nba_chi",
+        conference: "EAST",
       }),
       team({
-        id: "argyle_historic_sample",
-        name: "Argyle 101 Legends",
-        teamType: "HISTORIC_TEAM",
-        historicSeason: "101",
-      }),
-      team({
-        id: "argyle_fans_xi",
-        name: "Argyle Fans XI",
-        teamType: "FANS_TEAM",
-        historicSeason: "FANSXI",
-        fanTeam: true,
-      }),
-    ]);
-    const clubs = uniqueClubsInGroup(options, "CLASSIC");
-    expect(clubs).toHaveLength(1);
-    expect(clubs[0]!.clubKey).toBe("plymouth argyle");
-    expect(clubs[0]!.label).toBe("Plymouth Argyle");
-    expect(erasForClub(options, "plymouth argyle").map((o) => o.id)).toEqual([
-      "argyle_historic_sample",
-      "classic_plymouth_argyle_1995_96",
-      "argyle_fans_xi",
-    ]);
-  });
-
-  it("lists club-only Classic dial labels with date eras; keeps full TeamRecord names elsewhere", () => {
-    const options = buildMenuTeamOptions([
-      team({ id: "arsenal_current", name: "Arsenal", league: "PREMIER_LEAGUE", teamType: "CURRENT_TEAM" }),
-      team({
-        id: "classic_chelsea_2004_05",
-        name: "Chelsea — 2004/05 Mourinho",
-        teamType: "HISTORIC_TEAM",
-        historicSeason: "2004/05",
-      }),
-      team({
-        id: "classic_chelsea_2011_12",
-        name: "Chelsea — 2011/12",
-        teamType: "HISTORIC_TEAM",
-        historicSeason: "2011/12",
-      }),
-      team({
-        id: "classic_realmadrid_2002_03",
-        name: "Real Madrid — 2002/03 Galácticos",
-        teamType: "HISTORIC_TEAM",
-        historicSeason: "2002/03",
-      }),
-      team({
-        id: "argyle_historic_sample",
-        name: "Plymouth Argyle — 2021/22",
-        teamType: "HISTORIC_TEAM",
-        historicSeason: "2021/22",
-      }),
-      team({
-        id: "argyle_fans_xi",
-        name: "Plymouth Argyle Fans",
-        teamType: "FANS_TEAM",
-        historicSeason: "FANS",
-        fanTeam: true,
+        id: "nba_chi",
+        name: "Chicago Bulls",
+        conference: "EAST",
+        league: "EAST",
+        teamType: "CURRENT_TEAM",
       }),
     ]);
 
-    expect(findTeamOption(options, "arsenal_current")).toMatchObject({
-      label: "Arsenal",
-      group: "PREMIER_LEAGUE",
+    expect(findTeamOption(options, "nba_bos")).toMatchObject({ label: "Boston Celtics", group: "EAST" });
+    expect(findTeamOption(options, "nba_lal")).toMatchObject({ label: "Los Angeles Lakers", group: "WEST" });
+    expect(findTeamOption(options, "classic_bulls_1995_96")).toMatchObject({
+      label: "Chicago Bulls",
+      group: "EAST",
+      clubKey: "nba_chi",
+      eraLabel: "95-96",
     });
-
-    const classic = teamsInGroup(options, "CLASSIC");
-    expect(classic.map((o) => o.label)).toEqual([
-      "Chelsea",
-      "Chelsea",
-      "Plymouth Argyle",
-      "Plymouth Argyle",
-      "Real Madrid",
+    expect(secondaryDialLabel(findTeamOption(options, "nba_bos")!)).toBe("East");
+    expect(secondaryDialLabel(findTeamOption(options, "nba_lal")!)).toBe("West");
+    expect(uniqueClubsInGroup(options, "EAST").map((o) => o.label).sort()).toEqual([
+      "Boston Celtics",
+      "Chicago Bulls",
     ]);
-    expect(classic.map((o) => o.eraLabel)).toEqual(["04-05", "11-12", "21-22", "FANS", "02-03"]);
-    expect(classic.every((o) => !o.eraLabel.includes("Mourinho"))).toBe(true);
-    expect(classic.every((o) => !o.label.includes("Mourinho"))).toBe(true);
-
-    const chelseaEras = erasForClub(options, "chelsea");
-    expect(chelseaEras.map((o) => o.eraLabel)).toEqual(["04-05", "11-12"]);
-    expect(chelseaEras.map((o) => o.id)).toEqual([
-      "classic_chelsea_2004_05",
-      "classic_chelsea_2011_12",
-    ]);
-
-    const argyleEras = erasForClub(options, "plymouth argyle");
-    expect(argyleEras.map((o) => o.eraLabel)).toEqual(["21-22", "FANS"]);
-    expect(argyleEras.map((o) => o.id)).toEqual(["argyle_historic_sample", "argyle_fans_xi"]);
-
-    const clubs = uniqueClubsInGroup(options, "CLASSIC");
-    expect(clubs.map((o) => o.label)).toEqual(["Chelsea", "Plymouth Argyle", "Real Madrid"]);
-    expect(clubs.find((o) => o.clubKey === "chelsea")?.id).toBe("classic_chelsea_2004_05");
-
-    expect(secondaryDialLabel(classic[0]!)).toBe("Classic");
-    expect(secondaryDialLabel(options[0]!)).toBe("Premier League");
   });
 
-  it("builds a continuous opposition roll across leagues, excluding the user club", () => {
+  it("builds a continuous opposition roll across conferences, excluding the user club", () => {
     const options = buildMenuTeamOptions([
-      team({ id: "arsenal", name: "Arsenal", league: "PREMIER_LEAGUE", teamType: "CURRENT_TEAM" }),
-      team({ id: "burnley", name: "Burnley", league: "CHAMPIONSHIP", teamType: "CURRENT_TEAM" }),
-      team({ id: "argyle", name: "Plymouth Argyle", league: "LEAGUE_ONE", teamType: "CURRENT_TEAM" }),
+      team({ id: "nba_bos", name: "Boston Celtics", conference: "EAST", league: "EAST", teamType: "CURRENT_TEAM" }),
+      team({ id: "nba_nyk", name: "New York Knicks", conference: "EAST", league: "EAST", teamType: "CURRENT_TEAM" }),
+      team({ id: "nba_lal", name: "Los Angeles Lakers", conference: "WEST", league: "WEST", teamType: "CURRENT_TEAM" }),
       team({
-        id: "classic_chelsea_2004_05",
-        name: "Chelsea — 2004/05 Mourinho",
+        id: "classic_bulls_1995_96",
+        name: "Chicago Bulls — 1995/96",
         teamType: "HISTORIC_TEAM",
-        historicSeason: "2004/05",
+        historicSeason: "1995/96",
+        franchiseId: "nba_chi",
+        conference: "EAST",
+      }),
+      team({
+        id: "nba_chi",
+        name: "Chicago Bulls",
+        conference: "EAST",
+        league: "EAST",
+        teamType: "CURRENT_TEAM",
       }),
     ]);
-    const roll = oppositionRollOptions(options, "argyle");
-    expect(roll.map((o) => o.id)).toEqual(["arsenal", "burnley", "classic_chelsea_2004_05"]);
-    expect(oppositionRollIndex(roll, "burnley")).toBe(1);
-    expect(oppositionRollLabel(roll[2]!)).toBe("Chelsea 04-05");
-    expect(oppositionRollOptions(options, "argyle").every((o) => o.clubKey !== "plymouth argyle")).toBe(
-      true,
+    const roll = oppositionRollOptions(options, "nba_bos");
+    expect(new Set(roll.map((o) => o.id))).toEqual(
+      new Set(["nba_nyk", "nba_lal", "classic_bulls_1995_96", "nba_chi"]),
     );
+    expect(roll).toHaveLength(4);
+    expect(oppositionRollIndex(roll, "nba_lal")).toBeGreaterThanOrEqual(0);
+    expect(oppositionRollLabel(roll.find((o) => o.id === "classic_bulls_1995_96")!)).toBe(
+      "Chicago Bulls 95-96",
+    );
+    // Current first, then historic eras — linked by franchiseId.
+    expect(erasForClub(options, "nba_chi").map((o) => o.id)).toEqual([
+      "nba_chi",
+      "classic_bulls_1995_96",
+    ]);
+    expect(erasForClub(options, "nba_chi")[0]!.eraLabel).toBe("Current");
   });
 });

@@ -1,16 +1,26 @@
 import * as THREE from "three";
 import { hexColor } from "../../core/math";
 import type { AdvertisingBoardRecord, StadiumRecord, TeamKit } from "../../data/schema";
-import { HALF_LENGTH, HALF_WIDTH } from "../constants";
+import { createCourt, applyCourtWeather } from "../pitch/Court";
 import { createPitch, applyPitchWeather } from "../pitch/Pitch";
 import { AdvertisingBoards } from "./AdvertisingBoards";
 import { Crowd, ONE_STAND_CROWD_INSET, DELUXE_BOWL_RADIUS } from "./Crowd";
 import { Dugouts } from "./Dugouts";
 import { createGoals } from "./Goals";
+import { createHoops } from "./Hoops";
 import { applyLighting } from "./Lighting";
 import { Scoreboard } from "./Scoreboard";
 import { Precipitation } from "../environment/Precipitation";
 import { resolveEnvironment, type EnvironmentPreset } from "../environment/Environment";
+
+function isBasketballVenue(venueType: string | undefined): boolean {
+  return (
+    venueType === "NBA_ARENA" ||
+    venueType === "STREET_COURT" ||
+    venueType === "GYM" ||
+    venueType === "CLASSIC_ARENA"
+  );
+}
 
 export function scoreboardIsSubordinate(width: number, height: number): boolean {
   return width <= 12 && height <= 4.5 && width * height <= 40;
@@ -46,13 +56,17 @@ export class Stadium {
     this.scene = scene;
     this.lights = applyLighting(scene, record, env);
     this.group.add(this.lights);
-    this.pitch = createPitch(record.pitchLength, record.pitchWidth, {
-      park: record.environment === "park",
-    });
+    const basketball = isBasketballVenue(record.venueType);
+    this.pitch = basketball
+      ? createCourt(record.pitchLength, record.pitchWidth)
+      : createPitch(record.pitchLength, record.pitchWidth, {
+          park: record.environment === "park",
+        });
     this.group.add(this.pitch);
-    // Goals must sit on THIS venue's goal lines (Fans Central Park is not always 105×68).
-    this.group.add(createGoals(record.pitchLength / 2));
-    this.ads = new AdvertisingBoards(ads);
+    this.group.add(
+      basketball ? createHoops(record.pitchLength / 2) : createGoals(record.pitchLength / 2),
+    );
+    this.ads = new AdvertisingBoards(ads, record.pitchLength, record.pitchWidth);
     this.group.add(this.ads.group);
     this.crowd = new Crowd(
       record.crowdSections,
@@ -60,27 +74,37 @@ export class Stadium {
       hexColor(homeColor),
       hexColor(awayColor),
       record.standConfiguration,
+      record.pitchLength / 2,
+      record.pitchWidth / 2,
     );
     this.group.add(this.crowd.group);
-    this.scoreboard = new Scoreboard(record.scoreboard);
+    this.scoreboard = new Scoreboard(record.scoreboard, basketball ? "jumbotron" : "wall");
     this.group.add(this.scoreboard.mesh);
     this.group.add(this.precip.group);
     if (record.benches) {
       const homeKit = kits?.home ?? { shirt: homeColor, shorts: "#1a1a1a", socks: homeColor };
       const awayKit = kits?.away ?? { shirt: awayColor, shorts: "#1a1a1a", socks: awayColor };
-      this.dugouts = new Dugouts(homeKit, awayKit, homeColor, awayColor);
+      this.dugouts = new Dugouts(
+        homeKit,
+        awayKit,
+        homeColor,
+        awayColor,
+        record.pitchWidth / 2,
+        basketball ? "arena" : "football",
+      );
       this.group.add(this.dugouts.group);
     } else {
       this.dugouts = null;
     }
     this.buildShell(record);
-    if (record.environment === "park") this.buildPark();
+    if (!basketball && record.environment === "park") this.buildPark();
     this.applyEnvironment(env);
     scene.add(this.group);
   }
 
   applyEnvironment(env: EnvironmentPreset, graphics: "LOW" | "MEDIUM" | "HIGH" | "VERY_HIGH" = "HIGH"): void {
-    applyPitchWeather(this.pitch, env);
+    if (isBasketballVenue(this.record.venueType)) applyCourtWeather(this.pitch, env);
+    else applyPitchWeather(this.pitch, env);
     this.scoreboard.setEmissive(env.scoreboardEmissive);
     this.precip.configure(env, graphics);
     const nightish = env.timeOfDay === "NIGHT" || env.timeOfDay === "EVENING";
@@ -129,9 +153,18 @@ export class Stadium {
   private static readonly _roofWorld = new THREE.Vector3();
 
   private buildShell(record: StadiumRecord): void {
-    const conc = new THREE.MeshStandardMaterial({ color: 0xd5cec2, roughness: 0.88 });
+    const halfL = record.pitchLength / 2;
+    const halfW = record.pitchWidth / 2;
+    const basketball = isBasketballVenue(record.venueType);
+    const conc = new THREE.MeshStandardMaterial({
+      color: basketball ? 0x2a3038 : 0xd5cec2,
+      roughness: 0.88,
+    });
     const dark = new THREE.MeshStandardMaterial({ color: 0x2a2f33, roughness: 0.62, metalness: 0.08 });
-    const greenSeat = new THREE.MeshStandardMaterial({ color: 0x0f5c34, roughness: 0.7 });
+    const greenSeat = new THREE.MeshStandardMaterial({
+      color: basketball ? 0x1a2740 : 0x0f5c34,
+      roughness: 0.7,
+    });
     const whiteAcc = new THREE.MeshStandardMaterial({ color: 0xf2f4f0, roughness: 0.55 });
     const steel = new THREE.MeshStandardMaterial({ color: 0x3a4046, roughness: 0.4, metalness: 0.3 });
     if (record.standConfiguration === "none") return;
@@ -149,10 +182,12 @@ export class Stadium {
         fascia?: THREE.Material;
         cladding?: THREE.Material;
         roofMetal?: THREE.Material;
-        /** Skip roof mesh (camera-side stand). */
+        /** Skip back wall / concourse / fascia (camera-side stand). */
         omitRoof?: boolean;
-        /** Mark roof as the near-camera side — always culled. */
+        /** Mark as near-camera side — walls culled. */
         cameraNearRoof?: boolean;
+        /** Never add a stand roof canopy (NBA arenas). */
+        noRoof?: boolean;
       },
     ) => {
       const g = new THREE.Group();
@@ -173,7 +208,7 @@ export class Stadium {
       }
       const backH = rows * rowRise + 5.2;
       // Camera-side stand: seats only — back wall / concourse / fascia are long boxes that
-      // sit in front of the broadcast lens even after the roof is omitted.
+      // sit in front of the broadcast lens.
       if (!opts?.omitRoof && !opts?.cameraNearRoof) {
         const back = new THREE.Mesh(new THREE.BoxGeometry(w + 2.2, backH, 2.4), wall);
         back.position.set(0, backH / 2, rows * rowDepth + 1.4);
@@ -182,10 +217,12 @@ export class Stadium {
         const concourse = new THREE.Mesh(new THREE.BoxGeometry(w + 1.6, 2.2, 4.2), wall);
         concourse.position.set(0, 3.4, rows * rowDepth + 4.2);
         g.add(concourse);
-        const roof = new THREE.Mesh(new THREE.BoxGeometry(w + 2.8, 0.32, rows * rowDepth + 5.5), roofMat);
-        roof.position.set(0, rows * rowRise + 6.1, rows * rowDepth * 0.42);
-        roof.name = "standRoof";
-        g.add(roof);
+        if (!opts?.noRoof) {
+          const roof = new THREE.Mesh(new THREE.BoxGeometry(w + 2.8, 0.32, rows * rowDepth + 5.5), roofMat);
+          roof.position.set(0, rows * rowRise + 6.1, rows * rowDepth * 0.42);
+          roof.name = "standRoof";
+          g.add(roof);
+        }
         const fascia = new THREE.Mesh(new THREE.BoxGeometry(w * 0.42, 1.05, 0.22), fasciaMat);
         fascia.position.set(0, rows * rowRise + 5.2, -0.55);
         g.add(fascia);
@@ -197,23 +234,22 @@ export class Stadium {
     };
 
     if (record.standConfiguration === "one") {
-      terracedStand(70, 8, 0, -HALF_WIDTH - ONE_STAND_CROWD_INSET, Math.PI, greenSeat);
-      const rail = new THREE.Mesh(new THREE.BoxGeometry(100, 1.1, 0.12), dark);
-      rail.position.set(0, 0.7, HALF_WIDTH + 3.4);
+      terracedStand(Math.max(24, halfL * 4), 8, 0, -halfW - ONE_STAND_CROWD_INSET, Math.PI, greenSeat);
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(halfL * 5, 1.1, 0.12), dark);
+      rail.position.set(0, 0.7, halfW + 3.4);
       this.group.add(rail);
-      // Soft community flood heads on the single-stand ends (lit in evening/night via Lighting).
       const lampMat = new THREE.MeshStandardMaterial({
         color: 0xeee8d8,
         emissive: 0xffe7b0,
         emissiveIntensity: 0.35,
         roughness: 0.45,
       });
-      for (const x of [-32, 32] as const) {
+      for (const x of [-halfL * 1.6, halfL * 1.6] as const) {
         const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.26, 11, 8), dark);
-        pole.position.set(x, 5.5, -HALF_WIDTH - ONE_STAND_CROWD_INSET - 1.2);
+        pole.position.set(x, 5.5, -halfW - ONE_STAND_CROWD_INSET - 1.2);
         this.group.add(pole);
         const head = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.55, 1.15), lampMat);
-        head.position.set(x, 11.1, -HALF_WIDTH - ONE_STAND_CROWD_INSET - 0.4);
+        head.position.set(x, 11.1, -halfW - ONE_STAND_CROWD_INSET - 0.4);
         head.name = "parkFloodHead";
         this.group.add(head);
       }
@@ -225,25 +261,70 @@ export class Stadium {
       return;
     }
 
-    // Camera sits on +Z. Keep that sideline open so the near touchline stays visible.
-    terracedStand(98, 18, 0, -HALF_WIDTH - 8.4, Math.PI, greenSeat);
-    terracedStand(64, 16, HALF_LENGTH + 8.4, 0, Math.PI / 2, greenSeat);
-    terracedStand(64, 16, -HALF_LENGTH - 8.4, 0, -Math.PI / 2, greenSeat);
+    // Camera sits on +Z. Basketball arenas fill the near (south) stand; football keeps it open.
+    const sideInset = basketball ? 5.2 : 8.4;
+    const rows = basketball ? 12 : 18;
+    const endRows = basketball ? 10 : 16;
+    const southRows = 8;
+    const northRise = basketball ? 0.55 : 0.58;
+    const northDepth = basketball ? 0.72 : 0.92;
+    const southRise = 0.48;
+    const southDepth = 0.72;
+    // Straights stop at the court corners so quarter-circle wraps can connect them.
+    const sideLen = basketball ? 2 * halfL : 98;
+    const endLen = basketball ? 2 * halfW : 64;
+    const arenaOpts = basketball
+      ? { noRoof: true as const, rowRise: northRise, rowDepth: northDepth }
+      : undefined;
+    terracedStand(sideLen, rows, 0, -halfW - sideInset, Math.PI, greenSeat, arenaOpts);
+    terracedStand(endLen, endRows, halfL + sideInset, 0, Math.PI / 2, greenSeat, arenaOpts);
+    terracedStand(endLen, endRows, -halfL - sideInset, 0, -Math.PI / 2, greenSeat, arenaOpts);
+    if (basketball) {
+      // Near-camera stand — seats only, no roof / back wall in front of the lens.
+      terracedStand(sideLen, southRows, 0, halfW + sideInset, 0, greenSeat, {
+        rowRise: southRise,
+        rowDepth: southDepth,
+        noRoof: true,
+        omitRoof: true,
+        cameraNearRoof: true,
+      });
 
-    const corner = new THREE.Mesh(new THREE.BoxGeometry(16, 11, 16), conc);
-    for (const [x, z] of [
-      [HALF_LENGTH + 12, -HALF_WIDTH - 12],
-      [-HALF_LENGTH - 12, -HALF_WIDTH - 12],
-    ] as const) {
-      const c = corner.clone();
-      c.position.set(x, 5.5, z);
-      this.group.add(c);
+      // Warp corners into continuous bowl arcs (no square blocks, no roof).
+      const cornerMats = {
+        seat: greenSeat,
+        aisle: whiteAcc,
+        cladding: conc,
+        roof: dark,
+        fascia: greenSeat,
+      };
+      const over = 0.1;
+      this.buildDeluxeCornerArc(
+        halfL, -halfW, -Math.PI / 2 - over, over, rows, sideInset, northDepth, northRise, cornerMats, false, true,
+      );
+      this.buildDeluxeCornerArc(
+        -halfL, -halfW, Math.PI - over, (Math.PI * 3) / 2 + over, rows, sideInset, northDepth, northRise, cornerMats, false, true,
+      );
+      this.buildDeluxeCornerArc(
+        halfL, halfW, -over, Math.PI / 2 + over, southRows, sideInset, southDepth, southRise, cornerMats, true, true,
+      );
+      this.buildDeluxeCornerArc(
+        -halfL, halfW, Math.PI / 2 - over, Math.PI + over, southRows, sideInset, southDepth, southRise, cornerMats, true, true,
+      );
+    } else {
+      const corner = new THREE.Mesh(new THREE.BoxGeometry(16, 11, 16), conc);
+      for (const [x, z] of [
+        [halfL + sideInset + 2, -halfW - sideInset - 2],
+        [-halfL - sideInset - 2, -halfW - sideInset - 2],
+      ] as const) {
+        const c = corner.clone();
+        c.position.set(x, 5.5, z);
+        this.group.add(c);
+      }
     }
 
-    this.mountScoreboard(record, dark, steel);
+    this.mountScoreboard(record, dark, steel, basketball);
 
-    if (record.floodlights) {
-      // Far sideline / ends only — camera sits on +Z, so skip near-side masts and heads.
+    if (record.floodlights && !basketball) {
       const poles: [number, number][] = [
         [-58, -48],
         [58, -48],
@@ -263,11 +344,12 @@ export class Stadium {
 
     if (record.tunnel) {
       const tun = new THREE.Mesh(new THREE.BoxGeometry(6.6, 3.2, 8.5), conc);
-      tun.position.set(0, 1.6, -HALF_WIDTH - 9.2);
+      tun.position.set(0, 1.6, -halfW - sideInset - 0.8);
       const mouth = new THREE.Mesh(new THREE.BoxGeometry(3.8, 2.4, 0.35), dark);
-      mouth.position.set(0, 1.25, -HALF_WIDTH - 4.9);
+      mouth.position.set(0, 1.25, -halfW - sideInset + 3.5);
       this.group.add(tun, mouth);
     }
+    // No ceiling / roof canopy — open bowl so the broadcast camera stays clear.
   }
 
   /**
@@ -291,6 +373,7 @@ export class Stadium {
         roofMetal?: THREE.Material;
         omitRoof?: boolean;
         cameraNearRoof?: boolean;
+        noRoof?: boolean;
       },
     ) => THREE.Group,
     mats: {
@@ -312,10 +395,9 @@ export class Stadium {
     const goldTrim = new THREE.MeshStandardMaterial({ color: 0xc5a572, roughness: 0.45, metalness: 0.35 });
     const opts = { rowDepth: 0.9, rowRise: 0.62, fascia: goldTrim, cladding, roofMetal };
 
-    // Front of the bowl sits on a rounded-rectangle path: straights meet quarter-circle corners.
-    // Arc centres sit on the pitch corners; straights meet the arcs at (±HALF_LENGTH, ±HALF_WIDTH∓R)
-    // and (±HALF_LENGTH±R, ±HALF_WIDTH).
-    const R = DELUXE_BOWL_RADIUS;
+    const halfL = record.pitchLength / 2;
+    const halfW = record.pitchWidth / 2;
+    const R = Math.min(DELUXE_BOWL_RADIUS, Math.max(4.5, halfW * 0.7));
     const northRows = 26;
     const endRows = 22;
     const southRows = 12;
@@ -324,14 +406,12 @@ export class Stadium {
     const southDepth = 0.85;
     const rowDepth = 0.9;
 
-    // Extend past the theoretical join so seats/cladding overlap the first arc segment (kills the gap).
-    const sideLen = 2 * HALF_LENGTH + 5.5;
-    const endLen = 2 * HALF_WIDTH + 5.5;
-    terracedStand(sideLen, northRows, 0, -HALF_WIDTH - R, Math.PI, premiumSeat, opts);
-    terracedStand(endLen, endRows, HALF_LENGTH + R, 0, Math.PI / 2, premiumSeat, opts);
-    terracedStand(endLen, endRows, -HALF_LENGTH - R, 0, -Math.PI / 2, premiumSeat, opts);
-    // Camera sits on +Z — omit the near (south) roof so the lens never clips through it.
-    terracedStand(sideLen, southRows, 0, HALF_WIDTH + R, 0, premiumSeat, {
+    const sideLen = 2 * halfL + 5.5;
+    const endLen = 2 * halfW + 5.5;
+    terracedStand(sideLen, northRows, 0, -halfW - R, Math.PI, premiumSeat, opts);
+    terracedStand(endLen, endRows, halfL + R, 0, Math.PI / 2, premiumSeat, opts);
+    terracedStand(endLen, endRows, -halfL - R, 0, -Math.PI / 2, premiumSeat, opts);
+    terracedStand(sideLen, southRows, 0, halfW + R, 0, premiumSeat, {
       ...opts,
       rowRise: southRise,
       rowDepth: southDepth,
@@ -340,23 +420,20 @@ export class Stadium {
     });
 
     const cornerMats = { seat: premiumSeat, aisle: whiteAcc, cladding, roof: roofMetal, fascia: goldTrim };
-    // Sweep slightly past 90° so the arc bites into each adjoining straight.
     const over = 0.12;
-    this.buildDeluxeCornerArc(HALF_LENGTH, -HALF_WIDTH, -Math.PI / 2 - over, over, northRows, R, rowDepth, northRise, cornerMats);
-    this.buildDeluxeCornerArc(-HALF_LENGTH, -HALF_WIDTH, Math.PI - over, (Math.PI * 3) / 2 + over, northRows, R, rowDepth, northRise, cornerMats);
-    // South corners are also on the camera sideline — no roof canopy.
-    this.buildDeluxeCornerArc(HALF_LENGTH, HALF_WIDTH, -over, Math.PI / 2 + over, southRows + 2, R, southDepth, southRise, cornerMats, true);
-    this.buildDeluxeCornerArc(-HALF_LENGTH, HALF_WIDTH, Math.PI / 2 - over, Math.PI + over, southRows + 2, R, southDepth, southRise, cornerMats, true);
+    this.buildDeluxeCornerArc(halfL, -halfW, -Math.PI / 2 - over, over, northRows, R, rowDepth, northRise, cornerMats);
+    this.buildDeluxeCornerArc(-halfL, -halfW, Math.PI - over, (Math.PI * 3) / 2 + over, northRows, R, rowDepth, northRise, cornerMats);
+    this.buildDeluxeCornerArc(halfL, halfW, -over, Math.PI / 2 + over, southRows + 2, R, southDepth, southRise, cornerMats, true);
+    this.buildDeluxeCornerArc(-halfL, halfW, Math.PI / 2 - over, Math.PI + over, southRows + 2, R, southDepth, southRise, cornerMats, true);
 
-    // Upper hospitality ribbon on the main (north) stand.
     const suite = new THREE.Mesh(new THREE.BoxGeometry(sideLen * 0.95, 3.2, 6.5), cladding);
-    suite.position.set(0, 18.5, -HALF_WIDTH - R - 14);
+    suite.position.set(0, 18.5, -halfW - R - 14);
     this.group.add(suite);
     const suiteGlass = new THREE.Mesh(new THREE.BoxGeometry(sideLen * 0.9, 2.4, 0.35), glass);
-    suiteGlass.position.set(0, 18.6, -HALF_WIDTH - R - 10.6);
+    suiteGlass.position.set(0, 18.6, -halfW - R - 10.6);
     this.group.add(suiteGlass);
 
-    this.mountScoreboard(record, mats.dark, mats.steel);
+    this.mountScoreboard(record, mats.dark, mats.steel, false);
 
     if (record.floodlights) {
       // Roof banks on the far (+north / −Z) corners only. Near-side gantries sat in front of
@@ -383,11 +460,11 @@ export class Stadium {
 
     if (record.tunnel) {
       const tun = new THREE.Mesh(new THREE.BoxGeometry(8.2, 3.6, 10), cladding);
-      tun.position.set(0, 1.8, -HALF_WIDTH - R - 1.2);
+      tun.position.set(0, 1.8, -halfW - R - 1.2);
       const mouth = new THREE.Mesh(new THREE.BoxGeometry(4.4, 2.6, 0.4), mats.dark);
-      mouth.position.set(0, 1.35, -HALF_WIDTH - R + 3.6);
+      mouth.position.set(0, 1.35, -halfW - R + 3.6);
       const trim = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.28, 0.35), goldTrim);
-      trim.position.set(0, 2.85, -HALF_WIDTH - R + 3.55);
+      trim.position.set(0, 2.85, -halfW - R + 3.55);
       this.group.add(tun, mouth, trim);
     }
   }
@@ -413,6 +490,7 @@ export class Stadium {
       fascia: THREE.Material;
     },
     omitRoof = false,
+    noRoof = false,
   ): void {
     const sweep = a1 - a0;
     const steps = 16;
@@ -454,17 +532,19 @@ export class Stadium {
         wall.castShadow = true;
         g.add(wall);
 
-        const roofR = frontR + rows * rowDepth * 0.55;
-        const roofChord = (Math.abs(sweep) / wallSteps) * (roofR + 4) * 1.12;
-        const roof = new THREE.Mesh(new THREE.BoxGeometry(roofChord, 0.34, rows * rowDepth + 5.2), mats.roof);
-        roof.position.set(
-          cx + Math.cos(mid) * roofR,
-          rows * rowRise + 6.1,
-          cz + Math.sin(mid) * roofR,
-        );
-        roof.rotation.y = Math.PI / 2 - mid;
-        roof.name = "standRoof";
-        g.add(roof);
+        if (!noRoof) {
+          const roofR = frontR + rows * rowDepth * 0.55;
+          const roofChord = (Math.abs(sweep) / wallSteps) * (roofR + 4) * 1.12;
+          const roof = new THREE.Mesh(new THREE.BoxGeometry(roofChord, 0.34, rows * rowDepth + 5.2), mats.roof);
+          roof.position.set(
+            cx + Math.cos(mid) * roofR,
+            rows * rowRise + 6.1,
+            cz + Math.sin(mid) * roofR,
+          );
+          roof.rotation.y = Math.PI / 2 - mid;
+          roof.name = "standRoof";
+          g.add(roof);
+        }
       }
 
       for (let i = 0; i < steps; i++) {
@@ -486,10 +566,26 @@ export class Stadium {
     this.group.add(g);
   }
 
-  private mountScoreboard(record: StadiumRecord, dark: THREE.Material, steel: THREE.Material): void {
+  private mountScoreboard(
+    record: StadiumRecord,
+    dark: THREE.Material,
+    steel: THREE.Material,
+    jumbotron = false,
+  ): void {
     const cfg = record.scoreboard;
     if (cfg.type === "NONE") return;
     const [x, y, z] = cfg.position;
+    if (jumbotron) {
+      // Overhead truss the cube hangs from — no wall house / ground struts.
+      const span = Math.max(cfg.width, 6.2) + 2.4;
+      const truss = new THREE.Mesh(new THREE.BoxGeometry(span, 0.35, span), steel);
+      truss.position.set(x, y + cfg.height * 0.5 + 4.6, z);
+      this.group.add(truss);
+      const hub = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.55, 1.4), dark);
+      hub.position.set(x, y + cfg.height * 0.5 + 4.2, z);
+      this.group.add(hub);
+      return;
+    }
     const house = new THREE.Mesh(
       new THREE.BoxGeometry(cfg.width + 2.4, cfg.height + 2.6, 1.8),
       dark,

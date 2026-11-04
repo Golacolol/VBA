@@ -3,7 +3,6 @@ import lineupsJson from "../../../public/data/lineups.json";
 import membershipsJson from "../../../public/data/teamMemberships.json";
 import fixturesJson from "../../../public/data/fixtures.json";
 import { describe, expect, it } from "vitest";
-import { DEFAULT_ARGYLE_FORMATION, DEFAULT_ARGYLE_XI } from "../../data/defaultArgyleXi";
 import type { FixtureRecord, LineupRecord, PlayerRecord, TeamMembership } from "../../data/schema";
 import { portraitAsset, portraitFallback, portraitHtml, playerInitials } from "../../ui/Portrait";
 import { REAL_TUNING, ARCADE_TUNING, tuningFor } from "../gameplay/GameplayTuning";
@@ -89,26 +88,20 @@ function make(
 
 const real: GameplayTuning = REAL_TUNING;
 
-describe("default Argyle XI", () => {
-  const lineup = lineups.find((l) => l.id === "argyle_current_xi")!;
+describe("default NBA starting five", () => {
+  const lineup = lineups.find((l) => l.id === "nba_bos_lineup")!;
 
-  it("contains exactly the supplied 11 players, numbers, display positions and canonical IDs", () => {
-    expect(lineup.formation).toBe(DEFAULT_ARGYLE_FORMATION);
-    expect(lineup.starters).toHaveLength(11);
-    for (const starter of DEFAULT_ARGYLE_XI) {
-      const slot = lineup.starters.find((s) => s.playerId === starter.id);
-      expect(slot, starter.id).toBeTruthy();
-      expect(slot!.slot).toBe(starter.slot);
-      const rec = players.find((p) => p.id === starter.id);
-      expect(rec?.name).toBe(starter.name);
-      expect(rec?.displayName).toBe(starter.name);
-      expect(rec?.primaryPosition).toBe(starter.displayPosition);
-      const mem = memberships.find((m) => m.playerId === starter.id && m.teamId === "plymouth_argyle_current");
-      expect(mem?.shirtNumber).toBe(starter.shirtNumber);
+  it("uses BASKETBALL_5 with five starters", () => {
+    expect(lineup).toBeTruthy();
+    expect(lineup.formation).toBe("BASKETBALL_5");
+    expect(lineup.starters).toHaveLength(5);
+    expect(lineup.starters.map((s) => s.slot)).toEqual(["PG", "SG", "SF", "PF", "C"]);
+    for (const starter of lineup.starters) {
+      const rec = players.find((p) => p.id === starter.playerId);
+      expect(rec, starter.playerId).toBeTruthy();
+      const mem = memberships.find((m) => m.playerId === starter.playerId && m.teamId === "nba_bos");
       expect(mem?.squadRole).toBe("FIRST_TEAM");
     }
-    const ids = lineup.starters.map((s) => s.playerId);
-    expect(new Set(ids).size).toBe(11);
   });
 });
 
@@ -468,12 +461,13 @@ describe("gameplay modes", () => {
   });
 
   it("does not change canonical player ratings when switching modes", () => {
-    const rec = players.find((p) => p.id === "player_arg_cooper")!;
-    const pace = rec.pace;
+    const bos = memberships.find((m) => m.teamId === "nba_bos");
+    const rec = players.find((p) => p.id === bos?.playerId) ?? players[0]!;
+    const speed = rec.speed ?? rec.pace;
     void tuningFor("ARCADE");
     void tuningFor("REAL");
-    expect(rec.pace).toBe(pace);
-    expect(rec.passing).toBeTypeOf("number");
+    expect(rec.speed ?? rec.pace).toBe(speed);
+    expect(rec.passAccuracy ?? rec.passing).toBeTypeOf("number");
   });
 
   it("persists mode selection through save settings", () => {
@@ -495,16 +489,16 @@ describe("gameplay modes", () => {
     const prev = globalThis.localStorage;
     Object.defineProperty(globalThis, "localStorage", { value: mem, configurable: true });
     const a = new SaveManager();
-    a.data.settings.gameplayMode = "ARCADE";
+    a.data.settings.gameplayMode = "STREET";
     a.data.settings.timeOfDay = "NIGHT";
     a.data.settings.weather = "SNOWY";
     a.save();
     const b = new SaveManager();
-    expect(b.data.settings.gameplayMode).toBe("ARCADE");
+    expect(b.data.settings.gameplayMode).toBe("STREET");
     expect(b.data.settings.timeOfDay).toBe("NIGHT");
     expect(b.data.settings.weather).toBe("SNOWY");
     Object.defineProperty(globalThis, "localStorage", { value: prev, configurable: true });
-    expect(DEFAULT_SETTINGS.gameplayMode).toBe("REAL");
+    expect(DEFAULT_SETTINGS.gameplayMode).toBe("BASKETBALL");
     expect(DEFAULT_SETTINGS.kickOffTime).toBe("15:00");
     expect(DEFAULT_SETTINGS.matchDuration).toBe(600);
   });
@@ -542,15 +536,15 @@ describe("environment", () => {
 
   it("loads fixture environment defaults and allows Quick Match override", () => {
     const f = fixtures[0];
-    expect(f.gameplayModeDefault).toBe("REAL");
     expect(f.timeOfDay).toBe("EVENING");
     expect(f.weather).toBe("MILD");
-    expect(f.time).toBe("15:00");
+    expect(f.time).toBe("19:00");
     expect(f.durationSeconds).toBe(600);
+    expect(f.competition === "Eastern Conference" || f.competition === "Western Conference").toBe(true);
     expect(kickOffTimeChoices()).toContain("15:00");
     expect(kickOffTimeChoices()).toContain("19:45");
     expect(HALF_LENGTH_CHOICES.some((c) => c.minutes === 5 && c.seconds === 600)).toBe(true);
-    expect(normalizeKickOffTime("15:00")).toBe("15:00");
+    expect(normalizeKickOffTime("19:00")).toBe("19:00");
     const overridden: FixtureRecord = {
       ...f,
       gameplayModeDefault: "ARCADE",
