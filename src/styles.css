@@ -6900,14 +6900,21 @@ button.pred-side:hover {
   font-size: 11px;
   letter-spacing: 0.06em;
 }
-.pyramid-tier-legend {
-  width: 100%;
-  text-align: center;
+.pyramid-cell-pos {
+  margin-top: 2px;
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: rgba(62, 198, 255, 0.55);
-  margin: -2px 0 -4px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  color: rgba(62, 198, 255, 0.78);
+  text-transform: uppercase;
+}
+.pyramid-cell.is-compact .pyramid-cell-pos {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+.pyramid-tiers.is-positions .pyramid-tier {
+  align-items: flex-end;
 }
 .pyramid-tier {
   display: flex;

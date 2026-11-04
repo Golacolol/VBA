@@ -35,11 +35,14 @@ function asArray(data) {
   return Array.isArray(data) ? data : Object.values(data);
 }
 
-function emblemFor(teamId) {
-  const svg = path.join(emblemsDir, `${teamId}.svg`);
-  const png = path.join(emblemsDir, `${teamId}.png`);
-  if (fs.existsSync(svg)) return `/assets/emblems/${teamId}.svg`;
-  if (fs.existsSync(png)) return `/assets/emblems/${teamId}.png`;
+function emblemFor(...ids) {
+  for (const teamId of ids) {
+    if (!teamId) continue;
+    for (const ext of [".png", ".svg", ".gif", ".webp", ".jpg", ".jpeg"]) {
+      const file = path.join(emblemsDir, `${teamId}${ext}`);
+      if (fs.existsSync(file)) return `/assets/emblems/${teamId}${ext}`;
+    }
+  }
   return null;
 }
 
@@ -111,7 +114,8 @@ function main() {
     const look = era.historicLook || {};
     const primary = look.primary || franchise.primary;
     const secondary = look.secondary || franchise.secondary;
-    const badge = look.badgeAsset || emblemFor(franchise.id);
+    // Prefer era-specific crest (classic_orl_1994_95.png) over modern franchise mark.
+    const badge = look.badgeAsset || emblemFor(era.id, franchise.id);
     teams.push({
       id: era.id,
       name: era.name,

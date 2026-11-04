@@ -426,11 +426,18 @@ export class PyramidHub {
     this.ringResizeObserver.observe(vp);
   }
 
-  private cellHtml(entry: PyramidEntry, opts?: { compact?: boolean; list?: boolean }): string {
+  private cellHtml(
+    entry: PyramidEntry,
+    opts?: { compact?: boolean; list?: boolean; seat?: string | null },
+  ): string {
     const list = opts?.list === true;
     const compact = opts?.compact === true && !list;
+    const seat = (opts?.seat ?? "").trim().toUpperCase();
+    const seatHtml = seat
+      ? `<div class="pyramid-cell-pos" aria-label="Position ${escapeAttr(seat)}">${escapeHtml(seat)}</div>`
+      : "";
     return `
-      <article class="pyramid-cell${compact ? " is-compact" : ""}${list ? " is-list-cell" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}`)}>
+      <article class="pyramid-cell${compact ? " is-compact" : ""}${list ? " is-list-cell" : ""}${seat ? " has-pos" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}${seat ? ` · ${seat}` : ""}`)}>
         <div class="pyramid-cell-kit-row">
           <button type="button" class="pyramid-move" data-pyramid="up" data-index="${entry.index}" aria-label="Move up" draggable="false" ${entry.index === 0 ? "disabled" : ""}>↑</button>
           <div class="pyramid-cell-kit">${this.kitBadgeHtml(entry)}</div>
@@ -438,6 +445,7 @@ export class PyramidHub {
         </div>
         ${this.portraitHtml(entry)}
         <div class="pyramid-cell-rank">${entry.rank}</div>
+        ${seatHtml}
       </article>
     `;
   }
@@ -521,24 +529,21 @@ export class PyramidHub {
 
     const renderTierRows = (
       rows: ReturnType<typeof pyramidTierRows>,
-      opts?: { legendOnBalanced?: boolean },
+      opts?: { showSeatPos?: boolean },
     ): string =>
       rows
         .map((row) => {
           const scale = scales[row.tier - 1] ?? 1;
-          const balanced = opts?.legendOnBalanced && row.tier > 1 && row.entries.length % 5 === 0;
-          const posLegend = balanced
-            ? `<div class="pyramid-tier-legend" aria-hidden="true">PG · SG · SF · PF · C${
-                row.entries.length >= 10 ? " ×2" : ""
-              }</div>`
-            : "";
           const dense = row.entries.length >= 12;
-          return `${posLegend}<div class="pyramid-tier${dense ? " is-dense" : ""}" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
+          return `<div class="pyramid-tier${dense ? " is-dense" : ""}" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
         ${row.entries
           .map((slot) => {
             const entry = byId.get(slot.playerId) ?? this.entryFor(slot.playerId, slot.index);
             // Compact styling for mid-wide rows; dense base (37–50) wraps instead of crushing kits.
-            return this.cellHtml(entry, { compact: row.entries.length >= 10 && !dense });
+            return this.cellHtml(entry, {
+              compact: row.entries.length >= 10 && !dense,
+              seat: opts?.showSeatPos ? slot.seat ?? entry.position : null,
+            });
           })
           .join("")}
       </div>`;
@@ -564,7 +569,7 @@ export class PyramidHub {
           }
         },
       });
-      tiers = renderTierRows(rows, { legendOnBalanced: true });
+      tiers = renderTierRows(rows, { showSeatPos: true });
     } else {
       tiers = renderTierRows(pyramidTierRows(st.order, patternCounts ?? undefined));
     }

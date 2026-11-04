@@ -143,21 +143,43 @@ describe("defaultPyramid", () => {
     expect(PYRAMID_POSITION_TEAM_COUNTS.reduce((a, b) => a + b, 0)).toBe(PYRAMID_SIZE);
   });
 
-  it("deals POS B with secondary flex so lineups differ from POS A", () => {
-    expect(pyramidEligiblePositions("PF", [], "secondary")).toEqual(["PF", "SF", "C"]);
+  it("deals POS B preferring primary seats and never PF as SF", () => {
+    expect(pyramidEligiblePositions("PF", [], "secondary")).toEqual(["PF", "C"]);
+    expect(pyramidEligiblePositions("PF", [], "secondary")).not.toContain("SF");
+    expect(pyramidEligiblePositions("PF", ["SF"], "secondary")).toEqual(["PF"]);
     expect(pyramidEligiblePositions("PG", [], "secondary")).toEqual(["PG", "SG"]);
     expect(pyramidEligiblePositions("PG", [], "secondary")).not.toContain("C");
-    expect(pyramidEligiblePositions("PF", ["SF"], "secondary")).toEqual(["PF", "SF"]);
 
-    // Rank order: star PF, role SF, then PG/SG/C.
-    // POS A: SF seat waits for roleSF; starPF stays at PF.
-    // POS B: starPF (next best) takes SF via flex; roleSF slides to PF.
-    const order = ["starPF", "roleSF", "pg", "sg", "c"];
-    const pos = new Map([
-      ["starPF", "PF"],
+    // Higher SG must not steal SF while both holes are open (no SG↔SF swap).
+    const swapOrder = ["starSG", "roleSF", "pg", "pf", "c"];
+    const swapPos = new Map([
+      ["starSG", "SG"],
       ["roleSF", "SF"],
       ["pg", "PG"],
-      ["sg", "SG"],
+      ["pf", "PF"],
+      ["c", "C"],
+    ]);
+    const noSwap = pyramidPositionTeamRows(swapOrder, (id) => swapPos.get(id), {
+      dealMode: "secondary",
+      counts: [5],
+    });
+    expect(noSwap[0]!.entries.map((e) => e.playerId)).toEqual(["pg", "starSG", "roleSF", "pf", "c"]);
+
+    // Folded #1 keeps their main seat (SG), not a flex wing.
+    const folded = pyramidPositionTeamRows(swapOrder, (id) => swapPos.get(id), {
+      dealMode: "secondary",
+      apexInTopTeam: true,
+      counts: [5],
+    });
+    expect(folded[0]!.entries.map((e) => e.playerId)).toEqual(["pg", "starSG", "roleSF", "pf", "c"]);
+
+    // POS B fills a missing PG with the second SG via flex (after SG is locked).
+    const order = ["sg1", "sg2", "sf", "pf", "c"];
+    const pos = new Map([
+      ["sg1", "SG"],
+      ["sg2", "SG"],
+      ["sf", "SF"],
+      ["pf", "PF"],
       ["c", "C"],
     ]);
     const posA = pyramidPositionTeamRows(order, (id) => pos.get(id), {
@@ -168,9 +190,9 @@ describe("defaultPyramid", () => {
       dealMode: "secondary",
       counts: [5],
     });
-    expect(posA[0]!.entries.map((e) => e.playerId)).toEqual(["pg", "sg", "roleSF", "starPF", "c"]);
-    expect(posB[0]!.entries.map((e) => e.playerId)).toEqual(["pg", "sg", "starPF", "roleSF", "c"]);
-    expect(posA[0]!.entries.map((e) => e.playerId)).not.toEqual(posB[0]!.entries.map((e) => e.playerId));
+    // POS A: no PG → four starters + leftover sg2. POS B: sg2 flexes into the PG hole.
+    expect(posA[0]!.entries.map((e) => e.playerId)).toEqual(["sg1", "sf", "pf", "c", "sg2"]);
+    expect(posB[0]!.entries.map((e) => e.playerId)).toEqual(["sg2", "sg1", "sf", "pf", "c"]);
   });
 
   it("seeds Kobe as 2009/10 #24 form, not 2000/01 #8", () => {

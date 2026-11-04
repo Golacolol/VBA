@@ -25,7 +25,9 @@
     "assets:classic-portraits": "node scripts/import-classic-portraits.mjs",
     "data:squads": "node scripts/refresh-nba-rosters.mjs",
     "data:classic-ratings": "node scripts/refresh-classic-ratings.mjs",
-    "assets:classic-crests": "node scripts/import-nba-emblems.mjs"
+    "assets:classic-crests": "node scripts/import-classic-emblems.mjs",
+    "assets:classic-emblems": "node scripts/import-classic-emblems.mjs",
+    "assets:classic-emblems:knockout": "python3 scripts/knockout-emblem-bg.py"
   },
   "dependencies": {
     "three": "^0.170.0"

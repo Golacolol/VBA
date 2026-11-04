@@ -57,13 +57,14 @@ export type PyramidPositionDealMode = "primary" | "secondary";
 
 /**
  * Adjacent flex when a player has no authored secondary positions.
- * PG↔SG, wing continuum, PF↔SF/C — never PG as C.
+ * PG↔SG, SG↔SF, SF↔PF, PF↔C — never PG as C, and never PF as SF
+ * (that was stealing wing seats and starving C of bigs).
  */
 export const PYRAMID_POSITION_FLEX: Record<PyramidRingPosition, readonly PyramidRingPosition[]> = {
   PG: ["PG", "SG"],
   SG: ["SG", "PG", "SF"],
   SF: ["SF", "SG", "PF"],
-  PF: ["PF", "SF", "C"],
+  PF: ["PF", "C"],
   C: ["C", "PF"],
 };
 
@@ -416,7 +417,13 @@ export function placePlayerInPool(
 
 export type PyramidTierRow = {
   tier: number;
-  entries: { rank: number; playerId: string; index: number }[];
+  entries: {
+    rank: number;
+    playerId: string;
+    index: number;
+    /** POS A/B lineup seat (PG→C); omitted on rank-only layouts. */
+    seat?: PyramidRingPosition;
+  }[];
 };
 
 export function pyramidTierRows(
@@ -471,6 +478,7 @@ export function normalizeRingPosition(raw: string | undefined | null): PyramidRi
 
 /**
  * Seat eligibility for POS A (primary only) or POS B (authored secondaries, else adjacent flex).
+ * POS B never lets a PF claim SF — keeps wings honest and frees bigs for C.
  */
 export function pyramidEligiblePositions(
   primary: string | null | undefined,
@@ -480,9 +488,11 @@ export function pyramidEligiblePositions(
   const prim = normalizeRingPosition(primary);
   if (mode === "primary") return [prim];
   const secs = (secondary ?? []).map((s) => normalizeRingPosition(s));
-  if (secs.length) return [...new Set([prim, ...secs])];
-  // No authored secondary — allow adjacent flex (PF→SF/C, PG→SG, …).
-  return [...(PYRAMID_POSITION_FLEX[prim] ?? [prim])];
+  const raw = secs.length
+    ? [...new Set([prim, ...secs])]
+    : [...(PYRAMID_POSITION_FLEX[prim] ?? [prim])];
+  const seats = prim === "PF" ? raw.filter((p) => p !== "SF") : raw;
+  return seats.length ? seats : [prim];
 }
 
 export type PyramidPositionTeamOpts = {
@@ -504,11 +514,12 @@ export type PyramidPositionTeamOpts = {
  * other widths take as many full five-man rounds as fit, then leftover by rank.
  *
  * POS A — seat only by primary (a PF never takes SF while an SF remains).
- * POS B — seat by eligibility (primary + secondary / adjacent flex), so the next
- * best player who can play the hole fills it (PF→SF/C, PG→SG, never PG as C).
+ * POS B — still prefer every player’s main position first; only then fill holes
+ * with secondary / adjacent flex (PG↔SG, SG↔SF, PF↔C — never PF as SF).
  *
  * Default keeps #1 alone at the apex. With `apexInTopTeam`, #1 seats in the top
- * five at an eligible position and the remaining teams reshuffle from what’s left.
+ * five at their primary when possible; flex never steals #1 off their main seat
+ * while that hole is open.
  */
 export function pyramidPositionTeamRows(
   order: readonly string[],
@@ -543,12 +554,7 @@ export function pyramidPositionTeamRows(
     };
   });
 
-  /**
-   * Best remaining for a slot.
-   * POS A — primary only.
-   * POS B — any eligible (secondary / adjacent flex), so a higher PF can take SF
-   * ahead of a lower pure-SF still waiting in the pool.
-   */
+  /** Best remaining whose primary matches `pos`, or overall next by rank. */
   const takeBestPrimary = (pos?: PyramidRingPosition): Seat | null => {
     if (!remaining.length) return null;
     if (pos) {
@@ -560,61 +566,74 @@ export function pyramidPositionTeamRows(
   };
 
   /**
-   * POS B fills wings/bigs before guards so a top PF claims SF via flex before a
-   * lower SF is diverted to SG. Display order stays PG → C.
-   * Guard holes won't steal the other guard while that primary seat is still open.
+   * POS B hole-fill: best remaining who is eligible for `pos`.
+   * Never pull a player off their still-open primary seat into a flex spot
+   * (stops SG↔SF / PG↔SG swaps when both holes are free).
    */
-  const posBDealOrder: readonly PyramidRingPosition[] = ["SF", "C", "PF", "SG", "PG"];
-
-  const takeBestFlexible = (
+  const takeBestFlexForHole = (
     pos: PyramidRingPosition,
     placed: ReadonlyMap<PyramidRingPosition, Seat>,
   ): Seat | null => {
     const i = remaining.findIndex((s) => {
       if (!s.eligible.includes(pos)) return false;
-      // Keep PG/SG from swapping into each other while their own hole is open.
-      if (
-        (pos === "PG" || pos === "SG") &&
-        (s.pos === "PG" || s.pos === "SG") &&
-        s.pos !== pos &&
-        !placed.has(s.pos)
-      ) {
-        return false;
-      }
+      if (s.pos !== pos && !placed.has(s.pos)) return false;
       return true;
     });
     if (i < 0) return null;
     return remaining.splice(i, 1)[0] ?? null;
   };
 
-  const takeBalancedRound = (): Seat[] => {
+  const takeBalancedRound = (): { seat: Seat; pos: PyramidRingPosition }[] => {
     if (dealMode === "primary") {
-      const round: Seat[] = [];
+      const round: { seat: Seat; pos: PyramidRingPosition }[] = [];
       for (const pos of PYRAMID_RING_POSITIONS) {
         const seat = takeBestPrimary(pos);
-        if (seat) round.push(seat);
+        if (seat) round.push({ seat, pos });
       }
       return round;
     }
+    // Pass 1 — lock each player's main position (incl. #1 when folded into the five).
     const placed = new Map<PyramidRingPosition, Seat>();
-    for (const pos of posBDealOrder) {
-      const seat = takeBestFlexible(pos, placed);
+    for (const pos of PYRAMID_RING_POSITIONS) {
+      const seat = takeBestPrimary(pos);
       if (seat) placed.set(pos, seat);
     }
-    return PYRAMID_RING_POSITIONS.map((p) => placed.get(p)).filter((s): s is Seat => !!s);
+    // Pass 2 — only then fill empty holes with flex / authored secondaries.
+    for (const pos of PYRAMID_RING_POSITIONS) {
+      if (placed.has(pos)) continue;
+      const seat = takeBestFlexForHole(pos, placed);
+      if (seat) placed.set(pos, seat);
+    }
+    return PYRAMID_RING_POSITIONS.flatMap((pos) => {
+      const seat = placed.get(pos);
+      return seat ? [{ seat, pos }] : [];
+    });
+  };
+
+  const pushEntry = (
+    entries: PyramidTierRow["entries"],
+    seat: Seat,
+    pos: PyramidRingPosition,
+  ): void => {
+    entries.push({
+      rank: seat.rank,
+      playerId: seat.playerId,
+      index: seat.index,
+      seat: pos,
+    });
   };
 
   const fillTeamTier = (need: number, entries: PyramidTierRow["entries"]): void => {
     const fullRounds = Math.floor(need / PYRAMID_RING_POSITIONS.length);
     for (let r = 0; r < fullRounds; r++) {
-      for (const seat of takeBalancedRound()) {
-        entries.push({ rank: seat.rank, playerId: seat.playerId, index: seat.index });
+      for (const { seat, pos } of takeBalancedRound()) {
+        pushEntry(entries, seat, pos);
       }
     }
     while (entries.length < need) {
       const seat = takeBestPrimary();
       if (!seat) break;
-      entries.push({ rank: seat.rank, playerId: seat.playerId, index: seat.index });
+      pushEntry(entries, seat, seat.pos);
     }
   };
 
@@ -626,7 +645,7 @@ export function pyramidPositionTeamRows(
     if (t === 0 && !apexInTopTeam && need === 1) {
       // Solo apex is current pyramid #1 (rank order), not re-picked by position.
       const apex = remaining.shift();
-      if (apex) entries.push({ rank: apex.rank, playerId: apex.playerId, index: apex.index });
+      if (apex) pushEntry(entries, apex, apex.pos);
     } else {
       fillTeamTier(need, entries);
     }
@@ -637,7 +656,12 @@ export function pyramidPositionTeamRows(
   if (remaining.length) {
     rows.push({
       tier: rows.length + 1,
-      entries: remaining.map((s) => ({ rank: s.rank, playerId: s.playerId, index: s.index })),
+      entries: remaining.map((s) => ({
+        rank: s.rank,
+        playerId: s.playerId,
+        index: s.index,
+        seat: s.pos,
+      })),
     });
   }
   return rows;
