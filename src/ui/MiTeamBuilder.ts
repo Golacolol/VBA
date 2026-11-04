@@ -799,7 +799,7 @@ export class MiTeamBuilder {
       })}
       <h3>${selectedSp.shirtNumber}. ${escapeHtml(kitSurname(selectedSp.player.displayName || selectedSp.player.name))}</h3>
       <div class="char-meta">${selectedSp.player.primaryPosition} · OVR ${Math.round(selectedSp.overall)}</div>
-      ${profileStatsBlock(selectedSp.attrs, { compact: true, mode: this.profileView, size: 168 })}`;
+      ${profileStatsBlock(selectedSp.attrs, { compact: true, mode: this.profileView, size: 140 })}`;
     }
     // Empty squad / sealed pack — show MiTeam crest + name, not the hidden pull.
     return `${teamBadgeHtml(team, { className: "char-team-crest miteam-roster-crest" })}

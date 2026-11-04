@@ -569,6 +569,9 @@ interface NudgeState {
 }
 
 export class CharacterSelect {
+  /** Compact hex on the formation roster card — sized so the starting five stay visible. */
+  private static readonly ROSTER_HEX_SIZE = 140;
+
   readonly root: HTMLElement;
   index = 0;
   players: SquadPlayer[] = [];
@@ -1606,7 +1609,7 @@ export class CharacterSelect {
         })}
         <h3>${selected.shirtNumber}. ${escapeHtml(kitHeadingName(selected.player))}</h3>
         <div class="char-meta">${selected.player.primaryPosition} · OVR ${selected.overall}</div>
-        ${profileStatsBlock(a, { compact: true, mode: this.profileView, size: 168 })}
+        ${profileStatsBlock(a, { compact: true, mode: this.profileView, size: CharacterSelect.ROSTER_HEX_SIZE })}
       `;
     }
     const pitchCard = this.root.querySelector(".player-pitch-select");
@@ -2442,7 +2445,7 @@ export class CharacterSelect {
               })()}
               <h3>${selected.shirtNumber}. ${escapeHtml(kitHeadingName(selected.player))}</h3>
               <div class="char-meta">${selected.player.primaryPosition} · OVR ${selected.overall}</div>
-              ${profileStatsBlock(selected.attrs, { compact: true, mode: this.profileView, size: 168 })}
+              ${profileStatsBlock(selected.attrs, { compact: true, mode: this.profileView, size: CharacterSelect.ROSTER_HEX_SIZE })}
             </div>
             <div class="team-roster-list">
               ${this.players

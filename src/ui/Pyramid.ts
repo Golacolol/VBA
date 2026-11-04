@@ -463,8 +463,7 @@ export class PyramidHub {
     const poolEntries = st.pool.map((id, i) => this.entryFor(id, PYRAMID_SIZE + i));
     const listMode = this.pyramidDisplay === "list";
     const positionsMode = this.pyramidDisplay === "positions";
-    const patternCounts =
-      listMode || positionsMode ? null : PYRAMID_TIER_PATTERNS[this.pyramidDisplay];
+    const patternCounts = positionsMode ? null : PYRAMID_TIER_PATTERNS[this.pyramidDisplay];
     const positionCounts = positionsMode ? PYRAMID_TIER_PATTERNS.positions : null;
     const scales = pyramidTierScalesFor(positionCounts ?? patternCounts ?? PYRAMID_TIER_COUNTS);
 
@@ -494,10 +493,21 @@ export class PyramidHub {
 
     let tiers: string;
     if (listMode) {
-      // Single centred wrap: 1, 2, 3… left-to-right (no lone apex row).
-      tiers = `<div class="pyramid-tier pyramid-list-flow" data-tier="1" style="--tier-count:5;--tier-scale:1">${entries
-        .map((entry) => this.cellHtml(entry, { list: true }))
-        .join("")}</div>`;
+      // Centred rows: #1 alone on top, then 2, then 3… (rank order L→R within each row).
+      const rows = pyramidTierRows(st.order, PYRAMID_TIER_PATTERNS.list);
+      tiers = rows
+        .map((row) => {
+          const scale = scales[row.tier - 1] ?? 1;
+          return `<div class="pyramid-tier pyramid-list-row" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
+        ${row.entries
+          .map((slot) => {
+            const entry = byId.get(slot.playerId) ?? this.entryFor(slot.playerId, slot.index);
+            return this.cellHtml(entry, { list: true });
+          })
+          .join("")}
+      </div>`;
+        })
+        .join("");
     } else if (positionsMode) {
       const rows = pyramidPositionTeamRows(st.order, (id) => byId.get(id)?.position);
       tiers = renderTierRows(rows, { legendOnBalanced: true });

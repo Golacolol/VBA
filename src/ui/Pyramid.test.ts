@@ -122,12 +122,12 @@ describe("PyramidHub", () => {
 
     hub.root.querySelector<HTMLElement>('[data-pyramid="layout"][data-layout="list"]')?.click();
     expect(hub.root.querySelector(".pyramid-tiers.is-list")).toBeTruthy();
-    expect(hub.root.querySelector(".pyramid-list-apex")).toBeNull();
-    expect(hub.root.querySelector(".pyramid-list-flow")).toBeTruthy();
-    const listCells = [...hub.root.querySelectorAll(".pyramid-list-flow .pyramid-cell.is-list-cell")];
-    expect(listCells).toHaveLength(PYRAMID_SIZE);
-    expect(listCells[0]?.querySelector(".pyramid-cell-rank")?.textContent).toBe("1");
-    expect(listCells[1]?.querySelector(".pyramid-cell-rank")?.textContent).toBe("2");
+    const listRows = [...hub.root.querySelectorAll(".pyramid-tiers.is-list .pyramid-list-row")];
+    expect(listRows.map((el) => el.querySelectorAll(".pyramid-cell").length)).toEqual([
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 5,
+    ]);
+    expect(listRows[0]?.querySelector(".pyramid-cell-rank")?.textContent).toBe("1");
+    expect(listRows[1]?.querySelector(".pyramid-cell-rank")?.textContent).toBe("2");
     expect(hub.root.querySelector('[data-layout="list"]')?.classList.contains("on")).toBe(true);
 
     hub.root.querySelector<HTMLElement>('[data-pyramid="layout"][data-layout="fib"]')?.click();

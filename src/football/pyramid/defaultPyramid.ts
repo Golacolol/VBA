@@ -20,8 +20,8 @@ export type PyramidTierPatternId = "steps" | "odds" | "fib" | "positions" | "lis
 
 export const PYRAMID_TIER_PATTERN_IDS = ["steps", "odds", "fib", "positions", "list"] as const;
 
-/** Row widths per pattern; each sums to {@link PYRAMID_SIZE}. `list` is flat (no tiers). */
-export const PYRAMID_TIER_PATTERNS: Record<Exclude<PyramidTierPatternId, "list">, readonly number[]> = {
+/** Row widths per pattern; each sums to {@link PYRAMID_SIZE}. */
+export const PYRAMID_TIER_PATTERNS: Record<PyramidTierPatternId, readonly number[]> = {
   /** 1, 2, 3 … 8, then remainder. */
   steps: PYRAMID_TIER_COUNTS,
   /** 1, 3, 5, 7 … then remainder. */
@@ -33,6 +33,8 @@ export const PYRAMID_TIER_PATTERNS: Record<Exclude<PyramidTierPatternId, "list">
    * (two per position), then remainder — see {@link pyramidPositionTeamRows}.
    */
   positions: [1, 5, 10, 10, 10, 14],
+  /** Rank order in centred rows: #1 top centre, then 2, then 3… remainder last. */
+  list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 5],
 };
 
 export function isPyramidTierPatternId(v: unknown): v is PyramidTierPatternId {

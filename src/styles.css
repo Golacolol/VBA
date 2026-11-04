@@ -2457,6 +2457,13 @@ select.formation-chip.formation-select option {
 }
 .team-roster-card .profile-stats-compact {
   margin-top: 0;
+  /* Slightly tighter than the sports-card hex so all 5 starters clear the list. */
+  max-width: 140px;
+  max-height: 140px;
+}
+.team-roster-card .profile-stats-compact .profile-hex-svg {
+  max-width: 140px;
+  max-height: 140px;
 }
 
 /* Flipable sports player card (PLAYER SELECT / edit only). */
@@ -6584,20 +6591,18 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 /* List layout — centred wrap in rank order (1, 2, 3…). */
 .pyramid-tiers.is-list {
   align-items: stretch;
-  gap: 14px;
+  gap: 12px;
 }
-.pyramid-tiers.is-list .pyramid-list-flow {
-  display: flex;
-  flex-wrap: wrap;
+.pyramid-tiers.is-list .pyramid-list-row {
   justify-content: center;
-  align-items: stretch;
   gap: 10px;
-  width: 100%;
-  --tier-count: 5;
 }
 .pyramid-tiers.is-list .pyramid-cell.is-list-cell {
-  width: min(128px, calc((100% - 40px) / 5));
-  min-width: 96px;
+  width: min(
+    128px,
+    calc((100% - (var(--tier-count, 1) - 1) * 10px) / var(--tier-count, 1))
+  );
+  min-width: 72px;
   max-width: 140px;
   flex: 0 1 auto;
   padding: 10px 6px 8px;
