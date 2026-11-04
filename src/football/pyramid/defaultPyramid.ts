@@ -6,7 +6,7 @@ export const PYRAMID_SIZE = 50;
 /** Extra 50 who can be elevated into the Top 50 but hold no Ring position. */
 export const PYRAMID_POOL_SIZE = 50;
 
-/** Row widths from apex (#1) to base — sums to 50. */
+/** Default row widths from apex (#1) to base — sums to 50 (steps pattern). */
 export const PYRAMID_TIER_COUNTS = [1, 2, 3, 4, 5, 6, 7, 8, 14] as const;
 
 /**
@@ -15,10 +15,40 @@ export const PYRAMID_TIER_COUNTS = [1, 2, 3, 4, 5, 6, 7, 8, 14] as const;
  */
 export const PYRAMID_TIER_SCALES = [1, 1, 1, 1, 1, 0.98, 0.96, 0.94, 0.9] as const;
 
+/** Display-only tier shapes (rank order unchanged). */
+export type PyramidTierPatternId = "steps" | "odds" | "fib" | "positions" | "list";
+
+export const PYRAMID_TIER_PATTERN_IDS = ["steps", "odds", "fib", "positions", "list"] as const;
+
+/** Row widths per pattern; each sums to {@link PYRAMID_SIZE}. `list` is flat (no tiers). */
+export const PYRAMID_TIER_PATTERNS: Record<Exclude<PyramidTierPatternId, "list">, readonly number[]> = {
+  /** 1, 2, 3 … 8, then remainder. */
+  steps: PYRAMID_TIER_COUNTS,
+  /** 1, 3, 5, 7 … then remainder. */
+  odds: [1, 3, 5, 7, 9, 11, 14],
+  /** Fibonacci 1, 1, 2, 3, 5, 8, 13, then remainder. */
+  fib: [1, 1, 2, 3, 5, 8, 13, 17],
+  /** #1, five (positions), then tens, then remainder. */
+  positions: [1, 5, 10, 10, 10, 14],
+};
+
+export function isPyramidTierPatternId(v: unknown): v is PyramidTierPatternId {
+  return typeof v === "string" && (PYRAMID_TIER_PATTERN_IDS as readonly string[]).includes(v);
+}
+
+/** Soft per-row scale hints for a given tier-count list. */
+export function pyramidTierScalesFor(counts: readonly number[]): number[] {
+  if (counts === PYRAMID_TIER_COUNTS || (counts.length === PYRAMID_TIER_SCALES.length && counts.every((c, i) => c === PYRAMID_TIER_COUNTS[i]))) {
+    return [...PYRAMID_TIER_SCALES];
+  }
+  const n = Math.max(1, counts.length);
+  return counts.map((_, i) => Math.max(0.88, 1 - (i / n) * 0.12));
+}
+
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 5;
+export const PYRAMID_SEED_VERSION = 6;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -41,23 +71,27 @@ export type PyramidRingPosition = (typeof PYRAMID_RING_POSITIONS)[number];
 /**
  * Curated all-time Top 50 (classic peak forms). Jordan #1.
  * Ids must exist in `public/data/players.json`.
+ *
+ * Order follows peak OVR bands, then resume/era tie-breaks — not pure sort
+ * (e.g. Wilt/Russell stay ahead of later 95s). Equal peaks: Curry leads the
+ * post-Shaq 95 band at #10 (same 95 as Duncan; above Hakeem’s 94).
  */
 export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
-  "classic_chi_1995_96_p02", // 1 Michael Jordan
-  "classic_mia_2012_13_p03", // 2 LeBron James
-  "classic_lal_1986_87_p05", // 3 Kareem Abdul-Jabbar
-  "classic_lal_1986_87_p01", // 4 Magic Johnson
-  "classic_bos_1985_86_p03", // 5 Larry Bird
-  "classic_lal_1971_72_p05", // 6 Wilt Chamberlain
-  "classic_bos_1964_65_p05", // 7 Bill Russell
-  "classic_lal_2009_10_p02", // 8 Kobe Bryant (#24, 2009/10 — omit 2000/01 #8 duplicate)
-  "classic_lal_2000_01_p05", // 9 Shaquille O'Neal
-  "classic_sas_1998_99_p04", // 10 Tim Duncan
-  "classic_hou_1994_95_p05", // 11 Hakeem Olajuwon
-  "classic_gsw_2016_17_p01", // 12 Stephen Curry
-  "classic_mil_2020_21_p03", // 13 Giannis Antetokounmpo
-  "classic_den_2022_23_p05", // 14 Nikola Jokic
-  "classic_gsw_2016_17_p03", // 15 Kevin Durant
+  "classic_chi_1995_96_p02", // 1 Michael Jordan (99)
+  "classic_mia_2012_13_p03", // 2 LeBron James (97)
+  "classic_lal_1986_87_p05", // 3 Kareem Abdul-Jabbar (96)
+  "classic_lal_1986_87_p01", // 4 Magic Johnson (96)
+  "classic_bos_1985_86_p03", // 5 Larry Bird (96)
+  "classic_lal_1971_72_p05", // 6 Wilt Chamberlain (95)
+  "classic_bos_1964_65_p05", // 7 Bill Russell (95)
+  "classic_lal_2009_10_p02", // 8 Kobe Bryant (#24, 2009/10 — omit 2000/01 #8 duplicate) (96)
+  "classic_lal_2000_01_p05", // 9 Shaquille O'Neal (95)
+  "classic_gsw_2016_17_p01", // 10 Stephen Curry (95) — tie-break over Duncan in this band
+  "classic_sas_1998_99_p04", // 11 Tim Duncan (95)
+  "classic_den_2022_23_p05", // 12 Nikola Jokic (95)
+  "classic_hou_1994_95_p05", // 13 Hakeem Olajuwon (94)
+  "classic_mil_2020_21_p03", // 14 Giannis Antetokounmpo (94)
+  "classic_gsw_2016_17_p03", // 15 Kevin Durant (94)
   "classic_cin_1963_64_p01", // 16 Oscar Robertson
   "classic_lal_1971_72_p01", // 17 Jerry West
   "classic_phi_1982_83_p03", // 18 Julius Erving
@@ -348,17 +382,29 @@ export type PyramidTierRow = {
   entries: { rank: number; playerId: string; index: number }[];
 };
 
-export function pyramidTierRows(order: readonly string[]): PyramidTierRow[] {
+export function pyramidTierRows(
+  order: readonly string[],
+  counts: readonly number[] = PYRAMID_TIER_COUNTS,
+): PyramidTierRow[] {
   const rows: PyramidTierRow[] = [];
   let cursor = 0;
-  for (let t = 0; t < PYRAMID_TIER_COUNTS.length; t++) {
-    const count = PYRAMID_TIER_COUNTS[t]!;
+  for (let t = 0; t < counts.length; t++) {
+    const count = counts[t]!;
     const entries: PyramidTierRow["entries"] = [];
     for (let i = 0; i < count && cursor < order.length; i++) {
       entries.push({ rank: cursor + 1, playerId: order[cursor]!, index: cursor });
       cursor += 1;
     }
     if (entries.length) rows.push({ tier: t + 1, entries });
+  }
+  // Safety: any leftover ranks after a bad counts array still render.
+  if (cursor < order.length) {
+    const entries: PyramidTierRow["entries"] = [];
+    while (cursor < order.length) {
+      entries.push({ rank: cursor + 1, playerId: order[cursor]!, index: cursor });
+      cursor += 1;
+    }
+    rows.push({ tier: rows.length + 1, entries });
   }
   return rows;
 }

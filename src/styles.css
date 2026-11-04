@@ -6434,6 +6434,27 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   width: 100%;
   box-sizing: border-box;
 }
+.pyramid-tiers.is-list {
+  align-items: center;
+  gap: 10px;
+}
+.pyramid-layout-toggle {
+  max-width: min(100%, 420px);
+}
+.pyramid-layout-toggle .pyramid-view-btn {
+  padding: 8px 8px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.pyramid-tier-legend {
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: rgba(62, 198, 255, 0.55);
+  margin: -2px 0 -4px;
+}
 .pyramid-tier {
   display: flex;
   flex-wrap: nowrap;
@@ -6442,6 +6463,49 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   gap: 8px;
   width: 100%;
   box-sizing: border-box;
+}
+.pyramid-cell.is-list-row {
+  width: min(300px, 94%);
+  max-width: 320px;
+  min-width: 220px;
+  flex: 0 0 auto;
+  padding: 12px 14px 10px;
+  gap: 8px;
+}
+.pyramid-cell.is-list-row .pyramid-cell-kit {
+  width: 56px;
+  height: 56px;
+}
+.pyramid-cell.is-list-row .pyramid-cell-photo {
+  width: min(88px, 48%);
+}
+.pyramid-cell.is-list-row .pyramid-move {
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  border-color: rgba(62, 198, 255, 0.45);
+  background: rgba(62, 198, 255, 0.16);
+}
+.pyramid-cell.is-list-row .pyramid-cell-kit-row {
+  gap: 10px;
+}
+.pyramid-cell-name {
+  order: 2;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  opacity: 0.85;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pyramid-cell.is-list-row .pyramid-cell-rank {
+  position: static;
+  order: 3;
+  right: auto;
+  bottom: auto;
+  font-size: 12px;
 }
 .pyramid-cell {
   position: relative;

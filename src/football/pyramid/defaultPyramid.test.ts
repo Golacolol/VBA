@@ -13,6 +13,7 @@ import {
   PYRAMID_POOL_SIZE,
   PYRAMID_SIZE,
   PYRAMID_TIER_COUNTS,
+  PYRAMID_TIER_PATTERNS,
   PYRAMID_TIER_SCALES,
   pyramidTierRows,
   swapPyramidNeighbor,
@@ -90,6 +91,15 @@ describe("defaultPyramid", () => {
     expect(rows.at(-1)!.entries.at(-1)!.rank).toBe(50);
   });
 
+  it("supports odds, fibonacci, and positions display patterns summing to 50", () => {
+    for (const [id, counts] of Object.entries(PYRAMID_TIER_PATTERNS)) {
+      expect(counts.reduce((a, b) => a + b, 0), id).toBe(PYRAMID_SIZE);
+      const rows = pyramidTierRows(DEFAULT_PYRAMID_ORDER, counts);
+      expect(rows.map((r) => r.entries.length)).toEqual([...counts]);
+      expect(rows.at(-1)!.entries.at(-1)!.rank).toBe(50);
+    }
+  });
+
   it("places ring players on position wedges around #1 from Top 50 only", () => {
     const order = [...DEFAULT_PYRAMID_ORDER];
     const pos = new Map([
@@ -130,13 +140,14 @@ describe("defaultPyramid", () => {
       pool: DEFAULT_PYRAMID_POOL,
       view: "ring",
       size: 50,
-      seedVersion: 5,
+      seedVersion: 6,
     });
     expect(save.view).toBe("ring");
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(5);
+    expect(defaultPyramidSave().seedVersion).toBe(6);
+    expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
   });
 
   it("replaces a stale seed with the curated Top 50", () => {
@@ -153,6 +164,7 @@ describe("defaultPyramid", () => {
     expect(stale.order).toContain("classic_orl_1994_95_p01");
     expect(stale.order).toContain("classic_lal_2009_10_p04");
     expect(stale.order).toContain("classic_lal_2009_10_p02");
-    expect(stale.seedVersion).toBe(5);
+    expect(stale.seedVersion).toBe(6);
+    expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
   });
 });

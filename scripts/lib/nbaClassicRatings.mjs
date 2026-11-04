@@ -1,7 +1,8 @@
 /**
  * Curated peak ratings for classic / Pyramid historic players.
- * Target OVRs are gameplay defaults (Jordan / LeBron / Kobe anchors);
- * panel ranks live separately in the Pyramid seed.
+ * Target OVRs are gameplay defaults (Jordan / LeBron / Kobe anchors).
+ * Pyramid panel ranks use these bands + seed tie-breaks in
+ * `defaultPyramid.ts` (e.g. Curry and Duncan share 95; seed puts Curry #10).
  */
 
 function clamp(n, lo, hi) {

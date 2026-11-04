@@ -11,15 +11,18 @@ import {
   ensurePyramidSave,
   movePyramidIndex,
   placePlayerInPool,
+  isPyramidTierPatternId,
   PYRAMID_POOL_SIZE,
   PYRAMID_RING_POSITIONS,
   PYRAMID_SEED_VERSION,
   PYRAMID_SIZE,
-  PYRAMID_TIER_SCALES,
+  PYRAMID_TIER_PATTERNS,
   pyramidTierRows,
+  pyramidTierScalesFor,
   swapPyramidNeighbor,
   swapPyramidWithPool,
   type PyramidSave,
+  type PyramidTierPatternId,
   type PyramidViewId,
 } from "../football/pyramid/defaultPyramid";
 import {
@@ -95,6 +98,8 @@ export class PyramidHub {
   private ringAngle = 0;
   /** Shared Pyramid + Ring content zoom (header − / +). */
   private viewZoom = 1;
+  /** Pyramid view display pattern (row widths / list). Rank order unchanged. */
+  private pyramidDisplay: PyramidTierPatternId = "steps";
   private ringDragging = false;
   private ringLastX = 0;
   private ringRaf = 0;
@@ -271,9 +276,25 @@ export class PyramidHub {
     return this.state().order.map((id, i) => this.entryFor(id, i));
   }
 
+  /** Full re-render without jumping the pyramid body scroll (↑↓ / drag reorder). */
+  private renderKeepingScroll(): void {
+    const scroller = this.root.querySelector<HTMLElement>("[data-pyramid-scroll]");
+    const top = scroller?.scrollTop ?? 0;
+    this.render();
+    const next = this.root.querySelector<HTMLElement>("[data-pyramid-scroll]");
+    if (next) {
+      next.scrollTop = top;
+      requestAnimationFrame(() => {
+        const again = this.root.querySelector<HTMLElement>("[data-pyramid-scroll]");
+        if (again) again.scrollTop = top;
+      });
+    }
+  }
+
   render(): void {
     const st = this.state();
     const view = st.view;
+    const layout = this.pyramidDisplay;
     this.root.innerHTML = `
       <div class="pyramid-shell">
         <header class="pyramid-head">
@@ -283,6 +304,17 @@ export class PyramidHub {
             <p class="pyramid-sub">Top ${PYRAMID_SIZE} ranked · #51–#${PYRAMID_SIZE + PYRAMID_POOL_SIZE} reserve (swap in · no Ring seat)</p>
           </div>
           <div class="pyramid-head-actions">
+            ${
+              view === "pyramid"
+                ? `<div class="pyramid-view-toggle pyramid-layout-toggle" role="group" aria-label="Pyramid layout">
+              <button type="button" class="pyramid-view-btn${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps"${titleAttr("1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>Steps</button>
+              <button type="button" class="pyramid-view-btn${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds"${titleAttr("1 · 3 · 5 · 7 · 9 · 11 · 14")}>1-3-5</button>
+              <button type="button" class="pyramid-view-btn${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib"${titleAttr("Fibonacci 1 · 1 · 2 · 3 · 5 · 8 · 13 · 17")}>Fib</button>
+              <button type="button" class="pyramid-view-btn${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions"${titleAttr("1 · five (positions) · 10 · 10 · 10 · 14")}>1-5-10</button>
+              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Vertical list · #1 top centre · reorder arrows")}>List</button>
+            </div>`
+                : ""
+            }
             <div class="pyramid-zoom" role="group" aria-label="Zoom">
               <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-out" aria-label="Zoom out">−</button>
               <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-reset" aria-label="Reset zoom">Zoom</button>
@@ -338,10 +370,11 @@ export class PyramidHub {
     this.ringResizeObserver.observe(vp);
   }
 
-  private cellHtml(entry: PyramidEntry, opts?: { compact?: boolean }): string {
-    const compact = opts?.compact;
+  private cellHtml(entry: PyramidEntry, opts?: { compact?: boolean; list?: boolean }): string {
+    const compact = opts?.compact && !opts?.list;
+    const list = opts?.list === true;
     return `
-      <article class="pyramid-cell${compact ? " is-compact" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}`)}>
+      <article class="pyramid-cell${compact ? " is-compact" : ""}${list ? " is-list-row" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}`)}>
         <div class="pyramid-cell-kit-row">
           <button type="button" class="pyramid-move" data-pyramid="up" data-index="${entry.index}" aria-label="Move up" draggable="false" ${entry.index === 0 ? "disabled" : ""}>↑</button>
           <div class="pyramid-cell-kit">${this.kitBadgeHtml(entry)}</div>
@@ -349,6 +382,7 @@ export class PyramidHub {
         </div>
         ${this.portraitHtml(entry)}
         <div class="pyramid-cell-rank">#${entry.rank}</div>
+        ${list ? `<div class="pyramid-cell-name">${escapeHtml(entry.name)}</div>` : ""}
       </article>
     `;
   }
@@ -415,12 +449,23 @@ export class PyramidHub {
   private pyramidHtml(): string {
     const st = this.state();
     const byId = new Map(this.entries().map((e) => [e.playerId, e]));
-    const rows = pyramidTierRows(st.order);
     const poolEntries = st.pool.map((id, i) => this.entryFor(id, PYRAMID_SIZE + i));
-    const tiers = rows
-      .map((row) => {
-        const scale = PYRAMID_TIER_SCALES[row.tier - 1] ?? 1;
-        return `<div class="pyramid-tier" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
+    const listMode = this.pyramidDisplay === "list";
+    const patternCounts =
+      this.pyramidDisplay === "list" ? null : PYRAMID_TIER_PATTERNS[this.pyramidDisplay];
+    const scales = patternCounts ? pyramidTierScalesFor(patternCounts) : [];
+    const tiers = listMode
+      ? this.entries()
+          .map((entry) => this.cellHtml(entry, { list: true }))
+          .join("")
+      : pyramidTierRows(st.order, patternCounts ?? undefined)
+          .map((row) => {
+            const scale = scales[row.tier - 1] ?? 1;
+            const posLegend =
+              this.pyramidDisplay === "positions" && row.tier === 2
+                ? `<div class="pyramid-tier-legend" aria-hidden="true">PG · SG · SF · PF · C</div>`
+                : "";
+            return `${posLegend}<div class="pyramid-tier" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
         ${row.entries
           .map((slot) => {
             const entry = byId.get(slot.playerId) ?? this.entryFor(slot.playerId, slot.index);
@@ -428,12 +473,12 @@ export class PyramidHub {
           })
           .join("")}
       </div>`;
-      })
-      .join("");
+          })
+          .join("");
     const pool = poolEntries
       .map((entry, i) => this.poolCellHtml(entry, i))
       .join("");
-    return `<div class="pyramid-tiers" role="list">${tiers}</div>
+    return `<div class="pyramid-tiers${listMode ? " is-list" : ""}" role="list">${tiers}</div>
       <section class="pyramid-pool" aria-label="Ranks 51 to 100 reserve">
         <header class="pyramid-pool-head">
           <h3>#51–#100</h3>
@@ -651,14 +696,14 @@ export class PyramidHub {
   private move(index: number, dir: -1 | 1): void {
     const order = swapPyramidNeighbor(this.state().order, index, dir);
     this.persist({ order });
-    this.render();
+    this.renderKeepingScroll();
   }
 
   private elevateFromPool(poolIndex: number): void {
     const st = this.state();
     const next = elevatePoolToPyramid(st.order, st.pool, poolIndex);
     this.persist(next);
-    this.render();
+    this.renderKeepingScroll();
   }
 
   private onClick(e: MouseEvent): void {
@@ -674,6 +719,14 @@ export class PyramidHub {
       this.resetDefault();
       return;
     }
+    if (act === "layout") {
+      const layout = t.closest<HTMLElement>("[data-layout]")?.getAttribute("data-layout");
+      if (!isPyramidTierPatternId(layout)) return;
+      if (this.pyramidDisplay === layout) return;
+      this.pyramidDisplay = layout;
+      this.renderKeepingScroll();
+      return;
+    }
     if (act === "view") {
       const view = t.closest<HTMLElement>("[data-view]")?.getAttribute("data-view");
       if (view === "pyramid" || view === "ring" || view === "jersey" || view === "draft") this.setView(view);
@@ -682,6 +735,8 @@ export class PyramidHub {
     if (act === "elevate") {
       const idx = Number(t.closest<HTMLElement>("[data-pool-index]")?.getAttribute("data-pool-index"));
       if (!Number.isFinite(idx)) return;
+      e.preventDefault();
+      e.stopPropagation();
       this.elevateFromPool(idx);
       return;
     }
@@ -692,12 +747,14 @@ export class PyramidHub {
       const pool = placePlayerInPool(st.order, st.pool, playerId, st.pool.length - 1);
       this.poolQuery = "";
       this.persist({ pool });
-      this.render();
+      this.renderKeepingScroll();
       return;
     }
     if (act === "up" || act === "down") {
       const idx = Number(t.closest<HTMLElement>("[data-index]")?.getAttribute("data-index"));
       if (!Number.isFinite(idx)) return;
+      e.preventDefault();
+      e.stopPropagation();
       this.move(idx, act === "up" ? -1 : 1);
       return;
     }
@@ -1443,6 +1500,6 @@ export class PyramidHub {
       this.persist({ pool });
     }
     this.dragFrom = null;
-    this.render();
+    this.renderKeepingScroll();
   }
 }
