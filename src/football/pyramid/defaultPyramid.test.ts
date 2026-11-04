@@ -143,27 +143,34 @@ describe("defaultPyramid", () => {
     expect(PYRAMID_POSITION_TEAM_COUNTS.reduce((a, b) => a + b, 0)).toBe(PYRAMID_SIZE);
   });
 
-  it("deals POS B rows using secondary / adjacent flex (PF→SF, PG→SG)", () => {
+  it("deals POS B with secondary flex so lineups differ from POS A", () => {
     expect(pyramidEligiblePositions("PF", [], "secondary")).toEqual(["PF", "SF", "C"]);
     expect(pyramidEligiblePositions("PG", [], "secondary")).toEqual(["PG", "SG"]);
     expect(pyramidEligiblePositions("PG", [], "secondary")).not.toContain("C");
     expect(pyramidEligiblePositions("PF", ["SF"], "secondary")).toEqual(["PF", "SF"]);
 
-    // Only PFs + one C — POS B fills SF with a PF via flex.
-    const order = ["pf1", "pf2", "c1", "pg1", "sg1"];
+    // Rank order: star PF, role SF, then PG/SG/C.
+    // POS A: SF seat waits for roleSF; starPF stays at PF.
+    // POS B: starPF (next best) takes SF via flex; roleSF slides to PF.
+    const order = ["starPF", "roleSF", "pg", "sg", "c"];
     const pos = new Map([
-      ["pf1", "PF"],
-      ["pf2", "PF"],
-      ["c1", "C"],
-      ["pg1", "PG"],
-      ["sg1", "SG"],
+      ["starPF", "PF"],
+      ["roleSF", "SF"],
+      ["pg", "PG"],
+      ["sg", "SG"],
+      ["c", "C"],
     ]);
-    const rows = pyramidPositionTeamRows(order, (id) => pos.get(id), {
+    const posA = pyramidPositionTeamRows(order, (id) => pos.get(id), {
+      dealMode: "primary",
+      counts: [5],
+    });
+    const posB = pyramidPositionTeamRows(order, (id) => pos.get(id), {
       dealMode: "secondary",
       counts: [5],
     });
-    expect(rows[0]!.entries.map((e) => e.playerId)).toEqual(["pg1", "sg1", "pf1", "pf2", "c1"]);
-    // SF filled by pf1 (flex), PF by pf2, C by c1.
+    expect(posA[0]!.entries.map((e) => e.playerId)).toEqual(["pg", "sg", "roleSF", "starPF", "c"]);
+    expect(posB[0]!.entries.map((e) => e.playerId)).toEqual(["pg", "sg", "starPF", "roleSF", "c"]);
+    expect(posA[0]!.entries.map((e) => e.playerId)).not.toEqual(posB[0]!.entries.map((e) => e.playerId));
   });
 
   it("seeds Kobe as 2009/10 #24 form, not 2000/01 #8", () => {
