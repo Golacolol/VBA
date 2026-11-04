@@ -1,5 +1,6 @@
 /** Pyramid Top 50 + reserve swap pool — curated defaults + layout helpers. */
 
+import { normalizeBracketSave, type BracketSave } from "../bracket/PlayoffBracket";
 import { normalizeDraftSave, type DraftSave } from "./draft";
 
 export const PYRAMID_SIZE = 50;
@@ -81,7 +82,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
   return counts.map((_, i) => Math.max(0.88, 1 - (i / n) * 0.12));
 }
 
-export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft";
+export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
 export const PYRAMID_SEED_VERSION = 9;
@@ -99,6 +100,8 @@ export type PyramidSave = {
   jerseyChoice?: Record<string, string>;
   /** Optional snake draft board (You + AI seats). */
   draft?: DraftSave;
+  /** Playoff prediction bracket (play-in through Finals). */
+  bracket?: BracketSave;
 };
 
 export const PYRAMID_RING_POSITIONS = ["PG", "SG", "SF", "PF", "C"] as const;
@@ -235,7 +238,7 @@ export function defaultPyramidSave(): PyramidSave {
 }
 
 function isPyramidViewId(v: unknown): v is PyramidViewId {
-  return v === "pyramid" || v === "ring" || v === "jersey" || v === "draft";
+  return v === "pyramid" || v === "ring" || v === "jersey" || v === "draft" || v === "bracket";
 }
 
 function pushUniqueIds(
@@ -291,11 +294,13 @@ export function normalizePyramidSave(
   const view: PyramidViewId = isPyramidViewId(o?.view) ? o.view : "pyramid";
   // Stale curated seed (or first load) → install the current Top 50 / reserve.
   if (!o || o.seedVersion !== PYRAMID_SEED_VERSION) {
-    return { ...defaultPyramidSave(), view };
+    const bracket = o?.bracket != null ? normalizeBracketSave(o.bracket) : undefined;
+    return { ...defaultPyramidSave(), view, ...(bracket ? { bracket } : {}) };
   }
   const order = normalizePyramidOrder(o.order, knownIds);
   const jerseyChoice = normalizeJerseyChoice(o.jerseyChoice, knownIds);
   const draft = o.draft != null ? normalizeDraftSave(o.draft) : undefined;
+  const bracket = o.bracket != null ? normalizeBracketSave(o.bracket) : undefined;
   return {
     size: PYRAMID_SIZE,
     order,
@@ -304,6 +309,7 @@ export function normalizePyramidSave(
     seedVersion: PYRAMID_SEED_VERSION,
     ...(Object.keys(jerseyChoice).length ? { jerseyChoice } : {}),
     ...(draft ? { draft } : {}),
+    ...(bracket ? { bracket } : {}),
   };
 }
 

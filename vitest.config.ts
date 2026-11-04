@@ -13,6 +13,7 @@ export default defineConfig({
       "src/core/**/*.test.ts",
       "src/football/miteam/**/*.test.ts",
       "src/football/pyramid/**/*.test.ts",
+      "src/football/bracket/**/*.test.ts",
       "src/football/predictions/**/*.test.ts",
       "src/football/stadium/CourtArena.test.ts",
       "scripts/**/*.test.mjs",

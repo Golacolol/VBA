@@ -113,7 +113,7 @@ export class MainMenu {
     { id: "miteam", label: "MiTeam", hint: "Build a User five from packs" },
     { id: "quick", label: "Quick Match", hint: "Pick opposition, then a coming-soon match" },
     { id: "spot", label: "Practice Court", hint: "Coming soon" },
-    { id: "predictions", label: "Predictions", hint: "Pick who wins each gold tip" },
+    { id: "predictions", label: "Bracket", hint: "Playoff bracket · ADV / WIN from standings" },
     { id: "database", label: "Database", hint: "NBA teams and player ratings" },
     { id: "settings", label: "Options", hint: "Match settings, controls, display, advanced" },
   ] as const;

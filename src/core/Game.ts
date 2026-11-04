@@ -1031,8 +1031,7 @@ export class Game {
       return;
     }
     if (id === "predictions") {
-      this.menu.openPredictions();
-      this.paintMainMenu();
+      this.openPyramidHub("bracket");
       return;
     }
     if (id === "database") {
@@ -1335,7 +1334,7 @@ export class Game {
     this.appState = AppState.CHARACTER_SELECT;
   }
 
-  private openPyramidHub(): void {
+  private openPyramidHub(view?: "pyramid" | "ring" | "jersey" | "draft" | "bracket"): void {
     this.menu.hide();
     this.chars.hide();
     this.miteam.hide();
@@ -1346,7 +1345,7 @@ export class Game {
     }
     this.save.data.settings.leagueProgression = false;
     this.save.save();
-    this.pyramid.open(this.db, this.save);
+    this.pyramid.open(this.db, this.save, view ? { view } : undefined);
     this.appState = AppState.CHARACTER_SELECT;
   }
 

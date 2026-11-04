@@ -102,6 +102,18 @@ describe("PyramidHub", () => {
     expect(hub.root.querySelector('[data-pyramid="draft-autofill"]')).toBeTruthy();
     expect(hub.root.querySelector('[data-pyramid="draft-restart"]')).toBeTruthy();
 
+    hub.root.querySelector<HTMLElement>('[data-pyramid="view"][data-view="bracket"]')?.click();
+    expect(save.data.pyramid?.view).toBe("bracket");
+    expect(hub.root.querySelector(".bracket-canvas")).toBeTruthy();
+    expect(hub.root.querySelector(".bracket-finals")).toBeTruthy();
+    expect(hub.root.querySelector('[data-pyramid="bracket-region"][data-region="full"]')).toBeTruthy();
+    expect(hub.root.querySelectorAll("[data-pyramid='bracket-adv']").length).toBeGreaterThan(0);
+    // WIN appears once both conference champions are ADV'd into Finals.
+    expect(hub.root.querySelector(".bracket-finals")?.textContent).toMatch(/NBA Finals|WIN|TBD/);
+    const adv = hub.root.querySelector<HTMLElement>("[data-pyramid='bracket-adv']");
+    adv?.click();
+    expect(Object.keys(save.data.pyramid?.bracket?.winners ?? {}).length).toBeGreaterThan(0);
+
     hub.hide();
     host.remove();
   });

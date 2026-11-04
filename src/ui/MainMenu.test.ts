@@ -381,7 +381,7 @@ describe("MainMenu LEAGUE mode button", () => {
     expect(menu.root.querySelector('[data-id="league"]')).toBeNull();
     expect(menu.root.querySelector('[data-id="fixtures"]')).toBeNull();
     expect(menu.root.querySelector('[data-id="league-fixtures"]')?.textContent).toContain("League Fixtures");
-    expect(menu.root.querySelector('[data-id="predictions"]')?.textContent).toContain("Predictions");
+    expect(menu.root.querySelector('[data-id="predictions"]')?.textContent).toContain("Bracket");
     const ids = [...menu.root.querySelectorAll(".menu-item")].map((el) => el.getAttribute("data-id"));
     expect(ids.indexOf("miteam")).toBeGreaterThan(ids.indexOf("league-fixtures")!);
     expect(ids.indexOf("quick")).toBeGreaterThan(ids.indexOf("miteam")!);

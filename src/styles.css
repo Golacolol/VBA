@@ -6900,21 +6900,51 @@ button.pred-side:hover {
   font-size: 11px;
   letter-spacing: 0.06em;
 }
+/* POS A/B — label under the full card (outside the bordered cell). */
+.pyramid-cell-seat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: 0 1 auto;
+  width: min(
+    calc(148px * var(--tier-scale, 1)),
+    calc((100% - (var(--tier-count, 1) - 1) * 8px) / var(--tier-count, 1))
+  );
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.pyramid-cell-seat > .pyramid-cell {
+  width: 100%;
+  max-width: none;
+  flex: none;
+}
+.pyramid-tier.is-dense .pyramid-cell-seat {
+  width: min(128px, calc((100% - 48px) / 7));
+  min-width: 100px;
+  max-width: 140px;
+  flex: 0 1 auto;
+}
 .pyramid-cell-pos {
-  margin-top: 2px;
+  margin: 0;
+  padding: 0 2px;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.14em;
   line-height: 1;
-  color: rgba(62, 198, 255, 0.78);
+  color: rgba(62, 198, 255, 0.85);
   text-transform: uppercase;
+  text-align: center;
+  pointer-events: none;
 }
-.pyramid-cell.is-compact .pyramid-cell-pos {
+.pyramid-cell-seat .pyramid-cell.is-compact + .pyramid-cell-pos,
+.pyramid-cell-seat:has(.pyramid-cell.is-compact) .pyramid-cell-pos {
   font-size: 9px;
   letter-spacing: 0.1em;
 }
 .pyramid-tiers.is-positions .pyramid-tier {
-  align-items: flex-end;
+  align-items: flex-start;
 }
 .pyramid-tier {
   display: flex;
@@ -8232,5 +8262,225 @@ button.pred-side:hover {
     max-width: 100%;
     height: min(82vh, 860px);
     max-height: min(82vh, 860px);
+  }
+}
+
+/* ── Playoff Bracket (Pyramid hub tab) ─────────────────────────── */
+.bracket-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 8px 24px;
+  min-height: 0;
+}
+.bracket-hint {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: 0.03em;
+  opacity: 0.72;
+  max-width: 52rem;
+}
+.bracket-hint strong {
+  color: var(--gold, #c5a572);
+  font-weight: 700;
+}
+.bracket-canvas {
+  zoom: var(--pyramid-zoom, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.bracket-section-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold, #c5a572);
+}
+.bracket-playin {
+  border: 1px solid rgba(197, 165, 114, 0.22);
+  border-radius: 12px;
+  padding: 10px 12px 12px;
+  background: rgba(8, 12, 18, 0.55);
+}
+.bracket-playin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+.bracket-tree {
+  display: grid;
+  gap: 14px;
+  align-items: start;
+}
+.bracket-tree.is-full {
+  grid-template-columns: minmax(0, 1fr) minmax(160px, 220px) minmax(0, 1fr);
+}
+.bracket-tree.is-east,
+.bracket-tree.is-west {
+  grid-template-columns: 1fr;
+}
+.bracket-conf {
+  border: 1px solid rgba(197, 165, 114, 0.18);
+  border-radius: 12px;
+  padding: 10px 12px 14px;
+  background: rgba(8, 12, 18, 0.45);
+  min-width: 0;
+}
+.bracket-rounds {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+.bracket-round {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.bracket-round-label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  text-align: center;
+}
+.bracket-finals {
+  border: 1px solid rgba(197, 165, 114, 0.45);
+  border-radius: 12px;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(197, 165, 114, 0.12), rgba(8, 12, 18, 0.65));
+  align-self: center;
+}
+.bracket-match {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(12, 16, 24, 0.72);
+}
+.bracket-match.has-pick {
+  border-color: rgba(197, 165, 114, 0.4);
+}
+.bracket-match-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.bracket-sides {
+  display: grid;
+  gap: 4px;
+}
+.bracket-side {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+  padding: 4px 6px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+.bracket-side.is-on {
+  border-color: rgba(197, 165, 114, 0.55);
+  background: rgba(197, 165, 114, 0.12);
+}
+.bracket-side.is-empty {
+  opacity: 0.45;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  padding: 10px 6px;
+}
+.bracket-tbd {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+.bracket-abbr {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.bracket-crest.team-badge,
+.bracket-crest.bracket-crest-empty {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+}
+.bracket-crest-empty {
+  display: inline-block;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+.bracket-pick-btn {
+  margin: 0;
+  padding: 4px 8px;
+  border: 1px solid rgba(197, 165, 114, 0.35);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.bracket-pick-btn:hover {
+  border-color: rgba(197, 165, 114, 0.7);
+  background: rgba(197, 165, 114, 0.12);
+}
+.bracket-pick-btn.on {
+  border-color: rgba(197, 165, 114, 0.85);
+  background: rgba(197, 165, 114, 0.22);
+  color: var(--gold, #c5a572);
+}
+.bracket-score-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.bracket-score-row.is-disabled {
+  opacity: 0.35;
+}
+.bracket-score-hint {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.bracket-score-input {
+  width: 3.2em;
+  margin: 0;
+  padding: 3px 4px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  text-align: center;
+}
+.bracket-score-input:disabled {
+  cursor: default;
+}
+.bracket-score-sep {
+  opacity: 0.5;
+}
+@media (max-width: 1100px) {
+  .bracket-tree.is-full {
+    grid-template-columns: 1fr;
+  }
+  .bracket-rounds {
+    grid-template-columns: 1fr;
   }
 }

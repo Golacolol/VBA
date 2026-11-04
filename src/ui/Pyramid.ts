@@ -30,6 +30,23 @@ import {
   type PyramidViewId,
 } from "../football/pyramid/defaultPyramid";
 import {
+  blankBracketSave,
+  clearBracketWinners,
+  isBracketRegionView,
+  isPlayInMatch,
+  normalizeBracketSave,
+  resolveBracket,
+  seedTeamIds,
+  setBracketRegion,
+  setBracketScore,
+  setBracketWinner,
+  type BracketMatchId,
+  type BracketMatchup,
+  type BracketSave,
+  type BracketSeriesScore,
+  type ConferenceBracket,
+} from "../football/bracket/PlayoffBracket";
+import {
   addDraftSeat,
   applyDraftPick,
   autoFillDraft,
@@ -51,6 +68,7 @@ import {
   type DraftSave,
   type DraftSeat,
 } from "../football/pyramid/draft";
+import { standingsFor } from "../football/league/Standings";
 import { getFormation } from "../football/teams/Formation";
 import { MITEAM_FORMATION } from "../core/SaveManager";
 import { formationToPitchPercent, separatePitchMarkers } from "./CharacterSelect";
@@ -189,11 +207,15 @@ export class PyramidHub {
     window.removeEventListener("resize", this.onWindowResize);
   }
 
-  open(db: GameDatabase, save: SaveManager): void {
+  open(db: GameDatabase, save: SaveManager, opts?: { view?: PyramidViewId }): void {
     this.db = db;
     this.save = save;
     const known = new Set(db.players.keys());
     ensurePyramidSave(save, known);
+    if (opts?.view) {
+      const cur = ensurePyramidSave(save, known);
+      save.data.pyramid = { ...cur, view: opts.view };
+    }
     save.save();
     this.ringAngle = 0;
     this.viewZoom = this.state().view === "ring" ? RING_DEFAULT_ZOOM : 1;
@@ -220,6 +242,12 @@ export class PyramidHub {
           ? { ...cur.jerseyChoice }
           : undefined;
     const draft = patch.draft !== undefined ? patch.draft : cur.draft;
+    const bracket =
+      patch.bracket !== undefined
+        ? normalizeBracketSave(patch.bracket)
+        : cur.bracket
+          ? normalizeBracketSave(cur.bracket)
+          : undefined;
     this.save.data.pyramid = {
       size: PYRAMID_SIZE,
       order: patch.order ? [...patch.order] : [...cur.order],
@@ -228,6 +256,7 @@ export class PyramidHub {
       seedVersion: cur.seedVersion ?? PYRAMID_SEED_VERSION,
       ...(jerseyChoice && Object.keys(jerseyChoice).length ? { jerseyChoice } : {}),
       ...(draft ? { draft } : {}),
+      ...(bracket ? { bracket } : {}),
     };
     this.save.save();
   }
@@ -348,7 +377,11 @@ export class PyramidHub {
           <div class="pyramid-head-copy">
             <p class="pyramid-eyebrow">VORTEX</p>
             <h2>PYRAMID<span class="pyramid-goat" aria-hidden="true">🐐</span></h2>
-            <p class="pyramid-sub">Top ${PYRAMID_SIZE} ranked · #51–#${PYRAMID_SIZE + PYRAMID_POOL_SIZE} reserve (swap in · no Ring seat)</p>
+            <p class="pyramid-sub">${
+              view === "bracket"
+                ? "Playoff bracket from current standings · ADV / WIN · optional series score"
+                : `Top ${PYRAMID_SIZE} ranked · #51–#${PYRAMID_SIZE + PYRAMID_POOL_SIZE} reserve (swap in · no Ring seat)`
+            }</p>
           </div>
           <div class="pyramid-head-actions">
             ${
@@ -369,7 +402,16 @@ export class PyramidHub {
               )}>POS B</button>
               <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Rank order · centred wrap · #1 top centre then #2…")}>List</button>
             </div>`
-                : ""
+                : view === "bracket"
+                  ? (() => {
+                      const region = this.bracketState().region;
+                      return `<div class="pyramid-view-toggle pyramid-layout-toggle" role="group" aria-label="Bracket region">
+              <button type="button" class="pyramid-view-btn${region === "full" ? " on" : ""}" data-pyramid="bracket-region" data-region="full"${titleAttr("Full playoff bracket")}>Full</button>
+              <button type="button" class="pyramid-view-btn${region === "east" ? " on" : ""}" data-pyramid="bracket-region" data-region="east"${titleAttr("Eastern Conference")}>East</button>
+              <button type="button" class="pyramid-view-btn${region === "west" ? " on" : ""}" data-pyramid="bracket-region" data-region="west"${titleAttr("Western Conference")}>West</button>
+            </div>`;
+                    })()
+                  : ""
             }
             <div class="pyramid-zoom" role="group" aria-label="Zoom">
               <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-out" aria-label="Zoom out">−</button>
@@ -381,8 +423,11 @@ export class PyramidHub {
               <button type="button" class="pyramid-view-btn${view === "ring" ? " on" : ""}" data-pyramid="view" data-view="ring">Ring</button>
               <button type="button" class="pyramid-view-btn${view === "jersey" ? " on" : ""}" data-pyramid="view" data-view="jersey">Jersey</button>
               <button type="button" class="pyramid-view-btn${view === "draft" ? " on" : ""}" data-pyramid="view" data-view="draft">Draft</button>
+              <button type="button" class="pyramid-view-btn${view === "bracket" ? " on" : ""}" data-pyramid="view" data-view="bracket">Bracket</button>
             </div>
-            <button type="button" class="pyramid-btn ghost" data-pyramid="reset"${titleAttr("Restore default Top 50")}>Reset</button>
+            <button type="button" class="pyramid-btn ghost" data-pyramid="reset"${titleAttr(
+              view === "bracket" ? "Clear bracket picks" : "Restore default Top 50",
+            )}>Reset</button>
             <button type="button" class="pyramid-btn" data-pyramid="back">Back</button>
           </div>
         </header>
@@ -394,7 +439,9 @@ export class PyramidHub {
                 ? this.jerseyHtml()
                 : view === "draft"
                   ? this.draftHtml()
-                  : this.pyramidHtml()
+                  : view === "bracket"
+                    ? this.bracketHtml()
+                    : this.pyramidHtml()
           }
         </div>
       </div>
@@ -413,6 +460,7 @@ export class PyramidHub {
       this.stopRingSpin();
       if (view === "pyramid") this.bindPoolSearch();
       if (view === "draft") this.ensureDraftAiCatchUp();
+      if (view === "bracket") this.bindBracketScoreInputs();
     }
   }
 
@@ -433,11 +481,8 @@ export class PyramidHub {
     const list = opts?.list === true;
     const compact = opts?.compact === true && !list;
     const seat = (opts?.seat ?? "").trim().toUpperCase();
-    const seatHtml = seat
-      ? `<div class="pyramid-cell-pos" aria-label="Position ${escapeAttr(seat)}">${escapeHtml(seat)}</div>`
-      : "";
-    return `
-      <article class="pyramid-cell${compact ? " is-compact" : ""}${list ? " is-list-cell" : ""}${seat ? " has-pos" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}${seat ? ` · ${seat}` : ""}`)}>
+    const card = `
+      <article class="pyramid-cell${compact ? " is-compact" : ""}${list ? " is-list-cell" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}${seat ? ` · ${seat}` : ""}`)}>
         <div class="pyramid-cell-kit-row">
           <button type="button" class="pyramid-move" data-pyramid="up" data-index="${entry.index}" aria-label="Move up" draggable="false" ${entry.index === 0 ? "disabled" : ""}>↑</button>
           <div class="pyramid-cell-kit">${this.kitBadgeHtml(entry)}</div>
@@ -445,8 +490,15 @@ export class PyramidHub {
         </div>
         ${this.portraitHtml(entry)}
         <div class="pyramid-cell-rank">${entry.rank}</div>
-        ${seatHtml}
       </article>
+    `;
+    // POS A/B: seat label sits under the whole card, not on the portrait.
+    if (!seat) return card;
+    return `
+      <div class="pyramid-cell-seat">
+        ${card}
+        <div class="pyramid-cell-pos" aria-label="Position ${escapeAttr(seat)}">${escapeHtml(seat)}</div>
+      </div>
     `;
   }
 
@@ -660,6 +712,8 @@ export class PyramidHub {
     const orbit = this.root.querySelector<HTMLElement>(".pyramid-ring-orbit");
     if (stage) stage.style.setProperty("--ring-zoom", String(this.viewZoom));
     if (orbit) orbit.style.setProperty("--ring-angle", `${this.ringAngle}deg`);
+    const bracket = this.root.querySelector<HTMLElement>(".bracket-canvas");
+    if (bracket) bracket.style.setProperty("--pyramid-zoom", String(this.viewZoom));
     this.applyRingOrbitSize();
   }
 
@@ -743,6 +797,8 @@ export class PyramidHub {
           ? { ...existing, status: "ready" as const, pickIndex: 0 }
           : existing;
       this.persist({ view, draft });
+    } else if (view === "bracket") {
+      this.persist({ view, bracket: this.bracketState() });
     } else {
       this.persist({ view });
     }
@@ -810,6 +866,12 @@ export class PyramidHub {
   }
 
   private resetDefault(): void {
+    if (this.state().view === "bracket") {
+      const bracket = clearBracketWinners(this.bracketState());
+      this.persist({ bracket });
+      this.render();
+      return;
+    }
     const known = new Set(this.db.players.keys());
     const fresh = defaultPyramidSave();
     const next = ensurePyramidSave({ data: { pyramid: { ...fresh, view: this.state().view } }, save: () => {} }, known);
@@ -817,6 +879,165 @@ export class PyramidHub {
     this.save.data.pyramid = next;
     this.save.save();
     this.render();
+  }
+
+  private bracketState(): BracketSave {
+    return normalizeBracketSave(this.state().bracket ?? blankBracketSave());
+  }
+
+  private persistBracket(bracket: BracketSave): void {
+    this.persist({ bracket });
+  }
+
+  private bindBracketScoreInputs(): void {
+    this.root.querySelectorAll<HTMLInputElement>("[data-bracket-score]").forEach((input) => {
+      input.addEventListener("change", () => this.onBracketScoreChange(input));
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          input.blur();
+        }
+      });
+    });
+  }
+
+  private onBracketScoreChange(input: HTMLInputElement): void {
+    const matchId = input.getAttribute("data-match") as BracketMatchId | null;
+    const side = input.getAttribute("data-bracket-score");
+    if (!matchId || (side !== "winner" && side !== "loser")) return;
+    const winEl = this.root.querySelector<HTMLInputElement>(
+      `[data-bracket-match="${matchId}"] [data-bracket-score="winner"]`,
+    );
+    const loseEl = this.root.querySelector<HTMLInputElement>(
+      `[data-bracket-match="${matchId}"] [data-bracket-score="loser"]`,
+    );
+    const wRaw = (winEl?.value ?? "").trim();
+    const lRaw = (loseEl?.value ?? "").trim();
+    let score: BracketSeriesScore | null = null;
+    if (wRaw !== "" || lRaw !== "") {
+      const winner = wRaw === "" ? 0 : Number(wRaw);
+      const loser = lRaw === "" ? 0 : Number(lRaw);
+      if (Number.isFinite(winner) && Number.isFinite(loser) && winner >= 0 && loser >= 0) {
+        score = { winner: Math.round(winner), loser: Math.round(loser) };
+      }
+    }
+    this.persistBracket(setBracketScore(this.bracketState(), matchId, score));
+    // Avoid full re-render so the user can keep typing the other field.
+  }
+
+  private bracketHtml(): string {
+    const save = this.bracketState();
+    const eastRows = standingsFor(this.db.fixtures, [...this.db.teams.values()], "EAST");
+    const westRows = standingsFor(this.db.fixtures, [...this.db.teams.values()], "WEST");
+    const resolved = resolveBracket(seedTeamIds(eastRows), seedTeamIds(westRows), save);
+    const region = save.region;
+    const showEast = region === "full" || region === "east";
+    const showWest = region === "full" || region === "west";
+    const showFinals = region === "full";
+
+    return `
+      <div class="bracket-shell">
+        <p class="bracket-hint">Tap <strong>ADV</strong> to send a side through · optional score · <strong>WIN</strong> crowns the champion. Later rounds clear when you swap an earlier pick.</p>
+        <div class="bracket-canvas" style="--pyramid-zoom:${this.viewZoom}">
+          ${showEast ? this.bracketPlayInHtml(resolved.east, "East") : ""}
+          ${showWest ? this.bracketPlayInHtml(resolved.west, "West") : ""}
+          <div class="bracket-tree ${region === "full" ? "is-full" : region === "east" ? "is-east" : "is-west"}">
+            ${showEast ? this.bracketConferenceTreeHtml(resolved.east, "east") : ""}
+            ${showFinals ? this.bracketFinalsHtml(resolved.finals) : ""}
+            ${showWest ? this.bracketConferenceTreeHtml(resolved.west, "west") : ""}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private bracketPlayInHtml(conf: ConferenceBracket, title: string): string {
+    return `
+      <section class="bracket-playin" data-conf="${conf.conf}">
+        <h3 class="bracket-section-title">${escapeHtml(title)} Play-In</h3>
+        <div class="bracket-playin-grid">
+          ${this.bracketMatchHtml(conf.playIn78)}
+          ${this.bracketMatchHtml(conf.playIn910)}
+          ${this.bracketMatchHtml(conf.playIn8)}
+        </div>
+      </section>
+    `;
+  }
+
+  private bracketConferenceTreeHtml(conf: ConferenceBracket, side: "east" | "west"): string {
+    const label = side === "east" ? "East" : "West";
+    return `
+      <section class="bracket-conf bracket-conf-${side}">
+        <h3 class="bracket-section-title">${label}</h3>
+        <div class="bracket-rounds">
+          <div class="bracket-round">
+            <div class="bracket-round-label">R1</div>
+            ${conf.r1.map((m) => this.bracketMatchHtml(m)).join("")}
+          </div>
+          <div class="bracket-round">
+            <div class="bracket-round-label">Semis</div>
+            ${conf.sf.map((m) => this.bracketMatchHtml(m)).join("")}
+          </div>
+          <div class="bracket-round">
+            <div class="bracket-round-label">Finals</div>
+            ${this.bracketMatchHtml(conf.final)}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  private bracketFinalsHtml(match: BracketMatchup): string {
+    return `
+      <section class="bracket-finals">
+        <h3 class="bracket-section-title">NBA Finals</h3>
+        ${this.bracketMatchHtml(match)}
+      </section>
+    `;
+  }
+
+  private bracketMatchHtml(match: BracketMatchup): string {
+    const playIn = isPlayInMatch(match.id);
+    const scoreHint = playIn ? "Score (opt.)" : "Series (opt.)";
+    const scoreVal = match.score;
+    const canScore = !!match.winner;
+    return `
+      <article class="bracket-match${match.winner ? " has-pick" : ""}" data-bracket-match="${escapeAttr(match.id)}">
+        <div class="bracket-match-label">${escapeHtml(match.label)}</div>
+        <div class="bracket-sides">
+          ${this.bracketSideHtml(match, match.a, "a")}
+          ${this.bracketSideHtml(match, match.b, "b")}
+        </div>
+        <div class="bracket-score-row${canScore ? "" : " is-disabled"}">
+          <span class="bracket-score-hint">${scoreHint}</span>
+          <input type="number" min="0" max="${playIn ? 200 : 4}" inputmode="numeric" class="bracket-score-input" data-bracket-score="winner" data-match="${escapeAttr(match.id)}" value="${scoreVal ? escapeAttr(String(scoreVal.winner)) : ""}" placeholder="—" aria-label="Winner score" ${canScore ? "" : "disabled"}/>
+          <span class="bracket-score-sep">–</span>
+          <input type="number" min="0" max="${playIn ? 200 : 3}" inputmode="numeric" class="bracket-score-input" data-bracket-score="loser" data-match="${escapeAttr(match.id)}" value="${scoreVal ? escapeAttr(String(scoreVal.loser)) : ""}" placeholder="—" aria-label="Loser score" ${canScore ? "" : "disabled"}/>
+        </div>
+      </article>
+    `;
+  }
+
+  private bracketSideHtml(match: BracketMatchup, teamId: string | null, slot: "a" | "b"): string {
+    if (!teamId) {
+      return `<div class="bracket-side is-empty"><span class="bracket-tbd">TBD</span></div>`;
+    }
+    const team = this.db.teams.get(teamId);
+    const abbr = escapeHtml(team?.abbreviation || teamId);
+    const name = escapeHtml(team?.name || teamId);
+    const crest = team
+      ? teamBadgeHtml(team, { className: "bracket-crest", size: 28 })
+      : `<span class="bracket-crest bracket-crest-empty" aria-hidden="true"></span>`;
+    const on = match.winner === teamId;
+    const act = match.action === "win" ? "bracket-win" : "bracket-adv";
+    const label = match.action === "win" ? "WIN" : "ADV";
+    return `
+      <div class="bracket-side${on ? " is-on" : ""}" data-slot="${slot}">
+        ${crest}
+        <span class="bracket-abbr"${titleAttr(name)}>${abbr}</span>
+        <button type="button" class="bracket-pick-btn${on ? " on" : ""}" data-pyramid="${act}" data-match="${escapeAttr(match.id)}" data-team="${escapeAttr(teamId)}" aria-pressed="${on ? "true" : "false"}" aria-label="${label} ${name}">${label}</button>
+      </div>
+    `;
   }
 
   private move(index: number, dir: -1 | 1): void {
@@ -867,7 +1088,32 @@ export class PyramidHub {
     }
     if (act === "view") {
       const view = t.closest<HTMLElement>("[data-view]")?.getAttribute("data-view");
-      if (view === "pyramid" || view === "ring" || view === "jersey" || view === "draft") this.setView(view);
+      if (
+        view === "pyramid" ||
+        view === "ring" ||
+        view === "jersey" ||
+        view === "draft" ||
+        view === "bracket"
+      ) {
+        this.setView(view);
+      }
+      return;
+    }
+    if (act === "bracket-region") {
+      const region = t.closest<HTMLElement>("[data-region]")?.getAttribute("data-region");
+      if (!isBracketRegionView(region)) return;
+      this.persistBracket(setBracketRegion(this.bracketState(), region));
+      this.render();
+      return;
+    }
+    if (act === "bracket-adv" || act === "bracket-win") {
+      const matchId = t.closest<HTMLElement>("[data-match]")?.getAttribute("data-match") as BracketMatchId | null;
+      const teamId = t.closest<HTMLElement>("[data-team]")?.getAttribute("data-team");
+      if (!matchId || !teamId) return;
+      e.preventDefault();
+      e.stopPropagation();
+      this.persistBracket(setBracketWinner(this.bracketState(), matchId, teamId));
+      this.renderKeepingScroll();
       return;
     }
     if (act === "elevate") {
@@ -1656,6 +1902,11 @@ export class PyramidHub {
     // Pyramid list: let the body scroll naturally (do not steal the wheel).
     if (this.state().view === "pyramid") {
       if (t?.closest?.("[data-pyramid-scroll], .pyramid-body, .pyramid-tiers")) return;
+      return;
+    }
+    // Bracket: allow scroll; header ± still zooms.
+    if (this.state().view === "bracket") {
+      if (t?.closest?.("input, textarea, select, button")) return;
       return;
     }
     // Ring: wheel zooms when over the stage; otherwise leave alone.
