@@ -336,7 +336,7 @@ export class PyramidHub {
         <header class="pyramid-head">
           <div class="pyramid-head-copy">
             <p class="pyramid-eyebrow">VORTEX</p>
-            <h2>PYRAMID <span class="pyramid-goat" aria-hidden="true">🐐</span></h2>
+            <h2>PYRAMID<span class="pyramid-goat" aria-hidden="true">🐐</span></h2>
             <p class="pyramid-sub">Top ${PYRAMID_SIZE} ranked · #51–#${PYRAMID_SIZE + PYRAMID_POOL_SIZE} reserve (swap in · no Ring seat)</p>
           </div>
           <div class="pyramid-head-actions">
@@ -699,8 +699,16 @@ export class PyramidHub {
   }
 
   private setView(view: PyramidViewId): void {
-    if (view === "draft" && !this.state().draft) {
-      this.persist({ view, draft: restartDraft(null) });
+    if (view === "draft") {
+      this.clearDraftAiReveal();
+      const existing = this.state().draft ? normalizeDraftSave(this.state().draft) : restartDraft(null);
+      // Empty boards always open in the lobby — Start is required (no auto AI).
+      const empty = existing.seats.every((s) => s.roster.length === 0);
+      const draft =
+        empty || existing.status === "ready"
+          ? { ...existing, status: "ready" as const, pickIndex: 0 }
+          : existing;
+      this.persist({ view, draft });
     } else {
       this.persist({ view });
     }
@@ -708,6 +716,7 @@ export class PyramidHub {
     else this.viewZoom = 1;
     if (view !== "jersey") this.jerseyPick = null;
     if (view !== "draft") {
+      this.clearDraftAiReveal();
       this.draftInspectSeat = null;
       this.draftInspectPlayerId = null;
     }
@@ -729,6 +738,8 @@ export class PyramidHub {
     if (this.state().view !== "draft") return;
     if (this.draftAiReveal || this.draftInspectSeat != null) return;
     const before = this.draftState();
+    // Never run AI in the lobby — Start must flip status to "picking" first.
+    if (before.status !== "picking") return;
     const ctx = currentDraftPick(before);
     if (!ctx || ctx.seat.kind === "human" || before.status === "done") return;
     const best = chooseNeedsBasedPick(this.db, before, ctx);
@@ -1150,25 +1161,27 @@ export class PyramidHub {
           </article>`;
       })
       .join("");
-    // Lobby + human turn + AI flash keep the pool visible; otherwise wait / done copy.
-    const showBoard = lobby || revealing || (humanTurn && !!ctx);
-    const board = showBoard
-      ? (() => {
-          let list = draftCandidates(this.db, draft);
-          const flashId = revealing ? this.draftAiReveal!.playerId : null;
-          // Needs-based AI may pick outside the top-OVR window — pin that card on the board.
-          if (flashId && !list.some((sp) => sp.player.id === flashId)) {
-            const sp = this.resolveDraftSquadPlayer(flashId);
-            if (sp) list = [sp, ...list];
-          }
-          return (
-            list.map((sp) => this.draftCardHtml(sp, flashId, { pickable: !lobby && !flashId })).join("") ||
-            `<div class="pyramid-draft-empty">No players left in this filter.</div>`
-          );
-        })()
-      : draft.status === "done"
-        ? `<div class="pyramid-draft-empty">Draft complete — Restart to run again.</div>`
-        : `<div class="pyramid-draft-empty">Waiting on ${escapeHtml(ctx?.seat.name ?? "AI")}…</div>`;
+    // Human turn + AI flash show the capped BPA board. Lobby stays light (no card grid).
+    const showBoard = revealing || (humanTurn && !!ctx);
+    const board = lobby
+      ? `<div class="pyramid-draft-empty">Press <strong>Start</strong> to open the board and begin the snake draft.</div>`
+      : showBoard
+        ? (() => {
+            let list = draftCandidates(this.db, draft);
+            const flashId = revealing ? this.draftAiReveal!.playerId : null;
+            // Needs-based AI may pick outside the top-OVR window — pin that card on the board.
+            if (flashId && !list.some((sp) => sp.player.id === flashId)) {
+              const sp = this.resolveDraftSquadPlayer(flashId);
+              if (sp) list = [sp, ...list];
+            }
+            return (
+              list.map((sp) => this.draftCardHtml(sp, flashId, { pickable: !flashId })).join("") ||
+              `<div class="pyramid-draft-empty">No players left in this filter.</div>`
+            );
+          })()
+        : draft.status === "done"
+          ? `<div class="pyramid-draft-empty">Draft complete — Restart to run again.</div>`
+          : `<div class="pyramid-draft-empty">Waiting on ${escapeHtml(ctx?.seat.name ?? "AI")}…</div>`;
     const firstName = draft.seats[draft.firstSeat]?.name ?? "—";
     const statusLine = revealing
       ? `${escapeHtml(this.draftAiReveal!.seatName)} selects`

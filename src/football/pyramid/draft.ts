@@ -19,10 +19,10 @@ export const DRAFT_DEFAULT_SEATS = 5;
 export const DRAFT_MIN_SEATS = 2;
 export const DRAFT_MAX_SEATS = 8;
 /**
- * Soft cap for the undrafted card grid. Prefer the full identity-collapsed pool;
- * 150 is the floor we always try to expose when the DB is larger.
+ * Soft cap for the undrafted card grid. Uncapped Infinity freezes the hub
+ * (thousands of player-card DOM nodes per render / pick).
  */
-export const DRAFT_CANDIDATE_LIMIT = Number.POSITIVE_INFINITY;
+export const DRAFT_CANDIDATE_LIMIT = 150;
 /** Larger pool when AI / auto-fill scores by roster need. */
 export const DRAFT_AI_POOL_LIMIT = 160;
 
