@@ -18,6 +18,7 @@ import {
   PYRAMID_SIZE,
   PYRAMID_TIER_COUNTS,
   PYRAMID_TIER_PATTERNS,
+  PYRAMID_POSITION_TEAM_COUNTS,
   pyramidPositionTeamRows,
   pyramidTierRows,
   pyramidTierScalesFor,
@@ -103,6 +104,11 @@ export class PyramidHub {
   private viewZoom = 1;
   /** Pyramid view display pattern (row widths / list). Rank order unchanged. */
   private pyramidDisplay: PyramidTierPatternId = "steps";
+  /**
+   * 1-5-10 toggle: false = #1 alone on top; true = #1 seated in the top five
+   * and teams reshuffled. Clicking 1-5-10 again flips this.
+   */
+  private positionsApexInTopTeam = false;
   private ringDragging = false;
   private ringLastX = 0;
   private ringRaf = 0;
@@ -321,7 +327,11 @@ export class PyramidHub {
               <button type="button" class="pyramid-view-btn${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps"${titleAttr("1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>Steps</button>
               <button type="button" class="pyramid-view-btn${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds"${titleAttr("1 · 3 · 5 · 7 · 9 · 11 · 14")}>1-3-5</button>
               <button type="button" class="pyramid-view-btn${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib"${titleAttr("Fibonacci 1 · 2 · 3 · 5 · 8 · 13 · 18")}>Fib</button>
-              <button type="button" class="pyramid-view-btn${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions"${titleAttr("Best available teams: #1 · 5 (one per pos) · 10s (two per pos)")}>1-5-10</button>
+              <button type="button" class="pyramid-view-btn${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions"${titleAttr(
+                this.positionsApexInTopTeam
+                  ? "Click again: #1 alone on top · then 5 · 10s"
+                  : "Click again: fold #1 into the top five · then 10s",
+              )}>${this.positionsApexInTopTeam ? "5-10" : "1-5-10"}</button>
               <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Rank order · centred rows · 1 then 2 then 3…")}>List</button>
             </div>`
                 : ""
@@ -464,7 +474,11 @@ export class PyramidHub {
     const listMode = this.pyramidDisplay === "list";
     const positionsMode = this.pyramidDisplay === "positions";
     const patternCounts = positionsMode ? null : PYRAMID_TIER_PATTERNS[this.pyramidDisplay];
-    const positionCounts = positionsMode ? PYRAMID_TIER_PATTERNS.positions : null;
+    const positionCounts = positionsMode
+      ? this.positionsApexInTopTeam
+        ? PYRAMID_POSITION_TEAM_COUNTS
+        : PYRAMID_TIER_PATTERNS.positions
+      : null;
     const scales = pyramidTierScalesFor(positionCounts ?? patternCounts ?? PYRAMID_TIER_COUNTS);
 
     const renderTierRows = (
@@ -509,7 +523,10 @@ export class PyramidHub {
         })
         .join("");
     } else if (positionsMode) {
-      const rows = pyramidPositionTeamRows(st.order, (id) => byId.get(id)?.position);
+      const rows = pyramidPositionTeamRows(st.order, (id) => byId.get(id)?.position, {
+        apexInTopTeam: this.positionsApexInTopTeam,
+        counts: positionCounts ?? undefined,
+      });
       tiers = renderTierRows(rows, { legendOnBalanced: true });
     } else {
       tiers = renderTierRows(pyramidTierRows(st.order, patternCounts ?? undefined));
@@ -778,8 +795,15 @@ export class PyramidHub {
       e.stopPropagation();
       const layout = t.closest<HTMLElement>("[data-layout]")?.getAttribute("data-layout");
       if (!isPyramidTierPatternId(layout)) return;
+      if (layout === "positions" && this.pyramidDisplay === "positions") {
+        // Same control toggles #1 alone ↔ #1 inside the top five.
+        this.positionsApexInTopTeam = !this.positionsApexInTopTeam;
+        this.renderKeepingScroll();
+        return;
+      }
       if (this.pyramidDisplay === layout) return;
       this.pyramidDisplay = layout;
+      if (layout === "positions") this.positionsApexInTopTeam = false;
       this.renderKeepingScroll();
       return;
     }

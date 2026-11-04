@@ -6563,9 +6563,11 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   flex-wrap: nowrap;
   justify-content: center;
   align-items: stretch;
-  gap: 8px;
+  /* Tighten gaps on wide base rows so 14 cells fit without arrow overflow. */
+  gap: clamp(3px, calc(10px - var(--tier-count, 1) * 0.35px), 8px);
   width: 100%;
   box-sizing: border-box;
+  min-width: 0;
 }
 .pyramid-cell {
   position: relative;
@@ -6575,7 +6577,9 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
     calc(148px * var(--tier-scale, 1)),
     calc((100% - (var(--tier-count, 1) - 1) * 8px) / var(--tier-count, 1))
   );
-  min-width: 84px;
+  /* Dense bottom rows (e.g. 14 across) must shrink below the old 84px floor. */
+  min-width: 0;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6587,6 +6591,9 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   cursor: grab;
   user-select: none;
   box-sizing: border-box;
+  overflow: hidden;
+  container-type: inline-size;
+  container-name: pyramid-cell;
 }
 /* List layout — centred wrap in rank order (1, 2, 3…). */
 .pyramid-tiers.is-list {
@@ -6619,8 +6626,8 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   height: 48px;
 }
 .pyramid-cell.is-compact {
-  padding: 8px 4px 6px;
-  gap: 4px;
+  padding: 6px 2px 5px;
+  gap: 3px;
 }
 .pyramid-cell.is-dragging {
   opacity: 0.45;
@@ -6695,21 +6702,26 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: clamp(1px, 2.5cqw, 4px);
   width: 100%;
+  min-width: 0;
   order: 0;
+  box-sizing: border-box;
 }
 .pyramid-cell .pyramid-cell-photo {
   order: 1;
 }
 .pyramid-cell-kit {
-  flex: 0 0 auto;
-  width: 52px;
-  height: 52px;
+  flex: 0 1 auto;
+  width: clamp(28px, 42cqw, 52px);
+  height: clamp(28px, 42cqw, 52px);
+  min-width: 0;
+  max-width: 45%;
 }
 .pyramid-cell.is-compact .pyramid-cell-kit {
-  width: 44px;
-  height: 44px;
+  width: clamp(24px, 38cqw, 44px);
+  height: clamp(24px, 38cqw, 44px);
+  max-width: 42%;
 }
 .pyramid-kit-badge.kit-marker-roster {
   --roster-marker: 100%;
@@ -6797,8 +6809,10 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 }
 .pyramid-move {
   flex: 0 0 auto;
-  width: 24px;
-  height: 24px;
+  /* Scale with cell width so ↑↓ stay inside dense rows (37–50 / 14-across). */
+  width: clamp(12px, 16cqw, 24px);
+  height: clamp(12px, 16cqw, 24px);
+  min-width: 0;
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.06);
@@ -6806,9 +6820,15 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   cursor: pointer;
   line-height: 1;
   padding: 0;
-  font-size: 13px;
+  font-size: clamp(8px, 11cqw, 13px);
   display: inline-grid;
   place-items: center;
+  box-sizing: border-box;
+}
+.pyramid-cell.is-compact .pyramid-move {
+  width: clamp(11px, 14cqw, 22px);
+  height: clamp(11px, 14cqw, 22px);
+  font-size: clamp(7px, 10cqw, 12px);
 }
 .pyramid-move:disabled {
   opacity: 0.25;

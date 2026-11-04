@@ -37,6 +37,12 @@ export const PYRAMID_TIER_PATTERNS: Record<PyramidTierPatternId, readonly number
   list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 5],
 };
 
+/**
+ * 1-5-10 with #1 folded into the top five (no solo apex): 5 · 10 · 10 · 10 · 15.
+ * Toggle via the 1-5-10 control — see {@link pyramidPositionTeamRows}.
+ */
+export const PYRAMID_POSITION_TEAM_COUNTS = [5, 10, 10, 10, 15] as const;
+
 export function isPyramidTierPatternId(v: unknown): v is PyramidTierPatternId {
   return typeof v === "string" && (PYRAMID_TIER_PATTERN_IDS as readonly string[]).includes(v);
 }
@@ -437,17 +443,36 @@ export function normalizeRingPosition(raw: string | undefined | null): PyramidRi
   return "SF";
 }
 
+export type PyramidPositionTeamOpts = {
+  /**
+   * When true, fold pyramid #1 into the first balanced five (no solo apex row).
+   * When false (default), #1 stays alone on top and teams deal from #2 onward.
+   */
+  apexInTopTeam?: boolean;
+  counts?: readonly number[];
+};
+
 /**
- * 1-5-10 display: keep pyramid #1 at the apex, then deal remaining players into
- * balanced “best available” lineups by primary position (PG→C), greedy by rank.
- * Tier of 5 → one each; tier of 10 → two each (lineup, then second unit); other
- * widths take as many full five-man rounds as fit, then leftover by rank.
+ * 1-5-10 display: deal players into balanced “best available” lineups by primary
+ * position (PG→C), greedy by rank. Tier of 5 → one each; tier of 10 → two each;
+ * other widths take as many full five-man rounds as fit, then leftover by rank.
+ *
+ * Default keeps #1 alone at the apex. With `apexInTopTeam`, #1 seats in the top
+ * five at their position and the remaining teams reshuffle from what’s left.
  */
 export function pyramidPositionTeamRows(
   order: readonly string[],
   positionOf: (playerId: string) => string | undefined | null,
-  counts: readonly number[] = PYRAMID_TIER_PATTERNS.positions,
+  countsOrOpts: readonly number[] | PyramidPositionTeamOpts = PYRAMID_TIER_PATTERNS.positions,
 ): PyramidTierRow[] {
+  const opts: PyramidPositionTeamOpts = Array.isArray(countsOrOpts)
+    ? { counts: countsOrOpts }
+    : countsOrOpts;
+  const apexInTopTeam = opts.apexInTopTeam === true;
+  const counts =
+    opts.counts ??
+    (apexInTopTeam ? PYRAMID_POSITION_TEAM_COUNTS : PYRAMID_TIER_PATTERNS.positions);
+
   type Seat = { rank: number; playerId: string; index: number; pos: PyramidRingPosition };
   const remaining: Seat[] = order.map((playerId, index) => ({
     playerId,
@@ -474,27 +499,31 @@ export function pyramidPositionTeamRows(
     return round;
   };
 
+  const fillTeamTier = (need: number, entries: PyramidTierRow["entries"]): void => {
+    const fullRounds = Math.floor(need / PYRAMID_RING_POSITIONS.length);
+    for (let r = 0; r < fullRounds; r++) {
+      for (const seat of takeBalancedRound()) {
+        entries.push({ rank: seat.rank, playerId: seat.playerId, index: seat.index });
+      }
+    }
+    while (entries.length < need) {
+      const seat = takeBest();
+      if (!seat) break;
+      entries.push({ rank: seat.rank, playerId: seat.playerId, index: seat.index });
+    }
+  };
+
   const rows: PyramidTierRow[] = [];
   for (let t = 0; t < counts.length; t++) {
     const need = counts[t]!;
     const entries: PyramidTierRow["entries"] = [];
 
-    if (t === 0) {
-      // Apex is always current pyramid #1 (rank order), not re-picked by position.
+    if (t === 0 && !apexInTopTeam && need === 1) {
+      // Solo apex is current pyramid #1 (rank order), not re-picked by position.
       const apex = remaining.shift();
       if (apex) entries.push({ rank: apex.rank, playerId: apex.playerId, index: apex.index });
     } else {
-      const fullRounds = Math.floor(need / PYRAMID_RING_POSITIONS.length);
-      for (let r = 0; r < fullRounds; r++) {
-        for (const seat of takeBalancedRound()) {
-          entries.push({ rank: seat.rank, playerId: seat.playerId, index: seat.index });
-        }
-      }
-      while (entries.length < need) {
-        const seat = takeBest();
-        if (!seat) break;
-        entries.push({ rank: seat.rank, playerId: seat.playerId, index: seat.index });
-      }
+      fillTeamTier(need, entries);
     }
 
     if (entries.length) rows.push({ tier: t + 1, entries });

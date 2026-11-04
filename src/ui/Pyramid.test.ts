@@ -135,6 +135,27 @@ describe("PyramidHub", () => {
     const fibTiers = [...hub.root.querySelectorAll(".pyramid-tiers .pyramid-tier")];
     expect(fibTiers.map((el) => el.querySelectorAll(".pyramid-cell").length)).toEqual([1, 2, 3, 5, 8, 13, 18]);
 
+    hub.root.querySelector<HTMLElement>('[data-pyramid="layout"][data-layout="positions"]')?.click();
+    expect(hub.root.querySelector(".pyramid-tiers.is-positions")).toBeTruthy();
+    const solo = [...hub.root.querySelectorAll(".pyramid-tiers.is-positions .pyramid-tier")];
+    expect(solo.map((el) => el.querySelectorAll(".pyramid-cell").length)).toEqual([1, 5, 10, 10, 10, 14]);
+    expect(hub.root.querySelector('[data-layout="positions"]')?.textContent).toBe("1-5-10");
+
+    // Same control folds #1 into the top five and reshuffles team rows.
+    hub.root.querySelector<HTMLElement>('[data-pyramid="layout"][data-layout="positions"]')?.click();
+    expect(hub.root.querySelector('[data-layout="positions"]')?.textContent).toBe("5-10");
+    const folded = [...hub.root.querySelectorAll(".pyramid-tiers.is-positions .pyramid-tier")];
+    expect(folded.map((el) => el.querySelectorAll(".pyramid-cell").length)).toEqual([5, 10, 10, 10, 15]);
+    expect(folded[0]?.querySelector(".pyramid-cell-rank")?.textContent).toBeTruthy();
+
+    hub.root.querySelector<HTMLElement>('[data-pyramid="layout"][data-layout="positions"]')?.click();
+    expect(hub.root.querySelector('[data-layout="positions"]')?.textContent).toBe("1-5-10");
+    expect(
+      [...hub.root.querySelectorAll(".pyramid-tiers.is-positions .pyramid-tier")].map(
+        (el) => el.querySelectorAll(".pyramid-cell").length,
+      ),
+    ).toEqual([1, 5, 10, 10, 10, 14]);
+
     hub.hide();
     host.remove();
   });

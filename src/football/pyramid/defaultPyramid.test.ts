@@ -15,6 +15,7 @@ import {
   PYRAMID_TIER_COUNTS,
   PYRAMID_TIER_PATTERNS,
   PYRAMID_TIER_SCALES,
+  PYRAMID_POSITION_TEAM_COUNTS,
   pyramidPositionTeamRows,
   pyramidTierRows,
   swapPyramidNeighbor,
@@ -123,6 +124,18 @@ describe("defaultPyramid", () => {
       ["G", "K", "H", "I", "J"],
     ]);
     expect(rows.flatMap((r) => r.entries).map((e) => e.playerId).sort()).toEqual([...order].sort());
+
+    // Fold #1 into the top five — A (SG) seats at SG; teams reshuffle.
+    const folded = pyramidPositionTeamRows(order, (id) => pos.get(id), {
+      apexInTopTeam: true,
+      counts: [5, 5],
+    });
+    expect(folded.map((r) => r.entries.map((e) => e.playerId))).toEqual([
+      ["B", "A", "D", "E", "C"], // PG · SG(#1) · SF · PF · C
+      ["G", "F", "H", "I", "J"],
+      ["K"], // leftover after two fives
+    ]);
+    expect(PYRAMID_POSITION_TEAM_COUNTS.reduce((a, b) => a + b, 0)).toBe(PYRAMID_SIZE);
   });
 
   it("seeds Kobe as 2009/10 #24 form, not 2000/01 #8", () => {
