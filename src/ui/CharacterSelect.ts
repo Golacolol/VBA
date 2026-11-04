@@ -2424,6 +2424,7 @@ export class CharacterSelect {
                 : ""
             }
             ${this.quickMatch && this.formationSide === "away" ? oppositionPicker : ""}
+            <button type="button" class="formation-chip chalk-chip${this.chalkMode ? " on" : ""}" data-char="chalk" aria-pressed="${this.chalkMode ? "true" : "false"}"${titleAttr("Chalk board — draw on the court · right-click to clear")}>CHALK</button>
             <span class="formation-chip formation-chip-static on" aria-label="Formation">BASKETBALL 5</span>
           </div>
           ${spotHint}

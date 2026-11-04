@@ -27374,7 +27374,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Derek Fisher",
-      "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/165.png"
+      "portraitAsset": "/assets/portraits/classic/derek-fisher.png"
     },
     "finishing": 78,
     "midRange": 78,
@@ -50524,7 +50524,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Derek Fisher",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/965.png"
+      "portraitAsset": "/assets/portraits/classic/derek-fisher.png"
     },
     "finishing": 77,
     "midRange": 78,
@@ -50665,7 +50665,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Pau Gasol",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2225.png"
+      "portraitAsset": "/assets/portraits/classic/pau-gasol.png"
     },
     "finishing": 89,
     "midRange": 87,
@@ -50900,7 +50900,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Luke Walton",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2575.png"
+      "portraitAsset": "/assets/portraits/classic/luke-walton.png"
     },
     "finishing": 75,
     "midRange": 74,

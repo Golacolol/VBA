@@ -96,6 +96,7 @@ describe("character select", () => {
     expect(view.root.querySelector('[data-char="form-side"]')).toBeNull();
     expect(view.root.textContent).toContain("BASKETBALL 5");
     expect(view.root.querySelector(".team-pitch-chalk")).toBeTruthy();
+    expect(view.root.querySelector('[data-char="chalk"]')?.textContent).toBe("CHALK");
     expect(view.formation).toBe("BASKETBALL_5");
   });
 
