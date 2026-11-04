@@ -24,7 +24,7 @@ export const CLASSIC_PEAK_OVR = {
   "Wilt Chamberlain": 95,
   "Bill Russell": 95,
   "Stephen Curry": 95,
-  "Hakeem Olajuwon": 94,
+  "Hakeem Olajuwon": 95,
   "Kevin Durant": 94,
   "Giannis Antetokounmpo": 94,
   "Julius Erving": 93,
@@ -50,7 +50,8 @@ export const CLASSIC_PEAK_OVR = {
   "Allen Iverson": 90,
   "Russell Westbrook": 89,
   "James Harden": 90,
-  "Nikola Jokic": 95,
+  // Still active — peak held at 93 until the full career is on the books.
+  "Nikola Jokic": 93,
   "Anthony Davis": 90,
   // Championship supporting stars
   "Dennis Rodman": 88,

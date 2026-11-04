@@ -51,7 +51,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 6;
+export const PYRAMID_SEED_VERSION = 7;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -76,8 +76,8 @@ export type PyramidRingPosition = (typeof PYRAMID_RING_POSITIONS)[number];
  * Ids must exist in `public/data/players.json`.
  *
  * Order follows peak OVR bands, then resume/era tie-breaks — not pure sort
- * (e.g. Wilt/Russell stay ahead of later 95s). Equal peaks: Curry leads the
- * post-Shaq 95 band at #10 (same 95 as Duncan; above Hakeem’s 94).
+ * (e.g. Wilt/Russell stay ahead of later 95s). Post-Shaq 95s: Curry #10,
+ * Olajuwon #11, Duncan #12. Jokic held at 93 while still active.
  */
 export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_chi_1995_96_p02", // 1 Michael Jordan (99)
@@ -89,17 +89,17 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_bos_1964_65_p05", // 7 Bill Russell (95)
   "classic_lal_2009_10_p02", // 8 Kobe Bryant — 2009/10 kit #24 (not 2000/01 #8) (96)
   "classic_lal_2000_01_p05", // 9 Shaquille O'Neal (95)
-  "classic_gsw_2016_17_p01", // 10 Stephen Curry (95) — tie-break over Duncan in this band
-  "classic_sas_1998_99_p04", // 11 Tim Duncan (95)
-  "classic_den_2022_23_p05", // 12 Nikola Jokic (95)
-  "classic_hou_1994_95_p05", // 13 Hakeem Olajuwon (94)
-  "classic_mil_2020_21_p03", // 14 Giannis Antetokounmpo (94)
-  "classic_gsw_2016_17_p03", // 15 Kevin Durant (94)
-  "classic_cin_1963_64_p01", // 16 Oscar Robertson
-  "classic_lal_1971_72_p01", // 17 Jerry West
-  "classic_phi_1982_83_p03", // 18 Julius Erving
-  "classic_phi_1982_83_p05", // 19 Moses Malone
-  "classic_bos_2007_08_p04", // 20 Kevin Garnett
+  "classic_gsw_2016_17_p01", // 10 Stephen Curry (95)
+  "classic_hou_1994_95_p05", // 11 Hakeem Olajuwon (95)
+  "classic_sas_1998_99_p04", // 12 Tim Duncan (95)
+  "classic_mil_2020_21_p03", // 13 Giannis Antetokounmpo (94)
+  "classic_gsw_2016_17_p03", // 14 Kevin Durant (94)
+  "classic_cin_1963_64_p01", // 15 Oscar Robertson (94)
+  "classic_lal_1971_72_p01", // 16 Jerry West (93)
+  "classic_den_2022_23_p05", // 17 Nikola Jokic (93 — active career)
+  "classic_phi_1982_83_p03", // 18 Julius Erving (93)
+  "classic_phi_1982_83_p05", // 19 Moses Malone (93)
+  "classic_bos_2007_08_p04", // 20 Kevin Garnett (93)
   "classic_dal_2010_11_p04", // 21 Dirk Nowitzki
   "classic_mia_2012_13_p02", // 22 Dwyane Wade
   "classic_phx_1992_93_p04", // 23 Charles Barkley

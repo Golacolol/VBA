@@ -171,14 +171,17 @@ describe("defaultPyramid", () => {
       pool: DEFAULT_PYRAMID_POOL,
       view: "ring",
       size: 50,
-      seedVersion: 6,
+      seedVersion: 7,
     });
     expect(save.view).toBe("ring");
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(6);
+    expect(defaultPyramidSave().seedVersion).toBe(7);
     expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
+    expect(DEFAULT_PYRAMID_ORDER[10]).toBe("classic_hou_1994_95_p05"); // Olajuwon #11
+    expect(DEFAULT_PYRAMID_ORDER[15]).toBe("classic_lal_1971_72_p01"); // West #16
+    expect(DEFAULT_PYRAMID_ORDER[16]).toBe("classic_den_2022_23_p05"); // Jokic #17 (93 active)
   });
 
   it("replaces a stale seed with the curated Top 50", () => {
@@ -195,7 +198,8 @@ describe("defaultPyramid", () => {
     expect(stale.order).toContain("classic_orl_1994_95_p01");
     expect(stale.order).toContain("classic_lal_2009_10_p04");
     expect(stale.order).toContain("classic_lal_2009_10_p02");
-    expect(stale.seedVersion).toBe(6);
+    expect(stale.seedVersion).toBe(7);
     expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
+    expect(stale.order[10]).toBe("classic_hou_1994_95_p05");
   });
 });
