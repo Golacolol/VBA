@@ -16,6 +16,7 @@ import {
   PYRAMID_RING_POSITIONS,
   PYRAMID_SEED_VERSION,
   PYRAMID_SIZE,
+  PYRAMID_TIER_COUNTS,
   PYRAMID_TIER_PATTERNS,
   pyramidPositionTeamRows,
   pyramidTierRows,
@@ -391,7 +392,7 @@ export class PyramidHub {
           <button type="button" class="pyramid-move" data-pyramid="down" data-index="${entry.index}" aria-label="Move down" draggable="false" ${entry.index >= PYRAMID_SIZE - 1 ? "disabled" : ""}>↓</button>
         </div>
         ${this.portraitHtml(entry)}
-        <div class="pyramid-cell-rank">#${entry.rank}</div>
+        <div class="pyramid-cell-rank">${entry.rank}</div>
       </article>
     `;
   }
@@ -406,7 +407,7 @@ export class PyramidHub {
           <span class="pyramid-pool-tag">IN</span>
         </div>
         ${this.portraitHtml(entry)}
-        <div class="pyramid-cell-rank">#${rank}</div>
+        <div class="pyramid-cell-rank">${rank}</div>
       </article>
     `;
   }
@@ -539,7 +540,7 @@ export class PyramidHub {
         <div class="pyramid-ring-card-kit">${this.kitBadgeHtml(entry)}</div>
         ${this.portraitHtml(entry)}
         <button type="button" class="pyramid-ring-bound" data-pyramid="down" data-index="${entry.index}" aria-label="Move down a rank" draggable="false" ${downDisabled}>↓</button>
-        <div class="pyramid-ring-card-rank">#${entry.rank}</div>
+        <div class="pyramid-ring-card-rank">${entry.rank}</div>
       </div>
     `;
   }

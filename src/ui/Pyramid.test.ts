@@ -39,7 +39,7 @@ describe("PyramidHub", () => {
     expect(hub.root.classList.contains("open")).toBe(true);
     expect(hub.root.querySelectorAll('.pyramid-cell[data-pyramid-zone="order"]')).toHaveLength(PYRAMID_SIZE);
     expect(hub.root.querySelectorAll(".pyramid-pool-cell")).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(hub.root.querySelector(".pyramid-pool-cell .pyramid-cell-rank")?.textContent).toBe("#51");
+    expect(hub.root.querySelector(".pyramid-pool-cell .pyramid-cell-rank")?.textContent).toBe("51");
     expect(hub.root.querySelector("[data-pyramid-search]")).toBeTruthy();
     expect(hub.root.querySelector(".pyramid-cell-kit-row")).toBeTruthy();
     expect(hub.root.querySelector(".pyramid-zoom [data-pyramid='zoom-in']")).toBeTruthy();
@@ -110,5 +110,23 @@ describe("PyramidHub", () => {
     const db = await GameDatabase.load(new SaveManager());
     const missing = [...DEFAULT_PYRAMID_ORDER, ...DEFAULT_PYRAMID_POOL].filter((id) => !db.players.has(id));
     expect(missing).toEqual([]);
+  });
+
+  it("switches layout to list from the List control", async () => {
+    const db = await GameDatabase.load(new SaveManager());
+    const save = new SaveManager();
+    const host = document.createElement("div");
+    document.body.appendChild(host);
+    const hub = new PyramidHub(host);
+    hub.open(db, save);
+
+    hub.root.querySelector<HTMLElement>('[data-pyramid="layout"][data-layout="list"]')?.click();
+    expect(hub.root.querySelector(".pyramid-tiers.is-list")).toBeTruthy();
+    expect(hub.root.querySelector(".pyramid-list-apex")).toBeTruthy();
+    expect(hub.root.querySelector(".pyramid-list-flow")).toBeTruthy();
+    expect(hub.root.querySelector('[data-layout="list"]')?.classList.contains("on")).toBe(true);
+
+    hub.hide();
+    host.remove();
   });
 });
