@@ -28,7 +28,10 @@ export const PYRAMID_TIER_PATTERNS: Record<Exclude<PyramidTierPatternId, "list">
   odds: [1, 3, 5, 7, 9, 11, 14],
   /** Fibonacci 1, 1, 2, 3, 5, 8, 13, then remainder. */
   fib: [1, 1, 2, 3, 5, 8, 13, 17],
-  /** #1, five (positions), then tens, then remainder. */
+  /**
+   * #1 apex, then best available 5-man (one per position), then 10s
+   * (two per position), then remainder — see {@link pyramidPositionTeamRows}.
+   */
   positions: [1, 5, 10, 10, 10, 14],
 };
 
@@ -84,7 +87,7 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_bos_1985_86_p03", // 5 Larry Bird (96)
   "classic_lal_1971_72_p05", // 6 Wilt Chamberlain (95)
   "classic_bos_1964_65_p05", // 7 Bill Russell (95)
-  "classic_lal_2009_10_p02", // 8 Kobe Bryant (#24, 2009/10 — omit 2000/01 #8 duplicate) (96)
+  "classic_lal_2009_10_p02", // 8 Kobe Bryant — 2009/10 kit #24 (not 2000/01 #8) (96)
   "classic_lal_2000_01_p05", // 9 Shaquille O'Neal (95)
   "classic_gsw_2016_17_p01", // 10 Stephen Curry (95) — tie-break over Duncan in this band
   "classic_sas_1998_99_p04", // 11 Tim Duncan (95)
@@ -422,10 +425,86 @@ export type PyramidRingSlot = {
   scale: number;
 };
 
-function normalizeRingPosition(raw: string | undefined | null): PyramidRingPosition {
+export function normalizeRingPosition(raw: string | undefined | null): PyramidRingPosition {
   const p = (raw ?? "").toUpperCase();
   if (p === "PG" || p === "SG" || p === "SF" || p === "PF" || p === "C") return p;
+  // Basketball secondaries / football leftovers → nearest ring wedge.
+  if (p === "G" || p === "PG/SG") return "PG";
+  if (p === "F" || p === "SF/PF") return "SF";
+  if (p === "FC" || p === "PF/C") return "PF";
   return "SF";
+}
+
+/**
+ * 1-5-10 display: keep pyramid #1 at the apex, then deal remaining players into
+ * balanced “best available” lineups by primary position (PG→C), greedy by rank.
+ * Tier of 5 → one each; tier of 10 → two each (lineup, then second unit); other
+ * widths take as many full five-man rounds as fit, then leftover by rank.
+ */
+export function pyramidPositionTeamRows(
+  order: readonly string[],
+  positionOf: (playerId: string) => string | undefined | null,
+  counts: readonly number[] = PYRAMID_TIER_PATTERNS.positions,
+): PyramidTierRow[] {
+  type Seat = { rank: number; playerId: string; index: number; pos: PyramidRingPosition };
+  const remaining: Seat[] = order.map((playerId, index) => ({
+    playerId,
+    rank: index + 1,
+    index,
+    pos: normalizeRingPosition(positionOf(playerId)),
+  }));
+
+  const takeBest = (pos?: PyramidRingPosition): Seat | null => {
+    if (!remaining.length) return null;
+    if (pos) {
+      const i = remaining.findIndex((s) => s.pos === pos);
+      if (i >= 0) return remaining.splice(i, 1)[0] ?? null;
+    }
+    return remaining.shift() ?? null;
+  };
+
+  const takeBalancedRound = (): Seat[] => {
+    const round: Seat[] = [];
+    for (const pos of PYRAMID_RING_POSITIONS) {
+      const seat = takeBest(pos);
+      if (seat) round.push(seat);
+    }
+    return round;
+  };
+
+  const rows: PyramidTierRow[] = [];
+  for (let t = 0; t < counts.length; t++) {
+    const need = counts[t]!;
+    const entries: PyramidTierRow["entries"] = [];
+
+    if (t === 0) {
+      // Apex is always current pyramid #1 (rank order), not re-picked by position.
+      const apex = remaining.shift();
+      if (apex) entries.push({ rank: apex.rank, playerId: apex.playerId, index: apex.index });
+    } else {
+      const fullRounds = Math.floor(need / PYRAMID_RING_POSITIONS.length);
+      for (let r = 0; r < fullRounds; r++) {
+        for (const seat of takeBalancedRound()) {
+          entries.push({ rank: seat.rank, playerId: seat.playerId, index: seat.index });
+        }
+      }
+      while (entries.length < need) {
+        const seat = takeBest();
+        if (!seat) break;
+        entries.push({ rank: seat.rank, playerId: seat.playerId, index: seat.index });
+      }
+    }
+
+    if (entries.length) rows.push({ tier: t + 1, entries });
+  }
+
+  if (remaining.length) {
+    rows.push({
+      tier: rows.length + 1,
+      entries: remaining.map((s) => ({ rank: s.rank, playerId: s.playerId, index: s.index })),
+    });
+  }
+  return rows;
 }
 
 /**

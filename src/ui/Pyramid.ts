@@ -17,6 +17,7 @@ import {
   PYRAMID_SEED_VERSION,
   PYRAMID_SIZE,
   PYRAMID_TIER_PATTERNS,
+  pyramidPositionTeamRows,
   pyramidTierRows,
   pyramidTierScalesFor,
   swapPyramidNeighbor,
@@ -223,6 +224,14 @@ export class PyramidHub {
     this.persist({ draft: normalizeDraftSave(draft) });
   }
 
+  /** Prefer the membership for this classic era id (e.g. Kobe 09/10 → #24, not 00/01 #8). */
+  private membershipForEntry(playerId: string) {
+    const mems = this.db.membershipsForPlayer(playerId);
+    if (!mems.length) return null;
+    const teamGuess = playerId.replace(/_p\d+$/i, "");
+    return mems.find((m) => m.teamId === teamGuess) ?? mems[0] ?? null;
+  }
+
   private entryFor(playerId: string, index: number): PyramidEntry {
     let player: PlayerRecord | null = null;
     try {
@@ -230,7 +239,7 @@ export class PyramidHub {
     } catch {
       player = null;
     }
-    const mem = this.db.membershipsForPlayer(playerId)[0];
+    const mem = this.membershipForEntry(playerId);
     const team = mem ? this.db.teams.get(mem.teamId) : null;
     const color = team?.primaryColor ?? "#1a2740";
     const textColor = team?.secondaryColor?.trim() || "#ffffff";
@@ -310,8 +319,8 @@ export class PyramidHub {
               <button type="button" class="pyramid-view-btn${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps"${titleAttr("1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>Steps</button>
               <button type="button" class="pyramid-view-btn${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds"${titleAttr("1 · 3 · 5 · 7 · 9 · 11 · 14")}>1-3-5</button>
               <button type="button" class="pyramid-view-btn${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib"${titleAttr("Fibonacci 1 · 1 · 2 · 3 · 5 · 8 · 13 · 17")}>Fib</button>
-              <button type="button" class="pyramid-view-btn${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions"${titleAttr("1 · five (positions) · 10 · 10 · 10 · 14")}>1-5-10</button>
-              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Vertical list · #1 top centre · reorder arrows")}>List</button>
+              <button type="button" class="pyramid-view-btn${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions"${titleAttr("Best available teams: #1 · 5 (one per pos) · 10s (two per pos)")}>1-5-10</button>
+              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("#1 top centre, then left-to-right rows")}>List</button>
             </div>`
                 : ""
             }
@@ -370,11 +379,12 @@ export class PyramidHub {
     this.ringResizeObserver.observe(vp);
   }
 
-  private cellHtml(entry: PyramidEntry, opts?: { compact?: boolean; list?: boolean }): string {
-    const compact = opts?.compact && !opts?.list;
+  private cellHtml(entry: PyramidEntry, opts?: { compact?: boolean; list?: boolean; apex?: boolean }): string {
     const list = opts?.list === true;
+    const apex = opts?.apex === true;
+    const compact = opts?.compact === true && !list && !apex;
     return `
-      <article class="pyramid-cell${compact ? " is-compact" : ""}${list ? " is-list-row" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}`)}>
+      <article class="pyramid-cell${compact ? " is-compact" : ""}${list ? " is-list-cell" : ""}${apex ? " is-list-apex" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}`)}>
         <div class="pyramid-cell-kit-row">
           <button type="button" class="pyramid-move" data-pyramid="up" data-index="${entry.index}" aria-label="Move up" draggable="false" ${entry.index === 0 ? "disabled" : ""}>↑</button>
           <div class="pyramid-cell-kit">${this.kitBadgeHtml(entry)}</div>
@@ -382,7 +392,6 @@ export class PyramidHub {
         </div>
         ${this.portraitHtml(entry)}
         <div class="pyramid-cell-rank">#${entry.rank}</div>
-        ${list ? `<div class="pyramid-cell-name">${escapeHtml(entry.name)}</div>` : ""}
       </article>
     `;
   }
@@ -448,24 +457,30 @@ export class PyramidHub {
 
   private pyramidHtml(): string {
     const st = this.state();
-    const byId = new Map(this.entries().map((e) => [e.playerId, e]));
+    const entries = this.entries();
+    const byId = new Map(entries.map((e) => [e.playerId, e]));
     const poolEntries = st.pool.map((id, i) => this.entryFor(id, PYRAMID_SIZE + i));
     const listMode = this.pyramidDisplay === "list";
+    const positionsMode = this.pyramidDisplay === "positions";
     const patternCounts =
-      this.pyramidDisplay === "list" ? null : PYRAMID_TIER_PATTERNS[this.pyramidDisplay];
-    const scales = patternCounts ? pyramidTierScalesFor(patternCounts) : [];
-    const tiers = listMode
-      ? this.entries()
-          .map((entry) => this.cellHtml(entry, { list: true }))
-          .join("")
-      : pyramidTierRows(st.order, patternCounts ?? undefined)
-          .map((row) => {
-            const scale = scales[row.tier - 1] ?? 1;
-            const posLegend =
-              this.pyramidDisplay === "positions" && row.tier === 2
-                ? `<div class="pyramid-tier-legend" aria-hidden="true">PG · SG · SF · PF · C</div>`
-                : "";
-            return `${posLegend}<div class="pyramid-tier" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
+      listMode || positionsMode ? null : PYRAMID_TIER_PATTERNS[this.pyramidDisplay];
+    const positionCounts = positionsMode ? PYRAMID_TIER_PATTERNS.positions : null;
+    const scales = pyramidTierScalesFor(positionCounts ?? patternCounts ?? PYRAMID_TIER_COUNTS);
+
+    const renderTierRows = (
+      rows: ReturnType<typeof pyramidTierRows>,
+      opts?: { legendOnBalanced?: boolean },
+    ): string =>
+      rows
+        .map((row) => {
+          const scale = scales[row.tier - 1] ?? 1;
+          const balanced = opts?.legendOnBalanced && row.tier > 1 && row.entries.length % 5 === 0;
+          const posLegend = balanced
+            ? `<div class="pyramid-tier-legend" aria-hidden="true">PG · SG · SF · PF · C${
+                row.entries.length >= 10 ? " ×2" : ""
+              }</div>`
+            : "";
+          return `${posLegend}<div class="pyramid-tier" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
         ${row.entries
           .map((slot) => {
             const entry = byId.get(slot.playerId) ?? this.entryFor(slot.playerId, slot.index);
@@ -473,12 +488,31 @@ export class PyramidHub {
           })
           .join("")}
       </div>`;
-          })
-          .join("");
+        })
+        .join("");
+
+    let tiers: string;
+    if (listMode) {
+      const apex = entries[0];
+      const rest = entries.slice(1);
+      tiers = `${
+        apex
+          ? `<div class="pyramid-tier pyramid-list-apex" data-tier="1" style="--tier-count:1;--tier-scale:1">${this.cellHtml(apex, { list: true, apex: true })}</div>`
+          : ""
+      }<div class="pyramid-tier pyramid-list-flow" data-tier="2" style="--tier-count:${Math.max(1, rest.length)};--tier-scale:1">${rest
+        .map((entry) => this.cellHtml(entry, { list: true }))
+        .join("")}</div>`;
+    } else if (positionsMode) {
+      const rows = pyramidPositionTeamRows(st.order, (id) => byId.get(id)?.position);
+      tiers = renderTierRows(rows, { legendOnBalanced: true });
+    } else {
+      tiers = renderTierRows(pyramidTierRows(st.order, patternCounts ?? undefined));
+    }
+
     const pool = poolEntries
       .map((entry, i) => this.poolCellHtml(entry, i))
       .join("");
-    return `<div class="pyramid-tiers${listMode ? " is-list" : ""}" role="list">${tiers}</div>
+    return `<div class="pyramid-tiers${listMode ? " is-list" : ""}${positionsMode ? " is-positions" : ""}" role="list">${tiers}</div>
       <section class="pyramid-pool" aria-label="Ranks 51 to 100 reserve">
         <header class="pyramid-pool-head">
           <h3>#51–#100</h3>

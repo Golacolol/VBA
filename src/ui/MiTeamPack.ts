@@ -1,13 +1,15 @@
-/** Foil pack open + lightweight confetti (no deps). Gold when sealed pull is 90+ OVR. */
+/** Foil pack open + lightweight confetti (no deps). Gold 90+, purple 95+. */
 
 import { assetUrl } from "../core/assetUrl";
 import { portraitAsset, teamBadgeAsset } from "./Portrait";
 import type { SquadPlayer } from "../core/Database";
 
 export type PackPhase = "foil" | "opening" | "revealed";
-export type PackTier = "silver" | "gold";
+export type PackTier = "silver" | "gold" | "purple";
 
 export const MITEAM_GOLD_OVR = 90;
+/** Sealed purple foil — legends / peak 95+. */
+export const MITEAM_PURPLE_OVR = 95;
 
 function preloadImage(url: string | null | undefined): Promise<void> {
   const src = url?.trim();
@@ -52,7 +54,9 @@ export function waitForElementImages(root: ParentNode | null, timeoutMs = 1400):
 }
 
 export function packTierForOverall(overall: number): PackTier {
-  return overall >= MITEAM_GOLD_OVR ? "gold" : "silver";
+  if (overall >= MITEAM_PURPLE_OVR) return "purple";
+  if (overall >= MITEAM_GOLD_OVR) return "gold";
+  return "silver";
 }
 
 /**
@@ -84,9 +88,21 @@ export function miteamFoilSerrationClip(): string {
   return `polygon(${pts.join(", ")})`;
 }
 
+const FOIL_LABEL: Record<PackTier, string> = {
+  silver: "SILVER PACK",
+  gold: "GOLD PACK",
+  purple: "PURPLE PACK",
+};
+
+const FOIL_ARIA: Record<PackTier, string> = {
+  silver: "Open silver pack (Space)",
+  gold: "Open gold pack (Space)",
+  purple: "Open purple pack (Space)",
+};
+
 export function miteamFoilHtml(tier: PackTier = "silver"): string {
-  const label = tier === "gold" ? "GOLD PACK" : "SILVER PACK";
-  const aria = tier === "gold" ? "Open gold pack (Space)" : "Open silver pack (Space)";
+  const label = FOIL_LABEL[tier];
+  const aria = FOIL_ARIA[tier];
   const clip = miteamFoilSerrationClip();
   return `
     <span class="miteam-foil-shell miteam-foil-shell-${tier}">
@@ -119,20 +135,24 @@ export function miteamFoilHtml(tier: PackTier = "silver"): string {
   `;
 }
 
+const CONFETTI_COLORS: Record<PackTier, string[]> = {
+  silver: ["#C0C7D2", "#E8ECF2", "#FFFFFF", "#8B93A7", "#A8B4C4", "#D7DEE8"],
+  gold: ["#FFE9A8", "#F5D76E", "#D4AF37", "#FFF6D6", "#C9A227", "#FFFFFF", "#B8860B"],
+  purple: ["#E8D4FF", "#C9A0FF", "#8B5CF6", "#F5EAFF", "#A855F7", "#FFFFFF", "#6D28D9", "#DDD6FE"],
+};
+
 export function burstConfetti(host: HTMLElement, tier: PackTier = "silver"): void {
   const layer = document.createElement("div");
   layer.className = `miteam-confetti miteam-confetti-${tier}`;
   layer.setAttribute("aria-hidden", "true");
-  const colors =
-    tier === "gold"
-      ? ["#FFE9A8", "#F5D76E", "#D4AF37", "#FFF6D6", "#C9A227", "#FFFFFF", "#B8860B"]
-      : ["#C0C7D2", "#E8ECF2", "#FFFFFF", "#8B93A7", "#A8B4C4", "#D7DEE8"];
-  const count = tier === "gold" ? 48 : 36;
+  const colors = CONFETTI_COLORS[tier];
+  const count = tier === "purple" ? 56 : tier === "gold" ? 48 : 36;
+  const distMax = tier === "purple" ? 170 : tier === "gold" ? 150 : 120;
   for (let i = 0; i < count; i++) {
     const bit = document.createElement("span");
     bit.className = "miteam-confetti-bit";
     const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4;
-    const dist = 60 + Math.random() * (tier === "gold" ? 150 : 120);
+    const dist = 60 + Math.random() * distMax;
     bit.style.setProperty("--dx", `${Math.cos(angle) * dist}px`);
     bit.style.setProperty("--dy", `${Math.sin(angle) * dist - 40}px`);
     bit.style.setProperty("--rot", `${Math.random() * 720 - 360}deg`);

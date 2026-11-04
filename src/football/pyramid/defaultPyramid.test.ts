@@ -15,6 +15,7 @@ import {
   PYRAMID_TIER_COUNTS,
   PYRAMID_TIER_PATTERNS,
   PYRAMID_TIER_SCALES,
+  pyramidPositionTeamRows,
   pyramidTierRows,
   swapPyramidNeighbor,
   swapPyramidWithPool,
@@ -98,6 +99,36 @@ describe("defaultPyramid", () => {
       expect(rows.map((r) => r.entries.length)).toEqual([...counts]);
       expect(rows.at(-1)!.entries.at(-1)!.rank).toBe(50);
     }
+  });
+
+  it("deals 1-5-10 rows as best-available position teams", () => {
+    const order = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"];
+    const pos = new Map([
+      ["A", "SG"],
+      ["B", "PG"],
+      ["C", "C"],
+      ["D", "SF"],
+      ["E", "PF"],
+      ["F", "SG"],
+      ["G", "PG"],
+      ["H", "SF"],
+      ["I", "PF"],
+      ["J", "C"],
+      ["K", "SG"],
+    ]);
+    const rows = pyramidPositionTeamRows(order, (id) => pos.get(id), [1, 5, 5]);
+    expect(rows.map((r) => r.entries.map((e) => e.playerId))).toEqual([
+      ["A"],
+      ["B", "F", "D", "E", "C"], // PG SG SF PF C — best remaining each
+      ["G", "K", "H", "I", "J"],
+    ]);
+    expect(rows.flatMap((r) => r.entries).map((e) => e.playerId).sort()).toEqual([...order].sort());
+  });
+
+  it("seeds Kobe as 2009/10 #24 form, not 2000/01 #8", () => {
+    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_lal_2009_10_p02");
+    expect(DEFAULT_PYRAMID_ORDER).not.toContain("classic_lal_2000_01_p02");
+    expect(DEFAULT_PYRAMID_POOL).not.toContain("classic_lal_2000_01_p02");
   });
 
   it("places ring players on position wedges around #1 from Top 50 only", () => {

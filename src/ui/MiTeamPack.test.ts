@@ -4,16 +4,19 @@ import {
   miteamFoilSerrationClip,
   packTierForOverall,
   MITEAM_GOLD_OVR,
+  MITEAM_PURPLE_OVR,
 } from "./MiTeamPack";
 
 describe("MiTeamPack tiers", () => {
-  it("uses gold at 90+ overall", () => {
+  it("uses gold at 90+ and purple at 95+ overall", () => {
     expect(packTierForOverall(89)).toBe("silver");
     expect(packTierForOverall(MITEAM_GOLD_OVR)).toBe("gold");
-    expect(packTierForOverall(99)).toBe("gold");
+    expect(packTierForOverall(94)).toBe("gold");
+    expect(packTierForOverall(MITEAM_PURPLE_OVR)).toBe("purple");
+    expect(packTierForOverall(99)).toBe("purple");
   });
 
-  it("renders gold foil chrome for gold packs", () => {
+  it("renders gold and purple foil chrome for high packs", () => {
     const gold = miteamFoilHtml("gold");
     expect(gold).toContain("miteam-foil-shell-gold");
     expect(gold).toContain("miteam-foil-gold");
@@ -26,10 +29,16 @@ describe("MiTeamPack tiers", () => {
     expect(gold).toContain("miteam-foil-lip-top");
     expect(gold).toContain("miteam-foil-tear-top");
     expect(gold.match(/vba-logo\.png/g)?.length).toBe(1);
+    const purple = miteamFoilHtml("purple");
+    expect(purple).toContain("miteam-foil-shell-purple");
+    expect(purple).toContain("miteam-foil-purple");
+    expect(purple).toContain("PURPLE PACK");
+    expect(purple).not.toContain("miteam-foil-gold");
     const silver = miteamFoilHtml("silver");
     expect(silver).toContain("miteam-foil-silver");
     expect(silver).toContain("SILVER PACK");
     expect(silver).not.toContain("miteam-foil-gold");
+    expect(silver).not.toContain("miteam-foil-purple");
   });
 
   it("serrates top and bottom tear edges only", () => {
