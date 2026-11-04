@@ -16,8 +16,8 @@ export interface TableRow {
 }
 
 /**
- * NBA regular-season window for standings (excludes prior season + playoffs).
- * Season year Y runs roughly Oct Y → mid-Apr Y+1.
+ * NBA regular-season window for standings (excludes preseason, prior season, playoffs).
+ * Season year Y tips off ~Oct 20 Y → mid-Apr Y+1 (opening night is mid/late Oct).
  */
 export function nbaRegularSeasonRange(asOf: Date | string = new Date()): { start: string; endInclusive: string } {
   const iso = typeof asOf === "string" ? asOf.slice(0, 10) : todayIso(asOf);
@@ -27,7 +27,7 @@ export function nbaRegularSeasonRange(asOf: Date | string = new Date()): { start
   // Oct–Dec = new season year; Jan–Jun = season that started previous Oct.
   const startYear = m >= 10 ? y : m >= 7 ? y - 1 : y - 1;
   return {
-    start: `${startYear}-10-01`,
+    start: `${startYear}-10-20`,
     endInclusive: `${startYear + 1}-04-15`,
   };
 }
@@ -39,6 +39,19 @@ export function fixtureInNbaRegularSeason(
   const { start, endInclusive } = nbaRegularSeasonRange(asOf);
   const d = date.slice(0, 10);
   return d >= start && d <= endInclusive;
+}
+
+/** Standings only count regular-season results (not preseason / playoffs). */
+export function fixtureCountsForStandings(
+  fixture: Pick<FixtureRecord, "date" | "seasonPhase">,
+  asOf: Date | string = new Date(),
+): boolean {
+  if (fixture.seasonPhase === "preseason" || fixture.seasonPhase === "postseason") return false;
+  if (fixture.seasonPhase === "regular") {
+    // Still clamp to current season window so prior-year regular games drop off.
+    return fixtureInNbaRegularSeason(fixture.date, asOf);
+  }
+  return fixtureInNbaRegularSeason(fixture.date, asOf);
 }
 
 /** Standings / fixtures tab — NBA = both conferences combined. */
@@ -93,8 +106,8 @@ export function standingsFor(
   }
   for (const fixture of fixtures) {
     if (!fixture.played) continue;
-    // Prior season + playoffs inflate P into the 100s — keep current regular season only.
-    if (!fixtureInNbaRegularSeason(fixture.date, asOf)) continue;
+    // Preseason / prior season / playoffs must not inflate W-L.
+    if (!fixtureCountsForStandings(fixture, asOf)) continue;
     // Tables count every game involving a listed club (not only intra-conference).
     const home = rows.get(fixture.homeTeamId);
     const away = rows.get(fixture.awayTeamId);
@@ -138,7 +151,14 @@ function applyResult(row: TableRow, scored: number, conceded: number): void {
   }
 }
 
+function winPct(row: TableRow): number {
+  return row.played > 0 ? row.won / row.played : 0;
+}
+
 function compareTable(a: TableRow, b: TableRow): number {
+  // Official NBA order: winning percentage, then wins, then fewer losses.
+  const pctDiff = winPct(b) - winPct(a);
+  if (Math.abs(pctDiff) > 1e-9) return pctDiff;
   if (b.won !== a.won) return b.won - a.won;
   if (a.lost !== b.lost) return a.lost - b.lost;
   if (b.gd !== a.gd) return b.gd - a.gd;

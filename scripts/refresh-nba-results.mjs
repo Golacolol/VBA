@@ -103,6 +103,20 @@ function competitionFor(homeTeam) {
   return homeTeam.conference === "WEST" ? "Western Conference" : "Eastern Conference";
 }
 
+/** Map ESPN season.slug → fixture seasonPhase for standings filtering. */
+function seasonPhaseFromEspn(ev) {
+  const slug = String(ev?.season?.slug || "").toLowerCase();
+  if (slug.includes("pre")) return "preseason";
+  if (slug.includes("post") || slug.includes("playoff")) return "postseason";
+  if (slug.includes("regular")) return "regular";
+  const type = Number(ev?.season?.type);
+  // ESPN: 1 preseason, 2 regular, 3 postseason
+  if (type === 1) return "preseason";
+  if (type === 3) return "postseason";
+  if (type === 2) return "regular";
+  return "regular";
+}
+
 function defaultSeasonFromYmd(now = new Date()) {
   const y = now.getUTCFullYear();
   const m = now.getUTCMonth() + 1;
@@ -162,6 +176,7 @@ async function main() {
       const tip = timeFromEspn(ev.date);
       const etDate = easternDateFromEspn(ev.date);
       const completed = !!ev.status?.type?.completed;
+      const seasonPhase = seasonPhaseFromEspn(ev);
 
       // Scheduled / in-progress: refresh tip-off on matching stubs.
       if (!completed || scheduleOnly) {
@@ -178,6 +193,10 @@ async function main() {
             byPairDate.delete(`${stub.date}|${stub.homeTeamId}|${stub.awayTeamId}`);
             stub.date = date;
             byPairDate.set(`${date}|${stub.homeTeamId}|${stub.awayTeamId}`, stub);
+            changed = true;
+          }
+          if (stub.seasonPhase !== seasonPhase) {
+            stub.seasonPhase = seasonPhase;
             changed = true;
           }
           if (changed) {
@@ -203,25 +222,36 @@ async function main() {
         homeScore,
         awayScore,
         played: true,
+        seasonPhase,
       };
-      overlayResults.push(row);
+      // Standings overlay only needs regular-season results.
+      if (seasonPhase === "regular") overlayResults.push(row);
 
       let fixture = findFixture(fixtures, byPairDate, date, homeMeta.id, awayMeta.id);
+      if (!fixture && etDate !== date) {
+        fixture = findFixture(fixtures, byPairDate, etDate, homeMeta.id, awayMeta.id);
+      }
       if (fixture) {
+        byPairDate.delete(`${fixture.date}|${fixture.homeTeamId}|${fixture.awayTeamId}`);
         fixture.played = true;
         fixture.homeTeamId = homeMeta.id;
         fixture.awayTeamId = awayMeta.id;
         fixture.homeScore = homeScore;
         fixture.awayScore = awayScore;
         fixture.competition = competition;
+        fixture.date = date;
         fixture.time = tip || fixture.time;
         fixture.official = true;
+        fixture.seasonPhase = seasonPhase;
         fixture.venueId = `${homeMeta.id}_arena`;
         fixture.homeLineupId = `${homeMeta.id}_lineup`;
         fixture.awayLineupId = `${awayMeta.id}_lineup`;
+        byPairDate.set(key, fixture);
         updated += 1;
       } else {
-        const id = `nba_result_${date.replace(/-/g, "")}_${homeMeta.abbr}_${awayMeta.abbr}`;
+        // Prefer ET calendar day in result ids (stable vs UK tip-date shifts).
+        const idDay = etDate.replace(/-/g, "");
+        const id = `nba_result_${idDay}_${homeMeta.abbr}_${awayMeta.abbr}`;
         const created = {
           id,
           homeTeamId: homeMeta.id,
@@ -239,6 +269,7 @@ async function main() {
           homeScore,
           awayScore,
           official: true,
+          seasonPhase,
         };
         fixtures.push(created);
         byPairDate.set(key, created);

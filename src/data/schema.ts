@@ -276,6 +276,8 @@ export interface FixtureRecord {
   awayScore?: number;
   simulated?: boolean;
   official?: boolean;
+  /** ESPN season phase — standings count regular only. */
+  seasonPhase?: "preseason" | "regular" | "postseason";
 }
 
 export interface CrowdSectionRecord {
