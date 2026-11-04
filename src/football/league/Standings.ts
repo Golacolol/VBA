@@ -1,4 +1,5 @@
 import type { Conference, FixtureRecord, TeamRecord } from "../../data/schema";
+import { todayIso } from "../../data/leagueSchedule";
 
 export interface TableRow {
   teamId: string;
@@ -12,6 +13,32 @@ export interface TableRow {
   ga: number;
   gd: number;
   pts: number;
+}
+
+/**
+ * NBA regular-season window for standings (excludes prior season + playoffs).
+ * Season year Y runs roughly Oct Y → mid-Apr Y+1.
+ */
+export function nbaRegularSeasonRange(asOf: Date | string = new Date()): { start: string; endInclusive: string } {
+  const iso = typeof asOf === "string" ? asOf.slice(0, 10) : todayIso(asOf);
+  const y = Number(iso.slice(0, 4));
+  const m = Number(iso.slice(5, 7));
+  // Jul–Sep = offseason after Finals → keep prior season's final table.
+  // Oct–Dec = new season year; Jan–Jun = season that started previous Oct.
+  const startYear = m >= 10 ? y : m >= 7 ? y - 1 : y - 1;
+  return {
+    start: `${startYear}-10-01`,
+    endInclusive: `${startYear + 1}-04-15`,
+  };
+}
+
+export function fixtureInNbaRegularSeason(
+  date: string,
+  asOf: Date | string = new Date(),
+): boolean {
+  const { start, endInclusive } = nbaRegularSeasonRange(asOf);
+  const d = date.slice(0, 10);
+  return d >= start && d <= endInclusive;
 }
 
 /** Standings / fixtures tab — NBA = both conferences combined. */
@@ -50,7 +77,9 @@ export function standingsFor(
   fixtures: FixtureRecord[],
   teams: TeamRecord[],
   league: LeagueTabId,
+  opts?: { asOf?: Date | string },
 ): TableRow[] {
+  const asOf = opts?.asOf ?? new Date();
   const clubs = teams
     .filter(
       (t) =>
@@ -64,6 +93,8 @@ export function standingsFor(
   }
   for (const fixture of fixtures) {
     if (!fixture.played) continue;
+    // Prior season + playoffs inflate P into the 100s — keep current regular season only.
+    if (!fixtureInNbaRegularSeason(fixture.date, asOf)) continue;
     // Tables count every game involving a listed club (not only intra-conference).
     const home = rows.get(fixture.homeTeamId);
     const away = rows.get(fixture.awayTeamId);

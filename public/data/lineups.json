@@ -1942,5 +1942,59 @@
         "slot": "C"
       }
     ]
+  },
+  {
+    "id": "classic_nyk_2011_12_lineup",
+    "teamId": "classic_nyk_2011_12",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_nyk_2011_12_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_nyk_2011_12_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_nyk_2011_12_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_nyk_2011_12_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_nyk_2011_12_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_was_2007_08_lineup",
+    "teamId": "classic_was_2007_08",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_was_2007_08_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_was_2007_08_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_was_2007_08_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_was_2007_08_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_was_2007_08_p05",
+        "slot": "C"
+      }
+    ]
   }
 ]

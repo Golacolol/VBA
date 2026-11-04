@@ -61,6 +61,7 @@ import {
   kitSurnameFromName,
   portraitAsset,
   portraitHtml,
+  teamBadgeHtml,
 } from "./Portrait";
 import { playerCardShellHtml, type PlayerCardTeamContext } from "./playerCardShared";
 import { titleAttr } from "./infoOverlays";
@@ -266,9 +267,11 @@ export class PyramidHub {
 
   /** Kit-back badge only (surname over shirt #) — portrait stays separate. */
   private kitBadgeHtml(entry: PyramidEntry): string {
+    // Include jersey 0 (Westbrook / Arenas); `> 0` wrongly fell back to rank.
+    const shirt = Number.isFinite(entry.shirtNumber) ? entry.shirtNumber : entry.rank;
     return kitMarkerHtml(
       { id: entry.playerId, name: entry.name, displayName: entry.name },
-      entry.shirtNumber > 0 ? entry.shirtNumber : entry.rank,
+      shirt,
       {
         primaryColor: entry.color,
         textColor: entry.textColor,
@@ -278,14 +281,30 @@ export class PyramidHub {
     );
   }
 
+  private teamCrestFallbackHtml(entry: PyramidEntry, tint: string): string {
+    const mem = this.membershipForEntry(entry.playerId);
+    const team = mem ? this.db.teams.get(mem.teamId) : null;
+    if (team) {
+      return `<div class="pyramid-cell-photo is-empty is-crest" style="--pyramid-tint:${tint}">${teamBadgeHtml(team, {
+        className: "pyramid-photo-crest",
+        size: 44,
+      })}</div>`;
+    }
+    return `<div class="pyramid-cell-photo is-empty" style="--pyramid-tint:${tint}"><div class="pyramid-photo-fallback" style="background:${tint};color:${escapeAttr(entry.textColor)}">?</div></div>`;
+  }
+
   private portraitHtml(entry: PyramidEntry): string {
     const src = entry.player ? portraitAsset(entry.player) : null;
     const tint = escapeAttr(entry.color);
-    if (!src) {
-      return `<div class="pyramid-cell-photo is-empty" style="--pyramid-tint:${tint}"><div class="pyramid-photo-fallback" style="background:${tint};color:${escapeAttr(entry.textColor)}">${entry.rank}</div></div>`;
-    }
+    if (!src) return this.teamCrestFallbackHtml(entry, tint);
+    const mem = this.membershipForEntry(entry.playerId);
+    const team = mem ? this.db.teams.get(mem.teamId) : null;
+    const crest = team
+      ? teamBadgeHtml(team, { className: "pyramid-photo-crest", size: 44 })
+      : `<div class="pyramid-photo-fallback" style="background:${tint};color:${escapeAttr(entry.textColor)}">?</div>`;
     return `<div class="pyramid-cell-photo has-photo" style="--pyramid-tint:${tint}">
-      <img class="pyramid-player-png" alt="" src="${escapeAttr(src)}" draggable="false" onerror="this.closest('.pyramid-cell-photo')?.classList.add('is-empty');this.remove();"/>
+      <img class="pyramid-player-png" alt="" src="${escapeAttr(src)}" draggable="false" onerror="const el=this.closest('.pyramid-cell-photo');if(!el)return;el.classList.remove('has-photo');el.classList.add('is-empty','is-crest');this.remove();const fb=el.querySelector('.pyramid-photo-crest-slot');if(fb)fb.hidden=false;"/>
+      <div class="pyramid-photo-crest-slot" hidden>${crest}</div>
     </div>`;
   }
 

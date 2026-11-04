@@ -2602,5 +2602,79 @@
     "league": "WEST",
     "historicSeason": "2009/10",
     "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_nyk_2011_12",
+    "name": "New York Knicks — 2011/12",
+    "abbreviation": "NYK",
+    "teamType": "HISTORIC_TEAM",
+    "city": "New York",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#F58426",
+    "badgeAsset": "/assets/emblems/nba_nyk.svg",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#F58426",
+      "socks": "#006BB6",
+      "trim": "#F58426",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#F58426",
+      "shorts": "#006BB6",
+      "socks": "#F58426",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_nyk_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2011/12",
+    "franchiseId": "nba_nyk"
+  },
+  {
+    "id": "classic_was_2007_08",
+    "name": "Washington Wizards — 2007/08",
+    "abbreviation": "WAS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Washington",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#E31837",
+    "badgeAsset": "/assets/emblems/nba_was.svg",
+    "defaultKit": {
+      "shirt": "#002B5C",
+      "shorts": "#E31837",
+      "socks": "#002B5C",
+      "trim": "#E31837",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E31837",
+      "shorts": "#002B5C",
+      "socks": "#E31837",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_was_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2007/08",
+    "franchiseId": "nba_was"
   }
 ]

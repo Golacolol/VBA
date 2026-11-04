@@ -487,6 +487,30 @@ export const CLASSIC_ERAS = [
     ],
   },
   {
+    // Linsanity / Carmelo Knicks — Melo + Lin overlap; Marbury was earlier (see classic_bkn_2000_01).
+    id: "classic_nyk_2011_12",
+    franchiseId: "nba_nyk",
+    season: "2011/12",
+    name: "New York Knicks — 2011/12",
+    starters: [
+      { name: "Jeremy Lin", number: 17, pos: "PG" },
+      { name: "Landry Fields", number: 2, pos: "SG" },
+      { name: "Carmelo Anthony", number: 7, pos: "SF" },
+      { name: "Amar'e Stoudemire", number: 1, pos: "PF" },
+      { name: "Tyson Chandler", number: 6, pos: "C" },
+    ],
+    bench: [
+      { name: "Iman Shumpert", number: 21, pos: "SG" },
+      { name: "J.R. Smith", number: 8, pos: "SG" },
+      { name: "Steve Novak", number: 16, pos: "SF" },
+      { name: "Toney Douglas", number: 23, pos: "PG" },
+      { name: "Jared Jeffries", number: 9, pos: "PF" },
+      { name: "Baron Davis", number: 85, pos: "PG" },
+      { name: "Josh Harrellson", number: 55, pos: "C" },
+      { name: "Mike Bibby", number: 20, pos: "PG" },
+    ],
+  },
+  {
     id: "classic_sas_1998_99",
     franchiseId: "nba_sas",
     season: "1998/99",
@@ -699,6 +723,30 @@ export const CLASSIC_ERAS = [
       { name: "Tom Thacker", number: 21, pos: "SG" },
       { name: "Dan Tieman", number: 5, pos: "PG" },
       { name: "Hub Reed", number: 20, pos: "C" },
+    ],
+  },
+  {
+    // Agent Zero + Swaggy P — Arenas / Butler / Jamison core with Nick Young.
+    id: "classic_was_2007_08",
+    franchiseId: "nba_was",
+    season: "2007/08",
+    name: "Washington Wizards — 2007/08",
+    starters: [
+      { name: "Gilbert Arenas", number: 0, pos: "PG" },
+      { name: "DeShawn Stevenson", number: 2, pos: "SG" },
+      { name: "Caron Butler", number: 3, pos: "SF" },
+      { name: "Antawn Jamison", number: 4, pos: "PF" },
+      { name: "Brendan Haywood", number: 33, pos: "C" },
+    ],
+    bench: [
+      { name: "Nick Young", number: 1, pos: "SG" },
+      { name: "Antonio Daniels", number: 6, pos: "PG" },
+      { name: "Andray Blatche", number: 32, pos: "PF" },
+      { name: "Darius Songaila", number: 9, pos: "PF" },
+      { name: "Dominic McGuire", number: 5, pos: "SF" },
+      { name: "Roger Mason Jr.", number: 8, pos: "SG" },
+      { name: "Etan Thomas", number: 36, pos: "C" },
+      { name: "Oleksiy Pecherov", number: 14, pos: "C" },
     ],
   },
   {

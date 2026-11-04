@@ -121,6 +121,18 @@ function teamSideHtml(team: TeamRecord | undefined, fallbackId: string, side: "h
   return `<span class="fix-side form-${side}">${crest}<span class="fix-name">${name}</span></span>`;
 }
 
+/** Format stored `HH:mm` tip-off for the fixtures list (12-hour clock). */
+function formatTipOff(time: string | undefined): string {
+  const raw = (time ?? "").trim();
+  const m = /^(\d{1,2}):(\d{2})$/.exec(raw);
+  if (!m) return raw || "";
+  const hh = Number(m[1]);
+  const mm = m[2]!;
+  const h12 = ((hh + 11) % 12) + 1;
+  const suffix = hh >= 12 ? "PM" : "AM";
+  return `${h12}:${mm} ${suffix}`;
+}
+
 function fixtureRow(
   fixture: FixtureRecord,
   db: GameDatabase,
@@ -130,13 +142,16 @@ function fixtureRow(
   const home = db.teams.get(fixture.homeTeamId);
   const away = db.teams.get(fixture.awayTeamId);
   const user = fixture.homeTeamId === highlightId || fixture.awayTeamId === highlightId;
-  const score =
+  const tip = formatTipOff(fixture.time);
+  const mid =
     fixture.played && fixture.homeScore !== undefined && fixture.awayScore !== undefined
-      ? `<span class="fix-score">${fixture.homeScore}–${fixture.awayScore}</span>`
-      : `<span class="vs">vs</span>`;
+      ? `<span class="fix-mid"><span class="fix-score">${fixture.homeScore}–${fixture.awayScore}</span></span>`
+      : `<span class="fix-mid"><span class="vs">vs</span>${
+          tip ? `<span class="fix-time">${escapeHtml(tip)}</span>` : ""
+        }</span>`;
   return `<div class="fix-row ${user ? "user" : ""} ${fixture.played ? "played" : ""} ${predictionGold ? "prediction-gold" : ""}">
     ${teamSideHtml(home, fixture.homeTeamId, "home")}
-    ${score}
+    ${mid}
     ${teamSideHtml(away, fixture.awayTeamId, "away")}
   </div>`;
 }

@@ -164,7 +164,7 @@ function main() {
       memberships.push({
         playerId,
         teamId: era.id,
-        shirtNumber: Number(p.number) || i + 1,
+        shirtNumber: Number.isFinite(Number(p.number)) ? Number(p.number) : i + 1,
         squadRole: isStarter ? "FIRST_TEAM" : "BENCH",
         captain: i === 0,
       });

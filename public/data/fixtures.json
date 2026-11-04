@@ -27057,21 +27057,6 @@
     "played": false
   },
   {
-    "id": "nba_fix_0008",
-    "homeTeamId": "nba_bos",
-    "awayTeamId": "nba_mil",
-    "venueId": "nba_bos_arena",
-    "competition": "Eastern Conference",
-    "date": "2026-11-04",
-    "time": "19:00",
-    "durationSeconds": 600,
-    "homeLineupId": "nba_bos_lineup",
-    "awayLineupId": "nba_mil_lineup",
-    "timeOfDay": "EVENING",
-    "weather": "MILD",
-    "played": false
-  },
-  {
     "id": "nba_fix_0009",
     "homeTeamId": "nba_bkn",
     "awayTeamId": "nba_nyk",
@@ -27265,6 +27250,22 @@
     "timeOfDay": "EVENING",
     "weather": "MILD",
     "played": false
+  },
+  {
+    "id": "nba_fix_0008",
+    "homeTeamId": "nba_bos",
+    "awayTeamId": "nba_mil",
+    "venueId": "nba_bos_arena",
+    "competition": "Eastern Conference",
+    "date": "2026-11-04",
+    "time": "19:30",
+    "durationSeconds": 600,
+    "homeLineupId": "nba_bos_lineup",
+    "awayLineupId": "nba_mil_lineup",
+    "timeOfDay": "EVENING",
+    "weather": "MILD",
+    "played": false,
+    "official": true
   },
   {
     "id": "nba_fix_0015",
@@ -27888,13 +27889,30 @@
     "venueId": "nba_phx_arena",
     "competition": "Western Conference",
     "date": "2026-11-07",
-    "time": "19:00",
+    "time": "21:00",
     "durationSeconds": 600,
     "homeLineupId": "nba_phx_lineup",
     "awayLineupId": "nba_hou_lineup",
     "timeOfDay": "EVENING",
     "weather": "MILD",
-    "played": false
+    "played": false,
+    "official": true
+  },
+  {
+    "id": "nba_fix_0188",
+    "homeTeamId": "nba_phx",
+    "awayTeamId": "nba_hou",
+    "venueId": "nba_phx_arena",
+    "competition": "Western Conference",
+    "date": "2026-11-08",
+    "time": "21:00",
+    "durationSeconds": 600,
+    "homeLineupId": "nba_phx_lineup",
+    "awayLineupId": "nba_hou_lineup",
+    "timeOfDay": "EVENING",
+    "weather": "MILD",
+    "played": false,
+    "official": true
   },
   {
     "id": "nba_fix_0036",
@@ -28072,21 +28090,6 @@
     "durationSeconds": 600,
     "homeLineupId": "nba_okc_lineup",
     "awayLineupId": "nba_gsw_lineup",
-    "timeOfDay": "EVENING",
-    "weather": "MILD",
-    "played": false
-  },
-  {
-    "id": "nba_fix_0188",
-    "homeTeamId": "nba_phx",
-    "awayTeamId": "nba_hou",
-    "venueId": "nba_phx_arena",
-    "competition": "Western Conference",
-    "date": "2026-11-08",
-    "time": "19:00",
-    "durationSeconds": 600,
-    "homeLineupId": "nba_phx_lineup",
-    "awayLineupId": "nba_hou_lineup",
     "timeOfDay": "EVENING",
     "weather": "MILD",
     "played": false
@@ -28737,6 +28740,22 @@
     "played": false
   },
   {
+    "id": "nba_fix_0069",
+    "homeTeamId": "nba_was",
+    "awayTeamId": "nba_ind",
+    "venueId": "nba_was_arena",
+    "competition": "Eastern Conference",
+    "date": "2026-11-12",
+    "time": "19:00",
+    "durationSeconds": 600,
+    "homeLineupId": "nba_was_lineup",
+    "awayLineupId": "nba_ind_lineup",
+    "timeOfDay": "EVENING",
+    "weather": "MILD",
+    "played": false,
+    "official": true
+  },
+  {
     "id": "nba_fix_0064",
     "homeTeamId": "nba_mil",
     "awayTeamId": "nba_bkn",
@@ -28807,21 +28826,6 @@
     "durationSeconds": 600,
     "homeLineupId": "nba_tor_lineup",
     "awayLineupId": "nba_det_lineup",
-    "timeOfDay": "EVENING",
-    "weather": "MILD",
-    "played": false
-  },
-  {
-    "id": "nba_fix_0069",
-    "homeTeamId": "nba_was",
-    "awayTeamId": "nba_ind",
-    "venueId": "nba_was_arena",
-    "competition": "Eastern Conference",
-    "date": "2026-11-12",
-    "time": "19:00",
-    "durationSeconds": 600,
-    "homeLineupId": "nba_was_lineup",
-    "awayLineupId": "nba_ind_lineup",
     "timeOfDay": "EVENING",
     "weather": "MILD",
     "played": false

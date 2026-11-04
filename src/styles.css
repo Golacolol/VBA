@@ -4490,7 +4490,22 @@ select.formation-chip.formation-select option {
   box-shadow: inset 0 0 0 1px rgba(197, 165, 114, 0.35);
   color: #f3e6c8;
 }
+.fix-mid {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 4.5rem;
+}
 .fix-row .vs { opacity: 0.55; letter-spacing: 0.16em; font-size: 11px; }
+.fix-time {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(232, 236, 244, 0.78);
+  white-space: nowrap;
+}
 .fix-score { color: var(--gold); font-weight: 800; letter-spacing: 0.06em; }
 .fix-side {
   display: inline-flex;
@@ -6985,6 +7000,39 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   font-family: "Oswald", "Arial Narrow", Impact, sans-serif;
   font-size: 22px;
   font-weight: 800;
+}
+.pyramid-cell-photo.is-crest {
+  display: grid;
+  place-content: center;
+  background:
+    radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--pyramid-tint, #3ec6ff) 28%, #1a2436) 0%, #0a1018 78%);
+}
+.pyramid-cell-photo.is-crest .pyramid-photo-crest,
+.pyramid-cell-photo.is-crest .pyramid-photo-crest-slot {
+  display: grid;
+  place-content: center;
+  width: 72%;
+  height: 72%;
+}
+.pyramid-cell-photo.is-crest .pyramid-photo-crest-slot[hidden] {
+  display: none;
+}
+.pyramid-cell-photo.is-crest .team-badge,
+.pyramid-cell-photo.is-crest .pyramid-photo-crest {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.pyramid-cell-photo.is-crest .team-badge img,
+.pyramid-cell-photo.is-crest .pyramid-photo-crest img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 .pyramid-cell-kit-row {
   display: flex;
