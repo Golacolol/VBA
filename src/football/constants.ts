@@ -106,17 +106,96 @@ export function normalizeKickOffTime(value: string | undefined, fallback = DEFAU
 
 export type KickCountdownPhase = "days" | "hours" | "minutes" | "seconds";
 
-/** Local kick-off Date from fixture calendar date + HH:MM. */
-export function fixtureKickOffDate(date: string, time: string | undefined, now = new Date()): Date {
+/** Stored fixture tip-offs are UK wall-clock (Europe/London). */
+export const FIXTURE_TIME_ZONE = "Europe/London";
+
+function zonedParts(instant: Date, timeZone: string): {
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+} {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(instant);
+  const num = (type: Intl.DateTimeFormatPartTypes): number => {
+    const raw = parts.find((p) => p.type === type)?.value ?? "0";
+    return Number(raw);
+  };
+  let hour = num("hour");
+  if (hour === 24) hour = 0;
+  return {
+    year: num("year"),
+    month: num("month"),
+    day: num("day"),
+    hour,
+    minute: num("minute"),
+  };
+}
+
+/** Absolute instant for a YYYY-MM-DD + HH:mm wall clock in `timeZone`. */
+export function wallClockToDate(
+  date: string,
+  time: string,
+  timeZone: string,
+  now = new Date(),
+): Date {
   const iso = /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : todayFallback(now);
   const [y, mo, d] = iso.split("-").map(Number);
   const [hh, mm] = normalizeKickOffTime(time).split(":").map(Number);
-  return new Date(y, mo - 1, d, hh, mm, 0, 0);
+  const targetUtcMs = Date.UTC(y, mo - 1, d, hh, mm, 0, 0);
+  let guess = targetUtcMs;
+  for (let i = 0; i < 4; i++) {
+    const seen = zonedParts(new Date(guess), timeZone);
+    const asUtc = Date.UTC(seen.year, seen.month - 1, seen.day, seen.hour, seen.minute, 0, 0);
+    const delta = targetUtcMs - asUtc;
+    if (delta === 0) break;
+    guess += delta;
+  }
+  return new Date(guess);
+}
+
+/** Tip-off Date from fixture calendar date + HH:MM in UK time. */
+export function fixtureKickOffDate(date: string, time: string | undefined, now = new Date()): Date {
+  return wallClockToDate(date, normalizeKickOffTime(time), FIXTURE_TIME_ZONE, now);
 }
 
 export function kickOffRemainingSeconds(date: string, time: string | undefined, now = new Date()): number {
   const kick = fixtureKickOffDate(date, time, now);
   return Math.max(0, Math.floor((kick.getTime() - now.getTime()) / 1000));
+}
+
+/** UK tip-off clock for menus / fixture lists (24-hour en-GB). */
+export function formatFixtureTipOffUk(date: string, time: string | undefined): string {
+  const kick = fixtureKickOffDate(date, time);
+  return kick.toLocaleTimeString("en-GB", {
+    timeZone: FIXTURE_TIME_ZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+
+/** UK calendar label for a fixture tip-off (or noon UTC if no time). */
+export function formatFixtureDateUk(date: string, time?: string): string {
+  const kick = time != null && String(time).trim() !== ""
+    ? fixtureKickOffDate(date, time)
+    : new Date(`${/^\d{4}-\d{2}-\d{2}$/.test(date) ? date : todayFallback(new Date())}T12:00:00Z`);
+  if (Number.isNaN(kick.getTime())) return date;
+  return kick.toLocaleDateString("en-GB", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: time != null && String(time).trim() !== "" ? FIXTURE_TIME_ZONE : "UTC",
+  });
 }
 
 /**

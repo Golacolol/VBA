@@ -699,6 +699,10 @@ export class Game {
     if (!this.db.teams.has(teamId)) return;
     this.menuOppositionId = null;
     if (teamId !== MITEAM_TEAM_ID) this.clearQueuedMiTeamFixture();
+    // Leaving MiTeam on the dial drops Gameplay back to BASKETBALL.
+    if (teamId !== MITEAM_TEAM_ID && this.save.data.settings.gameplayMode === "MITEAM") {
+      this.save.data.settings.gameplayMode = "BASKETBALL";
+    }
     this.save.data.settings.defaultTeamId = teamId;
     this.db.userTeamId = teamId;
     this.save.save();
@@ -817,6 +821,14 @@ export class Game {
     if (wasLeague && this.hasUserLeagueProgress()) this.snapshotCareerFixtures();
     this.save.data.settings.leagueProgression = false;
     this.save.data.settings.gameplayMode = mode;
+    if (mode === "MITEAM") {
+      const current = this.defaultClubId();
+      if (current !== MITEAM_TEAM_ID) this.clubBeforeMiTeam = current;
+      ensureMiTeamSave(this.save);
+      applyMiTeamToDb(this.db, this.save);
+      this.save.data.settings.defaultTeamId = MITEAM_TEAM_ID;
+      this.db.userTeamId = MITEAM_TEAM_ID;
+    }
     this.enterCasualFixtures();
     this.save.save();
     this.buildMenuWorld();

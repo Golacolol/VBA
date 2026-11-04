@@ -3,12 +3,15 @@ import { addDays, todayIso } from "../../data/leagueSchedule";
 import { isEnglishLeagueCompetition } from "../league/Standings";
 
 export const PREDICTION_SLOT_COUNT = 10;
-export const PREDICTION_SCORE_MAX = 9;
+/** Points for correctly picking the game winner. */
+export const PREDICTION_WIN_POINTS = 1;
+
+/** NBA tip — no draws; null means no pick yet. */
+export type PredictionWinner = "HOME" | "AWAY";
 
 export interface PredictionPick {
   fixtureId: string;
-  home: number;
-  away: number;
+  winner: PredictionWinner | null;
   locked: boolean;
 }
 
@@ -42,6 +45,18 @@ export function normalizePredictions(raw: unknown): PredictionsState {
   return { weeks, totalPoints };
 }
 
+function normalizeWinner(raw: unknown): PredictionWinner | null {
+  return raw === "HOME" || raw === "AWAY" ? raw : null;
+}
+
+/** Migrate legacy score picks (home/away goals) into a winner. */
+function legacyWinnerFromScores(home: unknown, away: unknown): PredictionWinner | null {
+  if (typeof home !== "number" || typeof away !== "number") return null;
+  if (!Number.isFinite(home) || !Number.isFinite(away)) return null;
+  const o = matchOutcome(home, away);
+  return o === "DRAW" ? null : o;
+}
+
 function normalizeWeek(raw: unknown): PredictionWeek | null {
   if (!raw || typeof raw !== "object") return null;
   const w = raw as Partial<PredictionWeek>;
@@ -51,13 +66,14 @@ function normalizeWeek(raw: unknown): PredictionWeek | null {
     : [];
   const picksRaw = Array.isArray(w.picks) ? w.picks : [];
   const picks = fixtureIds.map((fixtureId) => {
-    const hit = picksRaw.find((p) => p && typeof p === "object" && (p as PredictionPick).fixtureId === fixtureId) as
-      | PredictionPick
+    const hit = picksRaw.find((p) => p && typeof p === "object" && (p as { fixtureId?: string }).fixtureId === fixtureId) as
+      | (Partial<PredictionPick> & { home?: number; away?: number })
       | undefined;
+    const winner =
+      normalizeWinner(hit?.winner) ?? legacyWinnerFromScores(hit?.home, hit?.away);
     return {
       fixtureId,
-      home: clampScore(hit?.home ?? 0),
-      away: clampScore(hit?.away ?? 0),
+      winner,
       locked: hit?.locked === true,
     };
   });
@@ -69,11 +85,6 @@ function normalizeWeek(raw: unknown): PredictionWeek | null {
     scored: w.scored === true,
     weekPoints: Number.isFinite(w.weekPoints) ? Math.max(0, Math.round(w.weekPoints as number)) : 0,
   };
-}
-
-export function clampScore(n: number): number {
-  if (!Number.isFinite(n)) return 0;
-  return Math.min(PREDICTION_SCORE_MAX, Math.max(0, Math.round(n)));
 }
 
 /** UTC weekday: 0 Sun … 6 Sat. */
@@ -147,23 +158,27 @@ export function matchOutcome(home: number, away: number): MatchOutcome {
   return "DRAW";
 }
 
-/**
- * 5 exact score + 1 correct home goals + 1 correct away goals + 1 correct W/D/L.
- */
-export function scorePrediction(
-  predHome: number,
-  predAway: number,
+/** Actual tip winner from final scores (null if missing / tied). */
+export function fixtureWinner(homeScore: number | undefined, awayScore: number | undefined): PredictionWinner | null {
+  if (homeScore === undefined || awayScore === undefined) return null;
+  if (!Number.isFinite(homeScore) || !Number.isFinite(awayScore)) return null;
+  const o = matchOutcome(homeScore, awayScore);
+  return o === "DRAW" ? null : o;
+}
+
+/** 1 point for correctly picking who wins. */
+export function scoreWinnerPrediction(
+  pred: PredictionWinner | null,
   actualHome: number,
   actualAway: number,
 ): number {
-  let pts = 0;
-  if (predHome === actualHome && predAway === actualAway) pts += 5;
-  if (predHome === actualHome) pts += 1;
-  if (predAway === actualAway) pts += 1;
-  if (matchOutcome(predHome, predAway) === matchOutcome(actualHome, actualAway)) pts += 1;
-  return pts;
+  if (!pred) return 0;
+  const actual = fixtureWinner(actualHome, actualAway);
+  if (!actual) return 0;
+  return pred === actual ? PREDICTION_WIN_POINTS : 0;
 }
 
+/** East / West conference NBA fixtures in the Sat–Thu window. */
 export function fixturesInWindow(fixtures: FixtureRecord[], weekStart: string): FixtureRecord[] {
   const end = predictionWeekEnd(weekStart);
   return fixtures
@@ -171,7 +186,7 @@ export function fixturesInWindow(fixtures: FixtureRecord[], weekStart: string): 
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
 }
 
-/** Prefer official unplayed ties, then other English league games in the window. */
+/** Prefer official unplayed tips, then other conference games in the window. */
 export function autoSelectPredictionFixtures(fixtures: FixtureRecord[], weekStart: string): string[] {
   const pool = fixturesInWindow(fixtures, weekStart);
   const official = pool.filter((f) => f.official && !f.played);
@@ -198,7 +213,7 @@ export function autoSelectPredictionFixtures(fixtures: FixtureRecord[], weekStar
 }
 
 export function emptyPicks(fixtureIds: string[]): PredictionPick[] {
-  return fixtureIds.map((fixtureId) => ({ fixtureId, home: 0, away: 0, locked: false }));
+  return fixtureIds.map((fixtureId) => ({ fixtureId, winner: null, locked: false }));
 }
 
 export function ensurePredictionWeek(
@@ -255,8 +270,8 @@ function mergePicks(existing: PredictionPick[], fixtureIds: string[]): Predictio
   return fixtureIds.map((fixtureId) => {
     const hit = existing.find((p) => p.fixtureId === fixtureId);
     return hit
-      ? { ...hit, home: clampScore(hit.home), away: clampScore(hit.away) }
-      : { fixtureId, home: 0, away: 0, locked: false };
+      ? { fixtureId, winner: normalizeWinner(hit.winner), locked: hit.locked === true }
+      : { fixtureId, winner: null, locked: false };
   });
 }
 
@@ -288,17 +303,16 @@ export function updatePredictionPick(
   state: PredictionsState,
   weekStart: string,
   fixtureId: string,
-  patch: Partial<Pick<PredictionPick, "home" | "away" | "locked">>,
+  patch: Partial<Pick<PredictionPick, "winner" | "locked">>,
 ): PredictionsState {
   const weeks = state.weeks.map((w) => {
     if (w.weekStart !== weekStart) return w;
     const picks = w.picks.map((p) => {
       if (p.fixtureId !== fixtureId) return p;
-      if (p.locked && patch.locked !== false && (patch.home !== undefined || patch.away !== undefined)) return p;
+      if (p.locked && patch.locked !== false && patch.winner !== undefined) return p;
       return {
         ...p,
-        home: patch.home !== undefined ? clampScore(patch.home) : p.home,
-        away: patch.away !== undefined ? clampScore(patch.away) : p.away,
+        winner: patch.winner !== undefined ? normalizeWinner(patch.winner) : p.winner,
         locked: patch.locked !== undefined ? patch.locked : p.locked,
       };
     });
@@ -316,14 +330,13 @@ export function scoreCompletedWeeks(weeks: PredictionWeek[], fixtures: FixtureRe
       (f) => f && f.played && f.homeScore !== undefined && f.awayScore !== undefined,
     );
     if (!allPlayed) {
-      // Partial: don't mark scored yet, but allow live tally when opening UI
       return w.scored ? w : w;
     }
     let weekPoints = 0;
     for (const pick of w.picks) {
       const f = byId.get(pick.fixtureId);
       if (!f || f.homeScore === undefined || f.awayScore === undefined) continue;
-      weekPoints += scorePrediction(pick.home, pick.away, f.homeScore, f.awayScore);
+      weekPoints += scoreWinnerPrediction(pick.winner, f.homeScore, f.awayScore);
     }
     return { ...w, scored: true, weekPoints };
   });
@@ -336,7 +349,7 @@ export function liveWeekPoints(week: PredictionWeek, fixtures: FixtureRecord[]):
   for (const pick of week.picks) {
     const f = byId.get(pick.fixtureId);
     if (!f?.played || f.homeScore === undefined || f.awayScore === undefined) continue;
-    pts += scorePrediction(pick.home, pick.away, f.homeScore, f.awayScore);
+    pts += scoreWinnerPrediction(pick.winner, f.homeScore, f.awayScore);
   }
   return pts;
 }

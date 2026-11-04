@@ -4,10 +4,12 @@ import {
   autoSelectPredictionFixtures,
   blankPredictions,
   ensurePredictionWeek,
+  fixtureWinner,
   matchOutcome,
   maxPredictionWeekStart,
+  normalizePredictions,
   predictionWeekStart,
-  scorePrediction,
+  scoreWinnerPrediction,
   setAdminPredictionFixtures,
   shiftPredictionWeek,
   updatePredictionPick,
@@ -23,14 +25,14 @@ function fix(
   return {
     id,
     date,
-    time: "15:00",
+    time: "00:00",
     durationSeconds: 600,
     homeTeamId: home,
     awayTeamId: away,
     venueId: "v",
-    competition: "Premier League",
+    competition: "Eastern Conference",
     weather: "MILD",
-    timeOfDay: "DAY",
+    timeOfDay: "EVENING",
     played: false,
     ...extra,
   };
@@ -49,25 +51,41 @@ describe("prediction week calendar", () => {
     expect(shiftPredictionWeek("2026-09-12", 1)).toBe("2026-09-19");
   });
 });
+
 describe("prediction scoring", () => {
-  it("awards exact, goal and result points", () => {
-    expect(scorePrediction(2, 1, 2, 1)).toBe(8); // 5+1+1+1
-    expect(scorePrediction(1, 0, 2, 0)).toBe(2); // away goals + home win
-    expect(scorePrediction(0, 0, 1, 1)).toBe(1); // draw result only
-    expect(matchOutcome(2, 2)).toBe("DRAW");
+  it("awards a point for the correct winner only", () => {
+    expect(scoreWinnerPrediction("HOME", 110, 98)).toBe(1);
+    expect(scoreWinnerPrediction("AWAY", 110, 98)).toBe(0);
+    expect(scoreWinnerPrediction("AWAY", 98, 110)).toBe(1);
+    expect(scoreWinnerPrediction(null, 110, 98)).toBe(0);
+    expect(scoreWinnerPrediction("HOME", 100, 100)).toBe(0);
+    expect(fixtureWinner(110, 98)).toBe("HOME");
+    expect(fixtureWinner(98, 110)).toBe("AWAY");
+    expect(matchOutcome(100, 100)).toBe("DRAW");
   });
 });
 
 describe("prediction slate", () => {
-  it("auto-selects ten fixtures in the Sat–Thu window from Friday", () => {
+  it("auto-selects ten East/West fixtures in the Sat–Thu window from Friday", () => {
     const weekStart = "2026-09-19";
     const fixtures = Array.from({ length: 14 }, (_, i) =>
-      fix(`f${i}`, i < 10 ? "2026-09-19" : "2026-09-20", `h${i}`, `a${i}`, { official: true }),
+      fix(`f${i}`, i < 10 ? "2026-09-19" : "2026-09-20", `h${i}`, `a${i}`, {
+        official: true,
+        competition: i % 2 ? "Western Conference" : "Eastern Conference",
+      }),
     );
     const state = ensurePredictionWeek(blankPredictions(), fixtures, "2026-09-18"); // Friday
     const week = state.weeks.find((w) => w.weekStart === weekStart)!;
     expect(week.fixtureIds).toHaveLength(10);
     expect(week.adminSet).toBe(false);
+  });
+
+  it("ignores non-conference competitions when auto-selecting", () => {
+    const fixtures = [
+      fix("nba", "2026-09-19", "a", "b", { official: true }),
+      fix("friendly", "2026-09-19", "c", "d", { official: true, competition: "Friendly" }),
+    ];
+    expect(autoSelectPredictionFixtures(fixtures, "2026-09-19")).toEqual(["nba"]);
   });
 
   it("lets admin set and re-set the slate", () => {
@@ -78,16 +96,16 @@ describe("prediction slate", () => {
     expect(state.weeks[0]!.fixtureIds).toEqual(["x", "y"]);
   });
 
-  it("locks picks so score rollers cannot change until unlocked", () => {
+  it("locks picks so winner choice cannot change until unlocked", () => {
     let state = setAdminPredictionFixtures(blankPredictions(), "2026-09-19", ["f1"]);
-    state = updatePredictionPick(state, "2026-09-19", "f1", { home: 2, away: 1, locked: true });
-    state = updatePredictionPick(state, "2026-09-19", "f1", { home: 5 });
-    expect(state.weeks[0]!.picks[0]).toMatchObject({ home: 2, away: 1, locked: true });
-    state = updatePredictionPick(state, "2026-09-19", "f1", { locked: false, home: 3 });
-    expect(state.weeks[0]!.picks[0]!.home).toBe(3);
+    state = updatePredictionPick(state, "2026-09-19", "f1", { winner: "HOME", locked: true });
+    state = updatePredictionPick(state, "2026-09-19", "f1", { winner: "AWAY" });
+    expect(state.weeks[0]!.picks[0]).toMatchObject({ winner: "HOME", locked: true });
+    state = updatePredictionPick(state, "2026-09-19", "f1", { locked: false, winner: "AWAY" });
+    expect(state.weeks[0]!.picks[0]!.winner).toBe("AWAY");
   });
 
-  it("prefers diverse official ties when auto-selecting", () => {
+  it("prefers diverse official tips when auto-selecting", () => {
     const fixtures = [
       fix("1", "2026-09-19", "a", "b", { official: true }),
       fix("2", "2026-09-19", "a", "c", { official: true }),
@@ -96,5 +114,26 @@ describe("prediction slate", () => {
     const ids = autoSelectPredictionFixtures(fixtures, "2026-09-19");
     expect(ids[0]).toBe("1");
     expect(ids).toContain("3");
+  });
+
+  it("migrates legacy score picks into a winner", () => {
+    const state = normalizePredictions({
+      weeks: [
+        {
+          weekStart: "2026-09-19",
+          fixtureIds: ["f1", "f2"],
+          adminSet: true,
+          picks: [
+            { fixtureId: "f1", home: 2, away: 1, locked: true },
+            { fixtureId: "f2", home: 0, away: 0, locked: false },
+          ],
+          scored: false,
+          weekPoints: 0,
+        },
+      ],
+      totalPoints: 0,
+    });
+    expect(state.weeks[0]!.picks[0]).toMatchObject({ winner: "HOME", locked: true });
+    expect(state.weeks[0]!.picks[1]!.winner).toBeNull();
   });
 });

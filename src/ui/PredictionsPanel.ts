@@ -1,10 +1,11 @@
 import type { GameDatabase } from "../core/Database";
-import type { FixtureRecord } from "../data/schema";
+import type { FixtureRecord, TeamRecord } from "../data/schema";
 import { todayIso } from "../data/leagueSchedule";
 import {
-  PREDICTION_SCORE_MAX,
   PREDICTION_SLOT_COUNT,
+  PREDICTION_WIN_POINTS,
   clampPredictionViewWeek,
+  fixtureWinner,
   fixturesInWindow,
   liveWeekPoints,
   maxPredictionWeekStart,
@@ -14,9 +15,11 @@ import {
   shiftPredictionWeek,
   weekByStart,
   type PredictionPick,
+  type PredictionWinner,
   type PredictionsState,
 } from "../football/predictions/Predictions";
 import { titleAttr } from "./infoOverlays";
+import { teamBadgeHtml } from "./Portrait";
 
 export type PredictionsViewMode = "predict" | "admin";
 
@@ -51,12 +54,12 @@ export function predictionsPanelHtml(
             return predictionRowHtml(fixture, pick, db);
           })
           .join("")
-      : `<p class="hint pred-empty">No prediction slate yet. An admin can set ten matches, or they auto-select from Friday.</p>`;
+      : `<p class="hint pred-empty">No prediction slate yet. An admin can set ten games, or they auto-select from Friday.</p>`;
 
   return `
     <div class="panel-head pred-panel-head">
       <button type="button" data-act="panel-back">Back</button>
-      <p class="pred-rules">Exact score 5 · each correct team goals 1 · correct result 1. Lock a line when ready.</p>
+      <p class="pred-rules">Pick who wins · ${PREDICTION_WIN_POINTS} pt each. Tap an emblem. Lock a line when ready.</p>
       <button type="button" class="pred-admin-btn" data-pred="admin">Admin</button>
     </div>
     ${weekNavHtml(weekStart, weekEnd, canPrev, canNext, live, state.totalPoints)}
@@ -97,17 +100,16 @@ function adminPanelHtml(
   const list =
     pool
       .map((f) => {
-        const home = teamLabel(db, f.homeTeamId);
-        const away = teamLabel(db, f.awayTeamId);
+        const home = db.teams.get(f.homeTeamId);
+        const away = db.teams.get(f.awayTeamId);
         const on = selected.has(f.id);
         return `<label class="pred-admin-row ${on ? "on" : ""}">
           <input type="checkbox" data-pred-pick="${escapeHtml(f.id)}" ${on ? "checked" : ""} ${selected.size >= PREDICTION_SLOT_COUNT && !on ? "disabled" : ""}/>
           <span class="pred-admin-date">${formatShortDate(f.date)}</span>
-          <span class="pred-admin-comp">${escapeHtml(f.competition)}</span>
-          <span class="pred-admin-match"><span class="pred-team" style="${teamNameStyle(home)}">${escapeHtml(home)}</span> v <span class="pred-team" style="${teamNameStyle(away)}">${escapeHtml(away)}</span></span>
+          <span class="pred-admin-match">${adminSideHtml(home, f.homeTeamId)}<span class="pred-admin-vs">vs</span>${adminSideHtml(away, f.awayTeamId)}</span>
         </label>`;
       })
-      .join("") || `<p class="hint">No league fixtures in this Sat–Thu window.</p>`;
+      .join("") || `<p class="hint">No conference fixtures in this Sat–Thu window.</p>`;
 
   return `
     <div class="panel-head">
@@ -115,7 +117,7 @@ function adminPanelHtml(
       <h2>Prediction Admin</h2>
     </div>
     ${weekNavHtml(weekStart, weekEnd, canPrev, canNext, selected.size, totalPoints)}
-    <p class="hint pred-rules">Choose or re-set the gold prediction matches for this week. Password gate comes later.</p>
+    <p class="hint pred-rules">Choose or re-set the gold prediction games for this week. Password gate comes later.</p>
     <div class="pred-admin-actions">
       <button type="button" data-pred="admin-save" ${selected.size === 0 ? "disabled" : ""}>Save slate</button>
       <button type="button" data-pred="admin-clear">Clear / re-set</button>
@@ -123,6 +125,14 @@ function adminPanelHtml(
     </div>
     <div class="pred-admin-list">${list}</div>
   `;
+}
+
+function adminSideHtml(team: TeamRecord | undefined, fallbackId: string): string {
+  const crest = team
+    ? teamBadgeHtml(team, { className: "pred-crest", size: 18 })
+    : `<span class="pred-crest pred-crest-empty" aria-hidden="true"></span>`;
+  const label = escapeHtml(team?.abbreviation || team?.name || fallbackId);
+  return `<span class="pred-admin-side">${crest}<span class="pred-admin-abbr">${label}</span></span>`;
 }
 
 function predictionRowHtml(
@@ -133,21 +143,27 @@ function predictionRowHtml(
   if (!fixture || !pick) {
     return `<div class="pred-row empty"><span class="hint">Missing fixture</span></div>`;
   }
-  const home = teamLabel(db, fixture.homeTeamId);
-  const away = teamLabel(db, fixture.awayTeamId);
+  const home = db.teams.get(fixture.homeTeamId);
+  const away = db.teams.get(fixture.awayTeamId);
   const locked = pick.locked;
-  const played = fixture.played && fixture.homeScore !== undefined && fixture.awayScore !== undefined;
-  const actual = played ? `<span class="pred-actual">${fixture.homeScore}–${fixture.awayScore}</span>` : "";
+  const played = !!(
+    fixture.played &&
+    fixture.homeScore !== undefined &&
+    fixture.awayScore !== undefined
+  );
+  const actualWinner = played ? fixtureWinner(fixture.homeScore, fixture.awayScore) : null;
+  const disabled = locked || played;
+  const actual = played
+    ? `<span class="pred-actual">${fixture.homeScore}–${fixture.awayScore}</span>`
+    : "";
+  const correct =
+    played && pick.winner && actualWinner ? (pick.winner === actualWinner ? "hit" : "miss") : "";
   return `
-    <div class="pred-row ${locked ? "locked" : ""} ${played ? "played" : ""}" data-fixture="${escapeHtml(fixture.id)}">
+    <div class="pred-row ${locked ? "locked" : ""} ${played ? "played" : ""} ${correct}" data-fixture="${escapeHtml(fixture.id)}">
       <div class="pred-row-match">
-        <span class="pred-team home" style="${teamNameStyle(home)}">${escapeHtml(home)}</span>
-        <div class="pred-scores">
-          ${scoreSpinHtml(fixture.id, "home", pick.home, locked || !!played)}
-          <span class="pred-score-sep">–</span>
-          ${scoreSpinHtml(fixture.id, "away", pick.away, locked || !!played)}
-        </div>
-        <span class="pred-team away" style="${teamNameStyle(away)}">${escapeHtml(away)}</span>
+        ${winnerSideHtml(fixture.id, "HOME", home, fixture.homeTeamId, pick.winner, actualWinner, disabled)}
+        <span class="pred-vs" aria-hidden="true">vs</span>
+        ${winnerSideHtml(fixture.id, "AWAY", away, fixture.awayTeamId, pick.winner, actualWinner, disabled)}
         ${actual}
       </div>
       <button type="button" class="pred-lock ${locked ? "on" : ""}" data-pred="lock" data-fixture="${escapeHtml(fixture.id)}" aria-label="${locked ? "Unlock" : "Lock"} prediction"${titleAttr(locked ? "Unlock" : "Lock")} ${played ? "disabled" : ""}>${locked ? "locked" : "lock"}</button>
@@ -155,27 +171,34 @@ function predictionRowHtml(
   `;
 }
 
-function teamLabel(db: GameDatabase, teamId: string): string {
-  const t = db.teams.get(teamId);
-  return t?.name || t?.abbreviation || teamId;
-}
-
-/** Shrink long club names so the prediction row stays on one line. */
-export function teamNameStyle(name: string): string {
-  const len = name.length;
-  const size = len > 20 ? 9 : len > 16 ? 10 : len > 12 ? 11 : 12;
-  return `font-size:${size}px`;
-}
-
-function scoreSpinHtml(fixtureId: string, side: "home" | "away", value: number, disabled: boolean): string {
-  const v = Math.min(PREDICTION_SCORE_MAX, Math.max(0, value));
-  const prev = (v + PREDICTION_SCORE_MAX) % (PREDICTION_SCORE_MAX + 1);
-  const next = (v + 1) % (PREDICTION_SCORE_MAX + 1);
-  return `<span class="time-spin pred-spin ${disabled ? "disabled" : ""}" data-pred-spin="${escapeHtml(fixtureId)}" data-side="${side}" tabindex="${disabled ? -1 : 0}" role="button" aria-label="${side} goals ${v}">
-    <span class="spin-ghost">${prev}</span>
-    <strong>${v}</strong>
-    <span class="spin-ghost">${next}</span>
-  </span>`;
+function winnerSideHtml(
+  fixtureId: string,
+  side: PredictionWinner,
+  team: TeamRecord | undefined,
+  fallbackId: string,
+  pick: PredictionWinner | null,
+  actual: PredictionWinner | null,
+  disabled: boolean,
+): string {
+  const on = pick === side;
+  const won = actual === side;
+  const abbr = escapeHtml(team?.abbreviation || team?.name || fallbackId);
+  const name = escapeHtml(team?.name || fallbackId);
+  const crest = team
+    ? teamBadgeHtml(team, { className: "pred-crest", size: 28 })
+    : `<span class="pred-crest pred-crest-empty" aria-hidden="true"></span>`;
+  const tag = disabled ? "div" : "button";
+  const typeAttr = disabled ? "" : ` type="button"`;
+  const dataAttr = disabled
+    ? ""
+    : ` data-pred-winner="${side}" data-fixture="${escapeHtml(fixtureId)}"`;
+  const aria = disabled
+    ? ""
+    : ` aria-pressed="${on ? "true" : "false"}" aria-label="Pick ${name} to win"`;
+  return `<${tag}${typeAttr} class="pred-side ${side === "HOME" ? "home" : "away"} ${on ? "on" : ""} ${won ? "actual-win" : ""}"${dataAttr}${aria}>
+    ${crest}
+    <span class="pred-side-abbr">${abbr}</span>
+  </${tag}>`;
 }
 
 function formatShortDate(iso: string): string {

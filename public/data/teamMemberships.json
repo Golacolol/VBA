@@ -7649,5 +7649,96 @@
     "shirtNumber": 14,
     "squadRole": "BENCH",
     "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p01",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 1,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_det_2003_04_p02",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 32,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p03",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 22,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p04",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 30,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p05",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 3,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p06",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 13,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p07",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 34,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p08",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 7,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p09",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 10,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p10",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 41,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p11",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 8,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p12",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 31,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_det_2003_04_p13",
+    "teamId": "classic_det_2003_04",
+    "shirtNumber": 39,
+    "squadRole": "BENCH",
+    "captain": false
   }
 ]

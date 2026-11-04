@@ -31,41 +31,50 @@ function isoFromEspn(iso) {
   return dateFromEspn(iso);
 }
 
-/** Tip-off as US Eastern wall-clock HH:mm (NBA broadcast convention). */
-function timeFromEspn(iso) {
-  const raw = String(iso || "");
-  if (!raw) return "19:00";
-  const d = new Date(raw);
-  if (Number.isNaN(d.getTime())) {
-    return raw.slice(11, 16) || "19:00";
-  }
+const TIP_ZONE = "Europe/London";
+const ESPN_DAY_ZONE = "America/New_York";
+
+function partsInZone(iso, timeZone) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return null;
   const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: "America/New_York",
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
   }).formatToParts(d);
-  const hh = parts.find((p) => p.type === "hour")?.value ?? "19";
-  const mm = parts.find((p) => p.type === "minute")?.value ?? "00";
-  return `${hh.padStart(2, "0")}:${mm}`;
+  const get = (type) => parts.find((p) => p.type === type)?.value;
+  let hour = get("hour") ?? "00";
+  if (hour === "24") hour = "00";
+  return {
+    date: `${get("year")}-${get("month")}-${get("day")}`,
+    time: `${String(hour).padStart(2, "0")}:${get("minute") ?? "00"}`,
+  };
+}
+
+/** Tip-off as UK wall-clock HH:mm for in-game menus. */
+function timeFromEspn(iso) {
+  const raw = String(iso || "");
+  if (!raw) return "00:00";
+  const zoned = partsInZone(raw, TIP_ZONE);
+  if (!zoned) return raw.slice(11, 16) || "00:00";
+  return zoned.time;
 }
 
 function dateFromEspn(iso) {
   const raw = String(iso || "");
-  const d = new Date(raw);
-  if (Number.isNaN(d.getTime())) return raw.slice(0, 10);
-  // Calendar date in US Eastern so late ET tips stay on the game night.
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "America/New_York",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(d);
-  const y = parts.find((p) => p.type === "year")?.value;
-  const m = parts.find((p) => p.type === "month")?.value;
-  const day = parts.find((p) => p.type === "day")?.value;
-  if (y && m && day) return `${y}-${m}-${day}`;
+  const zoned = partsInZone(raw, TIP_ZONE);
+  if (zoned) return zoned.date;
   return raw.slice(0, 10);
+}
+
+/** ESPN scoreboard day key (US Eastern calendar) — used to match legacy stubs. */
+function easternDateFromEspn(iso) {
+  const zoned = partsInZone(iso, ESPN_DAY_ZONE);
+  return zoned?.date ?? dateFromEspn(iso);
 }
 
 function eachDay(fromYmd, toYmd) {
@@ -151,15 +160,30 @@ async function main() {
       if (!homeMeta || !awayMeta) continue;
       const date = isoFromEspn(ev.date);
       const tip = timeFromEspn(ev.date);
+      const etDate = easternDateFromEspn(ev.date);
       const completed = !!ev.status?.type?.completed;
 
       // Scheduled / in-progress: refresh tip-off on matching stubs.
       if (!completed || scheduleOnly) {
-        const stub = findFixture(fixtures, byPairDate, date, homeMeta.id, awayMeta.id);
-        if (stub && !stub.played && tip && stub.time !== tip) {
-          stub.time = tip;
-          stub.official = true;
-          tipUpdated += 1;
+        const stub =
+          findFixture(fixtures, byPairDate, date, homeMeta.id, awayMeta.id) ||
+          (etDate !== date ? findFixture(fixtures, byPairDate, etDate, homeMeta.id, awayMeta.id) : null);
+        if (stub && !stub.played && tip) {
+          let changed = false;
+          if (stub.time !== tip) {
+            stub.time = tip;
+            changed = true;
+          }
+          if (stub.date !== date) {
+            byPairDate.delete(`${stub.date}|${stub.homeTeamId}|${stub.awayTeamId}`);
+            stub.date = date;
+            byPairDate.set(`${date}|${stub.homeTeamId}|${stub.awayTeamId}`, stub);
+            changed = true;
+          }
+          if (changed) {
+            stub.official = true;
+            tipUpdated += 1;
+          }
         }
         if (!completed) continue;
       }

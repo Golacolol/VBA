@@ -98,7 +98,10 @@ describe("MainMenu LEAGUE mode button", () => {
     const dialKids = [...menu.root.querySelector(".fixture-match-dials")!.children];
     expect(dialKids).toHaveLength(1);
     expect(dialKids[0]?.classList.contains("opposition-dial-field")).toBe(true);
-    expect(menu.root.querySelector(".fixture-detail-row .meta")?.textContent).toContain("Eastern Conference");
+    const meta = menu.root.querySelector(".fixture-detail-row .meta")?.textContent ?? "";
+    expect(meta).not.toContain("Eastern Conference");
+    expect(meta).toContain("Home Park");
+    expect(meta).toContain("15:00");
   });
 
   it("keeps the four VORTEX modes after career progress", () => {
@@ -383,6 +386,7 @@ describe("MainMenu LEAGUE mode button", () => {
     expect(ids.indexOf("miteam")).toBeGreaterThan(ids.indexOf("league-fixtures")!);
     expect(ids.indexOf("quick")).toBeGreaterThan(ids.indexOf("miteam")!);
     expect(ids.indexOf("spot")).toBeGreaterThan(ids.indexOf("quick")!);
+    expect(menu.root.querySelector('[data-id="spot"]')?.textContent).toContain("Practice Court");
     expect(ids.indexOf("predictions")).toBeGreaterThan(ids.indexOf("spot")!);
     expect(ids.indexOf("predictions")).toBeLessThan(ids.indexOf("database")!);
 

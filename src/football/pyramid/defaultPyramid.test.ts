@@ -225,18 +225,20 @@ describe("defaultPyramid", () => {
       pool: DEFAULT_PYRAMID_POOL,
       view: "ring",
       size: 50,
-      seedVersion: 8,
+      seedVersion: 9,
     });
     expect(save.view).toBe("ring");
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(8);
+    expect(defaultPyramidSave().seedVersion).toBe(9);
     expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
     expect(DEFAULT_PYRAMID_ORDER[10]).toBe("classic_hou_1994_95_p05"); // Olajuwon #11
     expect(DEFAULT_PYRAMID_ORDER[15]).toBe("classic_lal_1971_72_p01"); // West #16
     expect(DEFAULT_PYRAMID_ORDER[16]).toBe("classic_den_2022_23_p05"); // Jokic #17 (93 active)
     expect(DEFAULT_PYRAMID_ORDER[49]).toBe("classic_nyk_2011_12_p03"); // Carmelo #50
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p01"); // Billups
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p05"); // Ben Wallace
   });
 
   it("replaces a stale seed with the curated Top 50", () => {
@@ -254,7 +256,8 @@ describe("defaultPyramid", () => {
     expect(stale.pool).toContain("classic_okc_2011_12_p01"); // Westbrook → reserve
     expect(stale.pool).toContain("classic_lal_2009_10_p04"); // Pau → reserve
     expect(stale.pool).toContain("classic_tor_2000_01_p02"); // Vince → reserve
-    expect(stale.seedVersion).toBe(8);
+    expect(stale.pool).toContain("classic_det_2003_04_p01"); // Billups
+    expect(stale.seedVersion).toBe(9);
     expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
     expect(stale.order[10]).toBe("classic_hou_1994_95_p05");
   });

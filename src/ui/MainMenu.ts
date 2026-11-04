@@ -3,19 +3,26 @@ import type { LeagueTabId } from "../football/league/Standings";
 import type { TimeOfDay } from "../football/environment/Environment";
 import { PRODUCT_MODES, type ProductMode } from "../core/ProductMode";
 import type { GameDatabase } from "../core/Database";
-import { DEFAULT_KICK_OFF_TIME, HALF_LENGTH_CHOICES, formatKickCountdown, kickOffRemainingSeconds, type KickCountdownPhase } from "../football/constants";
+import {
+  DEFAULT_KICK_OFF_TIME,
+  HALF_LENGTH_CHOICES,
+  formatFixtureDateUk,
+  formatFixtureTipOffUk,
+  formatKickCountdown,
+  kickOffRemainingSeconds,
+  type KickCountdownPhase,
+} from "../football/constants";
 import { todayIso } from "../data/leagueSchedule";
 import {
-  PREDICTION_SCORE_MAX,
   autoSelectPredictionFixtures,
   clampPredictionViewWeek,
-  clampScore,
   ensurePredictionWeek,
   predictionFixtureIdSet,
   predictionWeekStart,
   setAdminPredictionFixtures,
   shiftPredictionWeek,
   updatePredictionPick,
+  type PredictionWinner,
   type PredictionsState,
 } from "../football/predictions/Predictions";
 import { OPTIONS_SECTIONS, type OptionsSection } from "./Settings";
@@ -77,7 +84,6 @@ export class MainMenu {
   /** Saturday ISO for the Predictions panel week browser. */
   predictionsViewWeek = predictionWeekStart();
   private predAdminDraft = new Set<string>();
-  private predSpinAcc = new Map<string, number>();
   private halfSpinWheel = createSpinWheel();
   private teamSpinWheel = createSpinWheel();
   private leagueSpinWheel = createSpinWheel();
@@ -106,8 +112,8 @@ export class MainMenu {
     { id: "league-fixtures", label: "League Fixtures", hint: "East / West standings and fixtures" },
     { id: "miteam", label: "MiTeam", hint: "Build a User five from packs" },
     { id: "quick", label: "Quick Match", hint: "Pick opposition, then a coming-soon match" },
-    { id: "spot", label: "Spot-kick Practice", hint: "Coming soon" },
-    { id: "predictions", label: "Predictions", hint: "Coming soon" },
+    { id: "spot", label: "Practice Court", hint: "Coming soon" },
+    { id: "predictions", label: "Predictions", hint: "Pick who wins each gold tip" },
     { id: "database", label: "Database", hint: "NBA teams and player ratings" },
     { id: "settings", label: "Options", hint: "Match settings, controls, display, advanced" },
   ] as const;
@@ -214,7 +220,7 @@ export class MainMenu {
             <div class="menu-fixture fixture-match">
               <div class="fixture-match-main">
                 <div class="fixture-detail-row">
-                  <span class="meta">${formatNextFixtureDate(fixture.date)} · ${view.kickOffTime || DEFAULT_KICK_OFF_TIME} · ${fixture.competition} · ${club.matchGround.name}</span>
+                  <span class="meta">${formatFixtureDateUk(fixture.date, view.kickOffTime || DEFAULT_KICK_OFF_TIME)} · ${formatFixtureTipOffUk(fixture.date, view.kickOffTime || DEFAULT_KICK_OFF_TIME)} · ${club.matchGround.name}</span>
                   ${kickCountdownBlockHtml(fixture.date, view.kickOffTime || DEFAULT_KICK_OFF_TIME)}
                 </div>
                 <div class="fixture-teams-row">
@@ -458,28 +464,11 @@ export class MainMenu {
   private bindPredictions(_db: GameDatabase, state: PredictionsState): void {
     const weekStart = this.predictionsViewWeek;
 
-    this.root.querySelectorAll<HTMLElement>("[data-pred-spin]").forEach((el) => {
-      el.addEventListener(
-        "wheel",
-        (e) => {
-          e.preventDefault();
-          if (el.classList.contains("disabled")) return;
-          const key = `${el.getAttribute("data-pred-spin")}:${el.getAttribute("data-side")}`;
-          const acc = (this.predSpinAcc.get(key) ?? 0) + e.deltaY;
-          if (Math.abs(acc) < 72) {
-            this.predSpinAcc.set(key, acc);
-            return;
-          }
-          const dir = acc > 0 ? 1 : -1;
-          this.predSpinAcc.set(key, 0);
-          this.nudgePredictionScore(state, weekStart, el, dir);
-        },
-        { passive: false },
-      );
+    this.root.querySelectorAll<HTMLElement>("[data-pred-winner]").forEach((el) => {
       el.addEventListener("click", (e) => {
         e.preventDefault();
-        if (el.classList.contains("disabled")) return;
-        this.nudgePredictionScore(state, weekStart, el, 1);
+        e.stopPropagation();
+        this.setPredictionWinner(state, weekStart, el);
       });
     });
 
@@ -548,21 +537,17 @@ export class MainMenu {
     });
   }
 
-  private nudgePredictionScore(
-    state: PredictionsState,
-    weekStart: string,
-    el: HTMLElement,
-    dir: number,
-  ): void {
-    const fixtureId = el.getAttribute("data-pred-spin");
-    const side = el.getAttribute("data-side") as "home" | "away" | null;
-    if (!fixtureId || (side !== "home" && side !== "away")) return;
+  private setPredictionWinner(state: PredictionsState, weekStart: string, el: HTMLElement): void {
+    const fixtureId = el.getAttribute("data-fixture");
+    const raw = el.getAttribute("data-pred-winner");
+    const winner: PredictionWinner | null = raw === "HOME" || raw === "AWAY" ? raw : null;
+    if (!fixtureId || !winner) return;
     const week = state.weeks.find((w) => w.weekStart === weekStart);
     const pick = week?.picks.find((p) => p.fixtureId === fixtureId);
     if (!pick || pick.locked) return;
-    const cur = side === "home" ? pick.home : pick.away;
-    const nextVal = clampScore((cur + dir + (PREDICTION_SCORE_MAX + 1)) % (PREDICTION_SCORE_MAX + 1));
-    const next = updatePredictionPick(state, weekStart, fixtureId, side === "home" ? { home: nextVal } : { away: nextVal });
+    // Tap the same emblem again to clear the pick.
+    const nextWinner = pick.winner === winner ? null : winner;
+    const next = updatePredictionPick(state, weekStart, fixtureId, { winner: nextWinner });
     this.onPredictionsChange?.(next);
   }
 
@@ -1093,18 +1078,6 @@ function kickCountdownUnit(phase: KickCountdownPhase): string {
   if (phase === "hours") return "H";
   if (phase === "minutes") return "M";
   return "S";
-}
-
-function formatNextFixtureDate(iso: string): string {
-  const d = new Date(`${iso}T12:00:00Z`);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-GB", {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
 }
 
 function kickCountdownBlockHtml(date: string, time: string): string {

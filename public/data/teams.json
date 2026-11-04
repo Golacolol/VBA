@@ -2676,5 +2676,42 @@
     "league": "EAST",
     "historicSeason": "2007/08",
     "franchiseId": "nba_was"
+  },
+  {
+    "id": "classic_det_2003_04",
+    "name": "Detroit Pistons — 2003/04",
+    "abbreviation": "DET",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Detroit",
+    "primaryColor": "#C8102E",
+    "secondaryColor": "#1D42BA",
+    "badgeAsset": "/assets/emblems/nba_det.svg",
+    "defaultKit": {
+      "shirt": "#C8102E",
+      "shorts": "#1D42BA",
+      "socks": "#C8102E",
+      "trim": "#1D42BA",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D42BA",
+      "shorts": "#C8102E",
+      "socks": "#1D42BA",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_det_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2003/04",
+    "franchiseId": "nba_det"
   }
 ]

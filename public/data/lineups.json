@@ -1996,5 +1996,32 @@
         "slot": "C"
       }
     ]
+  },
+  {
+    "id": "classic_det_2003_04_lineup",
+    "teamId": "classic_det_2003_04",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_det_2003_04_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_det_2003_04_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_det_2003_04_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_det_2003_04_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_det_2003_04_p05",
+        "slot": "C"
+      }
+    ]
   }
 ]

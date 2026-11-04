@@ -5238,50 +5238,85 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   background: rgba(10, 12, 16, 0.6);
 }
 .pred-row.locked { border-color: rgba(197, 165, 114, 0.45); }
-.pred-row.played { opacity: 0.85; }
+.pred-row.played { opacity: 0.9; }
+.pred-row.hit { border-color: rgba(90, 190, 120, 0.45); }
+.pred-row.miss { border-color: rgba(200, 90, 90, 0.35); }
 .pred-row-match {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
   min-width: 0;
 }
-.pred-team {
+.pred-side {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.pred-side.away {
+  flex-direction: row-reverse;
+  text-align: right;
+  justify-self: end;
+}
+button.pred-side:hover {
+  border-color: rgba(197, 165, 114, 0.35);
+  background: rgba(197, 165, 114, 0.08);
+}
+.pred-side.on {
+  border-color: rgba(197, 165, 114, 0.65);
+  background: rgba(197, 165, 114, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(197, 165, 114, 0.2);
+}
+.pred-side.actual-win .pred-side-abbr {
+  color: var(--gold);
+}
+.pred-side-abbr {
   font-size: 12px;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
-  line-height: 1.15;
 }
-.pred-team.away { text-align: right; }
-.pred-scores {
-  display: flex;
-  align-items: center;
-  gap: 3px;
+.pred-crest {
   flex: 0 0 auto;
 }
-.pred-score-sep { opacity: 0.5; font-size: 12px; }
+.pred-crest.team-badge,
+.pred-crest.pred-crest-empty {
+  width: 28px;
+  height: 28px;
+}
+.pred-crest-empty {
+  display: inline-block;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+.pred-vs {
+  opacity: 0.45;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  flex: 0 0 auto;
+}
 .pred-actual {
   color: var(--gold);
   font-weight: 800;
   font-size: 12px;
   letter-spacing: 0.04em;
   white-space: nowrap;
-  min-width: 2.4em;
+  min-width: 2.8em;
   text-align: right;
-}
-.pred-spin.time-spin {
-  width: 48px;
-  min-height: 34px;
-  padding: 2px 0;
-  font-size: 11px;
-}
-.pred-spin.time-spin strong { font-size: 15px; }
-.pred-spin.disabled {
-  opacity: 0.45;
-  pointer-events: none;
 }
 .pred-lock {
   width: auto !important;
@@ -5325,7 +5360,7 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 }
 .pred-admin-row {
   display: grid;
-  grid-template-columns: auto 64px 100px 1fr;
+  grid-template-columns: auto 64px 1fr;
   gap: 8px;
   align-items: center;
   padding: 6px 8px;
@@ -5339,18 +5374,33 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   background: rgba(197, 165, 114, 0.12);
 }
 .pred-admin-date { opacity: 0.7; }
-.pred-admin-comp { opacity: 0.55; font-size: 10px; }
 .pred-admin-match {
   display: flex;
-  gap: 4px;
-  align-items: baseline;
+  gap: 10px;
+  align-items: center;
   min-width: 0;
   overflow: hidden;
 }
-.pred-admin-match .pred-team {
-  display: inline;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.pred-admin-side {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.pred-admin-side .pred-crest.team-badge,
+.pred-admin-side .pred-crest-empty {
+  width: 18px;
+  height: 18px;
+}
+.pred-admin-abbr {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.pred-admin-vs {
+  opacity: 0.45;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 .pred-empty { margin: 12px 4px; }
 

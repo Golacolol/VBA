@@ -33,6 +33,7 @@ import {
   kickOffTimeChoices,
   normalizeKickOffTime,
   formatKickCountdown,
+  fixtureKickOffDate,
   kickOffRemainingSeconds,
 } from "../constants";
 import type { PlayerAttributes } from "../../data/schema";
@@ -568,7 +569,8 @@ describe("environment", () => {
     expect(formatKickCountdown(60)).toEqual({ value: "60", phase: "seconds" });
     expect(formatKickCountdown(9)).toEqual({ value: "9", phase: "seconds" });
     expect(formatKickCountdown(0)).toEqual({ value: "0", phase: "seconds" });
-    const now = new Date(2026, 8, 8, 14, 0, 0);
+    const kick = fixtureKickOffDate("2026-09-08", "15:00");
+    const now = new Date(kick.getTime() - 3600_000);
     expect(kickOffRemainingSeconds("2026-09-08", "15:00", now)).toBe(3600);
   });
 });
