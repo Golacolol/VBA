@@ -31,8 +31,8 @@ const FORMATIONS: Record<FormationName, FormationSlot[]> = {
     { id: "SG", role: "MID", x: 0.28, z: 0.34 },
     { id: "SF", role: "FWD", x: 0.28, z: -0.34 },
     { id: "PF", role: "DEF", x: 0.6, z: 0.16 },
-    /** Slightly left of centre — milder offset than PF’s 0.16. */
-    { id: "C", role: "DEF", x: 0.8, z: -0.11 },
+    /** Left of centre — milder offset than PF’s 0.16. */
+    { id: "C", role: "DEF", x: 0.8, z: -0.14 },
   ],
   "4-2-3-1": [
     { id: "GK", role: "GK", x: 0.07, z: 0 },

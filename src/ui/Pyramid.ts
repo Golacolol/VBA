@@ -842,11 +842,17 @@ export class PyramidHub {
     const byNum = new Map<number, JerseyCand[]>();
     const order = this.state().order;
     const pool = this.state().pool;
-    for (const player of this.db.players.values()) {
-      const mem = this.db.membershipsForPlayer(player.id)[0];
-      if (!mem) continue;
+    // Walk memberships so era kits (e.g. Kobe #24 on 09/10, #8 on 00/01) all appear,
+    // even when Pyramid/Draft keep a single identity form.
+    const seenSlot = new Set<string>();
+    for (const mem of this.db.memberships) {
       const n = mem.shirtNumber;
       if (!Number.isFinite(n) || n < 0 || n > 99) continue;
+      const player = this.db.players.get(mem.playerId);
+      if (!player) continue;
+      const slotKey = `${mem.playerId}:${n}:${mem.teamId}`;
+      if (seenSlot.has(slotKey)) continue;
+      seenSlot.add(slotKey);
       const orderIdx = order.indexOf(player.id);
       const poolIdx = pool.indexOf(player.id);
       const index = orderIdx >= 0 ? orderIdx : poolIdx >= 0 ? PYRAMID_SIZE + poolIdx : -1;
