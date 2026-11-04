@@ -15595,7 +15595,7 @@
     "appearance": {
       "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/4871144.png",
       "fullName": "Alperen Sengun",
-      "birthplace": "Giresun, Türkiye",
+      "birthplace": "Giresun, T\u00fcrkiye",
       "heightScale": 1
     },
     "finishing": 85,
@@ -27609,7 +27609,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Robert Horry",
-      "portraitAsset": "/assets/portraits/classic/robert-horry.jpg"
+      "portraitAsset": "/assets/portraits/classic/robert-horry.png"
     },
     "finishing": 81,
     "midRange": 80,
@@ -31745,7 +31745,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Robert Horry",
-      "portraitAsset": "/assets/portraits/classic/robert-horry.jpg"
+      "portraitAsset": "/assets/portraits/classic/robert-horry.png"
     },
     "finishing": 83,
     "midRange": 80,
@@ -32356,7 +32356,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Robert Horry",
-      "portraitAsset": "/assets/portraits/classic/robert-horry.jpg"
+      "portraitAsset": "/assets/portraits/classic/robert-horry.png"
     },
     "finishing": 83,
     "midRange": 80,
@@ -43429,7 +43429,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Kelly Oubre Jr.",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1626162.png"
+      "portraitAsset": "/assets/portraits/classic/kelly-oubre-jr.png"
     },
     "finishing": 81,
     "midRange": 80,
@@ -43523,7 +43523,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Tomas Satoransky",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1626157.png"
+      "portraitAsset": "/assets/portraits/classic/tomas-satoransky.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -49960,7 +49960,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "J.J. Redick",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200755.png"
+      "portraitAsset": "/assets/portraits/classic/jj-redick.png"
     },
     "finishing": 84,
     "midRange": 84,

@@ -26,8 +26,8 @@ export const PYRAMID_TIER_PATTERNS: Record<Exclude<PyramidTierPatternId, "list">
   steps: PYRAMID_TIER_COUNTS,
   /** 1, 3, 5, 7 … then remainder. */
   odds: [1, 3, 5, 7, 9, 11, 14],
-  /** Fibonacci 1, 1, 2, 3, 5, 8, 13, then remainder. */
-  fib: [1, 1, 2, 3, 5, 8, 13, 17],
+  /** Fibonacci rows: 1, then 2, then 3, then 5… remainder on the last row. */
+  fib: [1, 2, 3, 5, 8, 13, 18],
   /**
    * #1 apex, then best available 5-man (one per position), then 10s
    * (two per position), then remainder — see {@link pyramidPositionTeamRows}.
@@ -507,10 +507,17 @@ export function pyramidPositionTeamRows(
   return rows;
 }
 
+/** Cards per ring in a position wedge — 1 on the inner, then 2, then up to 3. */
+function ringCapacity(ring: number): number {
+  if (ring <= 0) return 1;
+  if (ring === 1) return 2;
+  return 3;
+}
+
 /**
  * Place ranks 2..N on five position wedges around #1.
- * Per position: best ranks nearest the centre, spaced on clear rings;
- * after the first ring, place two abreast when space allows; further rings shrink.
+ * Per position: best ranks nearest the centre; outer rings take more abreast and
+ * step farther out so layers 3–4 stay readable instead of stacking on top of each other.
  */
 export function buildPyramidRingSlots(
   order: readonly string[],
@@ -539,29 +546,31 @@ export function buildPyramidRingSlots(
     const n = group.length;
     if (!n) continue;
     const mid = w * wedge + wedge / 2 - 90;
-    // How many rings this wedge needs if ring0=1 card, then 2 per ring.
     let ringsNeeded = 0;
     let left = n;
     while (left > 0) {
-      const cap = ringsNeeded === 0 ? 1 : 2;
-      left -= Math.min(cap, left);
+      left -= Math.min(ringCapacity(ringsNeeded), left);
       ringsNeeded += 1;
     }
     const ringDenom = Math.max(1, ringsNeeded - 1);
     let cursor = 0;
     for (let ring = 0; ring < ringsNeeded; ring++) {
-      const capacity = ring === 0 ? 1 : 2;
+      const capacity = ringCapacity(ring);
       const take = Math.min(capacity, n - cursor);
-      const radiusT = ringsNeeded <= 1 ? 0.35 : ring / ringDenom;
-      // Outer rings shrink; keep the first ring full size.
-      const scale = Math.max(0.55, 1 - ring * 0.12);
-      // Pair spread grows slightly with ring so outer pairs don't collide.
-      const pairSpread = (wedge * 0.28) * (0.85 + ring * 0.08);
+      // Even radial steps 0…1; single-ring wedges sit mid-band.
+      const radiusT = ringsNeeded <= 1 ? 0.42 : ring / ringDenom;
+      // Mild shrink — prefer spacing over crushing outer cards.
+      const scale = Math.max(0.5, 1 - ring * 0.09);
+      // Angular fan within the wedge; grows on outer rings.
+      const fan = (wedge * 0.32) * (0.9 + ring * 0.14);
       for (let j = 0; j < take; j++) {
         const entry = group[cursor + j]!;
         let angleDeg = mid;
         if (take === 2) {
-          angleDeg = mid + (j === 0 ? -pairSpread : pairSpread);
+          angleDeg = mid + (j === 0 ? -fan : fan);
+        } else if (take >= 3) {
+          const t = take === 1 ? 0 : (j / (take - 1)) * 2 - 1; // -1 … +1
+          angleDeg = mid + t * fan;
         }
         slots.push({
           playerId: entry.playerId,

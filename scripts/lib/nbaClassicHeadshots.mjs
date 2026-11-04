@@ -243,7 +243,8 @@ export const CLASSIC_NBA_IDS = {
   "Marcin Gortat": 101162,
   "Kelly Oubre Jr.": 1626162,
   "Bojan Bogdanovic": 202711,
-  "Tomas Satoransky": 1626157,
+  // Was wrongly 1626157 (Karl-Anthony Towns); Satoransky is 203107.
+  "Tomas Satoransky": 203107,
   "Jason Smith": 201160,
   "Brandon Jennings": 201943,
   "Trey Burke": 203504,
@@ -434,6 +435,8 @@ export const CLASSIC_ESPN_IDS = {
   "Randy Brown": 98,
   "Greg Foster": 249,
   "Dominique Jones": 4244,
+  "Kelly Oubre Jr.": 3133603,
+  "Tomas Satoransky": 6621,
 };
 
 /**
@@ -509,6 +512,7 @@ export const CLASSIC_LOCAL_PORTRAITS = {
   "Isiah Thomas": "/assets/portraits/classic/isiah-thomas.png",
   "Jacque Vaughn": "/assets/portraits/classic/jacque-vaughn.png",
   "Jake Voskuhl": "/assets/portraits/classic/jake-voskuhl.png",
+  "J.J. Redick": "/assets/portraits/classic/jj-redick.png",
   "James Edwards": "/assets/portraits/classic/james-edwards.jpg",
   "James Harden": "/assets/portraits/classic/james-harden.png",
   "James Worthy": "/assets/portraits/classic/james-worthy.png",
@@ -531,6 +535,7 @@ export const CLASSIC_LOCAL_PORTRAITS = {
   "Kareem Abdul-Jabbar": "/assets/portraits/classic/kareem-abdul-jabbar.png",
   "Keith Erickson": "/assets/portraits/classic/keith-erickson.png",
   "Kenny Smith": "/assets/portraits/classic/kenny-smith.png",
+  "Kelly Oubre Jr.": "/assets/portraits/classic/kelly-oubre-jr.png",
   "Kevin Johnson": "/assets/portraits/classic/kevin-johnson.png",
   "Kevin McHale": "/assets/portraits/classic/kevin-mchale.png",
   "Kevin Willis": "/assets/portraits/classic/kevin-willis.png",
@@ -577,7 +582,7 @@ export const CLASSIC_LOCAL_PORTRAITS = {
   "Rick Carlisle": "/assets/portraits/classic/rick-carlisle.jpg",
   "Rick Fox": "/assets/portraits/classic/rick-fox.jpg",
   "Rick Mahorn": "/assets/portraits/classic/rick-mahorn.png",
-  "Robert Horry": "/assets/portraits/classic/robert-horry.jpg",
+  "Robert Horry": "/assets/portraits/classic/robert-horry.png",
   "Rodney Buford": "/assets/portraits/classic/rodney-buford.png",
   "Ron Bonham": "/assets/portraits/classic/ron-bonham.png",
   "Ron Harper": "/assets/portraits/classic/ron-harper.png",
@@ -601,6 +606,7 @@ export const CLASSIC_LOCAL_PORTRAITS = {
   "Terry Mills": "/assets/portraits/classic/terry-mills.jpg",
   "Tim Duncan": "/assets/portraits/classic/tim-duncan.png",
   "Todd MacCulloch": "/assets/portraits/classic/todd-macculloch.png",
+  "Tomas Satoransky": "/assets/portraits/classic/tomas-satoransky.png",
   "Tom Chambers": "/assets/portraits/classic/tom-chambers.png",
   "Tom Heinsohn": "/assets/portraits/classic/tom-heinsohn.png",
   "Toni Kukoc": "/assets/portraits/classic/toni-kukoc.png",

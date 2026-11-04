@@ -146,7 +146,7 @@ describe("defaultPyramid", () => {
     expect(slots.every((s) => s.rank > 1)).toBe(true);
   });
 
-  it("packs each position as 1 then pairs, shrinking outer rings", () => {
+  it("packs each position as 1 then pairs/triples, spreading outer rings", () => {
     const order = [...DEFAULT_PYRAMID_ORDER];
     // Five SF after #1 → rings: 1, then 2, then 2.
     const ids = order.slice(0, 6);
@@ -163,6 +163,12 @@ describe("defaultPyramid", () => {
     expect(byRank[3]!.radiusT).toBeGreaterThan(byRank[1]!.radiusT);
     expect(byRank[4]!.scale).toBeLessThanOrEqual(byRank[3]!.scale);
     expect(byRank[4]!.scale).toBeLessThan(byRank[1]!.scale);
+
+    // Deeper wedge uses triples on outer rings (fewer buried layers).
+    const deep = buildPyramidRingSlots(order.slice(0, 11), () => "PG").slots;
+    const radii = [...new Set(deep.map((s) => s.radiusT))].sort((a, b) => a - b);
+    expect(radii.length).toBeLessThanOrEqual(5);
+    expect(radii[radii.length - 1]!).toBe(1);
   });
 
   it("normalizes pyramid save view and pool", () => {

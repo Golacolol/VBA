@@ -2617,54 +2617,6 @@ select.formation-chip.formation-select option {
   transform: rotateY(180deg);
   z-index: 2;
 }
-/* Purple foil — 95+ OVR legends (pack pull + card face). */
-.player-card.is-foil-purple .player-card-face {
-  border-color: rgba(168, 85, 247, 0.75);
-  box-shadow:
-    0 0 0 1px rgba(168, 85, 247, 0.35),
-    0 10px 28px rgba(0, 0, 0, 0.5),
-    0 0 22px rgba(139, 92, 246, 0.28),
-    inset 0 0 0 1px color-mix(in srgb, #c084fc 40%, transparent);
-}
-.player-card.is-foil-purple .player-card-team {
-  background-image:
-    linear-gradient(
-      105deg,
-      #4c1d95 0%,
-      #7e22ce 14%,
-      #c084fc 28%,
-      #f3e8ff 42%,
-      #a855f7 52%,
-      #c084fc 64%,
-      #6b21a8 78%,
-      #e9d5ff 90%,
-      #a855f7 100%
-    );
-  filter: drop-shadow(0 1px 0 rgba(46, 16, 101, 0.55)) drop-shadow(0 0 5px rgba(168, 85, 247, 0.4));
-  animation-name: player-card-team-purple-shift;
-}
-@keyframes player-card-team-purple-shift {
-  0% { background-position: 8% 50%; }
-  100% { background-position: 92% 50%; }
-}
-.player-card.is-foil-purple .player-card-pos-code {
-  color: #e9d5ff;
-  border-color: rgba(168, 85, 247, 0.55);
-}
-.player-card.is-foil-purple .player-card-ovr-holo {
-  background-image:
-    linear-gradient(
-      115deg,
-      #f3e8ff 0%,
-      #c084fc 18%,
-      #a855f7 36%,
-      #fce7f3 52%,
-      #7c3aed 68%,
-      #e9d5ff 84%,
-      #f3e8ff 100%
-    );
-  filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.45));
-}
 .player-card-top,
 .player-card-back-head {
   display: grid;
@@ -6629,14 +6581,10 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   user-select: none;
   box-sizing: border-box;
 }
-/* List layout — must follow base .pyramid-cell so width/flex win the cascade. */
+/* List layout — centred wrap in rank order (1, 2, 3…). */
 .pyramid-tiers.is-list {
   align-items: stretch;
   gap: 14px;
-}
-.pyramid-tiers.is-list .pyramid-list-apex {
-  justify-content: center;
-  flex-wrap: nowrap;
 }
 .pyramid-tiers.is-list .pyramid-list-flow {
   display: flex;
@@ -6645,13 +6593,7 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   align-items: stretch;
   gap: 10px;
   width: 100%;
-  /* Width formula uses --tier-count; keep ~5-across, not 49. */
   --tier-count: 5;
-}
-.pyramid-tiers.is-list .pyramid-cell.is-list-apex {
-  width: min(168px, 42%);
-  min-width: 120px;
-  flex: 0 0 auto;
 }
 .pyramid-tiers.is-list .pyramid-cell.is-list-cell {
   width: min(128px, calc((100% - 40px) / 5));
@@ -6660,17 +6602,12 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   flex: 0 1 auto;
   padding: 10px 6px 8px;
 }
-.pyramid-tiers.is-list .pyramid-cell.is-list-apex .pyramid-move,
 .pyramid-tiers.is-list .pyramid-cell.is-list-cell .pyramid-move {
   width: 28px;
   height: 28px;
   font-size: 14px;
   border-color: rgba(62, 198, 255, 0.45);
   background: rgba(62, 198, 255, 0.16);
-}
-.pyramid-tiers.is-list .pyramid-cell.is-list-apex .pyramid-cell-kit {
-  width: 56px;
-  height: 56px;
 }
 .pyramid-tiers.is-list .pyramid-cell.is-list-cell .pyramid-cell-kit {
   width: 48px;
@@ -7008,15 +6945,14 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 .pyramid-ring-viewport {
   position: relative;
   width: 100%;
-  min-height: min(72vh, 680px);
-  height: min(72vh, 680px);
-  overflow: hidden;
+  min-height: min(78vh, 760px);
+  height: min(78vh, 760px);
+  overflow: auto;
   border-radius: 12px;
   cursor: grab;
   touch-action: none;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(62, 198, 255, 0.1), transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.55) 72%);
+  background: #000;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 .pyramid-ring-viewport:active {
   cursor: grabbing;
@@ -7202,7 +7138,8 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   top: 50%;
   width: 0;
   height: 0;
-  z-index: 4;
+  /* Above inner orbit cards (nodes start ~z 20); outer rings still stack higher. */
+  z-index: 35;
   pointer-events: none;
 }
 .pyramid-ring-center-spin {
@@ -7530,6 +7467,13 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+}
+.pyramid-draft.is-lobby .pyramid-draft-board {
+  opacity: 0.92;
+}
+.pyramid-draft.is-lobby .pyramid-draft-card[disabled] {
+  cursor: default;
+  opacity: 1;
 }
 .pyramid-draft-status {
   display: flex;

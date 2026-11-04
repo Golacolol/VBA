@@ -43,6 +43,7 @@ import {
   normalizeDraftSave,
   restartDraft,
   setDraftFilter,
+  startDraft,
   swapDraftRosterSlots,
   toggleDraftSeatKind,
   type DraftSave,
@@ -319,9 +320,9 @@ export class PyramidHub {
                 ? `<div class="pyramid-view-toggle pyramid-layout-toggle" role="group" aria-label="Pyramid layout">
               <button type="button" class="pyramid-view-btn${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps"${titleAttr("1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>Steps</button>
               <button type="button" class="pyramid-view-btn${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds"${titleAttr("1 · 3 · 5 · 7 · 9 · 11 · 14")}>1-3-5</button>
-              <button type="button" class="pyramid-view-btn${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib"${titleAttr("Fibonacci 1 · 1 · 2 · 3 · 5 · 8 · 13 · 17")}>Fib</button>
+              <button type="button" class="pyramid-view-btn${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib"${titleAttr("Fibonacci 1 · 2 · 3 · 5 · 8 · 13 · 18")}>Fib</button>
               <button type="button" class="pyramid-view-btn${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions"${titleAttr("Best available teams: #1 · 5 (one per pos) · 10s (two per pos)")}>1-5-10</button>
-              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("#1 top centre, then left-to-right rows")}>List</button>
+              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Rank order · centred rows · 1 then 2 then 3…")}>List</button>
             </div>`
                 : ""
             }
@@ -380,12 +381,11 @@ export class PyramidHub {
     this.ringResizeObserver.observe(vp);
   }
 
-  private cellHtml(entry: PyramidEntry, opts?: { compact?: boolean; list?: boolean; apex?: boolean }): string {
+  private cellHtml(entry: PyramidEntry, opts?: { compact?: boolean; list?: boolean }): string {
     const list = opts?.list === true;
-    const apex = opts?.apex === true;
-    const compact = opts?.compact === true && !list && !apex;
+    const compact = opts?.compact === true && !list;
     return `
-      <article class="pyramid-cell${compact ? " is-compact" : ""}${list ? " is-list-cell" : ""}${apex ? " is-list-apex" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}`)}>
+      <article class="pyramid-cell${compact ? " is-compact" : ""}${list ? " is-list-cell" : ""}" draggable="true" data-pyramid-zone="order" data-pyramid-index="${entry.index}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · #${entry.rank}`)}>
         <div class="pyramid-cell-kit-row">
           <button type="button" class="pyramid-move" data-pyramid="up" data-index="${entry.index}" aria-label="Move up" draggable="false" ${entry.index === 0 ? "disabled" : ""}>↑</button>
           <div class="pyramid-cell-kit">${this.kitBadgeHtml(entry)}</div>
@@ -494,13 +494,8 @@ export class PyramidHub {
 
     let tiers: string;
     if (listMode) {
-      const apex = entries[0];
-      const rest = entries.slice(1);
-      tiers = `${
-        apex
-          ? `<div class="pyramid-tier pyramid-list-apex" data-tier="1" style="--tier-count:1;--tier-scale:1">${this.cellHtml(apex, { list: true, apex: true })}</div>`
-          : ""
-      }<div class="pyramid-tier pyramid-list-flow" data-tier="2" style="--tier-count:5;--tier-scale:1">${rest
+      // Single centred wrap: 1, 2, 3… left-to-right (no lone apex row).
+      tiers = `<div class="pyramid-tier pyramid-list-flow" data-tier="1" style="--tier-count:5;--tier-scale:1">${entries
         .map((entry) => this.cellHtml(entry, { list: true }))
         .join("")}</div>`;
     } else if (positionsMode) {
@@ -561,7 +556,9 @@ export class PyramidHub {
       .map((slot) => {
         const entry = byId.get(slot.playerId) ?? this.entryFor(slot.playerId, slot.index);
         // Per-position rings: radiusT + scale; applyRingOrbitSize writes left/top in px.
-        return `<div class="pyramid-ring-node" data-pos="${slot.position}" data-angle="${slot.angleDeg}" data-radius-t="${slot.radiusT.toFixed(4)}" data-rank="${slot.rank}" data-scale="${slot.scale.toFixed(3)}" style="left:50%;top:50%;z-index:${100 - slot.rank};--ring-card-scale:${slot.scale}">
+        // Outer rings stack above so layers 3–4 are not buried under inner cards.
+        const z = 20 + Math.round(slot.radiusT * 60);
+        return `<div class="pyramid-ring-node" data-pos="${slot.position}" data-angle="${slot.angleDeg}" data-radius-t="${slot.radiusT.toFixed(4)}" data-rank="${slot.rank}" data-scale="${slot.scale.toFixed(3)}" style="left:50%;top:50%;z-index:${z};--ring-card-scale:${slot.scale}">
           <div class="pyramid-ring-node-spin">
             ${this.ringCardHtml(entry)}
           </div>
@@ -605,16 +602,28 @@ export class PyramidHub {
     const vp = this.root.querySelector<HTMLElement>(".pyramid-ring-viewport");
     const stage = this.root.querySelector<HTMLElement>(".pyramid-ring-stage");
     if (!vp || !stage) return;
-    const minSide = Math.max(280, Math.min(vp.clientWidth || 680, vp.clientHeight || 680));
-    // Room for #1, then well-spaced position rings to the rim.
-    const innerR = minSide * 0.18;
-    const outerR = minSide * 0.47;
+    const minSide = Math.max(320, Math.min(vp.clientWidth || 720, vp.clientHeight || 720));
+    // Clear hole for #1; push the rim out so layers 3–4 have real radial gaps.
+    const innerR = minSide * 0.2;
+    const outerR = minSide * 0.52;
     stage.style.setProperty("--ring-orbit-px", `${outerR.toFixed(1)}px`);
-    for (const node of this.root.querySelectorAll<HTMLElement>(".pyramid-ring-node")) {
+    const nodes = [...this.root.querySelectorAll<HTMLElement>(".pyramid-ring-node")];
+    const ringSteps = new Set(
+      nodes.map((n) => Number(n.dataset.radiusT)).filter((t) => Number.isFinite(t)),
+    );
+    const stepCount = Math.max(1, ringSteps.size - 1);
+    // Prefer at least ~58px between rings so scaled cards (~70px) do not sit on each other.
+    const band = outerR - innerR;
+    const minStep = 58;
+    const needed = stepCount * minStep;
+    const stretch = needed > band ? needed / band : 1;
+    const useOuter = stretch > 1 ? innerR + needed : outerR;
+    if (stretch > 1) stage.style.setProperty("--ring-orbit-px", `${useOuter.toFixed(1)}px`);
+    for (const node of nodes) {
       const angle = Number(node.dataset.angle);
       const radiusT = Number(node.dataset.radiusT);
       if (!Number.isFinite(angle) || !Number.isFinite(radiusT)) continue;
-      const r = innerR + Math.max(0, Math.min(1, radiusT)) * (outerR - innerR);
+      const r = innerR + Math.max(0, Math.min(1, radiusT)) * (useOuter - innerR);
       const rad = (angle * Math.PI) / 180;
       const x = Math.sin(rad) * r;
       const y = -Math.cos(rad) * r;
@@ -838,6 +847,12 @@ export class PyramidHub {
       this.render();
       return;
     }
+    if (act === "draft-start") {
+      this.clearDraftAiReveal();
+      this.persistDraft(startDraft(this.draftState()));
+      this.render();
+      return;
+    }
     if (act === "draft-start-team" || act === "draft-simulate") {
       // Placeholders — wired later.
       return;
@@ -1045,13 +1060,16 @@ export class PyramidHub {
     if (this.draftInspectSeat != null && draft.seats[this.draftInspectSeat]) {
       return this.draftInspectHtml(draft, this.draftInspectSeat);
     }
+    const lobby = draft.status === "ready";
     const ctx = currentDraftPick(draft);
     const total = draftTotalPicks(draft.seats.length);
-    const onClock = ctx
-      ? `${escapeHtml(ctx.seat.name)} · pick ${ctx.pickNumber}/${total}`
-      : draft.status === "done"
-        ? "Draft complete"
-        : "—";
+    const onClock = lobby
+      ? "Ready — press Start"
+      : ctx
+        ? `${escapeHtml(ctx.seat.name)} · pick ${ctx.pickNumber}/${total}`
+        : draft.status === "done"
+          ? "Draft complete"
+          : "—";
     const revealing = !!this.draftAiReveal;
     const humanTurn = !!ctx && ctx.seat.kind === "human" && !revealing;
     const filters = DRAFT_FILTERS.map(
@@ -1090,8 +1108,8 @@ export class PyramidHub {
           </article>`;
       })
       .join("");
-    // Keep the full board visible during AI picks — flash the chosen card in place.
-    const showBoard = revealing || (humanTurn && !!ctx);
+    // Lobby + human turn + AI flash keep the pool visible; otherwise wait / done copy.
+    const showBoard = lobby || revealing || (humanTurn && !!ctx);
     const board = showBoard
       ? (() => {
           let list = draftCandidates(this.db, draft);
@@ -1102,7 +1120,7 @@ export class PyramidHub {
             if (sp) list = [sp, ...list];
           }
           return (
-            list.map((sp) => this.draftCardHtml(sp, flashId)).join("") ||
+            list.map((sp) => this.draftCardHtml(sp, flashId, { pickable: !lobby && !flashId })).join("") ||
             `<div class="pyramid-draft-empty">No players left in this filter.</div>`
           );
         })()
@@ -1113,8 +1131,11 @@ export class PyramidHub {
     const statusLine = revealing
       ? `${escapeHtml(this.draftAiReveal!.seatName)} selects`
       : onClock;
+    const startBtn = lobby
+      ? `<button type="button" class="pyramid-btn" data-pyramid="draft-start">Start</button>`
+      : "";
     return `
-      <div class="pyramid-draft${revealing ? " is-ai-picking" : ""}">
+      <div class="pyramid-draft${revealing ? " is-ai-picking" : ""}${lobby ? " is-lobby" : ""}">
         <div class="pyramid-draft-toolbar">
           <div class="pyramid-draft-status">
             <span class="pyramid-draft-onclock">${statusLine}</span>
@@ -1123,7 +1144,8 @@ export class PyramidHub {
           <div class="pyramid-draft-actions">
             <button type="button" class="pyramid-btn ghost" data-pyramid="draft-add-seat" ${draft.seats.length >= DRAFT_MAX_SEATS || revealing ? "disabled" : ""}>+ Seat</button>
             <button type="button" class="pyramid-btn ghost" data-pyramid="draft-autofill" ${revealing ? "disabled" : ""}>Auto-fill</button>
-            <button type="button" class="pyramid-btn" data-pyramid="draft-restart">Restart</button>
+            ${startBtn}
+            <button type="button" class="pyramid-btn${lobby ? " ghost" : ""}" data-pyramid="draft-restart">Restart</button>
           </div>
         </div>
         <div class="pyramid-draft-filters" role="group" aria-label="Draft pool">${filters}</div>
@@ -1331,9 +1353,15 @@ export class PyramidHub {
       .replace(/<div class="player-card-flip-nav"[\s\S]*?<\/div>/, "");
   }
 
-  private draftCardHtml(sp: SquadPlayer, flashPlayerId: string | null = null): string {
+  private draftCardHtml(
+    sp: SquadPlayer,
+    flashPlayerId: string | null = null,
+    opts?: { pickable?: boolean },
+  ): string {
     const flashing = !!flashPlayerId && flashPlayerId === sp.player.id;
-    return `<button type="button" class="pyramid-draft-card${flashing ? " is-ai-flash" : ""}" data-pyramid="draft-pick" data-player-id="${escapeAttr(sp.player.id)}"${flashing ? " disabled" : ""}${titleAttr(`${sp.player.name} · ${sp.player.primaryPosition} · OVR ${Math.round(sp.overall)}${flashing ? " · AI pick" : " · tap to draft"}`)}>
+    const pickable = opts?.pickable !== false && !flashing;
+    const hint = flashing ? " · AI pick" : pickable ? " · tap to draft" : "";
+    return `<button type="button" class="pyramid-draft-card${flashing ? " is-ai-flash" : ""}" data-pyramid="draft-pick" data-player-id="${escapeAttr(sp.player.id)}"${pickable ? "" : " disabled"}${titleAttr(`${sp.player.name} · ${sp.player.primaryPosition} · OVR ${Math.round(sp.overall)}${hint}`)}>
       ${this.draftCardFaceHtml(sp)}
     </button>`;
   }

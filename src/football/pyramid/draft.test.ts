@@ -18,6 +18,7 @@ import {
   normalizeDraftSave,
   restartDraft,
   setDraftFilter,
+  startDraft,
   swapDraftRosterSlots,
 } from "./draft";
 import { GameDatabase } from "../../core/Database";
@@ -31,8 +32,16 @@ describe("draft engine", () => {
     expect(d.seats.slice(1).every((s) => s.kind === "ai")).toBe(true);
     expect(d.firstSeat).toBeGreaterThanOrEqual(0);
     expect(d.firstSeat).toBeLessThan(DRAFT_DEFAULT_SEATS);
-    expect(d.status).toBe("picking");
+    expect(d.status).toBe("ready");
     expect(draftTotalPicks(d.seats.length)).toBe(DRAFT_DEFAULT_SEATS * DRAFT_ROSTER_SIZE);
+  });
+
+  it("stays in lobby until Start; Start begins picking", () => {
+    const lobby = defaultDraftSave(2);
+    expect(currentDraftPick(lobby)).toBeNull();
+    const started = startDraft(lobby);
+    expect(started.status).toBe("picking");
+    expect(currentDraftPick(started)?.seatIndex).toBe(started.firstSeat);
   });
 
   it("snakes pick order from the first seat", () => {
@@ -114,25 +123,28 @@ describe("draft engine", () => {
     expect(next.seats).toHaveLength(2);
     expect(next.seats.every((s) => s.roster.length === 0)).toBe(true);
     expect(next.pickIndex).toBe(0);
-    expect(next.status).toBe("picking");
+    expect(next.status).toBe("ready");
   });
 
   it("changing filter restarts the board", () => {
-    const d = defaultDraftSave(2);
+    const d = startDraft(defaultDraftSave(2));
     d.pickIndex = 3;
     const next = setDraftFilter(d, "east");
     expect(next.filter).toBe("east");
     expect(next.pickIndex).toBe(0);
+    expect(next.status).toBe("ready");
     expect(next.seats.every((s) => s.roster.length === 0)).toBe(true);
   });
 
-  it("offers undrafted players sorted by overall (any position)", async () => {
+  it("offers the full undrafted identity pool (≥100), sorted by overall", async () => {
     const db = await GameDatabase.load(new SaveManager());
-    const draft = defaultDraftSave(2);
+    const draft = startDraft(defaultDraftSave(2));
     draft.filter = "all";
     draft.firstSeat = 0;
     const ctx = currentDraftPick(draft);
     expect(ctx?.seat.kind).toBe("human");
+    const full = draftCandidates(db, draft);
+    expect(full.length).toBeGreaterThanOrEqual(100);
     const board = draftCandidates(db, draft, 12);
     expect(board.length).toBeGreaterThan(5);
     for (let i = 1; i < board.length; i++) {
@@ -154,7 +166,7 @@ describe("draft engine", () => {
       draftPlayerIdentityKey(db.players.get(atl)!),
     );
 
-    const draft = defaultDraftSave(2);
+    const draft = startDraft(defaultDraftSave(2));
     draft.filter = "classic";
     draft.firstSeat = 0;
     const board = draftCandidates(db, draft, 500);
@@ -173,7 +185,7 @@ describe("draft engine", () => {
     expect(db.teams.has("classic_orl_1994_95")).toBe(true);
     expect(db.teams.has("classic_lal_2009_10")).toBe(true);
 
-    const draft = defaultDraftSave(2);
+    const draft = startDraft(defaultDraftSave(2));
     draft.filter = "classic";
     draft.firstSeat = 0;
     const board = draftCandidates(db, draft, 800);
@@ -197,7 +209,7 @@ describe("draft engine", () => {
 
   it("AI picks from the top band with variety; roster phase is starters then sub-5", async () => {
     const db = await GameDatabase.load(new SaveManager());
-    const draft = defaultDraftSave(2);
+    const draft = startDraft(defaultDraftSave(2));
     draft.filter = "all";
     draft.firstSeat = 0;
     const ctx = currentDraftPick(draft)!;
@@ -226,6 +238,7 @@ describe("draft engine", () => {
     const draft = defaultDraftSave(3);
     draft.filter = "all";
     draft.firstSeat = 0;
+    expect(draft.status).toBe("ready");
     const filled = autoFillDraft(db, draft);
     expect(filled.status).toBe("done");
     expect(filled.pickIndex).toBe(draftTotalPicks(3));

@@ -348,15 +348,11 @@ export function playerCardBackBodyHtml(sp: SquadPlayer, team: PlayerCardTeamCont
   return `${playerCardBackBioHtml(sp, team)}${ratingsHtml(sp, false)}`;
 }
 
-/** Purple foil card chrome for peak legends (95+ OVR). */
-export const PLAYER_CARD_PURPLE_FOIL_OVR = 95;
-
 function sportsCardHtml(sp: SquadPlayer, team: PlayerCardTeamContext, state: PlayerCardRenderState): string {
   const flipY = state.flipY ?? (state.flipped ? 180 : 0);
   const flipped = isPlayerCardShowingBack(flipY);
   const teamLabel = formatPlayerCardTeamName(team.teamName) || "TEAM";
-  const purpleFoil = Math.round(sp.overall) >= PLAYER_CARD_PURPLE_FOIL_OVR;
-  return `<div class="player-card player-card-select${flipped ? " is-flipped" : ""}${purpleFoil ? " is-foil-purple" : ""}" data-char="card-face" data-face="${flipped ? "back" : "front"}" style="--card-accent:${escapeAttr(team.teamColor)};--card-flip-y:${flipY}deg"${titleAttr("Flip card")} role="button" tabindex="0">
+  return `<div class="player-card player-card-select${flipped ? " is-flipped" : ""}" data-char="card-face" data-face="${flipped ? "back" : "front"}" style="--card-accent:${escapeAttr(team.teamColor)};--card-flip-y:${flipY}deg"${titleAttr("Flip card")} role="button" tabindex="0">
     <div class="player-card-inner">
       <div class="player-card-face player-card-front">
         <div class="player-card-top">

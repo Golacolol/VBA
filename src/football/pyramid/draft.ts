@@ -18,8 +18,11 @@ export const DRAFT_ROSTER_SIZE = 13;
 export const DRAFT_DEFAULT_SEATS = 5;
 export const DRAFT_MIN_SEATS = 2;
 export const DRAFT_MAX_SEATS = 8;
-/** Cap undrafted card grid so the board stays responsive. */
-export const DRAFT_CANDIDATE_LIMIT = 36;
+/**
+ * Soft cap for the undrafted card grid. Prefer the full identity-collapsed pool;
+ * 150 is the floor we always try to expose when the DB is larger.
+ */
+export const DRAFT_CANDIDATE_LIMIT = Number.POSITIVE_INFINITY;
 /** Larger pool when AI / auto-fill scores by roster need. */
 export const DRAFT_AI_POOL_LIMIT = 160;
 
@@ -51,6 +54,8 @@ export type DraftSeat = {
   roster: MiTeamRosterSlot[];
 };
 
+export type DraftStatus = "ready" | "picking" | "done";
+
 export type DraftSave = {
   filter: DraftFilterId;
   seats: DraftSeat[];
@@ -58,7 +63,8 @@ export type DraftSave = {
   firstSeat: number;
   /** 0-based global pick counter. */
   pickIndex: number;
-  status: "picking" | "done";
+  /** Lobby until Start; then snake picks; done when every seat is full. */
+  status: DraftStatus;
 };
 
 export function draftPoolFilter(id: DraftFilterId): MiTeamPoolFilter {
@@ -154,7 +160,7 @@ export function defaultDraftSave(seatCount = DRAFT_DEFAULT_SEATS): DraftSave {
     seats,
     firstSeat,
     pickIndex: 0,
-    status: "picking",
+    status: "ready",
   };
 }
 
@@ -174,6 +180,18 @@ export function restartDraft(prev?: DraftSave | null): DraftSave {
     filter: isDraftFilterId(prev?.filter) ? prev!.filter : "all",
     seats,
     firstSeat: Math.floor(Math.random() * seats.length),
+    pickIndex: 0,
+    status: "ready",
+  };
+}
+
+/** Leave the lobby and begin snake picks (keeps seats / filter / first pick). */
+export function startDraft(draft: DraftSave): DraftSave {
+  if (draft.status === "picking") return draft;
+  if (draft.status === "done") return startDraft(restartDraft(draft));
+  return {
+    ...draft,
+    seats: draft.seats.map((s) => ({ ...s, roster: [] as MiTeamRosterSlot[] })),
     pickIndex: 0,
     status: "picking",
   };
@@ -224,7 +242,11 @@ export function normalizeDraftSave(raw: unknown): DraftSave {
     : 0;
   const total = draftTotalPicks(seats.length);
   let pickIndex = Number.isFinite(Number(o.pickIndex)) ? Math.max(0, Math.floor(Number(o.pickIndex))) : 0;
-  let status: DraftSave["status"] = o.status === "done" ? "done" : "picking";
+  const emptyBoard = seats.every((s) => s.roster.length === 0);
+  let status: DraftStatus =
+    o.status === "done" ? "done" : o.status === "ready" ? "ready" : o.status === "picking" ? "picking" : "ready";
+  // Empty mid-draft saves open in the lobby so Start is required.
+  if (status === "picking" && pickIndex === 0 && emptyBoard) status = "ready";
   if (pickIndex >= total || seats.every((s) => s.roster.length >= DRAFT_ROSTER_SIZE)) {
     pickIndex = total;
     status = "done";
@@ -250,7 +272,8 @@ export function toggleDraftSeatKind(draft: DraftSave, seatIndex: number): DraftS
 
 export function setDraftFilter(draft: DraftSave, filter: DraftFilterId): DraftSave {
   if (!isDraftFilterId(filter) || filter === draft.filter) return draft;
-  // Changing the pool mid-draft restarts so taken ids stay coherent with the pool.
+  // Lobby: swap the pool in place. Mid-draft: restart so taken ids stay coherent.
+  if (draft.status === "ready") return { ...draft, filter };
   return restartDraft({ ...draft, filter });
 }
 
@@ -263,7 +286,7 @@ export type DraftPickContext = {
 };
 
 export function currentDraftPick(draft: DraftSave): DraftPickContext | null {
-  if (draft.status === "done") return null;
+  if (draft.status !== "picking") return null;
   const total = draftTotalPicks(draft.seats.length);
   if (draft.pickIndex >= total) return null;
   const seatIndex = draftSeatForPick(draft.pickIndex, draft.seats.length, draft.firstSeat);
@@ -303,9 +326,11 @@ export function draftCandidates(
       }
     }
   }
-  return [...bestByKey.values()]
-    .sort((a, b) => b.overall - a.overall || a.player.name.localeCompare(b.player.name))
-    .slice(0, limit);
+  const ranked = [...bestByKey.values()].sort(
+    (a, b) => b.overall - a.overall || a.player.name.localeCompare(b.player.name),
+  );
+  if (!Number.isFinite(limit) || limit <= 0) return ranked;
+  return ranked.slice(0, Math.max(0, Math.floor(limit)));
 }
 
 function shirtForSeat(roster: readonly MiTeamRosterSlot[], preferred: number): number {
@@ -529,7 +554,7 @@ export function advanceDraftAi(db: GameDatabase, draft: DraftSave, maxSteps = 20
 
 /** Complete the entire draft for every seat (human + AI) with needs-based picks. */
 export function autoFillDraft(db: GameDatabase, draft: DraftSave): DraftSave {
-  let next = draft;
+  let next = draft.status === "ready" ? startDraft(draft) : draft;
   const total = draftTotalPicks(next.seats.length);
   const guard = total + 8;
   for (let i = 0; i < guard; i++) {
