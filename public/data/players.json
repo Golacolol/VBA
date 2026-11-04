@@ -43801,7 +43801,9 @@
     "name": "A. Hardaway",
     "displayName": "Anfernee Hardaway",
     "primaryPosition": "PG",
-    "secondaryPositions": [],
+    "secondaryPositions": [
+      "SG"
+    ],
     "age": 28,
     "heightCm": 188,
     "weightKg": 95,

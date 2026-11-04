@@ -16,6 +16,7 @@ import {
   PYRAMID_TIER_PATTERNS,
   PYRAMID_TIER_SCALES,
   PYRAMID_POSITION_TEAM_COUNTS,
+  pyramidEligiblePositions,
   pyramidPositionTeamRows,
   pyramidTierRows,
   swapPyramidNeighbor,
@@ -32,15 +33,19 @@ describe("defaultPyramid", () => {
     expect(DEFAULT_PYRAMID_ORDER[1]).toBe("classic_mia_2012_13_p03"); // LeBron
     expect(DEFAULT_PYRAMID_ORDER[2]).toBe("classic_lal_1986_87_p05"); // Kareem
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_hou_1994_95_p05"); // Hakeem
-    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_tor_2000_01_p02"); // Vince Carter
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_phx_1992_93_p04"); // Barkley
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_orl_1994_95_p01"); // Penny Hardaway
-    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_lal_2009_10_p04"); // Pau Gasol
+    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_nyk_2011_12_p03"); // Carmelo Anthony
+    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_was_2007_08_p01"); // Gilbert Arenas
+    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_det_1996_97_p03"); // Grant Hill
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_lal_2009_10_p02"); // Kobe #24 (09/10)
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_tor_2000_01_p02"); // Vince Carter (88 → reserve)
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_lal_2009_10_p04"); // Pau Gasol (88 → reserve)
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_orl_1994_95_p02"); // Nick Anderson
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_lal_2009_10_p03"); // Metta World Peace
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_nyk_2011_12_p01"); // Jeremy Lin
     // Pool ranked by OVR — no team clumps (e.g. three Bulls in a row).
-    expect(DEFAULT_PYRAMID_POOL[0]).toBe("classic_dal_2010_11_p01"); // Kidd #51
+    expect(DEFAULT_PYRAMID_POOL[0]).toBe("classic_hou_2018_19_p02"); // Harden #51 (90)
     // One form per person — Magic Shaq / 00–01 Kobe stay out (09/10 Kobe is the seed).
     expect(DEFAULT_PYRAMID_ORDER.concat(DEFAULT_PYRAMID_POOL)).not.toContain("classic_orl_1994_95_p05");
     expect(DEFAULT_PYRAMID_ORDER.concat(DEFAULT_PYRAMID_POOL)).not.toContain("classic_lal_2000_01_p02");
@@ -102,7 +107,7 @@ describe("defaultPyramid", () => {
     }
   });
 
-  it("deals 1-5-10 rows as best-available position teams", () => {
+  it("deals POS A rows as best-available primary-position teams", () => {
     const order = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"];
     const pos = new Map([
       ["A", "SG"],
@@ -136,6 +141,29 @@ describe("defaultPyramid", () => {
       ["K"], // leftover after two fives
     ]);
     expect(PYRAMID_POSITION_TEAM_COUNTS.reduce((a, b) => a + b, 0)).toBe(PYRAMID_SIZE);
+  });
+
+  it("deals POS B rows using secondary / adjacent flex (PF→SF, PG→SG)", () => {
+    expect(pyramidEligiblePositions("PF", [], "secondary")).toEqual(["PF", "SF", "C"]);
+    expect(pyramidEligiblePositions("PG", [], "secondary")).toEqual(["PG", "SG"]);
+    expect(pyramidEligiblePositions("PG", [], "secondary")).not.toContain("C");
+    expect(pyramidEligiblePositions("PF", ["SF"], "secondary")).toEqual(["PF", "SF"]);
+
+    // Only PFs + one C — POS B fills SF with a PF via flex.
+    const order = ["pf1", "pf2", "c1", "pg1", "sg1"];
+    const pos = new Map([
+      ["pf1", "PF"],
+      ["pf2", "PF"],
+      ["c1", "C"],
+      ["pg1", "PG"],
+      ["sg1", "SG"],
+    ]);
+    const rows = pyramidPositionTeamRows(order, (id) => pos.get(id), {
+      dealMode: "secondary",
+      counts: [5],
+    });
+    expect(rows[0]!.entries.map((e) => e.playerId)).toEqual(["pg1", "sg1", "pf1", "pf2", "c1"]);
+    // SF filled by pf1 (flex), PF by pf2, C by c1.
   });
 
   it("seeds Kobe as 2009/10 #24 form, not 2000/01 #8", () => {
@@ -190,17 +218,18 @@ describe("defaultPyramid", () => {
       pool: DEFAULT_PYRAMID_POOL,
       view: "ring",
       size: 50,
-      seedVersion: 7,
+      seedVersion: 8,
     });
     expect(save.view).toBe("ring");
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(7);
+    expect(defaultPyramidSave().seedVersion).toBe(8);
     expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
     expect(DEFAULT_PYRAMID_ORDER[10]).toBe("classic_hou_1994_95_p05"); // Olajuwon #11
     expect(DEFAULT_PYRAMID_ORDER[15]).toBe("classic_lal_1971_72_p01"); // West #16
     expect(DEFAULT_PYRAMID_ORDER[16]).toBe("classic_den_2022_23_p05"); // Jokic #17 (93 active)
+    expect(DEFAULT_PYRAMID_ORDER[49]).toBe("classic_nyk_2011_12_p03"); // Carmelo #50
   });
 
   it("replaces a stale seed with the curated Top 50", () => {
@@ -212,12 +241,13 @@ describe("defaultPyramid", () => {
     });
     expect(stale.order[0]).toBe(DEFAULT_PYRAMID_ORDER[0]);
     expect(stale.order).toContain("classic_hou_1994_95_p05");
-    expect(stale.order).toContain("classic_tor_2000_01_p02");
-    expect(stale.order).toContain("classic_okc_2011_12_p01");
+    expect(stale.order).toContain("classic_nyk_2011_12_p03");
     expect(stale.order).toContain("classic_orl_1994_95_p01");
-    expect(stale.order).toContain("classic_lal_2009_10_p04");
     expect(stale.order).toContain("classic_lal_2009_10_p02");
-    expect(stale.seedVersion).toBe(7);
+    expect(stale.pool).toContain("classic_okc_2011_12_p01"); // Westbrook → reserve
+    expect(stale.pool).toContain("classic_lal_2009_10_p04"); // Pau → reserve
+    expect(stale.pool).toContain("classic_tor_2000_01_p02"); // Vince → reserve
+    expect(stale.seedVersion).toBe(8);
     expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
     expect(stale.order[10]).toBe("classic_hou_1994_95_p05");
   });

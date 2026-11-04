@@ -24,6 +24,7 @@ import {
   pyramidTierScalesFor,
   swapPyramidNeighbor,
   swapPyramidWithPool,
+  type PyramidPositionDealMode,
   type PyramidSave,
   type PyramidTierPatternId,
   type PyramidViewId,
@@ -63,7 +64,13 @@ import {
   portraitHtml,
   teamBadgeHtml,
 } from "./Portrait";
-import { playerCardShellHtml, type PlayerCardTeamContext } from "./playerCardShared";
+import {
+  nextPlayerCardFlipY,
+  playerCardFlipSideFromClientX,
+  playerCardShellHtml,
+  type PlayerCardTeamContext,
+} from "./playerCardShared";
+import { nextProfileStatsMode, type ProfileStatsMode } from "./ProfileHex";
 import { titleAttr } from "./infoOverlays";
 
 function escapeHtml(s: string): string {
@@ -106,8 +113,8 @@ export class PyramidHub {
   /** Pyramid view display pattern (row widths / list). Rank order unchanged. */
   private pyramidDisplay: PyramidTierPatternId = "steps";
   /**
-   * 1-5-10 toggle: false = #1 alone on top; true = #1 seated in the top five
-   * and teams reshuffled. Clicking 1-5-10 again flips this.
+   * POS A / POS B: false = #1 alone on top; true = #1 seated in the top five
+   * and teams reshuffled. Re-clicking the active POS control flips this.
    */
   private positionsApexInTopTeam = false;
   private ringDragging = false;
@@ -126,6 +133,10 @@ export class PyramidHub {
   private draftInspectSeat: number | null = null;
   /** Highlighted player inside the formation inspect panel. */
   private draftInspectPlayerId: string | null = null;
+  /** TEAM SELECT (pitch) vs PLAYER SELECT (sports card in the pitch well). */
+  private draftInspectMode: "team" | "player" = "team";
+  private draftInspectFlipY = 0;
+  private draftInspectProfileView: ProfileStatsMode = "hex";
   /** Drag source slot while rearranging a draft formation. */
   private draftLineupDragSlot: string | null = null;
   /** Ignore the click that follows an HTML5 drop so it does not reverse the swap. */
@@ -347,10 +358,15 @@ export class PyramidHub {
               <button type="button" class="pyramid-view-btn${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds"${titleAttr("1 · 3 · 5 · 7 · 9 · 11 · 14")}>1-3-5</button>
               <button type="button" class="pyramid-view-btn${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib"${titleAttr("Fibonacci 1 · 2 · 3 · 5 · 8 · 13 · 18")}>Fib</button>
               <button type="button" class="pyramid-view-btn${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions"${titleAttr(
-                this.positionsApexInTopTeam
-                  ? "Click again: #1 alone on top · then 5 · 10s"
-                  : "Click again: fold #1 into the top five · then 10s",
-              )}>${this.positionsApexInTopTeam ? "5-10" : "1-5-10"}</button>
+                this.positionsApexInTopTeam && layout === "positions"
+                  ? "POS A · primary positions · click again: #1 alone on top"
+                  : "POS A · best squads by primary position · click again: fold #1 into top five",
+              )}>POS A</button>
+              <button type="button" class="pyramid-view-btn${layout === "positionsB" ? " on" : ""}" data-pyramid="layout" data-layout="positionsB"${titleAttr(
+                this.positionsApexInTopTeam && layout === "positionsB"
+                  ? "POS B · secondary / flex · click again: #1 alone on top"
+                  : "POS B · secondary or adjacent flex (PF→SF/C, PG→SG) · click again: fold #1 into top five",
+              )}>POS B</button>
               <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Rank order · centred wrap · #1 top centre then #2…")}>List</button>
             </div>`
                 : ""
@@ -491,7 +507,10 @@ export class PyramidHub {
     const byId = new Map(entries.map((e) => [e.playerId, e]));
     const poolEntries = st.pool.map((id, i) => this.entryFor(id, PYRAMID_SIZE + i));
     const listMode = this.pyramidDisplay === "list";
-    const positionsMode = this.pyramidDisplay === "positions";
+    const positionsMode =
+      this.pyramidDisplay === "positions" || this.pyramidDisplay === "positionsB";
+    const dealMode: PyramidPositionDealMode =
+      this.pyramidDisplay === "positionsB" ? "secondary" : "primary";
     const patternCounts = positionsMode ? null : PYRAMID_TIER_PATTERNS[this.pyramidDisplay];
     const positionCounts = positionsMode
       ? this.positionsApexInTopTeam
@@ -513,11 +532,13 @@ export class PyramidHub {
                 row.entries.length >= 10 ? " ×2" : ""
               }</div>`
             : "";
-          return `${posLegend}<div class="pyramid-tier" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
+          const dense = row.entries.length >= 12;
+          return `${posLegend}<div class="pyramid-tier${dense ? " is-dense" : ""}" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
         ${row.entries
           .map((slot) => {
             const entry = byId.get(slot.playerId) ?? this.entryFor(slot.playerId, slot.index);
-            return this.cellHtml(entry, { compact: row.entries.length >= 10 });
+            // Compact styling for mid-wide rows; dense base (37–50) wraps instead of crushing kits.
+            return this.cellHtml(entry, { compact: row.entries.length >= 10 && !dense });
           })
           .join("")}
       </div>`;
@@ -534,6 +555,14 @@ export class PyramidHub {
       const rows = pyramidPositionTeamRows(st.order, (id) => byId.get(id)?.position, {
         apexInTopTeam: this.positionsApexInTopTeam,
         counts: positionCounts ?? undefined,
+        dealMode,
+        secondaryOf: (id) => {
+          try {
+            return this.db.getPlayer(id).secondaryPositions ?? [];
+          } catch {
+            return [];
+          }
+        },
       });
       tiers = renderTierRows(rows, { legendOnBalanced: true });
     } else {
@@ -719,6 +748,8 @@ export class PyramidHub {
       this.clearDraftAiReveal();
       this.draftInspectSeat = null;
       this.draftInspectPlayerId = null;
+      this.draftInspectMode = "team";
+      this.draftInspectFlipY = 0;
     }
     this.render();
   }
@@ -814,15 +845,18 @@ export class PyramidHub {
       e.stopPropagation();
       const layout = t.closest<HTMLElement>("[data-layout]")?.getAttribute("data-layout");
       if (!isPyramidTierPatternId(layout)) return;
-      // Positions: re-click toggles #1 alone ↔ #1 in the top five (other layouts are one-shot).
-      if (layout === "positions" && this.pyramidDisplay === "positions") {
+      // POS A / POS B: re-click toggles #1 alone ↔ #1 in the top five.
+      if (
+        (layout === "positions" || layout === "positionsB") &&
+        this.pyramidDisplay === layout
+      ) {
         this.positionsApexInTopTeam = !this.positionsApexInTopTeam;
         this.renderKeepingScroll();
         return;
       }
       if (this.pyramidDisplay === layout) return;
       this.pyramidDisplay = layout;
-      if (layout === "positions") this.positionsApexInTopTeam = false;
+      if (layout === "positions" || layout === "positionsB") this.positionsApexInTopTeam = false;
       this.renderKeepingScroll();
       return;
     }
@@ -896,6 +930,8 @@ export class PyramidHub {
       this.clearDraftAiReveal();
       this.draftInspectSeat = null;
       this.draftInspectPlayerId = null;
+      this.draftInspectMode = "team";
+      this.draftInspectFlipY = 0;
       this.persistDraft(restartDraft(this.draftState()));
       this.render();
       return;
@@ -906,8 +942,41 @@ export class PyramidHub {
       this.render();
       return;
     }
+    if (act === "draft-mode-team") {
+      this.draftInspectMode = "team";
+      this.render();
+      return;
+    }
+    if (act === "draft-mode-player") {
+      this.draftInspectMode = "player";
+      this.draftInspectFlipY = 0;
+      this.render();
+      return;
+    }
+    if (act === "draft-nav-prev" || act === "draft-nav-next") {
+      this.stepDraftInspectPlayer(act === "draft-nav-next" ? 1 : -1);
+      return;
+    }
+    if (act === "draft-card-flip") {
+      const dir = t.closest<HTMLElement>("[data-dir]")?.getAttribute("data-dir");
+      this.stepDraftInspectPlayer(dir === "next" ? 1 : -1);
+      return;
+    }
+    if (act === "draft-card-face") {
+      const card = t.closest<HTMLElement>(".player-card");
+      if (!card) return;
+      const side = playerCardFlipSideFromClientX(card, e.clientX);
+      this.draftInspectFlipY = nextPlayerCardFlipY(this.draftInspectFlipY, side);
+      this.render();
+      return;
+    }
+    if (act === "draft-profile-toggle") {
+      this.draftInspectProfileView = nextProfileStatsMode(this.draftInspectProfileView);
+      this.render();
+      return;
+    }
     if (act === "draft-start-team" || act === "draft-simulate") {
-      // Placeholders — wired later.
+      // Layout parity with Formation — no match flow yet.
       return;
     }
     if (act === "draft-autofill") {
@@ -947,12 +1016,16 @@ export class PyramidHub {
       if (!seat || seat.roster.length < DRAFT_ROSTER_SIZE) return;
       this.draftInspectSeat = idx;
       this.draftInspectPlayerId = seat.roster[0]?.playerId ?? null;
+      this.draftInspectMode = "team";
+      this.draftInspectFlipY = 0;
       this.render();
       return;
     }
     if (act === "draft-inspect-back") {
       this.draftInspectSeat = null;
       this.draftInspectPlayerId = null;
+      this.draftInspectMode = "team";
+      this.draftInspectFlipY = 0;
       this.render();
       return;
     }
@@ -962,12 +1035,20 @@ export class PyramidHub {
       if (this.suppressDraftInspectClick) {
         this.suppressDraftInspectClick = false;
         this.draftInspectPlayerId = playerId;
+        this.draftInspectFlipY = 0;
         this.render();
         return;
       }
       const draft = this.draftState();
       const seat = draft.seats[this.draftInspectSeat];
       if (!seat) return;
+      // PLAYER SELECT: tapping a player only focuses their card (no lineup swap).
+      if (this.draftInspectMode === "player") {
+        this.draftInspectPlayerId = playerId;
+        this.draftInspectFlipY = 0;
+        this.render();
+        return;
+      }
       const toSlot =
         t.closest<HTMLElement>("[data-slot]")?.getAttribute("data-slot") ??
         seat.roster.find((r) => r.playerId === playerId)?.slot ??
@@ -1019,6 +1100,7 @@ export class PyramidHub {
       const poolIdx = pool.indexOf(player.id);
       const index = orderIdx >= 0 ? orderIdx : poolIdx >= 0 ? PYRAMID_SIZE + poolIdx : -1;
       const entry = this.entryFor(player.id, Math.max(0, index));
+      // Keep the membership shirt for this cell (do not reuse another era’s number).
       entry.shirtNumber = n;
       entry.rank = orderIdx >= 0 ? orderIdx + 1 : poolIdx >= 0 ? PYRAMID_SIZE + poolIdx + 1 : 0;
       entry.index = index;
@@ -1036,23 +1118,50 @@ export class PyramidHub {
     return byNum;
   }
 
+  /** Drop jersey picks that do not actually wear that number (stale / wrong saves). */
+  private sanitizeJerseyChoice(
+    choice: Record<string, string> | undefined,
+    byNum: Map<number, (PyramidEntry & { overall: number })[]>,
+  ): Record<string, string> {
+    if (!choice) return {};
+    const next: Record<string, string> = {};
+    let changed = false;
+    for (const [key, playerId] of Object.entries(choice)) {
+      const n = Number(key);
+      if (!Number.isInteger(n) || n < 0 || n > 99 || !playerId) {
+        changed = true;
+        continue;
+      }
+      const list = byNum.get(n) ?? [];
+      if (!list.some((c) => c.playerId === playerId)) {
+        changed = true;
+        continue;
+      }
+      next[key] = playerId;
+    }
+    if (changed) this.persist({ jerseyChoice: next });
+    return next;
+  }
+
   /**
    * Jersey 0–99 grid — every database player, grouped by shirt number.
    * Cell shows chosen (or highest-rated) wearer; click opens a replacement picker.
    */
   private jerseyHtml(): string {
     const byNum = this.jerseyCandidatesByNumber();
-    const choice = this.state().jerseyChoice ?? {};
+    const choice = this.sanitizeJerseyChoice(this.state().jerseyChoice, byNum);
     const cells: string[] = [];
     for (let n = 0; n < 100; n++) {
       const list = byNum.get(n) ?? [];
       const chosenId = choice[String(n)];
+      // Only honour a saved pick if that player actually wears this number.
       const entry = (chosenId && list.find((c) => c.playerId === chosenId)) || list[0];
       if (entry) {
+        const kitEntry = { ...entry, shirtNumber: n };
         cells.push(`
           <button type="button" class="pyramid-jersey-cell is-filled" data-pyramid="jersey-open" data-jersey="${n}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · jersey ${n} · tap to change`)}>
             <div class="pyramid-cell-kit-row">
-              <div class="pyramid-cell-kit">${this.kitBadgeHtml(entry)}</div>
+              <div class="pyramid-cell-kit">${this.kitBadgeHtml(kitEntry)}</div>
             </div>
             ${this.portraitHtml(entry)}
           </button>`);
@@ -1151,13 +1260,18 @@ export class PyramidHub {
           .join("");
         const complete = seat.roster.length >= DRAFT_ROSTER_SIZE;
         return `
-          <article class="pyramid-draft-seat${on ? " is-on" : ""}${complete ? " is-complete" : ""}"${complete ? ` data-pyramid="draft-inspect" data-seat-index="${i}"${titleAttr(`View ${seat.name} formation`)}` : ""}>
+          <article class="pyramid-draft-seat${on ? " is-on" : ""}${complete ? " is-complete" : ""}">
             <header class="pyramid-draft-seat-head">
               <h3>${escapeHtml(seat.name)}</h3>
               <button type="button" class="pyramid-btn ghost" data-pyramid="draft-toggle-seat" data-seat-index="${i}"${titleAttr("Toggle human / AI")}>${seat.kind === "human" ? "YOU" : "AI"}</button>
             </header>
             <div class="pyramid-draft-slots">${slots}</div>
-            <div class="pyramid-draft-seat-meta">${seat.roster.length}/${DRAFT_ROSTER_SIZE}${complete ? " · tap for formation" : ""}</div>
+            <div class="pyramid-draft-seat-meta">${seat.roster.length}/${DRAFT_ROSTER_SIZE}</div>
+            ${
+              complete
+                ? `<button type="button" class="pyramid-btn ghost pyramid-draft-seat-open" data-pyramid="draft-inspect" data-seat-index="${i}"${titleAttr(`Open ${seat.name} formation`)}>Formation</button>`
+                : ""
+            }
           </article>`;
       })
       .join("");
@@ -1180,7 +1294,7 @@ export class PyramidHub {
             );
           })()
         : draft.status === "done"
-          ? `<div class="pyramid-draft-empty">Draft complete — Restart to run again.</div>`
+          ? `<div class="pyramid-draft-empty">Draft complete — open a seat’s <strong>Formation</strong> to swap positions or view cards.</div>`
           : `<div class="pyramid-draft-empty">Waiting on ${escapeHtml(ctx?.seat.name ?? "AI")}…</div>`;
     const firstName = draft.seats[draft.firstSeat]?.name ?? "—";
     const statusLine = revealing
@@ -1210,9 +1324,10 @@ export class PyramidHub {
     `;
   }
 
-  /** Formation panel for a completed draft seat — switch teams via tabs; actions are stubs. */
+  /** Formation panel for a completed draft seat — TEAM SELECT pitch or PLAYER SELECT card. */
   private draftInspectHtml(draft: DraftSave, seatIndex: number): string {
     const seat = draft.seats[seatIndex]!;
+    const playerMode = this.draftInspectMode === "player";
     const tabs = draft.seats
       .filter((s) => s.roster.length >= DRAFT_ROSTER_SIZE)
       .map((s) => {
@@ -1225,24 +1340,62 @@ export class PyramidHub {
         <div class="char-panel char-panel-team pyramid-draft-formation-panel">
           <div class="team-select-head">
             <div class="pyramid-draft-inspect-heading">
-              <button type="button" class="pyramid-btn ghost" data-pyramid="draft-inspect-back">← Back</button>
               <div class="pyramid-draft-inspect-title">
                 <h3>${escapeHtml(seat.name)}</h3>
                 <span>${seat.roster.length}/${DRAFT_ROSTER_SIZE} · ${seat.kind === "human" ? "YOU" : "AI"}</span>
               </div>
             </div>
             <div class="formation-toolbar" role="toolbar" aria-label="Draft formation">
-              <span class="formation-chip formation-chip-static on">BASKETBALL 5</span>
-              <span class="formation-chip formation-chip-static pyramid-draft-lineup-hint">Drag or select then tap to swap</span>
-              <button type="button" class="formation-chip" data-pyramid="draft-start-team"${titleAttr("Coming soon")}>START AS TEAM</button>
-              <button type="button" class="formation-chip" data-pyramid="draft-simulate"${titleAttr("Coming soon")}>SIMULATE</button>
+              <span class="formation-chip formation-chip-static on" aria-label="Formation">BASKETBALL 5</span>
             </div>
             <div class="pyramid-draft-inspect-tabs" role="tablist">${tabs}</div>
           </div>
           ${this.draftFormationPanelHtml(seat)}
+          <div class="char-modes">
+            <button type="button" data-pyramid="draft-mode-player" class="${playerMode ? "on" : ""}">PLAYER SELECT</button>
+            <button type="button" data-pyramid="draft-mode-team" class="${!playerMode ? "on" : ""}">TEAM SELECT</button>
+          </div>
+          <div class="char-nav">
+            <button type="button" class="char-nav-step" data-pyramid="draft-nav-prev" aria-label="Previous">‹</button>
+            <button type="button" data-pyramid="draft-inspect-back">BACK</button>
+            <button type="button" data-pyramid="draft-start-team"${titleAttr("Coming soon")}>START AS TEAM</button>
+            <button type="button" data-pyramid="draft-simulate"${titleAttr("Coming soon")}>SIMULATE</button>
+            <button type="button" class="char-nav-step" data-pyramid="draft-nav-next" aria-label="Next">›</button>
+          </div>
         </div>
       </div>
     `;
+  }
+
+  private stepDraftInspectPlayer(delta: number): void {
+    if (this.draftInspectSeat == null) return;
+    const seat = this.draftState().seats[this.draftInspectSeat];
+    if (!seat?.roster.length) return;
+    const ids = seat.roster.map((r) => r.playerId);
+    const cur = Math.max(0, ids.indexOf(this.draftInspectPlayerId ?? ""));
+    const next = (cur + delta + ids.length) % ids.length;
+    this.draftInspectPlayerId = ids[next]!;
+    this.draftInspectFlipY = 0;
+    this.render();
+  }
+
+  private draftInspectPlayerCardHtml(sp: SquadPlayer): string {
+    let html = playerCardShellHtml(sp, this.draftTeamContext(sp), {
+      editing: false,
+      editDirty: false,
+      flipped: false,
+      flipY: this.draftInspectFlipY,
+      profileView: this.draftInspectProfileView,
+      profileSize: 148,
+      imagePaths: [],
+    });
+    // Draft inspect is view-only — drop EDIT; remap card controls onto pyramid actions.
+    html = html.replace(/<div class="player-card-shell-head">[\s\S]*?<\/div>/, `<div class="player-card-shell-head"></div>`);
+    html = html
+      .replaceAll('data-char="card-face"', 'data-pyramid="draft-card-face"')
+      .replaceAll('data-char="card-flip"', 'data-pyramid="draft-card-flip"')
+      .replaceAll('data-char="profile-toggle"', 'data-pyramid="draft-profile-toggle"');
+    return html;
   }
 
   private draftFormationPanelHtml(seat: DraftSeat): string {
@@ -1357,16 +1510,25 @@ export class PyramidHub {
       })
       .join("");
 
+    const pitchWell =
+      this.draftInspectMode === "player" && selected
+        ? `<div class="team-pitch team-pitch-panel" aria-label="Player select">
+            <div class="pitch-overlay-card player-pitch-select">
+              ${this.draftInspectPlayerCardHtml(selected.sp)}
+            </div>
+          </div>`
+        : `<div class="team-pitch team-pitch-court" aria-label="${escapeAttr(seat.name)} formation">
+            <div class="team-pitch-markings court-markings" aria-hidden="true"></div>
+            ${starters}
+          </div>`;
+
     return `
       <div class="team-select-body">
         <aside class="team-roster">
           ${rosterCard}
           <div class="team-roster-list">${rosterRows}</div>
         </aside>
-        <div class="team-pitch team-pitch-court" aria-label="${escapeAttr(seat.name)} formation">
-          <div class="team-pitch-markings court-markings" aria-hidden="true"></div>
-          ${starters}
-        </div>
+        ${pitchWell}
         <aside class="team-bench">
           <div class="team-bench-title">SUBSTITUTES</div>
           <div class="team-bench-list">${bench}</div>

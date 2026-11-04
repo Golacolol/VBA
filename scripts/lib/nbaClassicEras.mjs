@@ -778,7 +778,7 @@ export const CLASSIC_ERAS = [
     season: "1994/95",
     name: "Orlando Magic — 1994/95",
     starters: [
-      { name: "Anfernee Hardaway", number: 1, pos: "PG" },
+      { name: "Anfernee Hardaway", number: 1, pos: "PG", sec: ["SG"] },
       { name: "Nick Anderson", number: 25, pos: "SG" },
       { name: "Dennis Scott", number: 3, pos: "SF" },
       { name: "Horace Grant", number: 54, pos: "PF" },

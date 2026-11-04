@@ -401,9 +401,10 @@ export function bestOpenSlotForPlayer(
     };
     const fits = empty.filter((s) => positionFitsMiTeamSlot(s, pos));
     if (fits.length) return [...fits].sort(byLineDistance)[0]!;
-    // No band fit (e.g. C with only SF open): still pick the closest hole on the 1–5 line
-    // so a Center prefers PF over SF, never fill-order's first empty.
-    return [...empty].sort(byLineDistance)[0] ?? null;
+    // No starter-band fit (e.g. C with only SG open) — park on the bench.
+    // Never force a Center into SG/SF just to fill a starter hole.
+    const benchOpen = [...DRAFT_SUB5, ...DRAFT_REST_BENCH].filter((s) => !filled.has(s));
+    return benchOpen[0] ?? null;
   }
 
   // Bench waves — any open hole in the wave (order BENCH_1…).

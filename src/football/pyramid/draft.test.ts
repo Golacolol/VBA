@@ -81,7 +81,7 @@ describe("draft engine", () => {
         "C",
       ),
     ).toBe("PF");
-    // Starters incomplete → stay in starter wave (never bench yet).
+    // Guard with only C open — do not park a PG at Center; go to bench.
     expect(
       bestOpenSlotForPlayer(
         [
@@ -92,7 +92,19 @@ describe("draft engine", () => {
         ],
         "PG",
       ),
-    ).toBe("C");
+    ).toBe("BENCH_1");
+    // Center with only SG open (Moses Malone case) — never SG; bench instead.
+    expect(
+      bestOpenSlotForPlayer(
+        [
+          { playerId: "a", slot: "PG", shirtNumber: 1 },
+          { playerId: "c", slot: "SF", shirtNumber: 3 },
+          { playerId: "d", slot: "PF", shirtNumber: 4 },
+          { playerId: "e", slot: "C", shirtNumber: 5 },
+        ],
+        "C",
+      ),
+    ).toBe("BENCH_1");
     // After starting five, next wave is BENCH_1…5.
     const startersFull = ["PG", "SG", "SF", "PF", "C"].map((slot, i) => ({
       playerId: `s${i}`,

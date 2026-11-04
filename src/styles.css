@@ -6870,6 +6870,19 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   box-sizing: border-box;
   min-width: 0;
 }
+/* Ranks 37–50 (14-wide): wrap ~7+7 so kit badges stay readable. */
+.pyramid-tier.is-dense {
+  flex-wrap: wrap;
+  row-gap: 10px;
+  gap: 8px;
+}
+.pyramid-tier.is-dense .pyramid-cell {
+  width: min(128px, calc((100% - 48px) / 7));
+  min-width: 100px;
+  max-width: 140px;
+  flex: 0 1 auto;
+  padding: 10px 6px 8px;
+}
 .pyramid-cell {
   position: relative;
   /* Use available row width per seat, but never stretch a short tier across the screen. */
@@ -7049,15 +7062,22 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 }
 .pyramid-cell-kit {
   flex: 0 1 auto;
-  width: clamp(28px, 42cqw, 52px);
-  height: clamp(28px, 42cqw, 52px);
-  min-width: 0;
+  width: clamp(40px, 42cqw, 52px);
+  height: clamp(40px, 42cqw, 52px);
+  min-width: 36px;
   max-width: 45%;
 }
 .pyramid-cell.is-compact .pyramid-cell-kit {
-  width: clamp(24px, 38cqw, 44px);
-  height: clamp(24px, 38cqw, 44px);
+  width: clamp(36px, 40cqw, 48px);
+  height: clamp(36px, 40cqw, 48px);
+  min-width: 34px;
   max-width: 42%;
+}
+.pyramid-tier.is-dense .pyramid-cell-kit {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  max-width: none;
 }
 .pyramid-kit-badge.kit-marker-roster {
   --roster-marker: 100%;
@@ -7940,6 +7960,11 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   font-weight: 700;
   opacity: 0.75;
 }
+.pyramid-draft-seat-open {
+  width: 100%;
+  margin-top: 8px;
+  justify-content: center;
+}
 .pyramid-draft-seat-meta {
   margin-top: 8px;
   font-size: 11px;
@@ -8134,10 +8159,14 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   min-height: 0;
   height: 100%;
 }
-.pyramid-draft-formation-panel .formation-chip[data-pyramid="draft-start-team"],
-.pyramid-draft-formation-panel .formation-chip[data-pyramid="draft-simulate"] {
+.pyramid-draft-formation-panel .char-nav [data-pyramid="draft-start-team"],
+.pyramid-draft-formation-panel .char-nav [data-pyramid="draft-simulate"] {
   cursor: default;
   opacity: 0.85;
+}
+.pyramid-draft-formation-panel .player-pitch-select {
+  width: min(100%, 420px);
+  margin: 0 auto;
 }
 @media (max-width: 1100px) {
   .pyramid-draft-formation-panel.char-panel-team {

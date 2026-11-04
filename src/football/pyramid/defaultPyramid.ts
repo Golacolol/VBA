@@ -16,9 +16,9 @@ export const PYRAMID_TIER_COUNTS = [1, 2, 3, 4, 5, 6, 7, 8, 14] as const;
 export const PYRAMID_TIER_SCALES = [1, 1, 1, 1, 1, 0.98, 0.96, 0.94, 0.9] as const;
 
 /** Display-only tier shapes (rank order unchanged). */
-export type PyramidTierPatternId = "steps" | "odds" | "fib" | "positions" | "list";
+export type PyramidTierPatternId = "steps" | "odds" | "fib" | "positions" | "positionsB" | "list";
 
-export const PYRAMID_TIER_PATTERN_IDS = ["steps", "odds", "fib", "positions", "list"] as const;
+export const PYRAMID_TIER_PATTERN_IDS = ["steps", "odds", "fib", "positions", "positionsB", "list"] as const;
 
 /** Row widths per pattern; each sums to {@link PYRAMID_SIZE}. */
 export const PYRAMID_TIER_PATTERNS: Record<PyramidTierPatternId, readonly number[]> = {
@@ -29,10 +29,15 @@ export const PYRAMID_TIER_PATTERNS: Record<PyramidTierPatternId, readonly number
   /** Fibonacci rows: 1, then 2, then 3, then 5… remainder on the last row. */
   fib: [1, 2, 3, 5, 8, 13, 18],
   /**
-   * #1 apex, then best available 5-man (one per position), then 10s
+   * POS A — #1 apex, then best available 5-man by primary position, then 10s
    * (two per position), then remainder — see {@link pyramidPositionTeamRows}.
    */
   positions: [1, 5, 10, 10, 10, 14],
+  /**
+   * POS B — same row widths as POS A, but seats use secondary / adjacent flex
+   * (e.g. PF → SF or C; PG → PG or SG).
+   */
+  positionsB: [1, 5, 10, 10, 10, 14],
   /**
    * Display-only marker for List (rendered as #1 apex + centred wrap in the hub).
    * Kept for pattern id completeness / sum checks.
@@ -42,10 +47,25 @@ export const PYRAMID_TIER_PATTERNS: Record<PyramidTierPatternId, readonly number
 };
 
 /**
- * 1-5-10 with #1 folded into the top five (no solo apex): 5 · 10 · 10 · 10 · 15.
- * Toggle via the 1-5-10 control — see {@link pyramidPositionTeamRows}.
+ * POS A/B with #1 folded into the top five (no solo apex): 5 · 10 · 10 · 10 · 15.
+ * Toggle by re-clicking the active POS control — see {@link pyramidPositionTeamRows}.
  */
 export const PYRAMID_POSITION_TEAM_COUNTS = [5, 10, 10, 10, 15] as const;
+
+/** How POS layouts assign players to PG→C seats. */
+export type PyramidPositionDealMode = "primary" | "secondary";
+
+/**
+ * Adjacent flex when a player has no authored secondary positions.
+ * PG↔SG, wing continuum, PF↔SF/C — never PG as C.
+ */
+export const PYRAMID_POSITION_FLEX: Record<PyramidRingPosition, readonly PyramidRingPosition[]> = {
+  PG: ["PG", "SG"],
+  SG: ["SG", "PG", "SF"],
+  SF: ["SF", "SG", "PF"],
+  PF: ["PF", "SF", "C"],
+  C: ["C", "PF"],
+};
 
 export function isPyramidTierPatternId(v: unknown): v is PyramidTierPatternId {
   return typeof v === "string" && (PYRAMID_TIER_PATTERN_IDS as readonly string[]).includes(v);
@@ -63,7 +83,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 7;
+export const PYRAMID_SEED_VERSION = 8;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -90,6 +110,7 @@ export type PyramidRingPosition = (typeof PYRAMID_RING_POSITIONS)[number];
  * Order follows peak OVR bands, then resume/era tie-breaks — not pure sort
  * (e.g. Wilt/Russell stay ahead of later 95s). Post-Shaq 95s: Curry #10,
  * Olajuwon #11, Duncan #12. Jokic held at 93 while still active.
+ * One form per player; new classic eras (e.g. Carmelo 90) land in their OVR band.
  */
 export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_chi_1995_96_p02", // 1 Michael Jordan (99)
@@ -112,93 +133,94 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_phi_1982_83_p03", // 18 Julius Erving (93)
   "classic_phi_1982_83_p05", // 19 Moses Malone (93)
   "classic_bos_2007_08_p04", // 20 Kevin Garnett (93)
-  "classic_dal_2010_11_p04", // 21 Dirk Nowitzki
-  "classic_mia_2012_13_p02", // 22 Dwyane Wade
-  "classic_phx_1992_93_p04", // 23 Charles Barkley
-  "classic_uta_1997_98_p04", // 24 Karl Malone
-  "classic_sas_1998_99_p05", // 25 David Robinson
-  "classic_uta_1997_98_p01", // 26 John Stockton
-  "classic_det_1988_89_p01", // 27 Isiah Thomas
-  "classic_chi_1995_96_p03", // 28 Scottie Pippen
-  "classic_sas_2013_14_p03", // 29 Kawhi Leonard
-  "classic_phi_2000_01_p01", // 30 Allen Iverson
-  "classic_nyk_1993_94_p05", // 31 Patrick Ewing
-  "classic_okc_1995_96_p01", // 32 Gary Payton
-  "classic_phx_2004_05_p01", // 33 Steve Nash
-  "classic_hou_1994_95_p02", // 34 Clyde Drexler
-  "classic_lal_1986_87_p03", // 35 James Worthy
-  "classic_bos_1985_86_p04", // 36 Kevin McHale
-  "classic_hou_2006_07_p02", // 37 Tracy McGrady
-  "classic_lal_1971_72_p11", // 38 Elgin Baylor
-  "classic_bos_1964_65_p03", // 39 John Havlicek
-  "classic_tor_2000_01_p02", // 40 Vince Carter
-  "classic_ind_1999_00_p02", // 41 Reggie Miller
-  "classic_orl_1994_95_p01", // 42 Anfernee Hardaway (Magic 94/95)
-  "classic_lal_2009_10_p04", // 43 Pau Gasol (Lakers 09/10)
-  "classic_mia_2012_13_p06", // 44 Ray Allen
-  "classic_bos_2007_08_p03", // 45 Paul Pierce
-  "classic_uta_1976_77_p02", // 46 Pete Maravich
-  "classic_hou_2018_19_p01", // 47 Chris Paul
-  "classic_okc_2011_12_p01", // 48 Russell Westbrook
-  "classic_hou_2018_19_p02", // 49 James Harden
-  "classic_sac_2001_02_p04", // 50 Chris Webber
+  "classic_dal_2010_11_p04", // 21 Dirk Nowitzki (92)
+  "classic_mia_2012_13_p02", // 22 Dwyane Wade (92)
+  "classic_phx_1992_93_p04", // 23 Charles Barkley (92)
+  "classic_uta_1997_98_p04", // 24 Karl Malone (92)
+  "classic_sas_1998_99_p05", // 25 David Robinson (92)
+  "classic_uta_1997_98_p01", // 26 John Stockton (91)
+  "classic_det_1988_89_p01", // 27 Isiah Thomas (91)
+  "classic_chi_1995_96_p03", // 28 Scottie Pippen (93)
+  "classic_sas_2013_14_p03", // 29 Kawhi Leonard (92)
+  "classic_lal_1971_72_p11", // 30 Elgin Baylor (92)
+  "classic_phi_2000_01_p01", // 31 Allen Iverson (90)
+  "classic_nyk_1993_94_p05", // 32 Patrick Ewing (90)
+  "classic_okc_1995_96_p01", // 33 Gary Payton (90)
+  "classic_phx_2004_05_p01", // 34 Steve Nash (91)
+  "classic_hou_1994_95_p02", // 35 Clyde Drexler (90)
+  "classic_lal_1986_87_p03", // 36 James Worthy (90)
+  "classic_bos_1985_86_p04", // 37 Kevin McHale (90)
+  "classic_hou_2006_07_p02", // 38 Tracy McGrady (90)
+  "classic_bos_1964_65_p03", // 39 John Havlicek (91)
+  "classic_orl_1994_95_p01", // 40 Anfernee Hardaway (91)
+  "classic_hou_2018_19_p01", // 41 Chris Paul (91)
+  "classic_sac_2001_02_p04", // 42 Chris Webber (91)
+  "classic_was_2007_08_p01", // 43 Gilbert Arenas (91)
+  "classic_det_1996_97_p03", // 44 Grant Hill (91)
+  "classic_was_2016_17_p01", // 45 John Wall (91)
+  "classic_cle_2015_16_p01", // 46 Kyrie Irving (91)
+  "classic_uta_1976_77_p02", // 47 Pete Maravich (91)
+  "classic_cha_1992_93_p05", // 48 Alonzo Mourning (90)
+  "classic_lac_2013_14_p04", // 49 Blake Griffin (90)
+  "classic_nyk_2011_12_p03", // 50 Carmelo Anthony (90)
 ];
 
 /**
  * Curated reserve 51–100 — elevate/swap into Top 50; excluded from Ring.
  * Ordered by peak overall (then name), not by club — avoids team clumps.
+ * When classic eras add/remove high-OVR names, bump {@link PYRAMID_SEED_VERSION}.
  */
 export const DEFAULT_PYRAMID_POOL: readonly string[] = [
-  "classic_dal_2010_11_p01", // 51 Jason Kidd (90)
-  "classic_atl_1990_91_p03", // 52 Dominique Wilkins (89)
-  "classic_gsw_2016_17_p02", // 53 Klay Thompson (89)
-  "classic_sas_2013_14_p02", // 54 Manu Ginobili (89)
-  "classic_phx_2004_05_p05", // 55 Amar'e Stoudemire (88)
-  "classic_mia_2012_13_p05", // 56 Chris Bosh (88)
-  "classic_chi_1995_96_p04", // 57 Dennis Rodman (88)
-  "classic_gsw_2016_17_p04", // 58 Draymond Green (88)
-  "classic_cin_1963_64_p10", // 59 Jerry Lucas (88)
-  "classic_cha_1992_93_p04", // 60 Larry Johnson (88)
-  "classic_bos_1985_86_p05", // 61 Robert Parish (88)
-  "classic_bos_1964_65_p02", // 62 Sam Jones (88)
-  "classic_okc_1995_96_p04", // 63 Shawn Kemp (88)
-  "classic_bkn_2000_01_p01", // 64 Stephon Marbury (88)
-  "classic_sas_2013_14_p01", // 65 Tony Parker (88)
-  "classic_hou_2006_07_p05", // 66 Yao Ming (88)
-  "classic_bos_1985_86_p06", // 67 Bill Walton (87)
-  "classic_den_2022_23_p01", // 68 Jamal Murray (87)
-  "classic_gsw_2016_17_p06", // 69 Andre Iguodala (86)
-  "classic_phi_2000_01_p05", // 70 Dikembe Mutombo (86)
-  "classic_det_1988_89_p02", // 71 Joe Dumars (86)
-  "classic_mil_2020_21_p01", // 72 Jrue Holiday (86)
-  "classic_phx_1992_93_p01", // 73 Kevin Johnson (86)
-  "classic_mil_2020_21_p02", // 74 Khris Middleton (86)
-  "classic_lal_2009_10_p06", // 75 Lamar Odom (86)
-  "classic_phi_1982_83_p01", // 76 Maurice Cheeks (86)
-  "classic_bos_1985_86_p01", // 77 Dennis Johnson (85)
-  "classic_lal_2009_10_p05", // 78 Andrew Bynum (84)
-  "classic_lal_2000_01_p04", // 79 Horace Grant (84)
-  "classic_uta_1997_98_p02", // 80 Jeff Hornacek (84)
-  "classic_lal_2009_10_p03", // 81 Metta World Peace (84)
-  "classic_orl_1994_95_p02", // 82 Nick Anderson (84)
-  "classic_chi_1995_96_p06", // 83 Toni Kukoc (84)
-  "classic_nyk_1993_94_p04", // 84 Anthony Mason (82)
-  "classic_det_1988_89_p05", // 85 Bill Laimbeer (82)
-  "classic_mil_2020_21_p05", // 86 Brook Lopez (82)
-  "classic_lal_1986_87_p02", // 87 Byron Scott (82)
-  "classic_phx_1992_93_p02", // 88 Dan Majerle (82)
-  "classic_bos_1985_86_p02", // 89 Danny Ainge (82)
-  "classic_orl_1994_95_p03", // 90 Dennis Scott (82)
-  "classic_dal_2010_11_p02", // 91 Jason Terry (82)
-  "classic_hou_1994_95_p01", // 92 Kenny Smith (82)
-  "classic_bos_2007_08_p01", // 93 Rajon Rondo (82)
-  "classic_chi_1995_96_p01", // 94 Ron Harper (82)
-  "classic_dal_2010_11_p03", // 95 Shawn Marion (82)
-  "classic_dal_2010_11_p05", // 96 Tyson Chandler (82)
-  "classic_nyk_1993_94_p02", // 97 John Starks (80)
-  "classic_lal_2000_01_p06", // 98 Robert Horry (80)
-  "classic_lal_2000_01_p01", // 99 Derek Fisher (79)
-  "classic_hou_1994_95_p06", // 100 Sam Cassell (74)
+  "classic_hou_2018_19_p02", // 51 James Harden (90)
+  "classic_dal_2010_11_p01", // 52 Jason Kidd (90)
+  "classic_atl_1990_91_p03", // 53 Dominique Wilkins (89)
+  "classic_gsw_2016_17_p02", // 54 Klay Thompson (89)
+  "classic_sas_2013_14_p02", // 55 Manu Ginobili (89)
+  "classic_bos_2007_08_p03", // 56 Paul Pierce (89)
+  "classic_mia_2012_13_p06", // 57 Ray Allen (89)
+  "classic_ind_1999_00_p02", // 58 Reggie Miller (89)
+  "classic_okc_2011_12_p01", // 59 Russell Westbrook (89)
+  "classic_phx_2004_05_p05", // 60 Amar'e Stoudemire (88)
+  "classic_was_2016_17_p02", // 61 Bradley Beal (88)
+  "classic_mia_2012_13_p05", // 62 Chris Bosh (88)
+  "classic_chi_1995_96_p04", // 63 Dennis Rodman (88)
+  "classic_gsw_2016_17_p04", // 64 Draymond Green (88)
+  "classic_cin_1963_64_p10", // 65 Jerry Lucas (88)
+  "classic_cle_2015_16_p04", // 66 Kevin Love (88)
+  "classic_cha_1992_93_p04", // 67 Larry Johnson (88)
+  "classic_lal_2009_10_p04", // 68 Pau Gasol (88)
+  "classic_dal_2010_11_p07", // 69 Peja Stojakovic (88)
+  "classic_bos_1985_86_p05", // 70 Robert Parish (88)
+  "classic_bos_1964_65_p02", // 71 Sam Jones (88)
+  "classic_okc_1995_96_p04", // 72 Shawn Kemp (88)
+  "classic_bkn_2000_01_p01", // 73 Stephon Marbury (88)
+  "classic_sas_2013_14_p01", // 74 Tony Parker (88)
+  "classic_tor_2000_01_p02", // 75 Vince Carter (88)
+  "classic_hou_2006_07_p05", // 76 Yao Ming (88)
+  "classic_bos_1985_86_p06", // 77 Bill Walton (87)
+  "classic_den_2022_23_p01", // 78 Jamal Murray (87)
+  "classic_gsw_2016_17_p06", // 79 Andre Iguodala (86)
+  "classic_por_1999_00_p05", // 80 Arvydas Sabonis (86)
+  "classic_ind_1999_00_p10", // 81 Chris Mullin (86)
+  "classic_phi_2000_01_p05", // 82 Dikembe Mutombo (86)
+  "classic_lal_1971_72_p02", // 83 Gail Goodrich (86)
+  "classic_det_1988_89_p02", // 84 Joe Dumars (86)
+  "classic_mil_2020_21_p01", // 85 Jrue Holiday (86)
+  "classic_phx_1992_93_p01", // 86 Kevin Johnson (86)
+  "classic_mil_2020_21_p02", // 87 Khris Middleton (86)
+  "classic_lal_2009_10_p06", // 88 Lamar Odom (86)
+  "classic_phi_1982_83_p01", // 89 Maurice Cheeks (86)
+  "classic_sac_2001_02_p01", // 90 Mike Bibby (86)
+  "classic_nyk_2011_12_p05", // 91 Tyson Chandler — Knicks form (86)
+  "classic_bos_1985_86_p01", // 92 Dennis Johnson (85)
+  "classic_por_1999_00_p04", // 93 Rasheed Wallace (85)
+  "classic_lal_2009_10_p05", // 94 Andrew Bynum (84)
+  "classic_lal_2000_01_p04", // 95 Horace Grant (84)
+  "classic_uta_1997_98_p02", // 96 Jeff Hornacek (84)
+  "classic_nyk_2011_12_p01", // 97 Jeremy Lin (84)
+  "classic_lal_2009_10_p03", // 98 Metta World Peace (84)
+  "classic_orl_1994_95_p02", // 99 Nick Anderson (84)
+  "classic_chi_1995_96_p06", // 100 Toni Kukoc (84)
 ];
 
 export function defaultPyramidSave(): PyramidSave {
@@ -447,6 +469,22 @@ export function normalizeRingPosition(raw: string | undefined | null): PyramidRi
   return "SF";
 }
 
+/**
+ * Seat eligibility for POS A (primary only) or POS B (authored secondaries, else adjacent flex).
+ */
+export function pyramidEligiblePositions(
+  primary: string | null | undefined,
+  secondary: readonly string[] | null | undefined,
+  mode: PyramidPositionDealMode = "primary",
+): PyramidRingPosition[] {
+  const prim = normalizeRingPosition(primary);
+  if (mode === "primary") return [prim];
+  const secs = (secondary ?? []).map((s) => normalizeRingPosition(s));
+  if (secs.length) return [...new Set([prim, ...secs])];
+  // No authored secondary — allow adjacent flex (PF→SF/C, PG→SG, …).
+  return [...(PYRAMID_POSITION_FLEX[prim] ?? [prim])];
+}
+
 export type PyramidPositionTeamOpts = {
   /**
    * When true, fold pyramid #1 into the first balanced five (no solo apex row).
@@ -454,15 +492,22 @@ export type PyramidPositionTeamOpts = {
    */
   apexInTopTeam?: boolean;
   counts?: readonly number[];
+  /** POS A = primary; POS B = secondary / adjacent flex. */
+  dealMode?: PyramidPositionDealMode;
+  /** Required for POS B when dealing from authored secondaries. */
+  secondaryOf?: (playerId: string) => readonly string[] | null | undefined;
 };
 
 /**
- * 1-5-10 display: deal players into balanced “best available” lineups by primary
- * position (PG→C), greedy by rank. Tier of 5 → one each; tier of 10 → two each;
+ * POS A / POS B display: deal players into balanced “best available” lineups
+ * (PG→C), greedy by rank. Tier of 5 → one each; tier of 10 → two each;
  * other widths take as many full five-man rounds as fit, then leftover by rank.
  *
+ * POS A seats by primary only. POS B seats by secondary positions when authored,
+ * otherwise adjacent flex (PF→SF/C, PG→PG/SG, never PG as C).
+ *
  * Default keeps #1 alone at the apex. With `apexInTopTeam`, #1 seats in the top
- * five at their position and the remaining teams reshuffle from what’s left.
+ * five at an eligible position and the remaining teams reshuffle from what’s left.
  */
 export function pyramidPositionTeamRows(
   order: readonly string[],
@@ -473,22 +518,36 @@ export function pyramidPositionTeamRows(
     ? { counts: countsOrOpts }
     : countsOrOpts;
   const apexInTopTeam = opts.apexInTopTeam === true;
+  const dealMode: PyramidPositionDealMode = opts.dealMode === "secondary" ? "secondary" : "primary";
   const counts =
     opts.counts ??
     (apexInTopTeam ? PYRAMID_POSITION_TEAM_COUNTS : PYRAMID_TIER_PATTERNS.positions);
 
-  type Seat = { rank: number; playerId: string; index: number; pos: PyramidRingPosition };
-  const remaining: Seat[] = order.map((playerId, index) => ({
-    playerId,
-    rank: index + 1,
-    index,
-    pos: normalizeRingPosition(positionOf(playerId)),
-  }));
+  type Seat = {
+    rank: number;
+    playerId: string;
+    index: number;
+    pos: PyramidRingPosition;
+    eligible: PyramidRingPosition[];
+  };
+  const remaining: Seat[] = order.map((playerId, index) => {
+    const primary = positionOf(playerId);
+    const secondary = opts.secondaryOf?.(playerId);
+    return {
+      playerId,
+      rank: index + 1,
+      index,
+      pos: normalizeRingPosition(primary),
+      eligible: pyramidEligiblePositions(primary, secondary, dealMode),
+    };
+  });
 
   const takeBest = (pos?: PyramidRingPosition): Seat | null => {
     if (!remaining.length) return null;
     if (pos) {
-      const i = remaining.findIndex((s) => s.pos === pos);
+      // Prefer a natural primary match, then any eligible flex/secondary.
+      let i = remaining.findIndex((s) => s.pos === pos);
+      if (i < 0) i = remaining.findIndex((s) => s.eligible.includes(pos));
       if (i >= 0) return remaining.splice(i, 1)[0] ?? null;
     }
     return remaining.shift() ?? null;

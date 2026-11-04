@@ -147,7 +147,7 @@ function main() {
         name: shortDisplayName(p.name),
         displayName: p.name,
         primaryPosition: p.pos,
-        secondaryPositions: [],
+        secondaryPositions: Array.isArray(p.sec) ? p.sec : [],
         age: 28,
         heightCm: p.pos === "C" ? 213 : p.pos === "PG" ? 188 : 201,
         weightKg: p.pos === "C" ? 110 : 95,
