@@ -42,6 +42,8 @@ describe("draft engine", () => {
     const started = startDraft(lobby);
     expect(started.status).toBe("picking");
     expect(currentDraftPick(started)?.seatIndex).toBe(started.firstSeat);
+    // Persist path must not bounce Start back to the lobby.
+    expect(normalizeDraftSave(started).status).toBe("picking");
   });
 
   it("snakes pick order from the first seat", () => {

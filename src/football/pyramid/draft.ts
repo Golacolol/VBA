@@ -242,11 +242,10 @@ export function normalizeDraftSave(raw: unknown): DraftSave {
     : 0;
   const total = draftTotalPicks(seats.length);
   let pickIndex = Number.isFinite(Number(o.pickIndex)) ? Math.max(0, Math.floor(Number(o.pickIndex))) : 0;
-  const emptyBoard = seats.every((s) => s.roster.length === 0);
   let status: DraftStatus =
     o.status === "done" ? "done" : o.status === "ready" ? "ready" : o.status === "picking" ? "picking" : "ready";
-  // Empty mid-draft saves open in the lobby so Start is required.
-  if (status === "picking" && pickIndex === 0 && emptyBoard) status = "ready";
+  // Do not coerce empty "picking" → "ready" here — that undoes Start (pickIndex 0, empty rosters).
+  // Lobby-on-open is handled in PyramidHub.setView instead.
   if (pickIndex >= total || seats.every((s) => s.roster.length >= DRAFT_ROSTER_SIZE)) {
     pickIndex = total;
     status = "done";
