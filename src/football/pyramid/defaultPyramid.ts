@@ -37,7 +37,8 @@ export const PYRAMID_TIER_PATTERNS: Record<PyramidTierPatternId, readonly number
    * Display-only marker for List (rendered as #1 apex + centred wrap in the hub).
    * Kept for pattern id completeness / sum checks.
    */
-  list: [1, 49],
+  /** Single centred wrap — pattern unused by List renderer (all ranks in one flow). */
+  list: [50],
 };
 
 /**

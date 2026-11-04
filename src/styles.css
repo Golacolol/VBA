@@ -6724,6 +6724,12 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   letter-spacing: 0.06em;
   line-height: 0.95;
 }
+.pyramid-goat {
+  display: inline-block;
+  transform: scaleX(-1);
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  letter-spacing: 0;
+}
 .pyramid-sub {
   margin: 6px 0 0;
   opacity: 0.7;
@@ -6875,14 +6881,10 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   container-type: inline-size;
   container-name: pyramid-cell;
 }
-/* List layout — centred wrap in rank order (1, 2, 3…). */
+/* List layout — single centred wrap in rank order (1, 2, 3… on the same top band). */
 .pyramid-tiers.is-list {
   align-items: stretch;
   gap: 12px;
-}
-.pyramid-tiers.is-list .pyramid-list-apex {
-  justify-content: center;
-  gap: 10px;
 }
 .pyramid-tiers.is-list .pyramid-list-flow {
   display: flex;
@@ -6899,10 +6901,6 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   max-width: 140px;
   flex: 0 1 auto;
   padding: 10px 6px 8px;
-}
-.pyramid-tiers.is-list .pyramid-list-apex .pyramid-cell.is-list-cell {
-  width: min(140px, 28%);
-  min-width: 110px;
 }
 .pyramid-tiers.is-list .pyramid-cell.is-list-cell .pyramid-move {
   width: 28px;

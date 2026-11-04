@@ -317,7 +317,7 @@ export class PyramidHub {
         <header class="pyramid-head">
           <div class="pyramid-head-copy">
             <p class="pyramid-eyebrow">VORTEX</p>
-            <h2>PYRAMID</h2>
+            <h2>PYRAMID <span class="pyramid-goat" aria-hidden="true">🐐</span></h2>
             <p class="pyramid-sub">Top ${PYRAMID_SIZE} ranked · #51–#${PYRAMID_SIZE + PYRAMID_POOL_SIZE} reserve (swap in · no Ring seat)</p>
           </div>
           <div class="pyramid-head-actions">
@@ -332,7 +332,7 @@ export class PyramidHub {
                   ? "Click again: #1 alone on top · then 5 · 10s"
                   : "Click again: fold #1 into the top five · then 10s",
               )}>${this.positionsApexInTopTeam ? "5-10" : "1-5-10"}</button>
-              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Rank order · #1 top centre · then a centred wrap")}>List</button>
+              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Rank order · centred wrap · #1 top centre then #2…")}>List</button>
             </div>`
                 : ""
             }
@@ -507,18 +507,10 @@ export class PyramidHub {
 
     let tiers: string;
     if (listMode) {
-      // Distinct from Steps/Fib: #1 alone top-centre, remaining ranks in a centred wrap.
-      const apex = entries[0];
-      const rest = entries.slice(1);
-      const apexHtml = apex
-        ? `<div class="pyramid-tier pyramid-list-apex" data-tier="1" style="--tier-count:1;--tier-scale:1">${this.cellHtml(apex, { list: true })}</div>`
-        : "";
-      const flowHtml = rest.length
-        ? `<div class="pyramid-tier pyramid-list-flow" data-tier="2" style="--tier-count:5;--tier-scale:1">${rest
-            .map((entry) => this.cellHtml(entry, { list: true }))
-            .join("")}</div>`
-        : "";
-      tiers = `${apexHtml}${flowHtml}`;
+      // One centred wrap in rank order — #1 starts the top row (centre of the band), #2 follows on the same line.
+      tiers = `<div class="pyramid-tier pyramid-list-flow" data-tier="1" style="--tier-count:5;--tier-scale:1">${entries
+        .map((entry) => this.cellHtml(entry, { list: true }))
+        .join("")}</div>`;
     } else if (positionsMode) {
       const rows = pyramidPositionTeamRows(st.order, (id) => byId.get(id)?.position, {
         apexInTopTeam: this.positionsApexInTopTeam,
