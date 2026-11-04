@@ -947,8 +947,16 @@ export class PyramidHub {
       <div class="bracket-shell">
         <p class="bracket-hint">Tap <strong>ADV</strong> to send a side through · optional score · <strong>WIN</strong> crowns the champion. Later rounds clear when you swap an earlier pick.</p>
         <div class="bracket-canvas" style="--pyramid-zoom:${this.viewZoom}">
-          ${showEast ? this.bracketPlayInHtml(resolved.east, "East") : ""}
-          ${showWest ? this.bracketPlayInHtml(resolved.west, "West") : ""}
+          ${
+            showEast && showWest
+              ? `<div class="bracket-playin-row">
+            ${this.bracketPlayInHtml(resolved.east, "East")}
+            ${this.bracketPlayInHtml(resolved.west, "West")}
+          </div>`
+              : `${showEast ? this.bracketPlayInHtml(resolved.east, "East") : ""}${
+                  showWest ? this.bracketPlayInHtml(resolved.west, "West") : ""
+                }`
+          }
           <div class="bracket-tree ${region === "full" ? "is-full" : region === "east" ? "is-east" : "is-west"}">
             ${showEast ? this.bracketConferenceTreeHtml(resolved.east, "east") : ""}
             ${showFinals ? this.bracketFinalsHtml(resolved.finals) : ""}
@@ -979,17 +987,24 @@ export class PyramidHub {
     // West mirrors so Conf. Finals sit toward the NBA Finals (left of the West column).
     const topBranch = this.bracketBranchHtml(conf.r1[0]!, conf.r1[1]!, conf.sf[0]!, mirror);
     const botBranch = this.bracketBranchHtml(conf.r1[3]!, conf.r1[2]!, conf.sf[1]!, mirror);
-    const labels = mirror
-      ? `<div class="bracket-flow-labels" aria-hidden="true">
-            <span>Conf. Finals</span>
-            <span></span>
-            <div class="bracket-flow-label-pair"><span>Semis</span><span>R1</span></div>
+    // Labels use the same grid shells as the match body so R1 / Semis / Conf. Finals
+    // sit directly above their columns (East and West).
+    const roundLabels = mirror
+      ? `<div class="bracket-branch bracket-branch-labels" aria-hidden="true">
+            <div class="bracket-round-label">Semis</div>
+            <div class="bracket-line-spacer"></div>
+            <div class="bracket-round-label">R1</div>
           </div>`
-      : `<div class="bracket-flow-labels" aria-hidden="true">
-            <div class="bracket-flow-label-pair"><span>R1</span><span>Semis</span></div>
-            <span></span>
-            <span>Conf. Finals</span>
+      : `<div class="bracket-branch bracket-branch-labels" aria-hidden="true">
+            <div class="bracket-round-label">R1</div>
+            <div class="bracket-line-spacer"></div>
+            <div class="bracket-round-label">Semis</div>
           </div>`;
+    const cfLabel = `<div class="bracket-cf-slot bracket-cf-label" aria-hidden="true"><div class="bracket-round-label">Conf. Finals</div></div>`;
+    const labelSpacer = `<div class="bracket-line-spacer" aria-hidden="true"></div>`;
+    const labelRow = mirror
+      ? `${cfLabel}${labelSpacer}<div class="bracket-sf-stack">${roundLabels}</div>`
+      : `<div class="bracket-sf-stack">${roundLabels}</div>${labelSpacer}${cfLabel}`;
     const stack = `<div class="bracket-sf-stack">${topBranch}${botBranch}</div>`;
     const cfLine = `<div class="bracket-line bracket-line-cf" aria-hidden="true"></div>`;
     const cfSlot = `<div class="bracket-cf-slot">${this.bracketMatchHtml(conf.final)}</div>`;
@@ -1000,7 +1015,7 @@ export class PyramidHub {
       <section class="bracket-conf bracket-conf-${side}">
         <h3 class="bracket-section-title">${label}</h3>
         <div class="bracket-flow" aria-label="${label} bracket">
-          ${labels}
+          <div class="bracket-flow-body bracket-flow-labels">${labelRow}</div>
           <div class="bracket-flow-body">
             ${body}
           </div>
