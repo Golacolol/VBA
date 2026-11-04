@@ -970,7 +970,7 @@ export class MiTeamBuilder {
           </aside>
           ${center}
           <aside class="team-bench">
-            <div class="team-bench-title">SUBSTITUTES</div>
+            <div class="team-bench-title">BENCH</div>
             <div class="team-bench-list">${benchHtml}</div>
           </aside>
         </div>

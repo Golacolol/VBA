@@ -89,7 +89,7 @@ describe("character select", () => {
     expect(title?.querySelector(".char-team-crest")).toBeTruthy();
     expect(title?.textContent).toContain("Boston Celtics");
     expect(view.root.textContent).toContain("START AS TEAM");
-    expect(view.root.textContent).toContain("SUBSTITUTES");
+    expect(view.root.textContent).toContain("BENCH");
     expect(view.root.textContent).not.toContain("SQUAD");
     expect(view.root.querySelector(".team-roster-title")).toBeNull();
     expect(view.root.querySelector(".formation-toolbar")).toBeTruthy();

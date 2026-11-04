@@ -1781,7 +1781,7 @@ export class PyramidHub {
         </aside>
         ${pitchWell}
         <aside class="team-bench">
-          <div class="team-bench-title">SUBSTITUTES</div>
+          <div class="team-bench-title">BENCH</div>
           <div class="team-bench-list">${bench}</div>
         </aside>
       </div>
