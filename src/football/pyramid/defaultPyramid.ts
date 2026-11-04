@@ -18,7 +18,7 @@ export const PYRAMID_TIER_SCALES = [1, 1, 1, 1, 1, 0.98, 0.96, 0.94, 0.9] as con
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 3;
+export const PYRAMID_SEED_VERSION = 4;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -84,8 +84,8 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_bos_1964_65_p03", // 39 John Havlicek
   "classic_tor_2000_01_p02", // 40 Vince Carter
   "classic_ind_1999_00_p02", // 41 Reggie Miller
-  "classic_atl_1990_91_p03", // 42 Dominique Wilkins
-  "classic_hou_2006_07_p05", // 43 Yao Ming
+  "classic_orl_1994_95_p01", // 42 Anfernee Hardaway (Magic 94/95)
+  "classic_lal_2009_10_p04", // 43 Pau Gasol (Lakers 09/10)
   "classic_mia_2012_13_p06", // 44 Ray Allen
   "classic_bos_2007_08_p03", // 45 Paul Pierce
   "classic_uta_1976_77_p02", // 46 Pete Maravich
@@ -110,33 +110,28 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "classic_mil_2020_21_p02", // Khris Middleton
   "classic_mil_2020_21_p01", // Jrue Holiday
   "classic_phx_1992_93_p01", // Kevin Johnson
-  "classic_ind_1999_00_p03", // Jalen Rose
+  "classic_atl_1990_91_p03", // Dominique Wilkins (from Top 50 for Hardaway/Gasol)
   "classic_cin_1963_64_p10", // Jerry Lucas
-  "classic_okc_1995_96_p03", // Detlef Schrempf
+  "classic_hou_2006_07_p05", // Yao Ming (from Top 50 for Hardaway/Gasol)
   "classic_dal_2010_11_p02", // Jason Terry
   "classic_dal_2010_11_p03", // Shawn Marion
   "classic_dal_2010_11_p05", // Tyson Chandler
   "classic_bos_2007_08_p01", // Rajon Rondo
-  "classic_bos_2007_08_p10", // Tony Allen
   "classic_den_2022_23_p01", // Jamal Murray
-  "classic_den_2022_23_p04", // Aaron Gordon
   "classic_gsw_2016_17_p06", // Andre Iguodala
   "classic_chi_1995_96_p06", // Toni Kukoc
   "classic_chi_1995_96_p01", // Ron Harper
-  "classic_chi_1995_96_p07", // Steve Kerr
   "classic_lal_2000_01_p06", // Robert Horry
-  "classic_lal_2000_01_p04", // Horace Grant
-  "classic_lal_2000_01_p01", // Derek Fisher
+  "classic_lal_2000_01_p04", // Horace Grant (also Magic 94/95 — one identity only)
+  "classic_lal_2000_01_p01", // Derek Fisher (also Lakers 09/10 — one identity only)
   "classic_lal_1986_87_p02", // Byron Scott
   "classic_bos_1985_86_p01", // Dennis Johnson
   "classic_bos_1985_86_p02", // Danny Ainge
-  "classic_mia_2012_13_p07", // Shane Battier
   "classic_hou_1994_95_p01", // Kenny Smith
   "classic_hou_1994_95_p06", // Sam Cassell
   "classic_uta_1997_98_p02", // Jeff Hornacek
   "classic_nyk_1993_94_p02", // John Starks
   "classic_nyk_1993_94_p04", // Anthony Mason
-  "classic_sas_1998_99_p03", // Sean Elliott
   "classic_phx_1992_93_p02", // Dan Majerle
   "classic_phi_1982_83_p01", // Maurice Cheeks
   "classic_mil_2020_21_p05", // Brook Lopez
@@ -147,6 +142,13 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "classic_bos_1964_65_p02", // Sam Jones
   "classic_mia_2012_13_p05", // Chris Bosh
   "classic_gsw_2016_17_p02", // Klay Thompson
+  // Orlando Magic 1994/95 (Shaq/Horace already seeded via other eras)
+  "classic_orl_1994_95_p02", // Nick Anderson
+  "classic_orl_1994_95_p03", // Dennis Scott
+  // Lakers 2009/10 (Kobe/Fisher already seeded via 2000/01)
+  "classic_lal_2009_10_p03", // Metta World Peace
+  "classic_lal_2009_10_p06", // Lamar Odom
+  "classic_lal_2009_10_p05", // Andrew Bynum
 ];
 
 export function defaultPyramidSave(): PyramidSave {

@@ -2565,5 +2565,42 @@
     "league": "WEST",
     "historicSeason": "2013/14",
     "franchiseId": "nba_lac"
+  },
+  {
+    "id": "classic_lal_2009_10",
+    "name": "Los Angeles Lakers — 2009/10",
+    "abbreviation": "LAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2009/10",
+    "franchiseId": "nba_lal"
   }
 ]

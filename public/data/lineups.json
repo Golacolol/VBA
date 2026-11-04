@@ -1915,5 +1915,32 @@
         "slot": "C"
       }
     ]
+  },
+  {
+    "id": "classic_lal_2009_10_lineup",
+    "teamId": "classic_lal_2009_10",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_lal_2009_10_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_lal_2009_10_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_lal_2009_10_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_lal_2009_10_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_lal_2009_10_p05",
+        "slot": "C"
+      }
+    ]
   }
 ]

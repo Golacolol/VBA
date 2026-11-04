@@ -168,6 +168,33 @@ describe("draft engine", () => {
     expect(applyDraftPick(picked, atl, db)).toEqual(picked);
   });
 
+  it("feeds Magic 94/95 and Lakers 09/10 into classic draft without duplicate stars", async () => {
+    const db = await GameDatabase.load(new SaveManager());
+    expect(db.teams.has("classic_orl_1994_95")).toBe(true);
+    expect(db.teams.has("classic_lal_2009_10")).toBe(true);
+
+    const draft = defaultDraftSave(2);
+    draft.filter = "classic";
+    draft.firstSeat = 0;
+    const board = draftCandidates(db, draft, 800);
+    const ids = new Set(board.map((s) => s.player.id));
+
+    expect(ids.has("classic_orl_1994_95_p01")).toBe(true); // Penny
+    expect(ids.has("classic_lal_2009_10_p04")).toBe(true); // Gasol
+    expect(ids.has("classic_lal_2009_10_p03")).toBe(true); // Metta
+
+    // One Shaq / one Kobe across eras.
+    const shaqs = board.filter((s) => /shaquille o'?neal/i.test(s.player.displayName || s.player.name));
+    const kobes = board.filter((s) => /kobe bryant/i.test(s.player.displayName || s.player.name));
+    expect(shaqs).toHaveLength(1);
+    expect(kobes).toHaveLength(1);
+
+    const picked = applyDraftPick(draft, "classic_lal_2000_01_p05", db); // Shaq 00/01
+    const after = draftCandidates(db, picked, 800);
+    expect(after.some((s) => s.player.id === "classic_orl_1994_95_p05")).toBe(false);
+    expect(applyDraftPick(picked, "classic_orl_1994_95_p05", db)).toEqual(picked);
+  });
+
   it("AI picks from the top band with variety; roster phase is starters then sub-5", async () => {
     const db = await GameDatabase.load(new SaveManager());
     const draft = defaultDraftSave(2);

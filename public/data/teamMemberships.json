@@ -7376,5 +7376,96 @@
     "shirtNumber": 26,
     "squadRole": "BENCH",
     "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p01",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 2,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_lal_2009_10_p02",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 24,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p03",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 37,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p04",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 16,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p05",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 17,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p06",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 7,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p07",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 12,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p08",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 1,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p09",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 4,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p10",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 18,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p11",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 21,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p12",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 28,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2009_10_p13",
+    "teamId": "classic_lal_2009_10",
+    "shirtNumber": 6,
+    "squadRole": "BENCH",
+    "captain": false
   }
 ]

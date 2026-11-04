@@ -31,6 +31,13 @@ describe("defaultPyramid", () => {
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_hou_1994_95_p05"); // Hakeem
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_tor_2000_01_p02"); // Vince Carter
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_phx_1992_93_p04"); // Barkley
+    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_orl_1994_95_p01"); // Penny Hardaway
+    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_lal_2009_10_p04"); // Pau Gasol
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_orl_1994_95_p02"); // Nick Anderson
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_lal_2009_10_p03"); // Metta World Peace
+    // One form per person — Magic Shaq / 09–10 Kobe stay out (already Lakers 00/01).
+    expect(DEFAULT_PYRAMID_ORDER.concat(DEFAULT_PYRAMID_POOL)).not.toContain("classic_orl_1994_95_p05");
+    expect(DEFAULT_PYRAMID_ORDER.concat(DEFAULT_PYRAMID_POOL)).not.toContain("classic_lal_2009_10_p02");
     expect(PYRAMID_TIER_COUNTS.reduce((a, b) => a + b, 0)).toBe(PYRAMID_SIZE);
     expect(PYRAMID_TIER_SCALES).toHaveLength(PYRAMID_TIER_COUNTS.length);
     const overlap = DEFAULT_PYRAMID_POOL.filter((id) => DEFAULT_PYRAMID_ORDER.includes(id));
@@ -120,12 +127,13 @@ describe("defaultPyramid", () => {
       pool: DEFAULT_PYRAMID_POOL,
       view: "ring",
       size: 50,
-      seedVersion: 3,
+      seedVersion: 4,
     });
     expect(save.view).toBe("ring");
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
+    expect(defaultPyramidSave().seedVersion).toBe(4);
   });
 
   it("replaces a stale seed with the curated Top 50", () => {
@@ -139,6 +147,8 @@ describe("defaultPyramid", () => {
     expect(stale.order).toContain("classic_hou_1994_95_p05");
     expect(stale.order).toContain("classic_tor_2000_01_p02");
     expect(stale.order).toContain("classic_okc_2011_12_p01");
-    expect(stale.seedVersion).toBe(3);
+    expect(stale.order).toContain("classic_orl_1994_95_p01");
+    expect(stale.order).toContain("classic_lal_2009_10_p04");
+    expect(stale.seedVersion).toBe(4);
   });
 });

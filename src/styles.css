@@ -1,17 +1,27 @@
 :root {
   color-scheme: dark;
-  --green: #16324f;
-  --green-2: #0b1524;
+  /* Legacy names kept; values are charcoal/black to pair with gold. */
+  --green: #1a1d26;
+  --green-2: #0a0c10;
   --gold: #e8a84a;
-  --ink: #070b14;
+  --ink: #07080c;
   --paper: #f4f1ea;
+  --panel: #0e1016;
+  --panel-mid: #161922;
+  --panel-deep: #07080c;
+  --panel-gradient: linear-gradient(165deg, #1a1d26 0%, #0c0e14 55%, #07080c 100%);
+  --panel-fill: rgba(10, 12, 16, 0.92);
+  --panel-fill-strong: rgba(8, 10, 14, 0.96);
+  --panel-veil: rgba(10, 12, 16, 0.88);
+  --accent-wash: rgba(232, 168, 74, 0.22);
+  --accent-wash-strong: rgba(232, 168, 74, 0.42);
   --title-font: "Righteous", Impact, sans-serif;
   --club-name-font: "Oswald", "Arial Narrow", sans-serif;
   font-family: "Helvetica Neue", "Segoe UI", sans-serif;
 }
 
 * { box-sizing: border-box; }
-html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #070b14; }
+html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #07080c; }
 #app { position: relative; }
 #game-canvas { display: block; width: 100%; height: 100%; position: relative; z-index: 0; }
 #ui-root { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
@@ -25,7 +35,7 @@ html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #070b1
   display: flex;
   gap: 14px;
   align-items: center;
-  background: linear-gradient(180deg, rgba(7,20,13,0.88), rgba(7,20,13,0.7));
+  background: linear-gradient(180deg, rgba(14, 16, 22, 0.92), rgba(8, 10, 14, 0.78));
   border: 1px solid rgba(197,165,114,0.35);
   padding: 8px 18px;
   border-radius: 6px;
@@ -100,7 +110,7 @@ html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #070b1
   width: min(240px, 34vw);
   padding: 10px 12px;
   border-radius: 10px;
-  background: rgba(6, 18, 12, 0.9);
+  background: rgba(10, 12, 16, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--paper);
   pointer-events: none;
@@ -133,7 +143,7 @@ html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #070b1
 .hud-sub-row.on .dir { color: #7dffb0; }
 .hud-card {
   position: relative;
-  background: rgba(7,20,13,0.86);
+  background: rgba(10, 12, 16, 0.88);
   border: 1px solid rgba(255,255,255,0.12);
   color: var(--paper);
   padding: 6px 8px 7px;
@@ -167,7 +177,7 @@ html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #070b1
   overflow: hidden;
   z-index: 13;
   pointer-events: auto;
-  background: rgba(7, 20, 13, 0.96);
+  background: rgba(10, 12, 16, 0.96);
   border: 1px solid rgba(197, 165, 114, 0.55);
   border-radius: 12px;
   padding: 12px 12px 10px;
@@ -399,7 +409,7 @@ html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #070b1
   gap: 8px;
   width: 100%;
   margin: 0;
-  background: #0c1f14;
+  background: #0c0e14;
   color: var(--paper);
   border: 1px solid #345;
   padding: 8px 10px;
@@ -996,7 +1006,7 @@ html.club-name-glow-off .club-line {
   min-height: 62px;
   width: 100%;
   border-left: 3px solid var(--gold);
-  background: rgba(7,20,13,0.45);
+  background: rgba(10, 12, 16, 0.5);
 }
 .menu-fixture .vs { opacity: 0.55; font-size: 12px; letter-spacing: 0.2em; }
 .menu-fixture.menu-fixture-labeled {
@@ -1474,7 +1484,7 @@ html.club-name-glow-off .club-line {
   text-transform: uppercase;
 }
 .panel-head .lf-tabs button.on {
-  background: rgba(0, 122, 61, 0.45);
+  background: rgba(232, 168, 74, 0.28);
   border-color: var(--gold);
   color: #fff;
 }
@@ -1517,7 +1527,7 @@ html.club-name-glow-off .club-line {
   flex: 0 0 auto;
 }
 .menu-list, .pause-card, .editor-card, .char-panel {
-  background: rgba(7,20,13,0.9);
+  background: var(--panel-gradient);
   border: 1px solid rgba(197,165,114,0.28);
   padding: 18px 16px;
   min-width: min(480px, 92vw);
@@ -1550,7 +1560,7 @@ html.club-name-glow-off .club-line {
 .menu-item.featured .menu-item-label { color: var(--gold); letter-spacing: 0.08em; }
 .menu-item.active {
   border-color: var(--gold);
-  background: linear-gradient(90deg, rgba(0,122,61,0.55), rgba(0,122,61,0.22));
+  background: linear-gradient(90deg, rgba(232, 168, 74, 0.38), rgba(232, 168, 74, 0.12));
 }
 .menu-help, .hint { opacity: 0.65; font-size: 12px; margin-top: 12px; }
 
@@ -1585,7 +1595,7 @@ html.club-name-glow-off .club-line {
   align-items: stretch;
   justify-content: center;
   background:
-    linear-gradient(180deg, rgba(6, 22, 14, 0.92) 0%, rgba(4, 14, 9, 0.96) 100%),
+    linear-gradient(180deg, rgba(16, 18, 24, 0.94) 0%, rgba(7, 8, 12, 0.97) 100%),
     linear-gradient(90deg, #1f7a3a 0%, #146330 50%, #0f5228 100%);
   overflow: auto;
   touch-action: auto;
@@ -1734,7 +1744,7 @@ html.club-name-glow-off .club-line {
   padding: 12px;
   border: 1px solid rgba(197, 165, 114, 0.3);
   border-radius: 12px;
-  background: rgba(4, 17, 10, 0.55);
+  background: rgba(8, 10, 14, 0.62);
   box-sizing: border-box;
 }
 .miteam-settings-main > .miteam-settings-section {
@@ -1788,8 +1798,8 @@ html.club-name-glow-off .club-line {
   border: 1px solid rgba(197, 165, 114, 0.35);
   border-radius: 12px;
   background:
-    radial-gradient(ellipse 70% 50% at 20% 30%, rgba(0, 122, 61, 0.28), transparent 70%),
-    rgba(4, 17, 10, 0.7);
+    radial-gradient(ellipse 70% 50% at 20% 30%, rgba(232, 168, 74, 0.16), transparent 70%),
+    rgba(8, 10, 14, 0.78);
 }
 .miteam-settings-preview-crest {
   grid-row: 1 / span 2;
@@ -1906,8 +1916,8 @@ html.club-name-glow-off .club-line {
   container-type: size;
   container-name: miteam-panel;
   background:
-    radial-gradient(ellipse 80% 55% at 50% 18%, rgba(0, 122, 61, 0.22), transparent 70%),
-    linear-gradient(180deg, rgba(6, 22, 14, 0.92), rgba(4, 14, 10, 0.96));
+    radial-gradient(ellipse 80% 55% at 50% 18%, rgba(232, 168, 74, 0.14), transparent 70%),
+    linear-gradient(180deg, rgba(16, 18, 24, 0.94), rgba(7, 8, 12, 0.97));
   border: 1px solid rgba(197, 165, 114, 0.28);
   border-radius: 12px;
 }
@@ -1957,8 +1967,8 @@ html.club-name-glow-off .club-line {
   border-radius: 12px;
   border: 1px solid rgba(197, 165, 114, 0.4);
   background:
-    radial-gradient(ellipse 70% 45% at 50% 78%, rgba(0, 122, 61, 0.35), transparent 70%),
-    linear-gradient(180deg, rgba(10, 28, 18, 0.92), rgba(4, 14, 9, 0.98));
+    radial-gradient(ellipse 70% 45% at 50% 78%, rgba(232, 168, 74, 0.2), transparent 70%),
+    linear-gradient(180deg, rgba(20, 22, 30, 0.94), rgba(7, 8, 12, 0.98));
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
@@ -1977,14 +1987,14 @@ html.club-name-glow-off .club-line {
   padding: 12px 12px 14px;
   border: 1px solid rgba(197, 165, 114, 0.4);
   border-radius: 12px;
-  background: rgba(4, 17, 10, 0.55);
+  background: rgba(8, 10, 14, 0.62);
   color: var(--paper);
   cursor: pointer;
   text-align: left;
 }
 .kit-card.on {
   border-color: var(--gold);
-  background: linear-gradient(180deg, rgba(0, 122, 61, 0.45), rgba(4, 17, 10, 0.7));
+  background: linear-gradient(180deg, rgba(232, 168, 74, 0.28), rgba(10, 12, 16, 0.78));
   box-shadow: 0 0 0 1px rgba(197, 165, 114, 0.35);
 }
 .kit-card-label {
@@ -2190,7 +2200,7 @@ html.club-name-glow-off .club-line {
 }
 .formation-chip.on {
   border-color: var(--gold);
-  background: linear-gradient(90deg, rgba(0, 122, 61, 0.55), rgba(0, 122, 61, 0.22));
+  background: linear-gradient(90deg, rgba(232, 168, 74, 0.38), rgba(232, 168, 74, 0.12));
   color: var(--gold);
 }
 .formation-select-wrap {
@@ -2227,7 +2237,7 @@ select.formation-chip.formation-select {
   color: var(--gold);
   border: 1px solid var(--gold);
   background:
-    linear-gradient(90deg, rgba(0, 122, 61, 0.55), rgba(0, 122, 61, 0.22));
+    linear-gradient(90deg, rgba(232, 168, 74, 0.38), rgba(232, 168, 74, 0.12));
   /* Match .formation-chip button box: 5px + 1.15×10px + 5px + borders. */
   padding: 5px 1.55em 5px 8px;
   height: calc(10px * 1.15 + 10px + 2px);
@@ -2255,7 +2265,7 @@ select.formation-chip.formation-select:focus-visible {
   pointer-events: none;
 }
 select.formation-chip.formation-select option {
-  background: #07140d;
+  background: #0a0b10;
   color: var(--paper);
 }
 .kit-chip {
@@ -2274,7 +2284,7 @@ select.formation-chip.formation-select option {
 }
 .kit-chip.on {
   border-color: var(--gold);
-  background: linear-gradient(90deg, rgba(0, 122, 61, 0.55), rgba(0, 122, 61, 0.22));
+  background: linear-gradient(90deg, rgba(232, 168, 74, 0.38), rgba(232, 168, 74, 0.12));
   color: var(--gold);
 }
 .kit-chip-swatch,
@@ -2302,7 +2312,7 @@ select.formation-chip.formation-select option {
   min-height: 0;
   height: 100%;
   max-height: none;
-  background: rgba(4, 17, 10, 0.55);
+  background: rgba(8, 10, 14, 0.62);
   border: 1px solid rgba(197, 165, 114, 0.35);
   border-radius: 12px;
   padding: 10px 8px;
@@ -2332,7 +2342,7 @@ select.formation-chip.formation-select option {
   overflow: hidden;
   box-sizing: border-box;
 }
-/* Top-left Formation player card: square frame in panel gold/green — never a white circle. */
+/* Top-left Formation player card: square frame in panel gold/black — never a white circle. */
 .team-roster-card .kit-marker-roster .portrait,
 .team-roster-card .kit-marker-roster.kit-marker-photo .portrait {
   position: relative;
@@ -2342,7 +2352,7 @@ select.formation-chip.formation-select option {
   padding: 7px;
   border-radius: 4px;
   border: 2px solid rgba(197, 165, 114, 0.85);
-  background: rgba(4, 17, 10, 0.92);
+  background: rgba(8, 10, 14, 0.94);
   box-shadow:
     0 0 0 1px rgba(197, 165, 114, 0.28),
     0 6px 16px rgba(0, 0, 0, 0.45);
@@ -2361,7 +2371,7 @@ select.formation-chip.formation-select option {
   object-fit: cover;
   object-position: center center;
   display: block;
-  background: rgba(7, 20, 13, 0.9);
+  background: rgba(10, 12, 16, 0.92);
 }
 .team-roster-card .kit-marker-roster .portrait-badge,
 .team-roster-card .kit-marker-roster .portrait-badge-kit {
@@ -2475,7 +2485,7 @@ select.formation-chip.formation-select option {
   padding: 5px 12px;
   border-radius: 6px;
   border: 1px solid rgba(197, 165, 114, 0.55);
-  background: rgba(0, 122, 61, 0.28);
+  background: rgba(232, 168, 74, 0.16);
   color: var(--gold);
   font-size: 11px;
   font-weight: 800;
@@ -2485,7 +2495,7 @@ select.formation-chip.formation-select option {
 .player-card-action.primary,
 .player-card-action[data-char="card-save"] {
   border-color: var(--gold);
-  background: linear-gradient(90deg, rgba(0, 122, 61, 0.85), rgba(0, 122, 61, 0.45));
+  background: linear-gradient(90deg, rgba(232, 168, 74, 0.55), rgba(232, 168, 74, 0.22));
 }
 .player-card-edit-panel {
   width: min(100%, var(--sports-card-w, 312px));
@@ -2504,7 +2514,7 @@ select.formation-chip.formation-select option {
   border-radius: 12px;
   border: 2px solid rgba(197, 165, 114, 0.75);
   background:
-    linear-gradient(165deg, rgba(18, 48, 32, 0.98) 0%, rgba(6, 18, 12, 0.98) 55%, rgba(4, 14, 9, 1) 100%);
+    var(--panel-gradient);
   box-sizing: border-box;
   text-align: left;
 }
@@ -2545,7 +2555,7 @@ select.formation-chip.formation-select option {
   min-width: 0;
 }
 .player-card {
-  --card-accent: #007a3d;
+  --card-accent: #e8a84a;
   position: relative;
   width: min(100%, var(--sports-card-w, 312px));
   max-width: var(--sports-card-w, 312px);
@@ -2590,7 +2600,7 @@ select.formation-chip.formation-select option {
   border-radius: 12px;
   border: 2px solid rgba(197, 165, 114, 0.75);
   background:
-    linear-gradient(165deg, rgba(18, 48, 32, 0.98) 0%, rgba(6, 18, 12, 0.98) 55%, rgba(4, 14, 9, 1) 100%);
+    var(--panel-gradient);
   box-shadow:
     0 0 0 1px rgba(197, 165, 114, 0.22),
     0 10px 28px rgba(0, 0, 0, 0.5),
@@ -2852,7 +2862,7 @@ select.formation-chip.formation-select option {
   box-shadow:
     0 0 0 1px rgba(197, 165, 114, 0.4),
     0 0 10px rgba(197, 165, 114, 0.22);
-  background: rgba(4, 14, 9, 0.55);
+  background: rgba(7, 8, 12, 0.55);
   isolation: isolate;
   contain: paint;
   padding: 0;
@@ -2988,20 +2998,21 @@ select.formation-chip.formation-select option {
   align-self: center;
   text-align: center;
 }
-/* Back head is a short strip beside POS/OVR — keep it compact so the badges don’t drop. */
+/* Back head is a short strip beside POS/OVR — even inset above name / below number. */
 .player-card-back-head .player-card-shirt-back {
-  --kit-name-band: 16px;
-  padding: 3px 6px 1px;
-  gap: 0;
+  --kit-name-band: 14px;
+  padding: 4px 6px;
+  gap: 2px;
+  justify-content: center;
 }
 .player-card-shirt-back .player-card-shirt-name {
-  font-size: 18px;
+  font-size: 14px;
   letter-spacing: 0.06em;
   line-height: 1;
 }
 .player-card-shirt-back .player-card-shirt-num {
   font-size: 24px;
-  line-height: 0.85;
+  line-height: 1;
   padding-bottom: 0;
 }
 .player-card-front .profile-stats {
@@ -3029,14 +3040,14 @@ select.formation-chip.formation-select option {
   padding: 0;
   border-radius: 6px;
   border: 1px solid rgba(197, 165, 114, 0.55);
-  background: rgba(0, 122, 61, 0.28);
+  background: rgba(232, 168, 74, 0.16);
   color: var(--gold);
   font-size: 22px;
   line-height: 1;
   cursor: pointer;
 }
 .player-card-flip-btn:hover {
-  background: rgba(0, 122, 61, 0.5);
+  background: rgba(232, 168, 74, 0.32);
 }
 .player-card-flip-spacer {
   flex: 1 1 auto;
@@ -3134,7 +3145,7 @@ select.formation-chip.formation-select option {
   margin-bottom: 2px;
 }
 .player-card-save-bar .primary {
-  background: linear-gradient(90deg, rgba(0, 122, 61, 0.85), rgba(0, 122, 61, 0.45));
+  background: linear-gradient(90deg, rgba(232, 168, 74, 0.55), rgba(232, 168, 74, 0.22));
   border-color: var(--gold);
   color: var(--gold);
 }
@@ -3228,7 +3239,7 @@ select.formation-chip.formation-select option {
 .profile-stats-compact { margin: 2px auto 0; }
 .profile-hex-svg { display: block; overflow: visible; flex: 0 0 auto; }
 .profile-hex-shape {
-  fill: rgba(0, 122, 61, 0.45);
+  fill: rgba(232, 168, 74, 0.28);
   stroke: var(--gold);
   stroke-width: 1.5;
 }
@@ -3295,7 +3306,7 @@ select.formation-chip.formation-select option {
   z-index: 40;
   display: grid;
   place-items: center;
-  background: rgba(4, 18, 12, 0.72);
+  background: rgba(4, 5, 8, 0.78);
   padding: 16px;
 }
 .squad-edit-dialog {
@@ -3305,7 +3316,7 @@ select.formation-chip.formation-select option {
   padding: 18px 18px 14px;
   border-radius: 12px;
   border: 1px solid rgba(197, 165, 114, 0.45);
-  background: linear-gradient(165deg, #0d2a1c 0%, #071810 100%);
+  background: var(--panel-gradient);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
   color: var(--paper);
 }
@@ -3316,7 +3327,7 @@ select.formation-chip.formation-select option {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid rgba(197, 165, 114, 0.45);
-  background: linear-gradient(165deg, #0d2a1c 0%, #071810 100%);
+  background: var(--panel-gradient);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
   color: var(--paper);
 }
@@ -3402,11 +3413,11 @@ select.formation-chip.formation-select option {
   font: inherit;
 }
 .roster-row:hover {
-  background: rgba(0, 122, 61, 0.22);
+  background: rgba(232, 168, 74, 0.14);
 }
 .roster-row.on {
   border-color: var(--gold);
-  background: linear-gradient(90deg, rgba(0, 122, 61, 0.55), rgba(0, 122, 61, 0.22));
+  background: linear-gradient(90deg, rgba(232, 168, 74, 0.38), rgba(232, 168, 74, 0.12));
 }
 .roster-num {
   color: var(--gold);
@@ -3950,7 +3961,7 @@ select.formation-chip.formation-select option {
   min-width: 0;
   height: 100%;
   max-height: none;
-  background: rgba(4, 17, 10, 0.55);
+  background: rgba(8, 10, 14, 0.62);
   border: 1px solid rgba(197, 165, 114, 0.35);
   border-radius: 12px;
   padding: 8px 6px;
@@ -3980,7 +3991,7 @@ select.formation-chip.formation-select option {
   padding: 8px 4px 6px;
   border: 1px solid rgba(197, 165, 114, 0.28);
   border-radius: 8px;
-  background: rgba(7, 20, 13, 0.8);
+  background: rgba(10, 12, 16, 0.84);
   color: var(--paper);
   cursor: grab;
   text-align: center;
@@ -3991,7 +4002,7 @@ select.formation-chip.formation-select option {
 }
 .bench-card.on {
   border-color: var(--gold);
-  background: linear-gradient(90deg, rgba(0, 122, 61, 0.55), rgba(0, 122, 61, 0.22));
+  background: linear-gradient(90deg, rgba(232, 168, 74, 0.38), rgba(232, 168, 74, 0.12));
 }
 .bench-card.drag-over {
   outline: 2px dashed var(--gold);
@@ -4351,14 +4362,14 @@ select.formation-chip.formation-select option {
   padding: 0;
   margin: 0 0 0 auto;
   border: 1px solid #345;
-  background: #0c1f14;
+  background: #0c0e14;
   cursor: pointer;
 }
 .energy span.boost { background: linear-gradient(90deg, #c45a12, #ffb347); }
 
 .editor-card.wide { min-width: min(920px, 94vw); max-height: 80vh; overflow: auto; }
 .editor-card label { display: block; margin: 10px 0; }
-.editor-card input, .editor-card select { width: 100%; margin-top: 4px; padding: 8px; background: #0c1f14; color: #fff; border: 1px solid #345; }
+.editor-card input, .editor-card select { width: 100%; margin-top: 4px; padding: 8px; background: #0c0e14; color: #fff; border: 1px solid #345; }
 .editor-card optgroup { color: var(--gold); font-weight: 700; }
 .league-head { margin: 22px 0 10px; letter-spacing: 0.12em; font-size: 13px; color: var(--gold); }
 .league-tabs {
@@ -4422,7 +4433,7 @@ select.formation-chip.formation-select option {
 }
 .league-table th, .league-table td { text-align: center; }
 .league-table th:nth-child(2), .league-table td:nth-child(2) { text-align: left; }
-.league-table tr.user { background: rgba(0,122,61,0.38); }
+.league-table tr.user { background: rgba(232, 168, 74, 0.22); }
 .fixture-week { display: grid; gap: 6px; margin-bottom: 12px; }
 .fix-row {
   display: grid;
@@ -4430,10 +4441,10 @@ select.formation-chip.formation-select option {
   gap: 10px;
   align-items: center;
   padding: 8px 10px;
-  background: rgba(7,20,13,0.45);
+  background: rgba(10, 12, 16, 0.5);
   border-left: 3px solid transparent;
 }
-.fix-row.user { border-left-color: var(--gold); background: rgba(0,122,61,0.32); }
+.fix-row.user { border-left-color: var(--gold); background: rgba(232, 168, 74, 0.18); }
 .fix-row.prediction-gold {
   border-left-color: var(--gold);
   background: linear-gradient(90deg, rgba(197, 165, 114, 0.28), rgba(197, 165, 114, 0.08));
@@ -4454,7 +4465,7 @@ td, th { border-bottom: 1px solid #234; padding: 6px; }
 .ad-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0; }
 .ad-row span { display: flex; gap: 8px; align-items: center; flex: 1; }
 .ad-row input[type="text"], .ad-row input:not([type="color"]) { width: auto; flex: 1; margin: 0; }
-.ad-row input[type="color"] { width: 42px; height: 32px; padding: 0; margin: 0; border: 1px solid #345; background: #0c1f14; }
+.ad-row input[type="color"] { width: 42px; height: 32px; padding: 0; margin: 0; border: 1px solid #345; background: #0c0e14; }
 
 .debug-overlay {
   position: absolute;
@@ -4553,7 +4564,7 @@ td, th { border-bottom: 1px solid #234; padding: 6px; }
 }
 .settings-reset:hover {
   border-color: var(--gold);
-  background: rgba(0, 122, 61, 0.35);
+  background: rgba(232, 168, 74, 0.2);
 }
 .settings-section {
   margin: 0 0 14px;
@@ -4596,7 +4607,7 @@ td, th { border-bottom: 1px solid #234; padding: 6px; }
 }
 .options-tab.on {
   border-color: var(--gold) !important;
-  background: rgba(0, 122, 61, 0.4) !important;
+  background: rgba(232, 168, 74, 0.24) !important;
 }
 .options-body {
   max-height: min(62vh, 560px);
@@ -4629,14 +4640,14 @@ td, th { border-bottom: 1px solid #234; padding: 6px; }
   margin: 0 0 10px;
   padding: 10px 12px;
   border: 1px solid var(--gold);
-  background: rgba(0, 122, 61, 0.35);
+  background: rgba(232, 168, 74, 0.2);
   color: var(--paper);
   cursor: pointer;
   letter-spacing: 0.06em;
   font-size: 13px;
 }
 .settings-lab-btn:hover {
-  background: rgba(0, 122, 61, 0.55);
+  background: rgba(232, 168, 74, 0.36);
 }
 .settings-card label {
   margin: 8px 0;
@@ -4668,7 +4679,7 @@ td, th { border-bottom: 1px solid #234; padding: 6px; }
 }
 .settings-top-actions button:hover {
   border-color: var(--gold);
-  background: rgba(0, 122, 61, 0.35);
+  background: rgba(232, 168, 74, 0.2);
 }
 .check { display: flex; gap: 8px; align-items: center; }
 .hud-shot { position: absolute; top: 90px; left: 50%; transform: translateX(-50%); color: #fff; letter-spacing: 0.2em; font-size: 11px; }
@@ -4678,13 +4689,13 @@ td, th { border-bottom: 1px solid #234; padding: 6px; }
   inset: 0;
   display: grid;
   place-items: center;
-  background: linear-gradient(180deg, rgba(4, 17, 10, 0.45), rgba(4, 17, 10, 0.88));
+  background: linear-gradient(180deg, rgba(8, 10, 14, 0.5), rgba(8, 10, 14, 0.9));
   color: var(--paper);
   z-index: 20;
 }
 #file-boot[hidden] { display: none !important; }
 .file-boot-card {
-  background: rgba(7, 20, 13, 0.9);
+  background: rgba(10, 12, 16, 0.92);
   border: 1px solid rgba(197, 165, 114, 0.35);
   padding: 28px 32px;
   border-radius: 10px;
@@ -4709,7 +4720,7 @@ td, th { border-bottom: 1px solid #234; padding: 6px; }
   margin: 8px auto;
   border-radius: 10px;
   overflow: hidden;
-  background: #0c1f14;
+  background: #0c0e14;
   border: 1px solid rgba(197,165,114,0.35);
 }
 .portrait img {
@@ -4862,11 +4873,11 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 }
 .player-db-row:hover {
   border-color: rgba(197, 165, 114, 0.35);
-  background: rgba(0, 122, 61, 0.18);
+  background: rgba(232, 168, 74, 0.1);
 }
 .player-db-row.on {
   border-color: var(--gold);
-  background: linear-gradient(90deg, rgba(0, 122, 61, 0.5), rgba(0, 122, 61, 0.18));
+  background: linear-gradient(90deg, rgba(232, 168, 74, 0.35), rgba(232, 168, 74, 0.1));
 }
 .player-db-row-name {
   grid-column: 1;
@@ -4938,7 +4949,7 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   min-width: min(520px, 88vw);
   max-width: 640px;
   padding: 22px 28px 18px;
-  background: rgba(7, 20, 13, 0.92);
+  background: rgba(10, 12, 16, 0.92);
   border: 1px solid rgba(197, 165, 114, 0.4);
   border-radius: 14px;
   color: var(--paper);
@@ -5050,7 +5061,7 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   display: flex;
   gap: 12px;
   align-items: center;
-  background: rgba(7, 20, 13, 0.88);
+  background: rgba(10, 12, 16, 0.88);
   border: 1px solid rgba(197, 165, 114, 0.35);
   border-radius: 99px;
   padding: 8px 10px 8px 16px;
@@ -5144,7 +5155,7 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   padding: 7px 8px;
   border: 1px solid rgba(197, 165, 114, 0.22);
   border-radius: 8px;
-  background: rgba(7, 20, 13, 0.55);
+  background: rgba(10, 12, 16, 0.6);
 }
 .pred-row.locked { border-color: rgba(197, 165, 114, 0.45); }
 .pred-row.played { opacity: 0.85; }
@@ -5375,7 +5386,7 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 .miteam-crest-choice.on,
 .miteam-crest-choice:hover {
   border-color: var(--gold);
-  background: rgba(0, 122, 61, 0.28);
+  background: rgba(232, 168, 74, 0.16);
 }
 .miteam-crest-choice img {
   width: 100%;
@@ -5538,7 +5549,7 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(165deg, #1a3a28 0%, #0a1a12 55%, #06140c 100%);
+    var(--panel-gradient);
   border: 1.5px solid rgba(197, 165, 114, 0.65);
   border-radius: 4px;
   box-sizing: border-box;
@@ -6242,7 +6253,7 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   padding: 5px 8px;
   border-radius: 6px;
   border: 1px solid rgba(197, 165, 114, 0.55);
-  background: rgba(0, 122, 61, 0.28);
+  background: rgba(232, 168, 74, 0.16);
   color: var(--gold);
 }
 .miteam-keep-row .player-card-action {

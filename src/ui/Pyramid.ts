@@ -1071,12 +1071,30 @@ export class PyramidHub {
   private draftFormationPanelHtml(seat: DraftSeat): string {
     const form = getFormation(MITEAM_FORMATION);
     const bySlot = new Map(seat.roster.map((r) => [r.slot, r]));
+    const positionBand = (pos: string): number => {
+      const p = pos.trim().toUpperCase();
+      if (p === "PG") return 0;
+      if (p === "SG") return 1;
+      if (p === "SF") return 2;
+      if (p === "PF") return 3;
+      if (p === "C") return 4;
+      return 5;
+    };
     const squad = seat.roster
       .map((row) => {
         const sp = this.resolveDraftSquadPlayer(row.playerId, row.sourceTeamId);
         return sp ? { row, sp } : null;
       })
-      .filter((x): x is { row: (typeof seat.roster)[number]; sp: SquadPlayer } => !!x);
+      .filter((x): x is { row: (typeof seat.roster)[number]; sp: SquadPlayer } => !!x)
+      .sort((a, b) => {
+        const band =
+          positionBand(String(a.sp.player.primaryPosition)) - positionBand(String(b.sp.player.primaryPosition));
+        if (band) return band;
+        const aBench = a.row.slot.startsWith("BENCH_") ? 1 : 0;
+        const bBench = b.row.slot.startsWith("BENCH_") ? 1 : 0;
+        if (aBench !== bBench) return aBench - bBench;
+        return b.sp.overall - a.sp.overall || a.sp.player.name.localeCompare(b.sp.player.name);
+      });
     const selectedId =
       (this.draftInspectPlayerId && squad.some((s) => s.sp.player.id === this.draftInspectPlayerId)
         ? this.draftInspectPlayerId
