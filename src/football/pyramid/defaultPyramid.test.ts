@@ -35,13 +35,15 @@ describe("defaultPyramid", () => {
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_hou_1994_95_p05"); // Hakeem
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_phx_1992_93_p04"); // Barkley
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_orl_1994_95_p01"); // Penny Hardaway
-    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_nyk_2011_12_p03"); // Carmelo Anthony
+    expect(DEFAULT_PYRAMID_ORDER).toContain("classic_lal_1953_54_p05"); // George Mikan
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_nyk_2011_12_p03"); // Carmelo → reserve
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_gsw_2016_17_p04"); // Draymond Green (peak → Top 50)
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_lal_2019_20_p05"); // Dwight Howard → reserve
     expect(DEFAULT_PYRAMID_ORDER).not.toContain("classic_was_2007_08_p01"); // Arenas → reserve
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_det_1996_97_p03"); // Grant Hill
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_lal_2009_10_p02"); // Kobe #24 (09/10)
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_was_2007_08_p01"); // Gilbert Arenas (89 → reserve)
-    expect(DEFAULT_PYRAMID_POOL).toContain("classic_was_2016_17_p02"); // Bradley Beal (89 → reserve)
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_was_2016_17_p02"); // Bradley Beal (86 → mid reserve)
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_tor_2000_01_p02"); // Vince Carter (88 → reserve)
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_lal_2009_10_p04"); // Pau Gasol (88 → reserve)
     // Current stars fill high reserve seats when outside Top 50.
@@ -51,6 +53,16 @@ describe("defaultPyramid", () => {
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_hou_2018_19_p02"); // Harden peak → Top 50
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_was_2016_17_p01"); // John Wall → reserve
     expect(DEFAULT_PYRAMID_ORDER).not.toContain("classic_was_2016_17_p01");
+    // Classics reclaim mid-reserve seats ahead of Trae / Beal / Fox.
+    const sabonis = DEFAULT_PYRAMID_POOL.indexOf("classic_por_1999_00_p05");
+    const trae = DEFAULT_PYRAMID_POOL.indexOf("espn_4277905");
+    const beal = DEFAULT_PYRAMID_POOL.indexOf("classic_was_2016_17_p02");
+    const fox = DEFAULT_PYRAMID_POOL.indexOf("espn_4066259");
+    expect(sabonis).toBeGreaterThanOrEqual(0);
+    expect(sabonis).toBeLessThan(trae);
+    expect(beal).toBeGreaterThan(trae); // Beal after Trae in 86 current band
+    expect(fox).toBeGreaterThan(beal);
+    expect(beal).toBeGreaterThan(40); // not in the top of the reserve
     // One form per person — Magic Shaq / 00–01 Kobe stay out (09/10 Kobe is the seed).
     expect(DEFAULT_PYRAMID_ORDER.concat(DEFAULT_PYRAMID_POOL)).not.toContain("classic_orl_1994_95_p05");
     expect(DEFAULT_PYRAMID_ORDER.concat(DEFAULT_PYRAMID_POOL)).not.toContain("classic_lal_2000_01_p02");
@@ -258,12 +270,13 @@ describe("defaultPyramid", () => {
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(11);
+    expect(defaultPyramidSave().seedVersion).toBe(13);
     expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
     expect(DEFAULT_PYRAMID_ORDER[10]).toBe("classic_hou_1994_95_p05"); // Olajuwon #11
     expect(DEFAULT_PYRAMID_ORDER[15]).toBe("classic_lal_1971_72_p01"); // West #16
     expect(DEFAULT_PYRAMID_ORDER[16]).toBe("classic_den_2022_23_p05"); // Jokic #17 (93 active)
-    expect(DEFAULT_PYRAMID_ORDER[49]).toBe("classic_nyk_2011_12_p03"); // Carmelo #50
+    expect(DEFAULT_PYRAMID_ORDER[20]).toBe("classic_lal_1953_54_p05"); // Mikan #21
+    expect(DEFAULT_PYRAMID_ORDER[49]).toBe("classic_lac_2013_14_p04"); // Blake Griffin #50
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p01"); // Billups
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p05"); // Ben Wallace
   });
@@ -277,14 +290,16 @@ describe("defaultPyramid", () => {
     });
     expect(stale.order[0]).toBe(DEFAULT_PYRAMID_ORDER[0]);
     expect(stale.order).toContain("classic_hou_1994_95_p05");
-    expect(stale.order).toContain("classic_nyk_2011_12_p03");
+    expect(stale.order).toContain("classic_lal_1953_54_p05"); // Mikan
+    expect(stale.pool).toContain("classic_nyk_2011_12_p03"); // Carmelo → reserve
     expect(stale.order).toContain("classic_orl_1994_95_p01");
     expect(stale.order).toContain("classic_lal_2009_10_p02");
     expect(stale.pool).toContain("classic_okc_2011_12_p01"); // Westbrook → reserve
     expect(stale.pool).toContain("classic_lal_2009_10_p04"); // Pau → reserve
     expect(stale.pool).toContain("classic_tor_2000_01_p02"); // Vince → reserve
     expect(stale.pool).toContain("classic_det_2003_04_p01"); // Billups
-    expect(stale.seedVersion).toBe(11);
+    expect(stale.pool).toContain("classic_lal_2019_20_p05"); // Dwight
+    expect(stale.seedVersion).toBe(13);
     expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
     expect(stale.order[10]).toBe("classic_hou_1994_95_p05");
   });

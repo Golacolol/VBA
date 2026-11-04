@@ -2023,5 +2023,59 @@
         "slot": "C"
       }
     ]
+  },
+  {
+    "id": "classic_lal_1953_54_lineup",
+    "teamId": "classic_lal_1953_54",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_lal_1953_54_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_lal_1953_54_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_lal_1953_54_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_lal_1953_54_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_lal_1953_54_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_lal_2019_20_lineup",
+    "teamId": "classic_lal_2019_20",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_lal_2019_20_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_lal_2019_20_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_lal_2019_20_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_lal_2019_20_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_lal_2019_20_p05",
+        "slot": "C"
+      }
+    ]
   }
 ]

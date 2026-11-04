@@ -53,6 +53,20 @@ export const CLASSIC_PEAK_OVR = {
   // Still active — peak held at 93 until the full career is on the books.
   "Nikola Jokic": 93,
   "Anthony Davis": 90,
+  // Minneapolis Lakers — first dynasty
+  "George Mikan": 92,
+  "Jim Pollard": 85,
+  "Vern Mikkelsen": 84,
+  "Slater Martin": 84,
+  "Clyde Lovellette": 83,
+  "Whitey Skoog": 78,
+  // 2019/20 Lakers title support (Dwight peak already set)
+  "Danny Green": 82,
+  "Kentavious Caldwell-Pope": 80,
+  "Kyle Kuzma": 80,
+  "Alex Caruso": 78,
+  "Avery Bradley": 78,
+  "Quinn Cook": 74,
   // Championship supporting stars
   "Dennis Rodman": 88,
   "Kevin McHale": 90,
@@ -190,7 +204,7 @@ export const CLASSIC_PEAK_OVR = {
   "Joe Johnson": 84,
   // 2016/17 Wizards
   "John Wall": 89,
-  "Bradley Beal": 89,
+  "Bradley Beal": 86,
   "Otto Porter Jr.": 84,
   "Markieff Morris": 80,
   "Marcin Gortat": 80,

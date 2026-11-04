@@ -7740,5 +7740,173 @@
     "shirtNumber": 39,
     "squadRole": "BENCH",
     "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p01",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 22,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_lal_1953_54_p02",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 20,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p03",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 17,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p04",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 19,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p05",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 99,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p06",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 34,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p07",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 18,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p08",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 16,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p09",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 15,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p10",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 12,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_1953_54_p11",
+    "teamId": "classic_lal_1953_54",
+    "shirtNumber": 10,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p01",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 23,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_lal_2019_20_p02",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 14,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p03",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 1,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p04",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 3,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p05",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 39,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p06",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 9,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p07",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 4,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p08",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 0,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p09",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 7,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p10",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 11,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p11",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 88,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p12",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 10,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_lal_2019_20_p13",
+    "teamId": "classic_lal_2019_20",
+    "shirtNumber": 28,
+    "squadRole": "BENCH",
+    "captain": false
   }
 ]

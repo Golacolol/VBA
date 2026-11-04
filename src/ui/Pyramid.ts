@@ -140,7 +140,7 @@ export class PyramidHub {
   private ringRaf = 0;
   private ringLastTs = 0;
   private ringResizeObserver: ResizeObserver | null = null;
-  /** Reserve search query (players outside Top 50 + 51–100). */
+  /** Reserve search query (players outside Top 50 + 51–150). */
   private poolQuery = "";
   /** Open jersey-number picker (0–99), or null when closed. */
   private jerseyPick: number | null = null;
@@ -377,19 +377,14 @@ export class PyramidHub {
           <div class="pyramid-head-copy">
             <p class="pyramid-eyebrow">VORTEX</p>
             <h2>PYRAMID<span class="pyramid-goat" aria-hidden="true">🐐</span></h2>
-            <p class="pyramid-sub">${
-              view === "bracket"
-                ? "Playoff bracket from current standings · ADV / WIN · optional series score"
-                : `Top ${PYRAMID_SIZE} ranked · #51–#${PYRAMID_SIZE + PYRAMID_POOL_SIZE} reserve (swap in · no Ring seat)`
-            }</p>
           </div>
           <div class="pyramid-head-actions">
             ${
               view === "pyramid"
                 ? `<div class="pyramid-view-toggle pyramid-layout-toggle" role="group" aria-label="Pyramid layout">
-              <button type="button" class="pyramid-view-btn${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps"${titleAttr("1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>Steps</button>
-              <button type="button" class="pyramid-view-btn${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds"${titleAttr("1 · 3 · 5 · 7 · 9 · 11 · 14")}>1-3-5</button>
-              <button type="button" class="pyramid-view-btn${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib"${titleAttr("Fibonacci 1 · 2 · 3 · 5 · 8 · 13 · 18")}>Fib</button>
+              <button type="button" class="pyramid-view-btn${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps"${titleAttr("1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>GOAT</button>
+              <button type="button" class="pyramid-view-btn${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds"${titleAttr("1 · 3 · 5 · 7 · 9 · 11 · 14")}>Pyramid</button>
+              <button type="button" class="pyramid-view-btn${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib"${titleAttr("1 · 2 · 3 · 5 · 8 · 13 · 18")}>Cap</button>
               <button type="button" class="pyramid-view-btn${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions"${titleAttr(
                 this.positionsApexInTopTeam && layout === "positions"
                   ? "POS A · primary positions · click again: #1 alone on top"
@@ -630,9 +625,9 @@ export class PyramidHub {
       .map((entry, i) => this.poolCellHtml(entry, i))
       .join("");
     return `<div class="pyramid-tiers${listMode ? " is-list" : ""}${positionsMode ? " is-positions" : ""}" role="list">${tiers}</div>
-      <section class="pyramid-pool" aria-label="Ranks 51 to 100 reserve">
+      <section class="pyramid-pool" aria-label="Ranks 51 to ${PYRAMID_SIZE + PYRAMID_POOL_SIZE} reserve">
         <header class="pyramid-pool-head">
-          <h3>#51–#100</h3>
+          <h3>#51–#${PYRAMID_SIZE + PYRAMID_POOL_SIZE}</h3>
           <p>Known reserve — drag onto a ranked slot or ↑ to swap with #${PYRAMID_SIZE}. No Ring position.</p>
           <div class="pyramid-pool-search">
             <input data-pyramid-search type="search" placeholder="Search database…" value="${escapeAttr(this.poolQuery)}" aria-label="Search players outside the Pyramid" />
