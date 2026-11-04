@@ -293,7 +293,7 @@ export class MiTeamBuilder {
     }
   }
 
-  /** Space = open / keep · V = reseal · B = discard. */
+  /** Space = open / keep · V = reseal · B = discard sealed or opened pack (new random foil). */
   private handlePackHotkeys(e: KeyboardEvent): boolean {
     if (!this.packing || this.controlMode !== "PLAYER" || this.cardEditing) return false;
     const key = e.key;
@@ -318,16 +318,25 @@ export class MiTeamBuilder {
       return false;
     }
 
+    // Skip / discard before opening, or after reveal — always redraws a fresh sealed pack.
+    if (lower === "b") {
+      if (this.phase === "foil" || this.phase === "revealed") {
+        e.preventDefault();
+        this.discard();
+        return true;
+      }
+      if (this.phase === "opening") {
+        e.preventDefault();
+        return true;
+      }
+      return false;
+    }
+
     if (this.phase !== "revealed") return false;
 
     if (lower === "v") {
       e.preventDefault();
       this.resealPack();
-      return true;
-    }
-    if (lower === "b") {
-      e.preventDefault();
-      this.discard();
       return true;
     }
     return false;

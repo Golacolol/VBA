@@ -135,11 +135,11 @@ const FOIL_LABEL: Record<PackTier, string> = {
 };
 
 const FOIL_ARIA: Record<PackTier, string> = {
-  silver: "Open silver pack (Space)",
-  gold: "Open gold pack (Space)",
-  diamond: "Open diamond pack (Space)",
-  purple: "Open purple pack (Space)",
-  black: "Open black pack (Space)",
+  silver: "Open silver pack (Space). Press B to skip for another sealed pack",
+  gold: "Open gold pack (Space). Press B to skip for another sealed pack",
+  diamond: "Open diamond pack (Space). Press B to skip for another sealed pack",
+  purple: "Open purple pack (Space). Press B to skip for another sealed pack",
+  black: "Open black pack (Space). Press B to skip for another sealed pack",
 };
 
 export function miteamFoilHtml(tier: PackTier = "silver"): string {
@@ -170,7 +170,7 @@ export function miteamFoilHtml(tier: PackTier = "silver"): string {
         <img class="miteam-foil-logo" src="/vba-logo.png" alt="" aria-hidden="true" />
         <span class="miteam-foil-content">
           <span class="miteam-foil-label">${label}</span>
-          <span class="miteam-foil-hint">TAP TO OPEN</span>
+          <span class="miteam-foil-hint">TAP TO OPEN · B SKIP</span>
         </span>
       </button>
     </span>
