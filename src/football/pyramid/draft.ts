@@ -136,6 +136,29 @@ export function takenDraftIdentityKeys(db: GameDatabase, seats: readonly DraftSe
   return keys;
 }
 
+function isClassicPlayerId(id: string): boolean {
+  return id.startsWith("classic_");
+}
+
+/**
+ * Pick which form of a person belongs on the draft board.
+ * Mixed pools prefer curated classic peaks over live espn_* so ratings match Pyramid.
+ * Same era-class: higher authored overall, then stable id order.
+ */
+export function preferDraftSquadPlayer(
+  prev: SquadPlayer,
+  next: SquadPlayer,
+  opts: { preferClassic: boolean },
+): SquadPlayer {
+  if (opts.preferClassic) {
+    const prevClassic = isClassicPlayerId(prev.player.id);
+    const nextClassic = isClassicPlayerId(next.player.id);
+    if (nextClassic !== prevClassic) return nextClassic ? next : prev;
+  }
+  if (next.overall !== prev.overall) return next.overall > prev.overall ? next : prev;
+  return next.player.id.localeCompare(prev.player.id) < 0 ? next : prev;
+}
+
 function defaultSeatName(index: number, kind: DraftSeatKind): string {
   if (index === 0 && kind === "human") return "You";
   if (kind === "human") return `Player ${index + 1}`;
@@ -297,8 +320,9 @@ export function currentDraftPick(draft: DraftSave): DraftPickContext | null {
 }
 
 /**
- * Undrafted pool for the board — any position, sorted by overall (best player available).
- * One entry per person (highest OVR classic/current variant); already-drafted identities excluded.
+ * Undrafted pool for the board — any position, sorted by authored overall.
+ * One entry per person; already-drafted identities excluded.
+ * On All (mixed classic + current), classic peak forms win so board OVRs match Pyramid.
  */
 export function draftCandidates(
   db: GameDatabase,
@@ -306,6 +330,7 @@ export function draftCandidates(
   limit = DRAFT_CANDIDATE_LIMIT,
 ): SquadPlayer[] {
   const filter = draftPoolFilter(draft.filter);
+  const preferClassic = filter.kind === "all";
   const excludeIds = takenPlayerIds(draft.seats);
   const excludeKeys = takenDraftIdentityKeys(db, draft.seats);
   const bestByKey = new Map<string, SquadPlayer>();
@@ -316,13 +341,7 @@ export function draftCandidates(
       const key = draftPlayerIdentityKey(sp.player);
       if (excludeKeys.has(key)) continue;
       const prev = bestByKey.get(key);
-      if (
-        !prev ||
-        sp.overall > prev.overall ||
-        (sp.overall === prev.overall && sp.player.id.localeCompare(prev.player.id) < 0)
-      ) {
-        bestByKey.set(key, sp);
-      }
+      bestByKey.set(key, prev ? preferDraftSquadPlayer(prev, sp, { preferClassic }) : sp);
     }
   }
   const ranked = [...bestByKey.values()].sort(

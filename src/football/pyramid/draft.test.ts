@@ -164,10 +164,36 @@ describe("draft engine", () => {
     for (let i = 1; i < board.length; i++) {
       expect(board[i - 1]!.overall).toBeGreaterThanOrEqual(board[i]!.overall);
     }
+    // Board OVR is the authored curated rating (not a live derive drift).
+    for (const sp of board) {
+      expect(sp.overall).toBe(sp.player.overall);
+    }
     const pick = applyDraftPick(draft, board[0]!.player.id, db);
     expect(pick.pickIndex).toBe(1);
     expect(pick.seats[0]!.roster).toHaveLength(1);
     expect(pick.seats[0]!.roster[0]!.playerId).toBe(board[0]!.player.id);
+  });
+
+  it("All-filter draft prefers classic Jokic at curated 93 over live espn form", async () => {
+    const db = await GameDatabase.load(new SaveManager());
+    const classic = db.players.get("classic_den_2022_23_p05");
+    const live = db.players.get("espn_3112335");
+    expect(classic?.overall).toBe(93);
+    expect(live?.overall).toBe(93);
+
+    const draft = startDraft(defaultDraftSave(2));
+    draft.filter = "all";
+    draft.firstSeat = 0;
+    const board = draftCandidates(db, draft, 200);
+    const jokic = board.find((s) => /nikola jokic/i.test(s.player.displayName || s.player.name));
+    expect(jokic?.player.id).toBe("classic_den_2022_23_p05");
+    expect(jokic?.overall).toBe(93);
+
+    // Current-only board may use the live form, still at curated 93.
+    draft.filter = "current";
+    const currentBoard = draftCandidates(db, draft, 200);
+    const liveJokic = currentBoard.find((s) => /nikola jokic/i.test(s.player.displayName || s.player.name));
+    expect(liveJokic?.overall).toBe(93);
   });
 
   it("collapses classic variants of the same person (Moses Malone)", async () => {
