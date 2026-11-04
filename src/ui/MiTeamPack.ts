@@ -1,16 +1,23 @@
-/** Foil pack open + lightweight confetti (no deps). Gold 85–94, purple 95+. */
+/** Foil pack open + lightweight confetti (no deps). Gold 80–89, diamond 90–94, purple 95+, black = top 3. */
 
 import { assetUrl } from "../core/assetUrl";
+import type { GameDatabase } from "../core/Database";
+import { MITEAM_TEAM_ID } from "../core/SaveManager";
+import { playerIdentityKey } from "../football/miteam/MiTeamPool";
 import { portraitAsset, teamBadgeAsset } from "./Portrait";
 import type { SquadPlayer } from "../core/Database";
 
 export type PackPhase = "foil" | "opening" | "revealed";
-export type PackTier = "silver" | "gold" | "purple";
+export type PackTier = "silver" | "gold" | "diamond" | "purple" | "black";
 
-/** Sealed gold foil — strong pulls 85–94. */
-export const MITEAM_GOLD_OVR = 85;
-/** Sealed purple foil — legends / peak 95+. */
+/** Sealed gold foil — strong pulls 80–89. */
+export const MITEAM_GOLD_OVR = 80;
+/** Sealed diamond foil — elite pulls 90–94. */
+export const MITEAM_DIAMOND_OVR = 90;
+/** Sealed purple foil — legends 95+ (except black top-N). */
 export const MITEAM_PURPLE_OVR = 95;
+/** Absolute apex — black/gold foil for the N highest overall cards. */
+export const MITEAM_BLACK_TOP_N = 3;
 
 function preloadImage(url: string | null | undefined): Promise<void> {
   const src = url?.trim();
@@ -54,8 +61,38 @@ export function waitForElementImages(root: ParentNode | null, timeoutMs = 1400):
   return Promise.race([loaded, timeout]);
 }
 
-export function packTierForOverall(overall: number): PackTier {
+/**
+ * Identity keys for the N highest overall cards in the DB (deduped by person).
+ * Used so black foil tracks the live apex, not a hard-coded OVR cutoff.
+ */
+export function blackPackIdentityKeys(
+  db: GameDatabase,
+  n = MITEAM_BLACK_TOP_N,
+): Set<string> {
+  const best = new Map<string, number>();
+  for (const team of db.teams.values()) {
+    if (team.id === MITEAM_TEAM_ID) continue;
+    for (const sp of db.getSquad(team.id)) {
+      const key = playerIdentityKey(sp.player);
+      const prev = best.get(key);
+      if (prev === undefined || sp.overall > prev) best.set(key, sp.overall);
+    }
+  }
+  return new Set(
+    [...best.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, Math.max(0, n))
+      .map(([key]) => key),
+  );
+}
+
+export function packTierForOverall(
+  overall: number,
+  opts?: { black?: boolean },
+): PackTier {
+  if (opts?.black) return "black";
   if (overall >= MITEAM_PURPLE_OVR) return "purple";
+  if (overall >= MITEAM_DIAMOND_OVR) return "diamond";
   if (overall >= MITEAM_GOLD_OVR) return "gold";
   return "silver";
 }
@@ -92,13 +129,17 @@ export function miteamFoilSerrationClip(): string {
 const FOIL_LABEL: Record<PackTier, string> = {
   silver: "SILVER PACK",
   gold: "GOLD PACK",
+  diamond: "DIAMOND PACK",
   purple: "PURPLE PACK",
+  black: "BLACK PACK",
 };
 
 const FOIL_ARIA: Record<PackTier, string> = {
   silver: "Open silver pack (Space)",
   gold: "Open gold pack (Space)",
+  diamond: "Open diamond pack (Space)",
   purple: "Open purple pack (Space)",
+  black: "Open black pack (Space)",
 };
 
 export function miteamFoilHtml(tier: PackTier = "silver"): string {
@@ -139,7 +180,9 @@ export function miteamFoilHtml(tier: PackTier = "silver"): string {
 const CONFETTI_COLORS: Record<PackTier, string[]> = {
   silver: ["#C0C7D2", "#E8ECF2", "#FFFFFF", "#8B93A7", "#A8B4C4", "#D7DEE8"],
   gold: ["#FFE9A8", "#F5D76E", "#D4AF37", "#FFF6D6", "#C9A227", "#FFFFFF", "#B8860B"],
+  diamond: ["#E8F9FF", "#A5F3FC", "#67E8F9", "#FFFFFF", "#C4B5FD", "#F0ABFC", "#7DD3FC", "#FDF4FF"],
   purple: ["#E8D4FF", "#C9A0FF", "#8B5CF6", "#F5EAFF", "#A855F7", "#FFFFFF", "#6D28D9", "#DDD6FE"],
+  black: ["#0A0A0A", "#1A1A1A", "#D4AF37", "#FFE9A8", "#F5D76E", "#FFFFFF", "#C9A227", "#3A2A08"],
 };
 
 export function burstConfetti(host: HTMLElement, tier: PackTier = "silver"): void {
@@ -147,8 +190,10 @@ export function burstConfetti(host: HTMLElement, tier: PackTier = "silver"): voi
   layer.className = `miteam-confetti miteam-confetti-${tier}`;
   layer.setAttribute("aria-hidden", "true");
   const colors = CONFETTI_COLORS[tier];
-  const count = tier === "purple" ? 56 : tier === "gold" ? 48 : 36;
-  const distMax = tier === "purple" ? 170 : tier === "gold" ? 150 : 120;
+  const count =
+    tier === "black" ? 72 : tier === "purple" ? 64 : tier === "diamond" ? 56 : tier === "gold" ? 48 : 36;
+  const distMax =
+    tier === "black" ? 210 : tier === "purple" ? 190 : tier === "diamond" ? 170 : tier === "gold" ? 150 : 120;
   for (let i = 0; i < count; i++) {
     const bit = document.createElement("span");
     bit.className = "miteam-confetti-bit";

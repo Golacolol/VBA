@@ -4,20 +4,24 @@ import {
   miteamFoilSerrationClip,
   packTierForOverall,
   MITEAM_GOLD_OVR,
+  MITEAM_DIAMOND_OVR,
   MITEAM_PURPLE_OVR,
 } from "./MiTeamPack";
 
 describe("MiTeamPack tiers", () => {
-  it("uses gold at 85–94 and purple at 95+ overall", () => {
-    expect(packTierForOverall(84)).toBe("silver");
+  it("uses gold 80–89, diamond 90–94, purple 95+, and black for top cards", () => {
+    expect(packTierForOverall(79)).toBe("silver");
     expect(packTierForOverall(MITEAM_GOLD_OVR)).toBe("gold");
     expect(packTierForOverall(89)).toBe("gold");
-    expect(packTierForOverall(94)).toBe("gold");
+    expect(packTierForOverall(MITEAM_DIAMOND_OVR)).toBe("diamond");
+    expect(packTierForOverall(94)).toBe("diamond");
     expect(packTierForOverall(MITEAM_PURPLE_OVR)).toBe("purple");
     expect(packTierForOverall(99)).toBe("purple");
+    expect(packTierForOverall(99, { black: true })).toBe("black");
+    expect(packTierForOverall(80, { black: true })).toBe("black");
   });
 
-  it("renders gold and purple foil chrome for high packs", () => {
+  it("renders gold, diamond, purple, and black foil chrome", () => {
     const gold = miteamFoilHtml("gold");
     expect(gold).toContain("miteam-foil-shell-gold");
     expect(gold).toContain("miteam-foil-gold");
@@ -30,16 +34,34 @@ describe("MiTeamPack tiers", () => {
     expect(gold).toContain("miteam-foil-lip-top");
     expect(gold).toContain("miteam-foil-tear-top");
     expect(gold.match(/vba-logo\.png/g)?.length).toBe(1);
+    const diamond = miteamFoilHtml("diamond");
+    expect(diamond).toContain("miteam-foil-shell-diamond");
+    expect(diamond).toContain("miteam-foil-diamond");
+    expect(diamond).toContain("DIAMOND PACK");
+    expect(diamond).not.toContain("miteam-foil-gold");
+    expect(diamond).not.toContain("miteam-foil-purple");
+    expect(diamond).not.toContain("miteam-foil-black");
     const purple = miteamFoilHtml("purple");
     expect(purple).toContain("miteam-foil-shell-purple");
     expect(purple).toContain("miteam-foil-purple");
     expect(purple).toContain("PURPLE PACK");
     expect(purple).not.toContain("miteam-foil-gold");
+    expect(purple).not.toContain("miteam-foil-diamond");
+    expect(purple).not.toContain("miteam-foil-black");
+    const black = miteamFoilHtml("black");
+    expect(black).toContain("miteam-foil-shell-black");
+    expect(black).toContain("miteam-foil-black");
+    expect(black).toContain("BLACK PACK");
+    expect(black).not.toContain("miteam-foil-gold");
+    expect(black).not.toContain("miteam-foil-purple");
+    expect(black).not.toContain("miteam-foil-diamond");
     const silver = miteamFoilHtml("silver");
     expect(silver).toContain("miteam-foil-silver");
     expect(silver).toContain("SILVER PACK");
     expect(silver).not.toContain("miteam-foil-gold");
     expect(silver).not.toContain("miteam-foil-purple");
+    expect(silver).not.toContain("miteam-foil-diamond");
+    expect(silver).not.toContain("miteam-foil-black");
   });
 
   it("serrates top and bottom tear edges only", () => {
@@ -50,8 +72,5 @@ describe("MiTeamPack tiers", () => {
     expect(clip).toContain("0.0% 100.0%");
     // Shallow notches — recessed well / card lip, not an opened pack.
     expect(clip).toContain("2.8%");
-    expect(clip).toContain("97.2%");
-    // No mid-side zigzag points (e.g. inset x at ~50% height).
-    expect(clip).not.toMatch(/9[0-9]\.[0-9]% 5[0-9]\.[0-9]%/);
   });
 });

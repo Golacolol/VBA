@@ -43,6 +43,7 @@ import {
 import { getFormation } from "../football/teams/Formation";
 import { contrastingKitText } from "./kitContrast";
 import {
+  blackPackIdentityKeys,
   burstConfetti,
   miteamFoilHtml,
   packTierForOverall,
@@ -212,7 +213,8 @@ export class MiTeamBuilder {
 
   private sealedTier(): PackTier {
     if (!this.candidate) return "silver";
-    return packTierForOverall(this.candidate.overall);
+    const black = blackPackIdentityKeys(this.db).has(playerIdentityKey(this.candidate.player));
+    return packTierForOverall(this.candidate.overall, { black });
   }
 
   private beginPack(slot?: string | null): void {
@@ -1132,7 +1134,8 @@ export class MiTeamBuilder {
       </div>`;
     }
     if (this.phase === "foil" || this.phase === "opening") {
-      const tier = packTierForOverall(candidate.overall);
+      const black = blackPackIdentityKeys(this.db).has(playerIdentityKey(candidate.player));
+      const tier = packTierForOverall(candidate.overall, { black });
       const opening = this.phase === "opening" ? " is-opening" : "";
       // Preload card under the foil (hidden while sealed — serrations must not show it).
       return `<div class="pitch-overlay-card miteam-pack-stage miteam-pack-layered${opening}">
