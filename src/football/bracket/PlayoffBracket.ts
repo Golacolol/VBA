@@ -91,7 +91,10 @@ function normalizeScore(raw: unknown): BracketSeriesScore | null {
   const loser = Number(o.loser);
   if (!Number.isFinite(winner) || !Number.isFinite(loser)) return null;
   if (winner < 0 || loser < 0) return null;
-  return { winner: Math.round(winner), loser: Math.round(loser) };
+  return {
+    winner: Math.min(4, Math.round(winner)),
+    loser: Math.min(4, Math.round(loser)),
+  };
 }
 
 export function normalizeBracketSave(raw: unknown): BracketSave {

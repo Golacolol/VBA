@@ -890,7 +890,9 @@ export class PyramidHub {
   }
 
   private bindBracketScoreInputs(): void {
-    this.root.querySelectorAll<HTMLInputElement>("[data-bracket-score]").forEach((input) => {
+    this.root.querySelectorAll<HTMLInputElement>("input[data-bracket-score]").forEach((input) => {
+      input.addEventListener("pointerdown", (e) => e.stopPropagation());
+      input.addEventListener("click", (e) => e.stopPropagation());
       input.addEventListener("change", () => this.onBracketScoreChange(input));
       input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
@@ -903,26 +905,32 @@ export class PyramidHub {
 
   private onBracketScoreChange(input: HTMLInputElement): void {
     const matchId = input.getAttribute("data-match") as BracketMatchId | null;
-    const side = input.getAttribute("data-bracket-score");
-    if (!matchId || (side !== "winner" && side !== "loser")) return;
+    if (!matchId) return;
     const winEl = this.root.querySelector<HTMLInputElement>(
-      `[data-bracket-match="${matchId}"] [data-bracket-score="winner"]`,
+      `[data-bracket-match="${matchId}"] input[data-bracket-score="winner"]`,
     );
     const loseEl = this.root.querySelector<HTMLInputElement>(
-      `[data-bracket-match="${matchId}"] [data-bracket-score="loser"]`,
+      `[data-bracket-match="${matchId}"] input[data-bracket-score="loser"]`,
     );
-    const wRaw = (winEl?.value ?? "").trim();
-    const lRaw = (loseEl?.value ?? "").trim();
-    let score: BracketSeriesScore | null = null;
-    if (wRaw !== "" || lRaw !== "") {
-      const winner = wRaw === "" ? 0 : Number(wRaw);
-      const loser = lRaw === "" ? 0 : Number(lRaw);
-      if (Number.isFinite(winner) && Number.isFinite(loser) && winner >= 0 && loser >= 0) {
-        score = { winner: Math.round(winner), loser: Math.round(loser) };
-      }
+    const clamp = (raw: string): number | null => {
+      const t = raw.trim();
+      if (t === "") return null;
+      const n = Number(t);
+      if (!Number.isFinite(n)) return null;
+      return Math.max(0, Math.min(4, Math.round(n)));
+    };
+    const winner = clamp(winEl?.value ?? "");
+    const loser = clamp(loseEl?.value ?? "");
+    // Snap out-of-range typed values back into 0–4 without wiping the other field.
+    if (winEl && winner != null && winEl.value.trim() !== "" && Number(winEl.value) !== winner) {
+      winEl.value = String(winner);
     }
+    if (loseEl && loser != null && loseEl.value.trim() !== "" && Number(loseEl.value) !== loser) {
+      loseEl.value = String(loser);
+    }
+    const score =
+      winner != null && loser != null ? { winner, loser } : null;
     this.persistBracket(setBracketScore(this.bracketState(), matchId, score));
-    // Avoid full re-render so the user can keep typing the other field.
   }
 
   private bracketHtml(): string {
@@ -966,24 +974,60 @@ export class PyramidHub {
 
   private bracketConferenceTreeHtml(conf: ConferenceBracket, side: "east" | "west"): string {
     const label = side === "east" ? "East" : "West";
+    const mirror = side === "west";
+    // R1 pairing feeds Semis: 1/8+4/5 → SF0, 2/7+3/6 → SF1; then both → Conf Finals.
+    // West mirrors so Conf. Finals sit toward the NBA Finals (left of the West column).
+    const topBranch = this.bracketBranchHtml(conf.r1[0]!, conf.r1[1]!, conf.sf[0]!, mirror);
+    const botBranch = this.bracketBranchHtml(conf.r1[3]!, conf.r1[2]!, conf.sf[1]!, mirror);
+    const labels = mirror
+      ? `<div class="bracket-flow-labels" aria-hidden="true">
+            <span>Conf. Finals</span>
+            <span></span>
+            <div class="bracket-flow-label-pair"><span>Semis</span><span>R1</span></div>
+          </div>`
+      : `<div class="bracket-flow-labels" aria-hidden="true">
+            <div class="bracket-flow-label-pair"><span>R1</span><span>Semis</span></div>
+            <span></span>
+            <span>Conf. Finals</span>
+          </div>`;
+    const stack = `<div class="bracket-sf-stack">${topBranch}${botBranch}</div>`;
+    const cfLine = `<div class="bracket-line bracket-line-cf" aria-hidden="true"></div>`;
+    const cfSlot = `<div class="bracket-cf-slot">${this.bracketMatchHtml(conf.final)}</div>`;
+    const body = mirror
+      ? `${cfSlot}${cfLine}${stack}`
+      : `${stack}${cfLine}${cfSlot}`;
     return `
       <section class="bracket-conf bracket-conf-${side}">
         <h3 class="bracket-section-title">${label}</h3>
-        <div class="bracket-rounds">
-          <div class="bracket-round">
-            <div class="bracket-round-label">R1</div>
-            ${conf.r1.map((m) => this.bracketMatchHtml(m)).join("")}
-          </div>
-          <div class="bracket-round">
-            <div class="bracket-round-label">Semis</div>
-            ${conf.sf.map((m) => this.bracketMatchHtml(m)).join("")}
-          </div>
-          <div class="bracket-round">
-            <div class="bracket-round-label">Finals</div>
-            ${this.bracketMatchHtml(conf.final)}
+        <div class="bracket-flow" aria-label="${label} bracket">
+          ${labels}
+          <div class="bracket-flow-body">
+            ${body}
           </div>
         </div>
       </section>
+    `;
+  }
+
+  /** Two R1 games → gold elbow → one Semis game (centered on the pair). */
+  private bracketBranchHtml(
+    feedA: BracketMatchup,
+    feedB: BracketMatchup,
+    next: BracketMatchup,
+    mirror = false,
+  ): string {
+    const feeds = `<div class="bracket-branch-feeds">
+          ${this.bracketMatchHtml(feedA)}
+          ${this.bracketMatchHtml(feedB)}
+        </div>`;
+    const line = `<div class="bracket-line bracket-line-sf" aria-hidden="true"></div>`;
+    const semis = `<div class="bracket-branch-next">
+          ${this.bracketMatchHtml(next)}
+        </div>`;
+    return `
+      <div class="bracket-branch">
+        ${mirror ? `${semis}${line}${feeds}` : `${feeds}${line}${semis}`}
+      </div>
     `;
   }
 
@@ -996,9 +1040,18 @@ export class PyramidHub {
     `;
   }
 
+  private bracketScoreInputHtml(
+    matchId: BracketMatchId,
+    side: "winner" | "loser",
+    value: number | null,
+    enabled: boolean,
+  ): string {
+    const val = value == null ? "" : String(value);
+    return `<input type="number" class="bracket-score-input" data-bracket-score="${side}" data-match="${escapeAttr(matchId)}" min="0" max="4" step="1" inputmode="numeric" value="${escapeAttr(val)}" placeholder="" aria-label="${side === "winner" ? "Winner" : "Loser"} games" ${enabled ? "" : "disabled"}/>`;
+  }
+
   private bracketMatchHtml(match: BracketMatchup): string {
-    const playIn = isPlayInMatch(match.id);
-    const scoreHint = playIn ? "Score (opt.)" : "Series (opt.)";
+    const scoreHint = isPlayInMatch(match.id) ? "Score" : "Series";
     const scoreVal = match.score;
     const canScore = !!match.winner;
     return `
@@ -1010,9 +1063,9 @@ export class PyramidHub {
         </div>
         <div class="bracket-score-row${canScore ? "" : " is-disabled"}">
           <span class="bracket-score-hint">${scoreHint}</span>
-          <input type="number" min="0" max="${playIn ? 200 : 4}" inputmode="numeric" class="bracket-score-input" data-bracket-score="winner" data-match="${escapeAttr(match.id)}" value="${scoreVal ? escapeAttr(String(scoreVal.winner)) : ""}" placeholder="—" aria-label="Winner score" ${canScore ? "" : "disabled"}/>
+          ${this.bracketScoreInputHtml(match.id, "winner", scoreVal ? scoreVal.winner : null, canScore)}
           <span class="bracket-score-sep">–</span>
-          <input type="number" min="0" max="${playIn ? 200 : 3}" inputmode="numeric" class="bracket-score-input" data-bracket-score="loser" data-match="${escapeAttr(match.id)}" value="${scoreVal ? escapeAttr(String(scoreVal.loser)) : ""}" placeholder="—" aria-label="Loser score" ${canScore ? "" : "disabled"}/>
+          ${this.bracketScoreInputHtml(match.id, "loser", scoreVal ? scoreVal.loser : null, canScore)}
         </div>
       </article>
     `;

@@ -8300,6 +8300,9 @@ button.pred-side:hover {
   text-transform: uppercase;
   color: var(--gold, #c5a572);
 }
+.bracket-conf-west > .bracket-section-title {
+  text-align: right;
+}
 .bracket-playin {
   border: 1px solid rgba(197, 165, 114, 0.22);
   border-radius: 12px;
@@ -8314,10 +8317,10 @@ button.pred-side:hover {
 .bracket-tree {
   display: grid;
   gap: 14px;
-  align-items: start;
+  align-items: center;
 }
 .bracket-tree.is-full {
-  grid-template-columns: minmax(0, 1fr) minmax(160px, 220px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 200px) minmax(0, 1fr);
 }
 .bracket-tree.is-east,
 .bracket-tree.is-west {
@@ -8330,24 +8333,111 @@ button.pred-side:hover {
   background: rgba(8, 12, 18, 0.45);
   min-width: 0;
 }
-.bracket-rounds {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  align-items: start;
-}
-.bracket-round {
+.bracket-flow {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
 }
-.bracket-round-label {
+.bracket-flow-labels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 14px minmax(140px, 0.85fr);
+  gap: 0 4px;
   font-size: 10px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   opacity: 0.55;
   text-align: center;
+}
+.bracket-flow-label-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) 14px minmax(0, 1fr);
+  gap: 0 4px;
+}
+.bracket-flow-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 14px minmax(140px, 0.85fr);
+  gap: 0 4px;
+  align-items: center;
+  min-width: 0;
+}
+/* West: Conf. Finals | line | Semis←R1  (Finals toward the center) */
+.bracket-conf-west .bracket-flow-labels,
+.bracket-conf-west .bracket-flow-body {
+  grid-template-columns: minmax(140px, 0.85fr) 14px minmax(0, 1fr);
+}
+.bracket-conf-west .bracket-flow-label-pair {
+  grid-template-columns: minmax(0, 1fr) 14px minmax(0, 1.15fr);
+}
+.bracket-sf-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.bracket-branch {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) 14px minmax(0, 1fr);
+  gap: 0 4px;
+  align-items: center;
+  min-width: 0;
+}
+.bracket-conf-west .bracket-branch {
+  grid-template-columns: minmax(0, 1fr) 14px minmax(0, 1.15fr);
+}
+.bracket-branch-feeds {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+.bracket-branch-next,
+.bracket-cf-slot {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.bracket-cf-slot {
+  justify-content: center;
+}
+.bracket-cf-slot .bracket-match {
+  width: 100%;
+}
+/* Compact gold elbows: R1 pair → Semis, Semis pair → Conf Finals */
+.bracket-line {
+  position: relative;
+  align-self: stretch;
+  min-height: 28px;
+  pointer-events: none;
+}
+.bracket-line-sf::before,
+.bracket-line-cf::before {
+  content: "";
+  position: absolute;
+  top: 22%;
+  bottom: 22%;
+  left: 2px;
+  right: 0;
+  border-top: 1.5px solid rgba(197, 165, 114, 0.78);
+  border-right: 1.5px solid rgba(197, 165, 114, 0.78);
+  border-bottom: 1.5px solid rgba(197, 165, 114, 0.78);
+  border-radius: 0 5px 5px 0;
+}
+.bracket-line-cf::before {
+  top: 18%;
+  bottom: 18%;
+}
+/* West lines open leftward (R1 → Semis → Conf. Finals toward center) */
+.bracket-conf-west .bracket-line-sf::before,
+.bracket-conf-west .bracket-line-cf::before {
+  left: 0;
+  right: 2px;
+  border-top: 1.5px solid rgba(197, 165, 114, 0.78);
+  border-left: 1.5px solid rgba(197, 165, 114, 0.78);
+  border-bottom: 1.5px solid rgba(197, 165, 114, 0.78);
+  border-right: none;
+  border-radius: 5px 0 0 5px;
 }
 .bracket-finals {
   border: 1px solid rgba(197, 165, 114, 0.45);
@@ -8355,6 +8445,10 @@ button.pred-side:hover {
   padding: 12px;
   background: linear-gradient(180deg, rgba(197, 165, 114, 0.12), rgba(8, 12, 18, 0.65));
   align-self: center;
+  justify-self: center;
+}
+.bracket-finals > .bracket-section-title {
+  text-align: center;
 }
 .bracket-match {
   display: grid;
@@ -8446,41 +8540,66 @@ button.pred-side:hover {
 .bracket-score-row {
   display: flex;
   align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
+  gap: 4px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  min-width: 0;
 }
 .bracket-score-row.is-disabled {
   opacity: 0.35;
 }
 .bracket-score-hint {
+  flex: 0 0 auto;
   font-size: 9px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.6;
 }
 .bracket-score-input {
-  width: 3.2em;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 3.1em;
   margin: 0;
-  padding: 3px 4px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.35);
+  padding: 1px 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.4);
   color: inherit;
   font: inherit;
-  font-size: 12px;
+  font-size: 11px;
+  line-height: 1.15;
   text-align: center;
+}
+.bracket-score-input::-webkit-outer-spin-button,
+.bracket-score-input::-webkit-inner-spin-button {
+  opacity: 1;
+  height: 1.6em;
 }
 .bracket-score-input:disabled {
   cursor: default;
+  opacity: 0.7;
 }
 .bracket-score-sep {
+  flex: 0 0 auto;
   opacity: 0.5;
 }
 @media (max-width: 1100px) {
   .bracket-tree.is-full {
     grid-template-columns: 1fr;
   }
-  .bracket-rounds {
+  .bracket-flow-labels,
+  .bracket-flow-body,
+  .bracket-branch,
+  .bracket-conf-west .bracket-flow-labels,
+  .bracket-conf-west .bracket-flow-body,
+  .bracket-conf-west .bracket-branch,
+  .bracket-conf-west .bracket-flow-label-pair {
     grid-template-columns: 1fr;
+  }
+  .bracket-line {
+    display: none;
+  }
+  .bracket-cf-slot {
+    justify-content: stretch;
   }
 }
