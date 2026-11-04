@@ -499,7 +499,7 @@ export class PyramidHub {
         apex
           ? `<div class="pyramid-tier pyramid-list-apex" data-tier="1" style="--tier-count:1;--tier-scale:1">${this.cellHtml(apex, { list: true, apex: true })}</div>`
           : ""
-      }<div class="pyramid-tier pyramid-list-flow" data-tier="2" style="--tier-count:${Math.max(1, rest.length)};--tier-scale:1">${rest
+      }<div class="pyramid-tier pyramid-list-flow" data-tier="2" style="--tier-count:5;--tier-scale:1">${rest
         .map((entry) => this.cellHtml(entry, { list: true }))
         .join("")}</div>`;
     } else if (positionsMode) {
@@ -754,6 +754,8 @@ export class PyramidHub {
       return;
     }
     if (act === "layout") {
+      e.preventDefault();
+      e.stopPropagation();
       const layout = t.closest<HTMLElement>("[data-layout]")?.getAttribute("data-layout");
       if (!isPyramidTierPatternId(layout)) return;
       if (this.pyramidDisplay === layout) return;

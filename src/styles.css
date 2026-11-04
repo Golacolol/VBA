@@ -6498,9 +6498,10 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 }
 .pyramid-view-toggle {
   display: inline-flex;
+  flex-wrap: wrap;
   border: 1px solid rgba(62, 198, 255, 0.35);
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible;
 }
 .pyramid-view-btn {
   border: 0;
@@ -6581,24 +6582,8 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   width: 100%;
   box-sizing: border-box;
 }
-.pyramid-tiers.is-list {
-  align-items: stretch;
-  gap: 14px;
-}
-.pyramid-tiers.is-list .pyramid-list-apex {
-  justify-content: center;
-  flex-wrap: nowrap;
-}
-.pyramid-tiers.is-list .pyramid-list-flow {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: stretch;
-  gap: 10px;
-  width: 100%;
-}
 .pyramid-layout-toggle {
-  max-width: min(100%, 420px);
+  max-width: none;
 }
 .pyramid-layout-toggle .pyramid-view-btn {
   padding: 8px 8px;
@@ -6623,33 +6608,6 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   width: 100%;
   box-sizing: border-box;
 }
-.pyramid-cell.is-list-apex {
-  width: min(168px, 42%);
-  min-width: 120px;
-  flex: 0 0 auto;
-}
-.pyramid-cell.is-list-cell {
-  width: min(128px, calc((100% - 40px) / 5));
-  min-width: 96px;
-  flex: 0 1 auto;
-  padding: 10px 6px 8px;
-}
-.pyramid-cell.is-list-apex .pyramid-move,
-.pyramid-cell.is-list-cell .pyramid-move {
-  width: 28px;
-  height: 28px;
-  font-size: 14px;
-  border-color: rgba(62, 198, 255, 0.45);
-  background: rgba(62, 198, 255, 0.16);
-}
-.pyramid-cell.is-list-apex .pyramid-cell-kit {
-  width: 56px;
-  height: 56px;
-}
-.pyramid-cell.is-list-cell .pyramid-cell-kit {
-  width: 48px;
-  height: 48px;
-}
 .pyramid-cell {
   position: relative;
   /* Use available row width per seat, but never stretch a short tier across the screen. */
@@ -6670,6 +6628,53 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   cursor: grab;
   user-select: none;
   box-sizing: border-box;
+}
+/* List layout — must follow base .pyramid-cell so width/flex win the cascade. */
+.pyramid-tiers.is-list {
+  align-items: stretch;
+  gap: 14px;
+}
+.pyramid-tiers.is-list .pyramid-list-apex {
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+.pyramid-tiers.is-list .pyramid-list-flow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  /* Width formula uses --tier-count; keep ~5-across, not 49. */
+  --tier-count: 5;
+}
+.pyramid-tiers.is-list .pyramid-cell.is-list-apex {
+  width: min(168px, 42%);
+  min-width: 120px;
+  flex: 0 0 auto;
+}
+.pyramid-tiers.is-list .pyramid-cell.is-list-cell {
+  width: min(128px, calc((100% - 40px) / 5));
+  min-width: 96px;
+  max-width: 140px;
+  flex: 0 1 auto;
+  padding: 10px 6px 8px;
+}
+.pyramid-tiers.is-list .pyramid-cell.is-list-apex .pyramid-move,
+.pyramid-tiers.is-list .pyramid-cell.is-list-cell .pyramid-move {
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  border-color: rgba(62, 198, 255, 0.45);
+  background: rgba(62, 198, 255, 0.16);
+}
+.pyramid-tiers.is-list .pyramid-cell.is-list-apex .pyramid-cell-kit {
+  width: 56px;
+  height: 56px;
+}
+.pyramid-tiers.is-list .pyramid-cell.is-list-cell .pyramid-cell-kit {
+  width: 48px;
+  height: 48px;
 }
 .pyramid-cell.is-compact {
   padding: 8px 4px 6px;
