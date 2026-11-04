@@ -14,10 +14,18 @@ export interface TableRow {
   pts: number;
 }
 
-export const LEAGUE_TABS: { id: Conference; label: string }[] = [
+/** Standings / fixtures tab — NBA = both conferences combined. */
+export type LeagueTabId = "NBA" | Conference;
+
+export const LEAGUE_TABS: { id: LeagueTabId; label: string }[] = [
+  { id: "NBA", label: "NBA" },
   { id: "EAST", label: "Eastern Conference" },
   { id: "WEST", label: "Western Conference" },
 ];
+
+export function isLeagueTabId(v: unknown): v is LeagueTabId {
+  return v === "NBA" || v === "EAST" || v === "WEST";
+}
 
 export function competitionForLeague(league: Conference): string {
   return league === "WEST" ? "Western Conference" : "Eastern Conference";
@@ -41,11 +49,14 @@ export function leagueForTeam(team: TeamRecord | undefined): Conference {
 export function standingsFor(
   fixtures: FixtureRecord[],
   teams: TeamRecord[],
-  league: Conference,
+  league: LeagueTabId,
 ): TableRow[] {
-  const competition = competitionForLeague(league);
   const clubs = teams
-    .filter((t) => t.teamType === "CURRENT_TEAM" && conferenceForTeam(t) === league)
+    .filter(
+      (t) =>
+        t.teamType === "CURRENT_TEAM" &&
+        (league === "NBA" || conferenceForTeam(t) === league),
+    )
     .sort((a, b) => a.name.localeCompare(b.name));
   const rows = new Map<string, TableRow>();
   for (const club of clubs) {
@@ -53,11 +64,10 @@ export function standingsFor(
   }
   for (const fixture of fixtures) {
     if (!fixture.played) continue;
-    // NBA conference tables count every game involving a conference club (not only intra).
+    // Tables count every game involving a listed club (not only intra-conference).
     const home = rows.get(fixture.homeTeamId);
     const away = rows.get(fixture.awayTeamId);
     if (!home && !away) continue;
-    if (competition && fixture.competition && !home && !away) continue;
     const hs = fixture.homeScore ?? 0;
     const as = fixture.awayScore ?? 0;
     if (home) applyResult(home, hs, as);

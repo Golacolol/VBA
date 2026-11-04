@@ -8,9 +8,10 @@ import {
 } from "./MiTeamPack";
 
 describe("MiTeamPack tiers", () => {
-  it("uses gold at 90+ and purple at 95+ overall", () => {
-    expect(packTierForOverall(89)).toBe("silver");
+  it("uses gold at 85–94 and purple at 95+ overall", () => {
+    expect(packTierForOverall(84)).toBe("silver");
     expect(packTierForOverall(MITEAM_GOLD_OVR)).toBe("gold");
+    expect(packTierForOverall(89)).toBe("gold");
     expect(packTierForOverall(94)).toBe("gold");
     expect(packTierForOverall(MITEAM_PURPLE_OVR)).toBe("purple");
     expect(packTierForOverall(99)).toBe("purple");

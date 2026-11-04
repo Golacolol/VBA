@@ -33,8 +33,11 @@ export const PYRAMID_TIER_PATTERNS: Record<PyramidTierPatternId, readonly number
    * (two per position), then remainder — see {@link pyramidPositionTeamRows}.
    */
   positions: [1, 5, 10, 10, 10, 14],
-  /** Rank order in centred rows: #1 top centre, then 2, then 3… remainder last. */
-  list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 5],
+  /**
+   * Display-only marker for List (rendered as #1 apex + centred wrap in the hub).
+   * Kept for pattern id completeness / sum checks.
+   */
+  list: [1, 49],
 };
 
 /**

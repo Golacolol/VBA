@@ -1,10 +1,10 @@
-import type { StadiumRecord, TeamRecord, FixtureRecord, EnglishLeague } from "../data/schema";
+import type { StadiumRecord, TeamRecord, FixtureRecord } from "../data/schema";
+import type { LeagueTabId } from "../football/league/Standings";
 import type { TimeOfDay } from "../football/environment/Environment";
 import { PRODUCT_MODES, type ProductMode } from "../core/ProductMode";
 import type { GameDatabase } from "../core/Database";
 import { DEFAULT_KICK_OFF_TIME, HALF_LENGTH_CHOICES, formatKickCountdown, kickOffRemainingSeconds, type KickCountdownPhase } from "../football/constants";
 import { todayIso } from "../data/leagueSchedule";
-import { leagueForTeam } from "../football/league/Standings";
 import {
   PREDICTION_SCORE_MAX,
   autoSelectPredictionFixtures,
@@ -69,8 +69,8 @@ export class MainMenu {
   leagueFixturesTab: "league" | "fixtures" = "league";
   /** null = Options hub (section buttons); set = detail with tabs. */
   optionsSection: OptionsSection | null = null;
-  league: EnglishLeague = "EAST";
-  fixtureLeague: EnglishLeague = "EAST";
+  league: LeagueTabId = "NBA";
+  fixtureLeague: LeagueTabId = "NBA";
   fixtureDate = todayIso();
   fadePanel = false;
   predictionsMode: PredictionsViewMode = "predict";
@@ -214,7 +214,8 @@ export class MainMenu {
             <div class="menu-fixture fixture-match">
               <div class="fixture-match-main">
                 <div class="fixture-detail-row">
-                  <span class="meta">${fixture.competition} · ${view.kickOffTime || DEFAULT_KICK_OFF_TIME} · ${club.matchGround.name}</span>
+                  <span class="meta">${formatNextFixtureDate(fixture.date)} · ${view.kickOffTime || DEFAULT_KICK_OFF_TIME} · ${fixture.competition} · ${club.matchGround.name}</span>
+                  ${kickCountdownBlockHtml(fixture.date, view.kickOffTime || DEFAULT_KICK_OFF_TIME)}
                 </div>
                 <div class="fixture-teams-row">
                   <button type="button" class="fixture-copy" data-id="next" aria-label="Play next fixture ${home.abbreviation} vs ${away.abbreviation}">
@@ -224,7 +225,6 @@ export class MainMenu {
                       <span class="vs">vs</span>
                       ${teamBadgeHtml(away, { className: "fixture-crest", size: 22 })}
                       <strong>${away.abbreviation}</strong>
-                      ${kickCountdownBlockHtml(fixture.date, view.kickOffTime || DEFAULT_KICK_OFF_TIME)}
                     </div>
                   </button>
                 </div>
@@ -274,15 +274,15 @@ export class MainMenu {
     if (stack) this.fitObserver.observe(stack);
   }
 
-  setPanel(panel: MenuPanel, fade = true, clubLeague?: EnglishLeague): void {
+  setPanel(panel: MenuPanel, fade = true, _clubLeague?: LeagueTabId): void {
     if (panel === "league" || panel === "fixtures") this.leagueFixturesTab = panel;
     if (panel === "menu") {
       this.predictionsMode = "predict";
       this.optionsSection = null;
     }
-    if (panel === "league" && this.panel === "menu") this.league = "EAST";
+    if (panel === "league" && this.panel === "menu") this.league = "NBA";
     if (panel === "fixtures" && this.panel === "menu") {
-      this.fixtureLeague = clubLeague ?? leagueForTeam(undefined);
+      this.fixtureLeague = "NBA";
       this.fixtureDate = todayIso();
     }
     if (panel !== "options") this.optionsSection = null;
@@ -301,22 +301,22 @@ export class MainMenu {
   }
 
   /** Open the combined League Fixtures panel on the last-used tab (defaults to League). */
-  openLeagueFixtures(clubLeague?: EnglishLeague): void {
+  openLeagueFixtures(_clubLeague?: LeagueTabId): void {
     if (this.leagueFixturesTab === "fixtures") {
-      this.setPanel("fixtures", true, clubLeague);
+      this.setPanel("fixtures", true);
       return;
     }
     this.setPanel("league", true);
   }
 
-  setLeagueFixturesTab(tab: "league" | "fixtures", clubLeague?: EnglishLeague): void {
+  setLeagueFixturesTab(tab: "league" | "fixtures", clubLeague?: LeagueTabId): void {
     this.leagueFixturesTab = tab;
     if (tab === "fixtures") {
       if (this.panel === "league") {
         // Keep the division currently shown on the League table.
         this.fixtureLeague = this.league;
       } else if (this.panel !== "fixtures") {
-        this.fixtureLeague = this.fixtureLeague || clubLeague || leagueForTeam(undefined);
+        this.fixtureLeague = this.fixtureLeague || clubLeague || "NBA";
       }
       this.panel = "fixtures";
     } else {
@@ -326,7 +326,7 @@ export class MainMenu {
     this.fadePanel = false;
   }
 
-  setLeagueTab(league: EnglishLeague): void {
+  setLeagueTab(league: LeagueTabId): void {
     if (this.panel === "league") this.league = league;
     if (this.panel === "fixtures") this.fixtureLeague = league;
     this.fadePanel = false;
@@ -1095,12 +1095,24 @@ function kickCountdownUnit(phase: KickCountdownPhase): string {
   return "S";
 }
 
+function formatNextFixtureDate(iso: string): string {
+  const d = new Date(`${iso}T12:00:00Z`);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString("en-GB", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 function kickCountdownBlockHtml(date: string, time: string): string {
   const remaining = kickOffRemainingSeconds(date, time);
   const cd = formatKickCountdown(remaining);
   const unit = kickCountdownUnit(cd.phase);
   const hidden = remaining <= 0 ? " hidden" : "";
-  return `<span class="fixture-kick-block"${hidden} data-kick-block><span class="vs">·</span><span class="kick-countdown phase-${cd.phase}" data-kick-count aria-label="Kick-off in ${cd.value} ${cd.phase}"><strong>${cd.value}</strong><span class="kick-unit" data-kick-unit>${unit}</span></span></span>`;
+  return `<span class="fixture-kick-block"${hidden} data-kick-block><span class="vs">·</span><span class="kick-countdown phase-${cd.phase}" data-kick-count aria-label="Tip-off in ${cd.value} ${cd.phase}"><strong>${cd.value}</strong><span class="kick-unit" data-kick-unit>${unit}</span></span></span>`;
 }
 
 function clubBadgeStyle(team: TeamRecord): string {

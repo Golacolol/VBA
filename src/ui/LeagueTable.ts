@@ -1,10 +1,11 @@
 import type { GameDatabase } from "../core/Database";
-import type { EnglishLeague } from "../data/schema";
-import { LEAGUE_TABS, standingsFor } from "../football/league/Standings";
+import { LEAGUE_TABS, standingsFor, type LeagueTabId } from "../football/league/Standings";
+import { teamBadgeHtml } from "./Portrait";
 
-export function leaguePanelHtml(db: GameDatabase, league: EnglishLeague, highlightId: string): string {
+export function leaguePanelHtml(db: GameDatabase, league: LeagueTabId, highlightId: string): string {
   const rows = standingsFor(db.fixtures, [...db.teams.values()], league);
-  const label = LEAGUE_TABS.find((t) => t.id === league)?.label ?? "Eastern Conference";
+  const label = LEAGUE_TABS.find((t) => t.id === league)?.label ?? "NBA";
+  const byId = db.teams;
   return `
     <div class="panel-head">
       <button type="button" data-act="panel-back">Back</button>
@@ -29,17 +30,20 @@ export function leaguePanelHtml(db: GameDatabase, league: EnglishLeague, highlig
         </thead>
         <tbody>
           ${rows
-            .map(
-              (row, i) =>
-                `<tr class="${row.teamId === highlightId ? "user" : ""}">
+            .map((row, i) => {
+              const team = byId.get(row.teamId);
+              const crest = team
+                ? teamBadgeHtml(team, { className: "league-table-crest", size: 18 })
+                : "";
+              return `<tr class="${row.teamId === highlightId ? "user" : ""}">
                   <td>${i + 1}</td>
-                  <td>${escapeHtml(row.name)}</td>
+                  <td class="league-team-cell">${crest}<span>${escapeHtml(row.name)}</span></td>
                   <td>${row.played}</td>
                   <td>${row.won}</td>
                   <td>${row.lost}</td>
                   <td>${row.gd > 0 ? `+${row.gd}` : row.gd}</td>
-                </tr>`,
-            )
+                </tr>`;
+            })
             .join("")}
         </tbody>
       </table>

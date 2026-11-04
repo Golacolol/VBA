@@ -332,7 +332,7 @@ export class PyramidHub {
                   ? "Click again: #1 alone on top · then 5 · 10s"
                   : "Click again: fold #1 into the top five · then 10s",
               )}>${this.positionsApexInTopTeam ? "5-10" : "1-5-10"}</button>
-              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Rank order · centred rows · 1 then 2 then 3…")}>List</button>
+              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Rank order · #1 top centre · then a centred wrap")}>List</button>
             </div>`
                 : ""
             }
@@ -507,21 +507,18 @@ export class PyramidHub {
 
     let tiers: string;
     if (listMode) {
-      // Centred rows: #1 alone on top, then 2, then 3… (rank order L→R within each row).
-      const rows = pyramidTierRows(st.order, PYRAMID_TIER_PATTERNS.list);
-      tiers = rows
-        .map((row) => {
-          const scale = scales[row.tier - 1] ?? 1;
-          return `<div class="pyramid-tier pyramid-list-row" data-tier="${row.tier}" style="--tier-count:${row.entries.length};--tier-scale:${scale}">
-        ${row.entries
-          .map((slot) => {
-            const entry = byId.get(slot.playerId) ?? this.entryFor(slot.playerId, slot.index);
-            return this.cellHtml(entry, { list: true });
-          })
-          .join("")}
-      </div>`;
-        })
-        .join("");
+      // Distinct from Steps/Fib: #1 alone top-centre, remaining ranks in a centred wrap.
+      const apex = entries[0];
+      const rest = entries.slice(1);
+      const apexHtml = apex
+        ? `<div class="pyramid-tier pyramid-list-apex" data-tier="1" style="--tier-count:1;--tier-scale:1">${this.cellHtml(apex, { list: true })}</div>`
+        : "";
+      const flowHtml = rest.length
+        ? `<div class="pyramid-tier pyramid-list-flow" data-tier="2" style="--tier-count:5;--tier-scale:1">${rest
+            .map((entry) => this.cellHtml(entry, { list: true }))
+            .join("")}</div>`
+        : "";
+      tiers = `${apexHtml}${flowHtml}`;
     } else if (positionsMode) {
       const rows = pyramidPositionTeamRows(st.order, (id) => byId.get(id)?.position, {
         apexInTopTeam: this.positionsApexInTopTeam,
@@ -795,8 +792,8 @@ export class PyramidHub {
       e.stopPropagation();
       const layout = t.closest<HTMLElement>("[data-layout]")?.getAttribute("data-layout");
       if (!isPyramidTierPatternId(layout)) return;
+      // Positions: re-click toggles #1 alone ↔ #1 in the top five (other layouts are one-shot).
       if (layout === "positions" && this.pyramidDisplay === "positions") {
-        // Same control toggles #1 alone ↔ #1 inside the top five.
         this.positionsApexInTopTeam = !this.positionsApexInTopTeam;
         this.renderKeepingScroll();
         return;

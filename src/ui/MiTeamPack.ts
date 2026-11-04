@@ -1,4 +1,4 @@
-/** Foil pack open + lightweight confetti (no deps). Gold 90+, purple 95+. */
+/** Foil pack open + lightweight confetti (no deps). Gold 85–94, purple 95+. */
 
 import { assetUrl } from "../core/assetUrl";
 import { portraitAsset, teamBadgeAsset } from "./Portrait";
@@ -7,7 +7,8 @@ import type { SquadPlayer } from "../core/Database";
 export type PackPhase = "foil" | "opening" | "revealed";
 export type PackTier = "silver" | "gold" | "purple";
 
-export const MITEAM_GOLD_OVR = 90;
+/** Sealed gold foil — strong pulls 85–94. */
+export const MITEAM_GOLD_OVR = 85;
 /** Sealed purple foil — legends / peak 95+. */
 export const MITEAM_PURPLE_OVR = 95;
 

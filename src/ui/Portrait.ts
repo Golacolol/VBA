@@ -302,6 +302,8 @@ function fitSurnameToWidth(
   el.style.whiteSpace = "nowrap";
   el.style.minWidth = "0";
   el.style.lineHeight = "1";
+  // Flex hosts break scrollWidth — measure as a shrink-wrapped block.
+  el.style.display = "block";
   // Intrinsic measure — `width:100%` makes scrollWidth===box so sizing can't work.
   el.style.width = "max-content";
   el.style.maxWidth = "none";
@@ -415,23 +417,28 @@ export function fitKitSurnameElements(root: ParentNode): void {
       caption ??
       el.closest<HTMLElement>(".portrait-badge-kit, .pitch-kit") ??
       el.parentElement;
-    const markerW = marker?.clientWidth || host?.clientWidth || 52;
+    const rosterSur = !!el.closest(".kit-marker-roster");
+    const pyramidSur = !!el.closest(".pyramid-kit-badge");
+    const benchCaption = !!el.closest(".kit-marker-bench");
+    // Formation top-left kit: measure against the square frame, not the shrink-wrapped .sur.
+    const rosterFrame = rosterSur
+      ? el.closest<HTMLElement>(".kit-marker-roster .portrait, .kit-marker-roster")
+      : null;
+    const widthHost = rosterFrame ?? host;
+    const markerW = marker?.clientWidth || widthHost?.clientWidth || 52;
     const numEl = caption?.querySelector<HTMLElement>(".kit-marker-num");
     const numW = numEl ? numEl.getBoundingClientRect().width + 6 : 0;
     const maxW = caption
       ? Math.max(36, Math.min(108, (caption.clientWidth || markerW || 112) - numW) - 4)
-      : surnameContentMaxW(el, host, 5);
+      : surnameContentMaxW(el, widthHost, rosterSur ? 8 : 5);
     if (maxW < 8) continue;
-    const rosterSur = !!el.closest(".kit-marker-roster");
-    const pyramidSur = !!el.closest(".pyramid-kit-badge");
-    const benchCaption = !!el.closest(".kit-marker-bench");
     const label = (el.textContent || "").trim();
     const len = label.replace(/[\s-]/g, "").length;
     const cssSize = parseFloat(getComputedStyle(el).fontSize) || 18;
     const base = pyramidSur
       ? Math.max(cssSize, 9)
       : rosterSur
-        ? Math.max(cssSize, 28)
+        ? Math.max(cssSize, len >= 10 ? 22 : 28)
         : caption
           ? cssSize
           : Math.max(cssSize, 16);
@@ -471,15 +478,17 @@ export function fitKitSurnameElements(root: ParentNode): void {
             ? 6
             : 7
           : rosterSur
-            ? len >= 12
-              ? 12
-              : 16
+            ? len >= 14
+              ? 7
+              : len >= 10
+                ? 9
+                : 14
             : 11,
       trackingEm: caption ? Math.min(0.04, surnameLetterSpacingEm(label)) : surnameLetterSpacingEm(label),
       ceilingPx: pyramidSur
         ? Math.min(10, bandCap)
         : rosterSur
-          ? Math.min(32, bandCap, Math.round(numPx * vsNum))
+          ? Math.min(len >= 10 ? 24 : 30, bandCap, Math.round(numPx * vsNum))
           : caption
             ? captionTypePx
             : Math.min(28, bandCap, Math.round(numPx * Math.max(vsNum, 0.72))),

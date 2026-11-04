@@ -69,11 +69,11 @@ import {
   CLASSIC_STRESS_FIXTURES,
   type SimulationLabOptions,
 } from "../football/simulation/MatchSimulationLab";
-import type { EnglishLeague, FixtureRecord } from "../data/schema";
+import type { FixtureRecord } from "../data/schema";
 import { clampWeatherForTime, resolveEnvironment, type TimeOfDay, type Weather } from "../football/environment/Environment";
 import { defaultSpotKick } from "../football/practice/SpotKick";
 import { todayIso } from "../data/leagueSchedule";
-import { isEnglishLeagueCompetition, leagueForTeam } from "../football/league/Standings";
+import { isEnglishLeagueCompetition, isLeagueTabId, leagueForTeam } from "../football/league/Standings";
 import { applyUserMatchweek, cachedStrength, simulateDatesBefore } from "../football/league/Simulate";
 import { ensurePredictionWeek } from "../football/predictions/Predictions";
 
@@ -346,8 +346,8 @@ export class Game {
         this.paintMainMenu();
         return;
       }
-      const leagueTab = btn.getAttribute("data-league") as EnglishLeague | null;
-      if (this.appState === AppState.MAIN_MENU && leagueTab) {
+      const leagueTab = btn.getAttribute("data-league");
+      if (this.appState === AppState.MAIN_MENU && isLeagueTabId(leagueTab)) {
         this.menu.setLeagueTab(leagueTab);
         this.paintMainMenu();
         return;

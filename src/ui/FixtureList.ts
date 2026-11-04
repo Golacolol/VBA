@@ -1,68 +1,92 @@
 import type { GameDatabase } from "../core/Database";
-import type { EnglishLeague, FixtureRecord } from "../data/schema";
+import type { FixtureRecord, TeamRecord } from "../data/schema";
 import { todayIso } from "../data/leagueSchedule";
-import { competitionForLeague, LEAGUE_TABS } from "../football/league/Standings";
-import { fixtureDates, pickWeekDate } from "../football/league/Simulate";
+import {
+  competitionForLeague,
+  conferenceForTeam,
+  isEnglishLeagueCompetition,
+  LEAGUE_TABS,
+  type LeagueTabId,
+} from "../football/league/Standings";
+import { pickWeekDate } from "../football/league/Simulate";
+import { teamBadgeHtml } from "./Portrait";
 
-export function resolveFixtureDate(db: GameDatabase, league: EnglishLeague, current: string): string {
-  const dates = fixtureDatesForConference(db, league);
+export function resolveFixtureDate(db: GameDatabase, league: LeagueTabId, current: string): string {
+  const dates = fixtureDatesForTab(db, league);
   return dates.includes(current) ? current : pickWeekDate(dates, todayIso());
 }
 
-export function stepFixtureDate(db: GameDatabase, league: EnglishLeague, current: string, dir: "prev" | "next"): string {
-  const dates = fixtureDatesForConference(db, league);
+export function stepFixtureDate(
+  db: GameDatabase,
+  league: LeagueTabId,
+  current: string,
+  dir: "prev" | "next",
+): string {
+  const dates = fixtureDatesForTab(db, league);
   const date = dates.includes(current) ? current : pickWeekDate(dates, todayIso());
   const i = dates.indexOf(date);
   const next = dir === "next" ? i + 1 : i - 1;
-  return next >= 0 && next < dates.length ? dates[next] : date;
+  return next >= 0 && next < dates.length ? dates[next]! : date;
 }
 
-function conferenceTeamIds(db: GameDatabase, league: EnglishLeague): Set<string> {
+function currentTeamIds(db: GameDatabase): Set<string> {
   const ids = new Set<string>();
   for (const t of db.teams.values()) {
-    if (t.teamType !== "CURRENT_TEAM") continue;
-    if (t.conference === league || t.league === league) ids.add(t.id);
+    if (t.teamType === "CURRENT_TEAM") ids.add(t.id);
   }
   return ids;
 }
 
-function fixtureDatesForConference(db: GameDatabase, league: EnglishLeague): string[] {
-  const competition = competitionForLeague(league);
-  const ids = conferenceTeamIds(db, league);
+function conferenceTeamIds(db: GameDatabase, league: "EAST" | "WEST"): Set<string> {
+  const ids = new Set<string>();
+  for (const t of db.teams.values()) {
+    if (t.teamType !== "CURRENT_TEAM") continue;
+    if (conferenceForTeam(t) === league) ids.add(t.id);
+  }
+  return ids;
+}
+
+function fixtureMatchesTab(fixture: FixtureRecord, db: GameDatabase, tab: LeagueTabId): boolean {
+  if (tab === "NBA") {
+    const ids = currentTeamIds(db);
+    return (
+      isEnglishLeagueCompetition(fixture.competition) ||
+      ids.has(fixture.homeTeamId) ||
+      ids.has(fixture.awayTeamId)
+    );
+  }
+  const competition = competitionForLeague(tab);
+  const ids = conferenceTeamIds(db, tab);
+  return (
+    fixture.competition === competition ||
+    ids.has(fixture.homeTeamId) ||
+    ids.has(fixture.awayTeamId)
+  );
+}
+
+function fixtureDatesForTab(db: GameDatabase, tab: LeagueTabId): string[] {
   const dates = new Set<string>();
   for (const f of db.fixtures) {
-    if (f.competition === competition || ids.has(f.homeTeamId) || ids.has(f.awayTeamId)) {
-      dates.add(f.date);
-    }
+    if (fixtureMatchesTab(f, db, tab)) dates.add(f.date);
   }
-  // Prefer dates that already have results when picking a week.
   return [...dates].sort();
 }
 
 export function fixturePanelHtml(
   db: GameDatabase,
-  league: EnglishLeague,
+  league: LeagueTabId,
   date: string,
   highlightId: string,
   predictionIds: Set<string> = new Set(),
 ): string {
-  const competition = competitionForLeague(league);
-  const dates = fixtureDatesForConference(db, league);
-  const conferenceIds = conferenceTeamIds(db, league);
+  const dates = fixtureDatesForTab(db, league);
   const week = db.fixtures
-    .filter(
-      (f) =>
-        f.date === date &&
-        (f.competition === competition ||
-          conferenceIds.has(f.homeTeamId) ||
-          conferenceIds.has(f.awayTeamId)),
-    )
+    .filter((f) => f.date === date && fixtureMatchesTab(f, db, league))
     .sort((a, b) => {
-      // Played results first, then kick-off time / id.
       if (!!a.played !== !!b.played) return a.played ? -1 : 1;
       return a.time.localeCompare(b.time) || a.id.localeCompare(b.id);
     });
-  const label = LEAGUE_TABS.find((t) => t.id === league)?.label ?? "Eastern Conference";
+  const label = LEAGUE_TABS.find((t) => t.id === league)?.label ?? "NBA";
   return `
     <div class="panel-head">
       <button type="button" data-act="panel-back">Back</button>
@@ -89,7 +113,20 @@ export function fixturePanelHtml(
   `;
 }
 
-function fixtureRow(fixture: FixtureRecord, db: GameDatabase, highlightId: string, predictionGold: boolean): string {
+function teamSideHtml(team: TeamRecord | undefined, fallbackId: string, side: "home" | "away"): string {
+  const name = escapeHtml(team?.name ?? fallbackId);
+  const crest = team
+    ? teamBadgeHtml(team, { className: "fix-crest", size: 18 })
+    : `<span class="fix-crest form-crest-empty" aria-hidden="true"></span>`;
+  return `<span class="fix-side form-${side}">${crest}<span class="fix-name">${name}</span></span>`;
+}
+
+function fixtureRow(
+  fixture: FixtureRecord,
+  db: GameDatabase,
+  highlightId: string,
+  predictionGold: boolean,
+): string {
   const home = db.teams.get(fixture.homeTeamId);
   const away = db.teams.get(fixture.awayTeamId);
   const user = fixture.homeTeamId === highlightId || fixture.awayTeamId === highlightId;
@@ -98,15 +135,21 @@ function fixtureRow(fixture: FixtureRecord, db: GameDatabase, highlightId: strin
       ? `<span class="fix-score">${fixture.homeScore}–${fixture.awayScore}</span>`
       : `<span class="vs">vs</span>`;
   return `<div class="fix-row ${user ? "user" : ""} ${fixture.played ? "played" : ""} ${predictionGold ? "prediction-gold" : ""}">
-    <span>${escapeHtml(home?.name ?? fixture.homeTeamId)}</span>
+    ${teamSideHtml(home, fixture.homeTeamId, "home")}
     ${score}
-    <span>${escapeHtml(away?.name ?? fixture.awayTeamId)}</span>
+    ${teamSideHtml(away, fixture.awayTeamId, "away")}
   </div>`;
 }
 
 function formatWeekDate(iso: string): string {
   const d = new Date(`${iso}T12:00:00Z`);
-  return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+  return d.toLocaleDateString("en-GB", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 }
 
 function escapeHtml(s: string): string {

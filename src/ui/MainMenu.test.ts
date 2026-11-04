@@ -110,15 +110,17 @@ describe("MainMenu LEAGUE mode button", () => {
     expect(menu.root.querySelector('[data-mode="PYRAMID"]')).toBeTruthy();
   });
 
-  it("renders kick-off time fully and a countdown after the fixture teams", () => {
+  it("renders next fixture date, tip-off time, and countdown in the Next Fixture panel", () => {
     const menu = paint(false);
-    const meta = menu.root.querySelector(".fixture-match .meta");
+    const detail = menu.root.querySelector(".fixture-detail-row");
+    const meta = detail?.querySelector(".meta");
     expect(meta?.textContent).toContain("15:00");
+    expect(meta?.textContent).toMatch(/2026|Sep|Mon|Tue|Wed|Thu|Fri|Sat|Sun/i);
     const teams = menu.root.querySelector(".fixture-teams");
     const kick = menu.root.querySelector("[data-kick-count]");
     const block = menu.root.querySelector<HTMLElement>("[data-kick-block]");
     expect(teams?.querySelectorAll(".fixture-crest").length).toBe(2);
-    expect(teams?.contains(kick)).toBe(true);
+    expect(detail?.contains(kick)).toBe(true);
     expect(kick?.querySelector("[data-kick-unit]")).toBeTruthy();
     menu.setKickOffCountdown(45);
     expect(block?.hidden).toBe(false);
