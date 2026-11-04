@@ -1590,6 +1590,9 @@ html.club-name-glow-off .club-line {
   overflow: auto;
   touch-action: auto;
   padding: 14px 12px;
+  /* Size container so player cards can shrink on short / ultra-wide viewports. */
+  container-type: size;
+  container-name: pitch-panel;
 }
 .team-pitch.team-pitch-panel::before {
   display: none;
@@ -1602,13 +1605,17 @@ html.club-name-glow-off .club-line {
 }
 .pitch-overlay-card.player-pitch-select {
   text-align: center;
-  width: min(100%, 380px);
+  /* Fit card + shell actions inside the pitch panel (wide/short screens). */
+  --sports-card-w: min(312px, 92cqi, calc((100cqh - 100px) * 2 / 2.78));
+  width: min(100%, max(var(--sports-card-w), 160px));
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0;
-  padding: 0;
+  padding: 0 0 56px;
+  box-sizing: border-box;
 }
 .tabletop-setup-kicker {
   letter-spacing: 0.14em;
@@ -1896,6 +1903,8 @@ html.club-name-glow-off .club-line {
   flex-direction: column;
   padding: 0;
   overflow: hidden;
+  container-type: size;
+  container-name: miteam-panel;
   background:
     radial-gradient(ellipse 80% 55% at 50% 18%, rgba(0, 122, 61, 0.22), transparent 70%),
     linear-gradient(180deg, rgba(6, 22, 14, 0.92), rgba(4, 14, 10, 0.96));
@@ -5410,8 +5419,12 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   min-height: 100%;
   width: 100%;
   text-align: center;
-  padding: 12px 8px;
+  padding: 12px 8px 64px;
   box-sizing: border-box;
+  /* Shrink pack/card to available panel height on short wide displays. */
+  --sports-card-w: min(312px, 88cqi, calc((100cqh - 120px) * 2 / 2.78));
+  --miteam-card-w: max(160px, var(--sports-card-w));
+  --miteam-pack-w: min(320px, calc(var(--miteam-card-w) + 8px));
 }
 /* Sealed pack: card preloads under the foil at final size, hidden until unwrap
    so serrations never show a peek. Bottom padding reserves KEEP/DISCARD space
@@ -6057,8 +6070,10 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  padding: 8px 4px;
+  padding: 8px 4px 56px;
   overflow: visible;
+  --sports-card-w: min(312px, 88cqi, calc((100cqh - 120px) * 2 / 2.78));
+  --miteam-card-w: max(160px, var(--sports-card-w));
 }
 .miteam-reveal-stage {
   flex: 1 1 auto;
@@ -6131,13 +6146,21 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   max-width: none;
   max-height: none;
 }
+.miteam-reveal .player-card,
+.miteam-pack-under .player-card,
+.player-pitch-select .player-card {
+  container-type: size;
+  container-name: sports-card;
+}
 .miteam-reveal .player-card-front .profile-stats,
-.miteam-pack-under .player-card-front .profile-stats {
+.miteam-pack-under .player-card-front .profile-stats,
+.player-pitch-select .player-card-front .profile-stats {
   flex: 0 0 auto;
-  width: 148px !important;
-  height: 148px !important;
-  max-width: 148px;
-  max-height: 148px;
+  --hex-size: min(148px, 46cqh, 70cqi);
+  width: var(--hex-size) !important;
+  height: var(--hex-size) !important;
+  max-width: var(--hex-size);
+  max-height: var(--hex-size);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -6151,10 +6174,12 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
 .miteam-reveal .player-card-front .profile-hex-svg,
 .miteam-reveal .player-card-front .profile-full-svg,
 .miteam-pack-under .player-card-front .profile-hex-svg,
-.miteam-pack-under .player-card-front .profile-full-svg {
-  width: 148px !important;
-  height: 148px !important;
-  max-height: 148px;
+.miteam-pack-under .player-card-front .profile-full-svg,
+.player-pitch-select .player-card-front .profile-hex-svg,
+.player-pitch-select .player-card-front .profile-full-svg {
+  width: var(--hex-size, 148px) !important;
+  height: var(--hex-size, 148px) !important;
+  max-height: var(--hex-size, 148px);
 }
 .miteam-reveal .player-card-shirt,
 .miteam-pack-under .player-card-shirt {
@@ -7556,6 +7581,22 @@ table .portrait { width: 36px; height: 36px; margin: 0; }
   border-color: rgba(232, 168, 74, 0.65);
   background: rgba(232, 168, 74, 0.14);
   color: #f3f6fb;
+}
+.pyramid-draft-lineup-hint {
+  opacity: 0.55;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  cursor: default;
+}
+.pyramid-draft-formation-panel .pitch-token.dragging,
+.pyramid-draft-formation-panel .bench-card.dragging,
+.pyramid-draft-formation-panel .roster-row.dragging {
+  opacity: 0.45;
+}
+.pyramid-draft-formation-panel .roster-row.drag-over {
+  border-color: rgba(232, 168, 74, 0.75);
+  background: rgba(232, 168, 74, 0.12);
 }
 .pyramid-draft-formation-panel .team-select-body {
   flex: 1 1 auto;

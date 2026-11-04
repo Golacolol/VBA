@@ -13927,7 +13927,7 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/3112335.png",
+      "portraitAsset": "/assets/portraits/classic/nikola-jokic.png",
       "fullName": "Nikola Jokic",
       "birthplace": "Sombor, Serbia",
       "heightScale": 1
@@ -15595,7 +15595,7 @@
     "appearance": {
       "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/4871144.png",
       "fullName": "Alperen Sengun",
-      "birthplace": "Giresun, T\u00fcrkiye",
+      "birthplace": "Giresun, Türkiye",
       "heightScale": 1
     },
     "finishing": 85,
@@ -26904,7 +26904,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Kevin McHale",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1450.png"
+      "portraitAsset": "/assets/portraits/classic/kevin-mchale.png"
     },
     "finishing": 93,
     "midRange": 90,
@@ -27515,7 +27515,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Horace Grant",
-      "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/270.png"
+      "portraitAsset": "/assets/portraits/classic/horace-grant.png"
     },
     "finishing": 85,
     "midRange": 83,
@@ -27656,7 +27656,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Brian Shaw",
-      "portraitAsset": "/assets/portraits/classic/brian-shaw.jpg"
+      "portraitAsset": "/assets/portraits/classic/brian-shaw.png"
     },
     "finishing": 72,
     "midRange": 75,
@@ -29395,7 +29395,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Nikola Jokic",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203999.png"
+      "portraitAsset": "/assets/portraits/classic/nikola-jokic.png"
     },
     "finishing": 98,
     "midRange": 93,
@@ -31839,7 +31839,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Hakeem Olajuwon",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/165.png"
+      "portraitAsset": "/assets/portraits/classic/hakeem-olajuwon.png"
     },
     "finishing": 95,
     "midRange": 91,
@@ -32450,7 +32450,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Hakeem Olajuwon",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/165.png"
+      "portraitAsset": "/assets/portraits/classic/hakeem-olajuwon.png"
     },
     "finishing": 95,
     "midRange": 91,
@@ -43805,7 +43805,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Anfernee Hardaway",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/277.png"
+      "portraitAsset": "/assets/portraits/classic/anfernee-hardaway.png"
     },
     "finishing": 89,
     "midRange": 90,
@@ -43852,7 +43852,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Nick Anderson",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/47.png"
+      "portraitAsset": "/assets/portraits/classic/nick-anderson.png"
     },
     "finishing": 85,
     "midRange": 86,
@@ -43899,7 +43899,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Dennis Scott",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/7.png"
+      "portraitAsset": "/assets/portraits/classic/dennis-scott.png"
     },
     "finishing": 83,
     "midRange": 82,
@@ -43946,7 +43946,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Horace Grant",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/270.png"
+      "portraitAsset": "/assets/portraits/classic/horace-grant.png"
     },
     "finishing": 85,
     "midRange": 83,
@@ -44040,7 +44040,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Brian Shaw",
-      "portraitAsset": "/assets/portraits/classic/brian-shaw.jpg"
+      "portraitAsset": "/assets/portraits/classic/brian-shaw.png"
     },
     "finishing": 72,
     "midRange": 73,
@@ -44134,7 +44134,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Anthony Bowie",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/175.png"
+      "portraitAsset": "/assets/portraits/classic/anthony-bowie.png"
     },
     "finishing": 75,
     "midRange": 76,

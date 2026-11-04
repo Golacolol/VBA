@@ -38,6 +38,7 @@ import {
   normalizeDraftSave,
   restartDraft,
   setDraftFilter,
+  swapDraftRosterSlots,
   toggleDraftSeatKind,
   type DraftSave,
   type DraftSeat,
@@ -110,6 +111,10 @@ export class PyramidHub {
   private draftInspectSeat: number | null = null;
   /** Highlighted player inside the formation inspect panel. */
   private draftInspectPlayerId: string | null = null;
+  /** Drag source slot while rearranging a draft formation. */
+  private draftLineupDragSlot: string | null = null;
+  /** Ignore the click that follows an HTML5 drop so it does not reverse the swap. */
+  private suppressDraftInspectClick = false;
   onAction: ((act: PyramidAction) => void) | null = null;
 
   private static readonly DRAFT_AI_REVEAL_MS = 3000;
@@ -132,7 +137,12 @@ export class PyramidHub {
     this.root.addEventListener("drop", (e) => this.onDrop(e));
     this.root.addEventListener("dragend", () => {
       this.dragFrom = null;
-      this.root.querySelectorAll(".pyramid-cell.is-drag-over").forEach((el) => el.classList.remove("is-drag-over"));
+      this.draftLineupDragSlot = null;
+      this.root
+        .querySelectorAll(
+          ".pyramid-cell.is-drag-over, .pyramid-cell.is-dragging, .pitch-slot.drag-over, .bench-card.drag-over, .bench-card.dragging, .pitch-token.dragging, .roster-row.dragging",
+        )
+        .forEach((el) => el.classList.remove("is-drag-over", "is-dragging", "drag-over", "dragging"));
     });
   }
 
@@ -787,6 +797,29 @@ export class PyramidHub {
     if (act === "draft-inspect-pick") {
       const playerId = t.closest<HTMLElement>("[data-player-id]")?.getAttribute("data-player-id");
       if (!playerId || this.draftInspectSeat == null) return;
+      if (this.suppressDraftInspectClick) {
+        this.suppressDraftInspectClick = false;
+        this.draftInspectPlayerId = playerId;
+        this.render();
+        return;
+      }
+      const draft = this.draftState();
+      const seat = draft.seats[this.draftInspectSeat];
+      if (!seat) return;
+      const toSlot =
+        t.closest<HTMLElement>("[data-slot]")?.getAttribute("data-slot") ??
+        seat.roster.find((r) => r.playerId === playerId)?.slot ??
+        null;
+      const fromSlot =
+        this.draftInspectPlayerId && this.draftInspectPlayerId !== playerId
+          ? seat.roster.find((r) => r.playerId === this.draftInspectPlayerId)?.slot ?? null
+          : null;
+      if (fromSlot && toSlot && fromSlot !== toSlot) {
+        this.applyDraftInspectSwap(fromSlot, toSlot);
+        this.draftInspectPlayerId = playerId;
+        this.render();
+        return;
+      }
       this.draftInspectPlayerId = playerId;
       this.render();
       return;
@@ -1023,6 +1056,7 @@ export class PyramidHub {
             </div>
             <div class="formation-toolbar" role="toolbar" aria-label="Draft formation">
               <span class="formation-chip formation-chip-static on">BASKETBALL 5</span>
+              <span class="formation-chip formation-chip-static pyramid-draft-lineup-hint">Drag or select then tap to swap</span>
               <button type="button" class="formation-chip" data-pyramid="draft-start-team"${titleAttr("Coming soon")}>START AS TEAM</button>
               <button type="button" class="formation-chip" data-pyramid="draft-simulate"${titleAttr("Coming soon")}>SIMULATE</button>
             </div>
@@ -1059,16 +1093,16 @@ export class PyramidHub {
         const pos = laidOut.get(slot.id) ?? formationToPitchPercent(slot.x, slot.z);
         const row = bySlot.get(slot.id);
         if (!row) {
-          return `<div class="pitch-slot empty" data-slot="${escapeAttr(slot.id)}" style="left:${pos.left}%;bottom:${pos.bottom}%"><span class="pitch-slot-label">${escapeHtml(slot.id)}</span></div>`;
+          return `<div class="pitch-slot empty" data-slot="${escapeAttr(slot.id)}" data-draft-lineup-drop="1" style="left:${pos.left}%;bottom:${pos.bottom}%"><span class="pitch-slot-label">${escapeHtml(slot.id)}</span></div>`;
         }
         const sp = this.resolveDraftSquadPlayer(row.playerId, row.sourceTeamId);
         if (!sp) {
-          return `<div class="pitch-slot empty" data-slot="${escapeAttr(slot.id)}" style="left:${pos.left}%;bottom:${pos.bottom}%"><span class="pitch-slot-label">${escapeHtml(slot.id)}</span></div>`;
+          return `<div class="pitch-slot empty" data-slot="${escapeAttr(slot.id)}" data-draft-lineup-drop="1" style="left:${pos.left}%;bottom:${pos.bottom}%"><span class="pitch-slot-label">${escapeHtml(slot.id)}</span></div>`;
         }
         const colors = this.draftKitColors(sp);
         const on = sp.player.id === selectedId ? " on" : "";
-        return `<div class="pitch-slot${on}" data-slot="${escapeAttr(slot.id)}" style="left:${pos.left}%;bottom:${pos.bottom}%">
-          <button type="button" class="pitch-token${on}" data-pyramid="draft-inspect-pick" data-player-id="${escapeAttr(sp.player.id)}" aria-label="${escapeAttr(sp.player.name)}">
+        return `<div class="pitch-slot${on}" data-slot="${escapeAttr(slot.id)}" data-draft-lineup-drop="1" style="left:${pos.left}%;bottom:${pos.bottom}%">
+          <button type="button" class="pitch-token${on}" draggable="true" data-draft-lineup="1" data-slot="${escapeAttr(slot.id)}" data-pyramid="draft-inspect-pick" data-player-id="${escapeAttr(sp.player.id)}" aria-label="${escapeAttr(sp.player.name)}">
             ${kitMarkerHtml(sp.player, row.shirtNumber, {
               primaryColor: colors.primary,
               textColor: colors.text,
@@ -1082,15 +1116,15 @@ export class PyramidHub {
       .map((slot) => {
         const row = bySlot.get(slot);
         if (!row) {
-          return `<div class="bench-card empty" data-slot="${escapeAttr(slot)}"><span class="bench-empty">+</span></div>`;
+          return `<div class="bench-card empty" data-slot="${escapeAttr(slot)}" data-draft-lineup-drop="1"><span class="bench-empty">+</span></div>`;
         }
         const sp = this.resolveDraftSquadPlayer(row.playerId, row.sourceTeamId);
         if (!sp) {
-          return `<div class="bench-card empty" data-slot="${escapeAttr(slot)}"><span class="bench-empty">+</span></div>`;
+          return `<div class="bench-card empty" data-slot="${escapeAttr(slot)}" data-draft-lineup-drop="1"><span class="bench-empty">+</span></div>`;
         }
         const colors = this.draftKitColors(sp);
         const on = sp.player.id === selectedId ? " on" : "";
-        return `<button type="button" class="bench-card${on}" data-slot="${escapeAttr(slot)}" data-pyramid="draft-inspect-pick" data-player-id="${escapeAttr(sp.player.id)}" aria-label="${escapeAttr(sp.player.name)}">
+        return `<button type="button" class="bench-card${on}" draggable="true" data-draft-lineup="1" data-slot="${escapeAttr(slot)}" data-draft-lineup-drop="1" data-pyramid="draft-inspect-pick" data-player-id="${escapeAttr(sp.player.id)}" aria-label="${escapeAttr(sp.player.name)}">
           ${kitMarkerHtml(sp.player, row.shirtNumber, {
             primaryColor: colors.primary,
             textColor: colors.text,
@@ -1119,7 +1153,7 @@ export class PyramidHub {
       .map(({ row, sp }) => {
         const active = sp.player.id === selectedId ? " on" : "";
         const name = kitSurnameFromName(sp.player.displayName || sp.player.name);
-        return `<button type="button" class="roster-row${active}" data-pyramid="draft-inspect-pick" data-player-id="${escapeAttr(sp.player.id)}">
+        return `<button type="button" class="roster-row${active}" draggable="true" data-draft-lineup="1" data-slot="${escapeAttr(row.slot)}" data-pyramid="draft-inspect-pick" data-player-id="${escapeAttr(sp.player.id)}">
           <span class="roster-num">${row.shirtNumber}</span>
           <span class="roster-name">${escapeHtml(name)}</span>
           <span class="roster-pos">${escapeHtml(String(sp.player.primaryPosition))}</span>
@@ -1144,6 +1178,18 @@ export class PyramidHub {
         </aside>
       </div>
     `;
+  }
+
+  private applyDraftInspectSwap(fromSlot: string, toSlot: string): boolean {
+    if (this.draftInspectSeat == null || fromSlot === toSlot) return false;
+    const draft = this.draftState();
+    const seat = draft.seats[this.draftInspectSeat];
+    if (!seat) return false;
+    const roster = swapDraftRosterSlots(seat.roster, fromSlot, toSlot);
+    if (roster === seat.roster) return false;
+    const seats = draft.seats.map((s, i) => (i === this.draftInspectSeat ? { ...s, roster } : s));
+    this.persistDraft({ ...draft, seats });
+    return true;
   }
 
   private draftKitColors(sp: SquadPlayer): { primary: string; secondary: string; text: string } {
@@ -1251,6 +1297,19 @@ export class PyramidHub {
   }
 
   private onDragStart(e: DragEvent): void {
+    if (this.state().view === "draft" && this.draftInspectSeat != null) {
+      const el = (e.target as HTMLElement | null)?.closest?.<HTMLElement>("[data-draft-lineup='1'][data-slot]");
+      const slot = el?.getAttribute("data-slot");
+      if (!el || !slot || !e.dataTransfer) {
+        e.preventDefault();
+        return;
+      }
+      this.draftLineupDragSlot = slot;
+      e.dataTransfer.setData("text/plain", slot);
+      e.dataTransfer.effectAllowed = "move";
+      el.classList.add("dragging");
+      return;
+    }
     if (this.state().view !== "pyramid") {
       e.preventDefault();
       return;
@@ -1287,6 +1346,19 @@ export class PyramidHub {
   }
 
   private onDragOver(e: DragEvent): void {
+    if (this.state().view === "draft" && this.draftInspectSeat != null && this.draftLineupDragSlot) {
+      const target = (e.target as HTMLElement | null)?.closest?.<HTMLElement>(
+        "[data-draft-lineup-drop='1'][data-slot], [data-draft-lineup='1'][data-slot]",
+      );
+      if (!target) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+      this.root.querySelectorAll(".pitch-slot.drag-over, .bench-card.drag-over, .roster-row.drag-over").forEach((el) => {
+        if (el !== target) el.classList.remove("drag-over");
+      });
+      target.classList.add("drag-over");
+      return;
+    }
     if (this.state().view !== "pyramid") return;
     const cell = (e.target as HTMLElement | null)?.closest?.<HTMLElement>(".pyramid-cell[data-pyramid-zone]");
     if (!cell) return;
@@ -1298,6 +1370,28 @@ export class PyramidHub {
   }
 
   private onDrop(e: DragEvent): void {
+    if (this.state().view === "draft" && this.draftInspectSeat != null) {
+      const target = (e.target as HTMLElement | null)?.closest?.<HTMLElement>(
+        "[data-draft-lineup-drop='1'][data-slot], [data-draft-lineup='1'][data-slot]",
+      );
+      const fromSlot = this.draftLineupDragSlot ?? e.dataTransfer?.getData("text/plain") ?? null;
+      const toSlot = target?.getAttribute("data-slot") ?? null;
+      this.root
+        .querySelectorAll(".pitch-slot.drag-over, .bench-card.drag-over, .roster-row.drag-over, .dragging")
+        .forEach((el) => el.classList.remove("drag-over", "dragging"));
+      this.draftLineupDragSlot = null;
+      if (!fromSlot || !toSlot || fromSlot === toSlot) return;
+      e.preventDefault();
+      if (this.applyDraftInspectSwap(fromSlot, toSlot)) {
+        this.suppressDraftInspectClick = true;
+        const draft = this.draftState();
+        const seat = draft.seats[this.draftInspectSeat];
+        const moved = seat?.roster.find((r) => r.slot === toSlot);
+        if (moved) this.draftInspectPlayerId = moved.playerId;
+        this.render();
+      }
+      return;
+    }
     const cell = (e.target as HTMLElement | null)?.closest?.<HTMLElement>(".pyramid-cell[data-pyramid-zone]");
     this.root.querySelectorAll(".pyramid-cell.is-dragging, .pyramid-cell.is-drag-over").forEach((el) => {
       el.classList.remove("is-dragging", "is-drag-over");

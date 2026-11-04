@@ -18,6 +18,7 @@ import {
   normalizeDraftSave,
   restartDraft,
   setDraftFilter,
+  swapDraftRosterSlots,
 } from "./draft";
 import { GameDatabase } from "../../core/Database";
 import { SaveManager } from "../../core/SaveManager";
@@ -210,5 +211,17 @@ describe("draft engine", () => {
       expect(slots.has("BENCH_5")).toBe(true);
       expect(slots.has("BENCH_8")).toBe(true);
     }
+  });
+
+  it("swaps starter and bench slots without changing shirt numbers", () => {
+    const roster = [
+      { playerId: "a", slot: "PG", shirtNumber: 1 },
+      { playerId: "b", slot: "BENCH_1", shirtNumber: 7 },
+      { playerId: "c", slot: "SG", shirtNumber: 2 },
+    ];
+    const next = swapDraftRosterSlots(roster, "PG", "BENCH_1");
+    expect(next.find((r) => r.playerId === "a")).toEqual({ playerId: "a", slot: "BENCH_1", shirtNumber: 1 });
+    expect(next.find((r) => r.playerId === "b")).toEqual({ playerId: "b", slot: "PG", shirtNumber: 7 });
+    expect(next.find((r) => r.playerId === "c")).toEqual({ playerId: "c", slot: "SG", shirtNumber: 2 });
   });
 });

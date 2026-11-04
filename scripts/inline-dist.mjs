@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, posix } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -23,6 +23,37 @@ html = html.replace(
 // Drop unused file-boot CSS from the head style block (keep other head styles).
 html = html.replace(/#file-boot\s*\{[\s\S]*?\.file-boot-card a\s*\{[\s\S]*?\}\s*/i, "");
 
+/**
+ * After inlining CSS into index.html, relative url(...) must resolve from the HTML
+ * document (dist/), not from dist/assets/*.css — otherwise half-court.png 404s.
+ */
+function rewriteCssUrlsForHtml(cssText, stylesheetHref) {
+  const href = stylesheetHref.replace(/^\.\//, "").replace(/^\//, "");
+  const cssDir = posix.dirname(href); // e.g. "assets"
+  const prefix = cssDir && cssDir !== "." ? `${cssDir}/` : "";
+
+  return cssText.replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/gi, (full, quote, raw) => {
+    const target = raw.trim();
+    if (!target || /^(data:|https?:|blob:)/i.test(target)) return full;
+    // Root-absolute public assets → relative for file:// and Pages.
+    if (target.startsWith("/") && !target.startsWith("//")) {
+      return `url(${quote}./${target.slice(1)}${quote})`;
+    }
+    // Already rooted at dist/ (./assets/… or assets/…).
+    if (/^(\.\/)?assets\//i.test(target)) return full;
+    // Vite emits url(./half-court-HASH.png) next to the CSS file under assets/.
+    if (target.startsWith("./")) {
+      return `url(${quote}./${prefix}${target.slice(2)}${quote})`;
+    }
+    if (!target.startsWith("../")) {
+      return `url(${quote}./${prefix}${target}${quote})`;
+    }
+    // ../ from assets/ → dist root
+    const resolved = posix.normalize(posix.join(cssDir, target));
+    return `url(${quote}./${resolved}${quote})`;
+  });
+}
+
 const scriptRe = /<script type="module"[^>]*src="([^"]+)"[^>]*><\/script>/g;
 html = html.replace(scriptRe, (full, src) => {
   const file = join(root, "dist", src.replace(/^\.\//, ""));
@@ -41,7 +72,8 @@ html = html.replace(linkRe, (full, href) => {
     console.warn(`inline-dist: missing stylesheet ${href}`);
     return full;
   }
-  return `<style>\n${readFileSync(file, "utf8")}\n</style>`;
+  const css = rewriteCssUrlsForHtml(readFileSync(file, "utf8"), href);
+  return `<style>\n${css}\n</style>`;
 });
 
 writeFileSync(htmlPath, html);

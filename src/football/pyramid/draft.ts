@@ -557,6 +557,22 @@ export function autoFillDraft(db: GameDatabase, draft: DraftSave): DraftSave {
   };
 }
 
+/** Swap two roster slots (starters ↔ bench, bench reorder, or XI shuffle). */
+export function swapDraftRosterSlots(
+  roster: readonly MiTeamRosterSlot[],
+  slotA: string,
+  slotB: string,
+): MiTeamRosterSlot[] {
+  if (slotA === slotB) return roster.map((r) => ({ ...r }));
+  const next = roster.map((r) => ({ ...r }));
+  const a = next.find((r) => r.slot === slotA);
+  const b = next.find((r) => r.slot === slotB);
+  if (!a || !b) return next;
+  a.slot = slotB;
+  b.slot = slotA;
+  return next;
+}
+
 /** Serialize filter id for UI data attributes (stable). */
 export function draftFilterAttr(id: DraftFilterId): string {
   return serializeFilter(draftPoolFilter(id));
