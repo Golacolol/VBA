@@ -2635,6 +2635,8 @@ select.formation-chip.formation-select option {
 }
 .player-card {
   --card-accent: #e8a84a;
+  /* Photo / hex size against the card box (Firefox-safe; % flex widths collapse). */
+  --photo-size: min(11.5rem, 48cqi, 34cqh);
   position: relative;
   width: min(100%, var(--sports-card-w, 312px));
   max-width: var(--sports-card-w, 312px);
@@ -2644,6 +2646,8 @@ select.formation-chip.formation-select option {
   min-height: 0;
   height: auto;
   perspective: 1100px;
+  container-type: size;
+  container-name: sports-card;
 }
 .player-card-select {
   width: min(100%, var(--sports-card-w, 312px));
@@ -2912,16 +2916,19 @@ select.formation-chip.formation-select option {
   aspect-ratio: 1 / 1;
 }
 /*
- * PNG gold circle: size from a definite square (not flex-height + aspect-ratio alone —
- * Firefox often leaves that box ~0 and the portrait tiny).
+ * PNG gold circle: explicit width + height from card container units.
+ * Firefox collapses flex items sized with % width + height:auto + aspect-ratio
+ * (portrait ends up tiny while the fixed hex looks huge).
  */
 .player-card-front .player-card-photo.has-photo {
   position: relative;
   flex: 0 0 auto;
-  width: min(48%, 11.5rem);
-  height: auto;
+  width: var(--photo-size);
+  height: var(--photo-size);
   max-width: 100%;
-  max-height: 48%;
+  max-height: none;
+  min-width: 0;
+  min-height: 0;
   aspect-ratio: 1 / 1;
   align-self: center;
   border-radius: 50%;
@@ -6642,10 +6649,12 @@ button.pred-side:hover {
 }
 .miteam-reveal .player-card-front .player-card-photo.has-photo,
 .miteam-pack-under .player-card-front .player-card-photo.has-photo {
-  width: auto;
+  /* Keep definite square sizing — do not revert to flex-grow + width:auto (Firefox collapses). */
+  width: var(--photo-size);
+  height: var(--photo-size);
   max-width: 100%;
-  max-height: 48%;
-  flex: 1 1 0;
+  max-height: none;
+  flex: 0 0 auto;
   min-width: 0;
   min-height: 0;
   margin: 0 auto;
@@ -7143,25 +7152,34 @@ button.pred-side:hover {
   width: min(64px, 56%);
   height: min(64px, 56%);
 }
-/* Shared head crop / soft disc mask — Pyramid cells + Formation pitch/bench counters. */
+/* Keep photo discs a positioning context for the absolute head crop below. */
+.kit-marker.kit-marker-photo:not(.kit-marker-roster) .portrait {
+  position: relative;
+  overflow: hidden;
+}
+/* Shared head crop / soft disc mask — Pyramid cells + Formation pitch/bench counters.
+   Seat the face in the upper-middle of the disc (not flush to the rim). */
 .pyramid-player-png,
+.kit-marker.kit-marker-photo:not(.kit-marker-roster) .portrait img,
 .team-pitch .kit-marker-photo .portrait img,
 .char-panel-team .pitch-token .kit-marker-photo .portrait img,
 .bench-card .kit-marker-bench.kit-marker-photo .portrait img {
   position: absolute;
   left: 50%;
-  top: 42%;
+  top: 56%;
   width: 118%;
   height: 118%;
+  max-width: none;
+  max-height: none;
   margin: 0;
   transform: translate(-50%, -50%);
   object-fit: cover;
-  object-position: 50% 18%;
+  object-position: 50% 14%;
   display: block;
   pointer-events: none;
   /* Soften the hard NBA cutout crown line. */
-  -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 64%, transparent 80%);
-  mask-image: radial-gradient(circle at 50% 42%, #000 64%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at 50% 48%, #000 64%, transparent 80%);
+  mask-image: radial-gradient(circle at 50% 48%, #000 64%, transparent 80%);
 }
 .pyramid-photo-fallback {
   width: 100%;
