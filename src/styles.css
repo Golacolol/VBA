@@ -2635,8 +2635,10 @@ select.formation-chip.formation-select option {
 }
 .player-card {
   --card-accent: #e8a84a;
-  /* Photo / hex size against the card box (Firefox-safe; % flex widths collapse). */
+  /* Photo / hex against the card box (Firefox-safe; % flex widths collapse).
+     Hex leaves room for the kit panel under the PNG (~8rem header+kit+gaps). */
   --photo-size: min(11.5rem, 48cqi, 34cqh);
+  --hex-size: max(100px, min(148px, 58cqi, calc(100cqh - var(--photo-size) - 8rem)));
   position: relative;
   width: min(100%, var(--sports-card-w, 312px));
   max-width: var(--sports-card-w, 312px);
@@ -3092,10 +3094,20 @@ select.formation-chip.formation-select option {
 .player-card-front .profile-stats {
   margin: 0 auto;
   flex: 0 0 auto;
-  width: 148px;
-  height: 148px;
-  max-width: 148px;
-  max-height: 148px;
+  /* Beat inline width/height from profileStatsBlock so Firefox can shrink the hex. */
+  width: var(--hex-size, 148px) !important;
+  height: var(--hex-size, 148px) !important;
+  max-width: var(--hex-size, 148px);
+  max-height: var(--hex-size, 148px);
+  min-width: 0;
+  min-height: 0;
+}
+.player-card-front .profile-hex-svg,
+.player-card-front .profile-full-svg {
+  width: var(--hex-size, 148px) !important;
+  height: var(--hex-size, 148px) !important;
+  max-width: var(--hex-size, 148px);
+  max-height: var(--hex-size, 148px);
 }
 .player-card-flip-nav {
   display: flex;
@@ -6693,11 +6705,6 @@ button.pred-side:hover {
 .miteam-pack-under .player-card-front .profile-stats,
 .player-pitch-select .player-card-front .profile-stats {
   flex: 0 0 auto;
-  --hex-size: min(148px, 46cqh, 70cqi);
-  width: var(--hex-size) !important;
-  height: var(--hex-size) !important;
-  max-width: var(--hex-size);
-  max-height: var(--hex-size);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -6707,16 +6714,6 @@ button.pred-side:hover {
   z-index: 3;
   pointer-events: auto !important;
   cursor: pointer;
-}
-.miteam-reveal .player-card-front .profile-hex-svg,
-.miteam-reveal .player-card-front .profile-full-svg,
-.miteam-pack-under .player-card-front .profile-hex-svg,
-.miteam-pack-under .player-card-front .profile-full-svg,
-.player-pitch-select .player-card-front .profile-hex-svg,
-.player-pitch-select .player-card-front .profile-full-svg {
-  width: var(--hex-size, 148px) !important;
-  height: var(--hex-size, 148px) !important;
-  max-height: var(--hex-size, 148px);
 }
 .miteam-reveal .player-card-shirt,
 .miteam-pack-under .player-card-shirt {
