@@ -1207,7 +1207,11 @@ export class CharacterSelect {
   }
 
   current(): SquadPlayer {
-    return this.players[this.index] ?? this.xi[0]?.player ?? this.players[0];
+    const hit = this.players[this.index] ?? this.xi[0]?.player ?? this.players[0];
+    if (!hit) {
+      throw new Error("Formation squad is empty — pack a MiTeam or pick a club with a lineup");
+    }
+    return hit;
   }
 
   move(delta: number): void {
@@ -2326,7 +2330,18 @@ export class CharacterSelect {
     if (this.tabletopKind && this.controlMode === "PLAYER") this.controlMode = "TEAM";
     const form = getFormation(this.formation);
     const bySlot = new Map(this.xi.map((row) => [row.slot, row]));
-    const selected = this.current();
+    const selected = this.players[this.index] ?? this.xi[0]?.player ?? this.players[0];
+    if (!selected) {
+      this.root.innerHTML = `
+        <div class="char-panel char-panel-team">
+          <div class="team-select-head">${this.teamTitleHtml(this.teamName)}</div>
+          <p class="hint">No players in this squad yet. Pack a MiTeam five or choose another club.</p>
+          <div class="char-nav">
+            <button type="button" data-char="back">Back</button>
+          </div>
+        </div>`;
+      return;
+    }
     const selectedId = selected.player.id;
     const overlayMode =
       this.purpose !== "spot" &&

@@ -2885,12 +2885,18 @@ select.formation-chip.formation-select option {
   aspect-ratio: 1 / 1;
 }
 /*
- * PNG gold circle: flex sets the HEIGHT (shared emblem slot); aspect-ratio
- * transfers that to WIDTH so the ring stays circular — never width:100% + max-height.
+ * PNG gold circle: size from a definite square (not flex-height + aspect-ratio alone —
+ * Firefox often leaves that box ~0 and the portrait tiny).
  */
 .player-card-front .player-card-photo.has-photo {
-  width: auto;
+  position: relative;
+  flex: 0 0 auto;
+  width: min(48%, 11.5rem);
+  height: auto;
   max-width: 100%;
+  max-height: 48%;
+  aspect-ratio: 1 / 1;
+  align-self: center;
   border-radius: 50%;
   border: 3px solid var(--gold);
   box-shadow:
@@ -2898,10 +2904,12 @@ select.formation-chip.formation-select option {
     0 0 10px rgba(197, 165, 114, 0.22);
   background: rgba(7, 8, 12, 0.55);
   isolation: isolate;
-  contain: paint;
   padding: 0;
+  overflow: hidden;
 }
 .player-card-front .player-card-photo.has-photo .player-card-portrait {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   max-width: none;
@@ -2911,8 +2919,6 @@ select.formation-chip.formation-select option {
   border-radius: 50%;
   display: block;
   pointer-events: none;
-  clip-path: inset(0 round 50%);
-  -webkit-clip-path: inset(0 round 50%);
 }
 /* Club emblems: full-width square slot, no gold ring. */
 .player-card-front .player-card-photo.has-crest,
@@ -7091,9 +7097,10 @@ button.pred-side:hover {
   pointer-events: none;
 }
 .pyramid-cell-photo {
+  /* Explicit square — Firefox won't resolve %-sized children against aspect-ratio alone. */
   width: min(72px, 58%);
+  height: min(72px, 58%);
   aspect-ratio: 1;
-  height: auto;
   border-radius: 50%;
   overflow: hidden;
   position: relative;
@@ -7107,16 +7114,20 @@ button.pred-side:hover {
 }
 .pyramid-cell.is-compact .pyramid-cell-photo {
   width: min(64px, 56%);
+  height: min(64px, 56%);
 }
 /* Shared head crop / soft disc mask — Pyramid cells + Formation pitch/bench counters. */
 .pyramid-player-png,
 .team-pitch .kit-marker-photo .portrait img,
 .char-panel-team .pitch-token .kit-marker-photo .portrait img,
 .bench-card .kit-marker-bench.kit-marker-photo .portrait img {
+  position: absolute;
+  left: 50%;
+  top: 42%;
   width: 118%;
   height: 118%;
-  /* Slight upward bias for heads; keep enough top margin so crowns are not clipped. */
-  margin: -4% 0 0 -9%;
+  margin: 0;
+  transform: translate(-50%, -50%);
   object-fit: cover;
   object-position: 50% 18%;
   display: block;

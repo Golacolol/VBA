@@ -135,7 +135,11 @@ export class GameDatabase {
     } else {
       this.overlayUserFixtureResults(save.data.fixtures as FixtureRecord[]);
     }
-    if (save.data.advertising.length) this.advertising = save.data.advertising as AdvertisingBoardRecord[];
+    if (save.data.advertising.length) {
+      this.advertising = (save.data.advertising as AdvertisingBoardRecord[]).map((rec) =>
+        rec.label === "NBA" ? { ...rec, label: "VBA" } : rec,
+      );
+    }
     this.applyTeamTactics(save.data.teamTactics ?? {});
     applyMiTeamToDb(this, save);
   }
@@ -249,7 +253,9 @@ export class GameDatabase {
   }
 
   getSquad(teamId: string): SquadPlayer[] {
-    return this.membershipsForTeam(teamId).map((m) => this.resolveSquadPlayer(m));
+    return this.membershipsForTeam(teamId)
+      .filter((m) => this.players.has(m.playerId))
+      .map((m) => this.resolveSquadPlayer(m));
   }
 
   getLineup(id: string | undefined, teamId: string): LineupRecord {
@@ -263,7 +269,9 @@ export class GameDatabase {
   }
 
   getStartingSquad(lineup: LineupRecord): SquadPlayer[] {
-    return lineup.starters.map((slot) => {
+    const out: SquadPlayer[] = [];
+    for (const slot of lineup.starters) {
+      if (!this.players.has(slot.playerId)) continue;
       const membership =
         this.memberships.find((m) => m.teamId === lineup.teamId && m.playerId === slot.playerId) ??
         ({
@@ -272,9 +280,9 @@ export class GameDatabase {
           shirtNumber: 0,
           squadRole: "FIRST_TEAM",
         } satisfies TeamMembership);
-      const resolved = this.resolveSquadPlayer(membership);
-      return resolved;
-    });
+      out.push(this.resolveSquadPlayer(membership));
+    }
+    return out;
   }
 
   nextFixture(teamId = this.userTeamId, skipPlayed = false): FixtureRecord {

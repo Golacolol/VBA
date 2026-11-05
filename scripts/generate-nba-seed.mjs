@@ -269,7 +269,7 @@ function main() {
 
   const advertising = [
     { board: 1, label: "VORTEX", color: "#070b14", textColor: "#3ec6ff" },
-    { board: 2, label: "NBA", color: "#1d428a", textColor: "#ffffff" },
+    { board: 2, label: "VBA", color: "#1d428a", textColor: "#ffffff" },
   ];
   const stories = [];
   const officialOverlay = { results: [], updatedAt: new Date().toISOString(), source: "nba-seed" };

@@ -223,8 +223,10 @@ export class Stadium {
           roof.name = "standRoof";
           g.add(roof);
         }
-        const fascia = new THREE.Mesh(new THREE.BoxGeometry(w * 0.42, 1.05, 0.22), fasciaMat);
-        fascia.position.set(0, rows * rowRise + 5.2, -0.55);
+        // Court-facing face of the grey back wall (depth 2.4, centred at rows*rowDepth+1.4).
+        const wallFrontZ = rows * rowDepth + 0.2;
+        const fascia = new THREE.Mesh(new THREE.BoxGeometry(w + 0.6, 1.05, 0.28), fasciaMat);
+        fascia.position.set(0, backH - 0.65, wallFrontZ - 0.14);
         g.add(fascia);
       }
       g.position.set(x, 0, z);
@@ -547,16 +549,18 @@ export class Stadium {
         }
       }
 
+      // Fascia rides on the court-facing face of the grey cladding arc (not floating at the bowl lip).
+      const fasciaR = backR - 0.55;
       for (let i = 0; i < steps; i++) {
         const mid = a0 + sweep * ((i + 0.5) / steps);
         const fascia = new THREE.Mesh(
-          new THREE.BoxGeometry(((Math.abs(sweep) / steps) * frontR) * 1.05, 1.0, 0.22),
+          new THREE.BoxGeometry(((Math.abs(sweep) / steps) * fasciaR) * 1.12, 1.0, 0.28),
           mats.fascia,
         );
         fascia.position.set(
-          cx + Math.cos(mid) * (frontR - 0.35),
-          rows * rowRise + 5.0,
-          cz + Math.sin(mid) * (frontR - 0.35),
+          cx + Math.cos(mid) * fasciaR,
+          backH - 0.65,
+          cz + Math.sin(mid) * fasciaR,
         );
         fascia.rotation.y = Math.PI / 2 - mid;
         g.add(fascia);
@@ -574,18 +578,9 @@ export class Stadium {
   ): void {
     const cfg = record.scoreboard;
     if (cfg.type === "NONE") return;
+    // Jumbotron cube is self-hung (cables on the Scoreboard mesh) — no overhead truss panel.
+    if (jumbotron) return;
     const [x, y, z] = cfg.position;
-    if (jumbotron) {
-      // Overhead truss the cube hangs from — no wall house / ground struts.
-      const span = Math.max(cfg.width, 6.2) + 2.4;
-      const truss = new THREE.Mesh(new THREE.BoxGeometry(span, 0.35, span), steel);
-      truss.position.set(x, y + cfg.height * 0.5 + 4.6, z);
-      this.group.add(truss);
-      const hub = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.55, 1.4), dark);
-      hub.position.set(x, y + cfg.height * 0.5 + 4.2, z);
-      this.group.add(hub);
-      return;
-    }
     const house = new THREE.Mesh(
       new THREE.BoxGeometry(cfg.width + 2.4, cfg.height + 2.6, 1.8),
       dark,

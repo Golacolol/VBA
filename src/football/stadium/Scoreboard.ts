@@ -236,21 +236,10 @@ export class Scoreboard {
     const core = new THREE.Mesh(new THREE.BoxGeometry(w - 0.08, h + 0.35, depth - 0.08), black);
     this.mesh.add(core);
 
-    const ring = new THREE.Mesh(new THREE.BoxGeometry(w + 1.1, 0.28, depth + 1.1), steel);
-    ring.position.set(0, h * 0.5 + 0.55, 0);
+    // Thin crown bezel only — no floating square deck above the cube.
+    const ring = new THREE.Mesh(new THREE.BoxGeometry(w + 0.35, 0.22, depth + 0.35), steel);
+    ring.position.set(0, h * 0.5 + 0.2, 0);
     this.mesh.add(ring);
-
-    const topLed = new THREE.Mesh(
-      new THREE.BoxGeometry(w * 0.92, 0.12, depth * 0.92),
-      new THREE.MeshStandardMaterial({
-        color: 0x111418,
-        emissive: 0x224466,
-        emissiveIntensity: 0.55,
-        roughness: 0.35,
-      }),
-    );
-    topLed.position.set(0, h * 0.5 + 0.72, 0);
-    this.mesh.add(topLed);
 
     const cableMat = new THREE.MeshStandardMaterial({ color: 0x3a4046, roughness: 0.5, metalness: 0.3 });
     for (const [ox, oz] of [
@@ -259,8 +248,8 @@ export class Scoreboard {
       [-w * 0.35, depth * 0.35],
       [-w * 0.35, -depth * 0.35],
     ] as const) {
-      const cable = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 7.5, 6), cableMat);
-      cable.position.set(ox, h * 0.5 + 4.2, oz);
+      const cable = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 5.2, 6), cableMat);
+      cable.position.set(ox, h * 0.5 + 2.9, oz);
       this.mesh.add(cable);
     }
   }

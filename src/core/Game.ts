@@ -270,7 +270,9 @@ export class Game {
 
   private bindUi(): void {
     this.ui.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest("button");
+      const raw = e.target;
+      const el = raw instanceof Element ? raw : raw instanceof Node ? raw.parentElement : null;
+      const btn = el?.closest?.("button") ?? null;
       if (!btn) return;
       this.audio.ui();
       this.input.lastInputAt = performance.now();
@@ -358,7 +360,12 @@ export class Game {
         this.paintMainMenu();
         return;
       }
-      if (this.appState === AppState.MAIN_MENU && id) this.menuAction(id);
+      if (this.appState === AppState.MAIN_MENU && id) {
+        this.menuAction(id);
+        // Leave the handler after menu actions — openCharacterSelect mutates the DOM under
+        // the cursor; continuing can retarget into the new panel on Firefox.
+        return;
+      }
       const labAct = btn.getAttribute("data-lab");
       if (labAct && this.simLab.isOpen) {
         void this.handleSimLabAction(labAct);
@@ -1424,75 +1431,82 @@ export class Game {
   private openCharacterSelect(teamId: string, options?: { quickMatch?: boolean }): void {
     this.menu.hide();
     this.miteam.hide();
-    this.applyInfoOverlaysSetting();
-    this.charTeamId = teamId;
-    const team = this.db.getTeam(teamId);
-    if (teamId === MITEAM_TEAM_ID || this.save.data.miteam) {
-      this.chars.setMiTeamHost(this.save, this.db);
-    } else {
-      this.chars.clearMiTeamHost();
-    }
-    const f = this.pendingFixture;
-    const lineupId = f && f.awayTeamId === teamId ? f.awayLineupId : f?.homeLineupId;
-    const opponentId = f ? (f.homeTeamId === teamId ? f.awayTeamId : f.homeTeamId) : null;
-    const opponent = opponentId ? this.db.getTeam(opponentId) : null;
-    const userIsAwaySide = !!f && f.awayTeamId === teamId;
-    const purpose = this.practice === "spot" ? "spot" : "match";
-    const quickMatch = !!options?.quickMatch && purpose === "match";
-    this.chars.setContext("select");
-    if (f && purpose === "match") {
-      const active: FormationSide = userIsAwaySide ? "away" : "home";
-      const oppOpts = quickMatch
-        ? oppositionRollOptions(buildMenuTeamOptions([...this.db.teams.values()]), teamId).map((o) => ({
-            id: o.id,
-            label: oppositionRollLabel(o),
-          }))
-        : [];
-      this.chars.setDualFormationSides(
-        {
-          home: this.formationSideConfig(f.homeTeamId, f.homeLineupId),
-          away: this.formationSideConfig(f.awayTeamId, f.awayLineupId),
-        },
-        active,
-        {
+    try {
+      this.applyInfoOverlaysSetting();
+      this.charTeamId = teamId;
+      if (teamId === MITEAM_TEAM_ID || this.save.data.miteam) {
+        applyMiTeamToDb(this.db, this.save);
+        this.chars.setMiTeamHost(this.save, this.db);
+      } else {
+        this.chars.clearMiTeamHost();
+      }
+      const team = this.db.getTeam(teamId);
+      const f = this.pendingFixture;
+      const lineupId = f && f.awayTeamId === teamId ? f.awayLineupId : f?.homeLineupId;
+      const opponentId = f ? (f.homeTeamId === teamId ? f.awayTeamId : f.homeTeamId) : null;
+      const opponent = opponentId && this.db.teams.has(opponentId) ? this.db.getTeam(opponentId) : null;
+      const userIsAwaySide = !!f && f.awayTeamId === teamId;
+      const purpose = this.practice === "spot" ? "spot" : "match";
+      const quickMatch = !!options?.quickMatch && purpose === "match";
+      this.chars.setContext("select");
+      if (f && purpose === "match") {
+        const active: FormationSide = userIsAwaySide ? "away" : "home";
+        const oppOpts = quickMatch
+          ? oppositionRollOptions(buildMenuTeamOptions([...this.db.teams.values()]), teamId).map((o) => ({
+              id: o.id,
+              label: oppositionRollLabel(o),
+            }))
+          : [];
+        this.chars.setDualFormationSides(
+          {
+            home: this.formationSideConfig(f.homeTeamId, f.homeLineupId),
+            away: this.formationSideConfig(f.awayTeamId, f.awayLineupId),
+          },
+          active,
+          {
+            purpose,
+            opponentHomeKit: opponent?.defaultKit ?? null,
+            userIsAwaySide,
+            kitChoice: this.save.data.settings.menuKitChoice === "away" ? "away" : "home",
+            userMatchTeam: team,
+            quickMatch,
+            oppositionOptions: oppOpts,
+            oppositionTeamId: f.awayTeamId,
+          },
+        );
+      } else {
+        const lineup = this.db.getLineup(lineupId, teamId);
+        const tactics = this.save.data.teamTactics[teamId];
+        this.chars.setSquad(team.name, this.db.getStartingSquad(lineup), team.primaryColor, {
+          formation: lineup.formation,
+          formationSelection: tactics?.selection ?? lineup.formation,
+          roster: this.db.getSquad(teamId),
+          starterSlots: lineup.starters.map((s) => s.slot),
+          secondaryColor: team.secondaryColor,
           purpose,
+          team,
           opponentHomeKit: opponent?.defaultKit ?? null,
           userIsAwaySide,
           kitChoice: this.save.data.settings.menuKitChoice === "away" ? "away" : "home",
-          userMatchTeam: team,
-          quickMatch,
-          oppositionOptions: oppOpts,
-          oppositionTeamId: f.awayTeamId,
-        },
-      );
-    } else {
-      const lineup = this.db.getLineup(lineupId, teamId);
-      const tactics = this.save.data.teamTactics[teamId];
-      this.chars.setSquad(team.name, this.db.getStartingSquad(lineup), team.primaryColor, {
-        formation: lineup.formation,
-        formationSelection: tactics?.selection ?? lineup.formation,
-        roster: this.db.getSquad(teamId),
-        starterSlots: lineup.starters.map((s) => s.slot),
-        secondaryColor: team.secondaryColor,
-        purpose,
-        team,
-        opponentHomeKit: opponent?.defaultKit ?? null,
-        userIsAwaySide,
-        kitChoice: this.save.data.settings.menuKitChoice === "away" ? "away" : "home",
-        playStyle: lineup.playStyle ?? null,
-        slotOffsets: lineup.starters
-          .filter((s) => s.offsetX || s.offsetZ)
-          .map((s) => ({ slot: s.slot, dx: s.offsetX ?? 0, dz: s.offsetZ ?? 0 })),
-        userTactics: tactics?.user ?? null,
-        formationSide: userIsAwaySide ? "away" : "home",
-        playerClubLooks:
-          teamId === MITEAM_TEAM_ID ? buildMiTeamPlayerClubLooks(this.db, this.save.data.miteam) : null,
-      });
+          playStyle: lineup.playStyle ?? null,
+          slotOffsets: lineup.starters
+            .filter((s) => s.offsetX || s.offsetZ)
+            .map((s) => ({ slot: s.slot, dx: s.offsetX ?? 0, dz: s.offsetZ ?? 0 })),
+          userTactics: tactics?.user ?? null,
+          formationSide: userIsAwaySide ? "away" : "home",
+          playerClubLooks:
+            teamId === MITEAM_TEAM_ID ? buildMiTeamPlayerClubLooks(this.db, this.save.data.miteam) : null,
+        });
+      }
+      this.chars.setTabletopMode(null);
+      this.chars.render();
+      this.appState = AppState.CHARACTER_SELECT;
+      this.refreshCharacterPreview();
+    } catch (err) {
+      console.error("Formation panel failed to open", err);
+      this.chars.hide();
+      this.goMenu();
     }
-    this.chars.setTabletopMode(null);
-    this.chars.render();
-    this.appState = AppState.CHARACTER_SELECT;
-    this.refreshCharacterPreview();
   }
 
   private refreshCharacterPreview(): void {
