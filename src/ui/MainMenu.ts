@@ -17,6 +17,7 @@ import {
   autoSelectPredictionFixtures,
   clampPredictionViewWeek,
   ensurePredictionWeek,
+  preferredPredictionViewWeek,
   predictionFixtureIdSet,
   predictionWeekStart,
   setAdminPredictionFixtures,
@@ -455,9 +456,9 @@ export class MainMenu {
       .join("");
   }
 
-  openPredictions(): void {
+  openPredictions(fixtures: FixtureRecord[] = []): void {
     this.predictionsMode = "predict";
-    this.predictionsViewWeek = predictionWeekStart();
+    this.predictionsViewWeek = preferredPredictionViewWeek(fixtures);
     this.setPanel("predictions", true);
   }
 

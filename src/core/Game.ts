@@ -1012,7 +1012,7 @@ export class Game {
       return;
     }
     if (id === "predictions") {
-      this.menu.openPredictions();
+      this.menu.openPredictions(this.db.fixtures);
       this.paintMainMenu();
       return;
     }

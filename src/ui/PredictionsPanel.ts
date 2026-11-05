@@ -54,7 +54,7 @@ export function predictionsPanelHtml(
             return predictionRowHtml(fixture, pick, db);
           })
           .join("")
-      : `<p class="hint pred-empty">No prediction slate yet. An admin can set ten games, or they auto-select from Friday.</p>`;
+      : `<p class="hint pred-empty">No prediction slate yet. An admin can set ten games, or they auto-select for this Sat–Fri window.</p>`;
 
   return `
     <div class="panel-head pred-panel-head">
@@ -109,7 +109,7 @@ function adminPanelHtml(
           <span class="pred-admin-match">${adminSideHtml(home, f.homeTeamId)}<span class="pred-admin-vs">vs</span>${adminSideHtml(away, f.awayTeamId)}</span>
         </label>`;
       })
-      .join("") || `<p class="hint">No conference fixtures in this Sat–Thu window.</p>`;
+      .join("") || `<p class="hint">No conference fixtures in this Sat–Fri window.</p>`;
 
   return `
     <div class="panel-head">

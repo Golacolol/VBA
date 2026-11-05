@@ -16,7 +16,7 @@ export interface PredictionPick {
 }
 
 export interface PredictionWeek {
-  /** Saturday ISO that starts the Sat–Thu match window. */
+  /** Saturday ISO that starts the Sat–Fri match window. */
   weekStart: string;
   fixtureIds: string[];
   /** True when an admin chose the slate; false when auto-picked. */
@@ -93,20 +93,18 @@ export function weekdayUtc(iso: string): number {
 }
 
 /**
- * Saturday that opens the active prediction window.
- * Fri → next Saturday (selection day for the coming Sat–Thu slate).
- * Sat–Thu → that week's Saturday.
+ * Saturday that opens the active prediction window (Sat–Fri NBA slate).
+ * Sat–Fri → that week's Saturday.
  */
 export function predictionWeekStart(asOf = todayIso()): string {
   const d = weekdayUtc(asOf);
-  if (d === 5) return addDays(asOf, 1);
   if (d === 6) return asOf;
   const daysSinceSat = (d + 1) % 7;
   return addDays(asOf, -daysSinceSat);
 }
 
 export function predictionWeekEnd(weekStart: string): string {
-  return addDays(weekStart, 5); // Thursday
+  return addDays(weekStart, 6); // Friday — includes Friday night NBA tips
 }
 
 export function shiftPredictionWeek(weekStart: string, deltaWeeks: number): string {
@@ -144,10 +142,39 @@ export function predictionSelectionDeadline(weekStart: string): string {
 }
 
 export function shouldAutoSelectWeek(week: PredictionWeek | undefined, weekStart: string, asOf = todayIso()): boolean {
-  if (week?.fixtureIds.length === PREDICTION_SLOT_COUNT && week.adminSet) return false;
-  if (week?.fixtureIds.length === PREDICTION_SLOT_COUNT && !week.adminSet) return false;
+  if (week?.adminSet && week.fixtureIds.length === PREDICTION_SLOT_COUNT) return false;
+  if (week && week.fixtureIds.length === PREDICTION_SLOT_COUNT && !week.adminSet) {
+    // Keep a full auto slate unless every tip already finalled — then refresh below.
+    return false;
+  }
   const deadline = predictionSelectionDeadline(weekStart);
   return asOf >= deadline;
+}
+
+/** True when an auto slate is stuck on finished games while tips remain in the window. */
+export function shouldRefreshPlayedAutoSlate(
+  week: PredictionWeek | undefined,
+  fixtures: FixtureRecord[],
+  weekStart: string,
+): boolean {
+  if (!week || week.adminSet || week.scored) return false;
+  if (!week.fixtureIds.length) return false;
+  const byId = new Map(fixtures.map((f) => [f.id, f]));
+  const slateUnplayed = week.fixtureIds.some((id) => {
+    const f = byId.get(id);
+    return f && !f.played;
+  });
+  if (slateUnplayed) return false;
+  return fixturesInWindow(fixtures, weekStart).some((f) => !f.played);
+}
+
+/** Drop IDs removed by ESPN sync (e.g. pruned nba_fix_* stubs). */
+export function reconcilePredictionFixtureIds(
+  fixtureIds: string[],
+  fixtures: FixtureRecord[],
+): string[] {
+  const byId = new Set(fixtures.map((f) => f.id));
+  return fixtureIds.filter((id) => byId.has(id));
 }
 
 export type MatchOutcome = "HOME" | "AWAY" | "DRAW";
@@ -243,20 +270,38 @@ export function ensurePredictionWeek(
       weekPoints: 0,
     };
     weeks.push(week);
+  } else {
+    const validIds = reconcilePredictionFixtureIds(week.fixtureIds, fixtures);
+    if (validIds.length !== week.fixtureIds.length) {
+      week = {
+        ...week,
+        fixtureIds: validIds,
+        // Missing real fixtures void an admin lock so the slate can refill.
+        adminSet: week.adminSet && validIds.length === PREDICTION_SLOT_COUNT,
+        picks: mergePicks(week.picks, validIds),
+        scored: false,
+        weekPoints: 0,
+      };
+      weeks = weeks.map((w) => (w.weekStart === weekStart ? week! : w));
+    }
   }
 
-  const mayAuto =
-    (weekStart === liveStart || weekStart === maxStart) &&
+  const liveOrNext = weekStart === liveStart || weekStart === maxStart;
+  const needsFill =
+    liveOrNext &&
     week.fixtureIds.length < PREDICTION_SLOT_COUNT &&
     shouldAutoSelectWeek(week, weekStart, asOf);
+  const needsRefresh = liveOrNext && shouldRefreshPlayedAutoSlate(week, fixtures, weekStart);
 
-  if (mayAuto) {
+  if (needsFill || needsRefresh) {
     const ids = autoSelectPredictionFixtures(fixtures, weekStart);
     week = {
       ...week,
       fixtureIds: ids,
       adminSet: false,
       picks: mergePicks(week.picks, ids),
+      scored: false,
+      weekPoints: 0,
     };
     weeks = weeks.map((w) => (w.weekStart === weekStart ? week! : w));
   }
@@ -357,6 +402,17 @@ export function liveWeekPoints(week: PredictionWeek, fixtures: FixtureRecord[]):
 export function currentPredictionWeek(state: PredictionsState, asOf = todayIso()): PredictionWeek | undefined {
   const start = predictionWeekStart(asOf);
   return state.weeks.find((w) => w.weekStart === start);
+}
+
+/** Live Sat–Fri week, or next week when the live window has no unplayed tips left. */
+export function preferredPredictionViewWeek(
+  fixtures: FixtureRecord[],
+  asOf = todayIso(),
+): string {
+  const live = predictionWeekStart(asOf);
+  const hasUnplayed = fixturesInWindow(fixtures, live).some((f) => !f.played);
+  if (hasUnplayed) return live;
+  return maxPredictionWeekStart(asOf);
 }
 
 export function predictionFixtureIdSet(state: PredictionsState, _asOf = todayIso()): Set<string> {
