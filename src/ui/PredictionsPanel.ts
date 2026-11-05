@@ -3,7 +3,6 @@ import type { FixtureRecord, TeamRecord } from "../data/schema";
 import { todayIso } from "../data/leagueSchedule";
 import {
   PREDICTION_SLOT_COUNT,
-  PREDICTION_WIN_POINTS,
   clampPredictionViewWeek,
   fixtureWinner,
   fixturesInWindow,
@@ -18,6 +17,7 @@ import {
   type PredictionWinner,
   type PredictionsState,
 } from "../football/predictions/Predictions";
+import { buildTeamWinPctMap, likelyWinner } from "../football/predictions/LikelyWinner";
 import { titleAttr } from "./infoOverlays";
 import { teamBadgeHtml } from "./Portrait";
 
@@ -30,6 +30,7 @@ export function predictionsPanelHtml(
   viewWeekStart: string,
   asOf = todayIso(),
   adminDraft?: Set<string>,
+  showModelHints = false,
 ): string {
   const weekStart = clampPredictionViewWeek(viewWeekStart, state, asOf);
   const week = weekByStart(state, weekStart);
@@ -45,13 +46,14 @@ export function predictionsPanelHtml(
     return adminPanelHtml(db, selected, weekStart, weekEnd, state.totalPoints, canPrev, canNext);
   }
 
+  const winPct = showModelHints ? buildTeamWinPctMap(db.fixtures, db.teams.values()) : undefined;
   const rows =
     week?.fixtureIds.length
       ? week.fixtureIds
           .map((id) => {
             const fixture = db.fixtures.find((f) => f.id === id);
             const pick = week.picks.find((p) => p.fixtureId === id);
-            return predictionRowHtml(fixture, pick, db);
+            return predictionRowHtml(fixture, pick, db, showModelHints, winPct);
           })
           .join("")
       : `<p class="hint pred-empty">No prediction slate yet. An admin can set ten games, or they auto-select for this Sat–Fri window.</p>`;
@@ -59,7 +61,7 @@ export function predictionsPanelHtml(
   return `
     <div class="panel-head pred-panel-head">
       <button type="button" data-act="panel-back">Back</button>
-      <p class="pred-rules">Pick who wins · ${PREDICTION_WIN_POINTS} pt each. Tap an emblem. Lock a line when ready.</p>
+      <button type="button" class="pred-hint-btn ${showModelHints ? "on" : ""}" data-pred="hints" aria-pressed="${showModelHints ? "true" : "false"}"${titleAttr(showModelHints ? "Hide likely winners" : "Show likely winners")}>PREDICT</button>
       <button type="button" class="pred-admin-btn" data-pred="admin">Admin</button>
     </div>
     ${weekNavHtml(weekStart, weekEnd, canPrev, canNext, live, state.totalPoints)}
@@ -139,6 +141,8 @@ function predictionRowHtml(
   fixture: FixtureRecord | undefined,
   pick: PredictionPick | undefined,
   db: GameDatabase,
+  showModelHints: boolean,
+  winPct?: Map<string, number>,
 ): string {
   if (!fixture || !pick) {
     return `<div class="pred-row empty"><span class="hint">Missing fixture</span></div>`;
@@ -152,6 +156,8 @@ function predictionRowHtml(
     fixture.awayScore !== undefined
   );
   const actualWinner = played ? fixtureWinner(fixture.homeScore, fixture.awayScore) : null;
+  const modelFav =
+    showModelHints && !played ? likelyWinner(fixture, db, winPct) : null;
   const disabled = locked || played;
   const actual = played
     ? `<span class="pred-actual">${fixture.homeScore}–${fixture.awayScore}</span>`
@@ -161,9 +167,9 @@ function predictionRowHtml(
   return `
     <div class="pred-row ${locked ? "locked" : ""} ${played ? "played" : ""} ${correct}" data-fixture="${escapeHtml(fixture.id)}">
       <div class="pred-row-match">
-        ${winnerSideHtml(fixture.id, "HOME", home, fixture.homeTeamId, pick.winner, actualWinner, disabled)}
+        ${winnerSideHtml(fixture.id, "HOME", home, fixture.homeTeamId, pick.winner, actualWinner, disabled, modelFav)}
         <span class="pred-vs" aria-hidden="true">vs</span>
-        ${winnerSideHtml(fixture.id, "AWAY", away, fixture.awayTeamId, pick.winner, actualWinner, disabled)}
+        ${winnerSideHtml(fixture.id, "AWAY", away, fixture.awayTeamId, pick.winner, actualWinner, disabled, modelFav)}
         ${actual}
       </div>
       <button type="button" class="pred-lock ${locked ? "on" : ""}" data-pred="lock" data-fixture="${escapeHtml(fixture.id)}" aria-label="${locked ? "Unlock" : "Lock"} prediction"${titleAttr(locked ? "Unlock" : "Lock")} ${played ? "disabled" : ""}>${locked ? "locked" : "lock"}</button>
@@ -179,9 +185,11 @@ function winnerSideHtml(
   pick: PredictionWinner | null,
   actual: PredictionWinner | null,
   disabled: boolean,
+  modelFav: PredictionWinner | null,
 ): string {
   const on = pick === side;
   const won = actual === side;
+  const fav = modelFav === side;
   const abbr = escapeHtml(team?.abbreviation || team?.name || fallbackId);
   const name = escapeHtml(team?.name || fallbackId);
   const crest = team
@@ -195,7 +203,7 @@ function winnerSideHtml(
   const aria = disabled
     ? ""
     : ` aria-pressed="${on ? "true" : "false"}" aria-label="Pick ${name} to win"`;
-  return `<${tag}${typeAttr} class="pred-side ${side === "HOME" ? "home" : "away"} ${on ? "on" : ""} ${won ? "actual-win" : ""}"${dataAttr}${aria}>
+  return `<${tag}${typeAttr} class="pred-side ${side === "HOME" ? "home" : "away"} ${on ? "on" : ""} ${won ? "actual-win" : ""} ${fav ? "model-fav" : ""}"${dataAttr}${aria}>
     ${crest}
     <span class="pred-side-abbr">${abbr}</span>
   </${tag}>`;

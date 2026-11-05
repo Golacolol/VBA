@@ -94,6 +94,39 @@ function eachDay(fromYmd, toYmd) {
   return out;
 }
 
+function parseAmericanOdds(raw) {
+  if (raw == null) return null;
+  const n = Number(String(raw).replace(/^\+/, ""));
+  return Number.isFinite(n) ? n : null;
+}
+
+/** Attach DraftKings / ESPN moneyline + spread when the scoreboard publishes lines. */
+function applyOddsFromEspn(fixture, competition) {
+  const row = competition?.odds?.[0];
+  if (!row || !fixture) return false;
+  const homeMl = parseAmericanOdds(row.moneyline?.home?.close?.odds ?? row.moneyline?.home?.open?.odds);
+  const awayMl = parseAmericanOdds(row.moneyline?.away?.close?.odds ?? row.moneyline?.away?.open?.odds);
+  let favorite = null;
+  if (row.homeTeamOdds?.favorite === true) favorite = "HOME";
+  else if (row.awayTeamOdds?.favorite === true) favorite = "AWAY";
+  else if (homeMl != null && awayMl != null && homeMl !== awayMl) favorite = homeMl < awayMl ? "HOME" : "AWAY";
+  else if (typeof row.spread === "number" && row.spread !== 0) favorite = row.spread < 0 ? "HOME" : "AWAY";
+
+  if (!favorite && homeMl == null && awayMl == null && typeof row.spread !== "number") return false;
+
+  if (favorite) fixture.oddsFavorite = favorite;
+  else delete fixture.oddsFavorite;
+  if (typeof row.spread === "number" && Number.isFinite(row.spread)) fixture.oddsSpread = row.spread;
+  else delete fixture.oddsSpread;
+  if (homeMl != null) fixture.oddsMoneylineHome = homeMl;
+  else delete fixture.oddsMoneylineHome;
+  if (awayMl != null) fixture.oddsMoneylineAway = awayMl;
+  else delete fixture.oddsMoneylineAway;
+  if (row.provider?.name) fixture.oddsProvider = String(row.provider.name);
+  else delete fixture.oddsProvider;
+  return true;
+}
+
 async function fetchDay(day) {
   const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${day}`;
   const res = await fetch(url, { headers: { "User-Agent": "VORTEX-Basketball/0.5" } });
@@ -201,6 +234,7 @@ async function main() {
   let added = 0;
   let updated = 0;
   let scheduled = 0;
+  const oddsTaggedIds = new Set();
 
   const fromIso = `${from.slice(0, 4)}-${from.slice(4, 6)}-${from.slice(6, 8)}`;
   const toIso = `${to.slice(0, 4)}-${to.slice(4, 6)}-${to.slice(6, 8)}`;
@@ -278,6 +312,7 @@ async function main() {
         reindexPair(byPairDate, fixture, prevDate, prevHome, prevAway);
         touched.add(fixture.id);
         updated += 1;
+        if (!hasScores && applyOddsFromEspn(fixture, ev.competitions?.[0])) oddsTaggedIds.add(fixture.id);
       } else {
         const created = {
           id: hasScores || completed ? resultId : `nba_result_${idDay}_${homeMeta.abbr}_${awayMeta.abbr}`,
@@ -305,6 +340,7 @@ async function main() {
         touched.add(created.id);
         added += 1;
         if (!hasScores) scheduled += 1;
+        if (!hasScores && applyOddsFromEspn(created, ev.competitions?.[0])) oddsTaggedIds.add(created.id);
       }
 
       if (hasScores && seasonPhase === "regular") {
@@ -324,6 +360,44 @@ async function main() {
     }
     console.log(`${dayDone} games`);
     await new Promise((r) => setTimeout(r, 80));
+  }
+
+  // Live scoreboard (no ?dates=) is where ESPN usually attaches DraftKings lines.
+  try {
+    const liveRes = await fetch(
+      "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
+      { headers: { "User-Agent": "VORTEX-Basketball/0.5" } },
+    );
+    if (liveRes.ok) {
+      const live = await liveRes.json();
+      for (const ev of live.events || []) {
+        const comps = ev.competitions?.[0]?.competitors || [];
+        const homeC = comps.find((c) => c.homeAway === "home");
+        const awayC = comps.find((c) => c.homeAway === "away");
+        if (!homeC || !awayC) continue;
+        const homeMeta = espnToTeam.get(String(homeC.team?.id));
+        const awayMeta = espnToTeam.get(String(awayC.team?.id));
+        if (!homeMeta || !awayMeta) continue;
+        const etDate = easternDateFromEspn(ev.date);
+        const resultId = `nba_result_${etDate.replace(/-/g, "")}_${homeMeta.abbr}_${awayMeta.abbr}`;
+        const row =
+          fixtures.find((f) => f.id === resultId) ||
+          findFixtureNear(
+            fixtures,
+            byPairDate,
+            dateFromEspn(ev.date),
+            etDate,
+            homeMeta.id,
+            awayMeta.id,
+            resultId,
+          );
+        if (!row || row.played) continue;
+        if (applyOddsFromEspn(row, ev.competitions?.[0])) oddsTaggedIds.add(row.id);
+      }
+      console.log(`Live board odds pass: ${oddsTaggedIds.size} fixtures with lines`);
+    }
+  } catch (err) {
+    console.warn(`live odds pass failed: ${err.message}`);
   }
 
   // Drop all remaining fake seed stubs — ESPN slate is authoritative.
@@ -398,7 +472,7 @@ async function main() {
     )}\n`,
   );
   console.log(
-    `Fixtures: +${added} new (${scheduled} scheduled), ${updated} updated, ${pruned} fake stubs pruned, ${collapsed} date-shift dupes collapsed, ${overlayResults.length} completed regular-season games`,
+    `Fixtures: +${added} new (${scheduled} scheduled), ${updated} updated, ${pruned} fake stubs pruned, ${collapsed} date-shift dupes collapsed, ${oddsTaggedIds.size} with odds, ${overlayResults.length} completed regular-season games`,
   );
 }
 

@@ -52,10 +52,13 @@ describe("PredictionsPanel", () => {
         [home.id, home],
         [away.id, away],
       ]),
+      teamStrength: (id: string) => (id === home.id ? 88 : 80),
     } as unknown as GameDatabase;
 
     const html = predictionsPanelHtml(db, state, "predict", "2026-09-19", "2026-09-15");
-    expect(html).toContain("Pick who wins");
+    expect(html).not.toContain("Pick who wins");
+    expect(html).toContain("PREDICT");
+    expect(html).toContain('data-pred="hints"');
     expect(html).toContain('data-pred-winner="HOME"');
     expect(html).toContain('data-pred-winner="AWAY"');
     expect(html).toContain("pred-crest");
@@ -63,7 +66,12 @@ describe("PredictionsPanel", () => {
     expect(html).toContain("/assets/emblems/nba_nyk.svg");
     expect(html).toContain("BOS");
     expect(html).toContain("NYK");
+    expect(html).not.toContain("model-fav");
     expect(html).not.toContain("data-pred-spin");
     expect(html).not.toContain("Exact score");
+
+    const hinted = predictionsPanelHtml(db, state, "predict", "2026-09-19", "2026-09-15", undefined, true);
+    expect(hinted).toContain("pred-hint-btn on");
+    expect(hinted).toContain("model-fav");
   });
 });

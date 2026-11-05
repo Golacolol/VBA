@@ -84,6 +84,8 @@ export class MainMenu {
   predictionsMode: PredictionsViewMode = "predict";
   /** Saturday ISO for the Predictions panel week browser. */
   predictionsViewWeek = predictionWeekStart();
+  /** When true, outline the model / sportsbook favorite on each tip. */
+  predictionsShowHints = false;
   private predAdminDraft = new Set<string>();
   private halfSpinWheel = createSpinWheel();
   private teamSpinWheel = createSpinWheel();
@@ -402,6 +404,7 @@ export class MainMenu {
         this.predictionsViewWeek,
         todayIso(),
         this.predAdminDraft,
+        this.predictionsShowHints,
       );
     }
     if (this.panel === "database") {
@@ -492,6 +495,11 @@ export class MainMenu {
       this.predictionsViewWeek = clampPredictionViewWeek(shiftPredictionWeek(weekStart, 1), state);
       this.predAdminDraft = new Set(state.weeks.find((w) => w.weekStart === this.predictionsViewWeek)?.fixtureIds ?? []);
       return ensurePredictionWeek(state, db.fixtures, todayIso(), this.predictionsViewWeek);
+    }
+    if (act === "hints") {
+      this.predictionsShowHints = !this.predictionsShowHints;
+      this.onPredictionsRefresh?.();
+      return state;
     }
     if (act === "admin") {
       this.predictionsMode = "admin";

@@ -278,6 +278,13 @@ export interface FixtureRecord {
   official?: boolean;
   /** ESPN season phase — standings count regular only. */
   seasonPhase?: "preseason" | "regular" | "postseason";
+  /** Closing sportsbook favorite (ESPN / DraftKings), when available. */
+  oddsFavorite?: "HOME" | "AWAY";
+  /** Home point spread (negative = home favored). */
+  oddsSpread?: number;
+  oddsMoneylineHome?: number;
+  oddsMoneylineAway?: number;
+  oddsProvider?: string;
 }
 
 export interface CrowdSectionRecord {

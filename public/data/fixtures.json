@@ -28553,7 +28553,12 @@
     "weather": "MILD",
     "played": false,
     "official": true,
-    "seasonPhase": "regular"
+    "seasonPhase": "regular",
+    "oddsFavorite": "HOME",
+    "oddsSpread": -5.5,
+    "oddsMoneylineHome": -203,
+    "oddsMoneylineAway": 169,
+    "oddsProvider": "DraftKings"
   },
   {
     "id": "nba_result_20261104_phx_por",
@@ -28570,7 +28575,12 @@
     "weather": "MILD",
     "played": false,
     "official": true,
-    "seasonPhase": "regular"
+    "seasonPhase": "regular",
+    "oddsFavorite": "AWAY",
+    "oddsSpread": 3.5,
+    "oddsMoneylineHome": 121,
+    "oddsMoneylineAway": -143,
+    "oddsProvider": "DraftKings"
   },
   {
     "id": "nba_result_20261104_sas_dal",
@@ -28587,7 +28597,12 @@
     "weather": "MILD",
     "played": false,
     "official": true,
-    "seasonPhase": "regular"
+    "seasonPhase": "regular",
+    "oddsFavorite": "HOME",
+    "oddsSpread": -12.5,
+    "oddsMoneylineHome": -620,
+    "oddsMoneylineAway": 458,
+    "oddsProvider": "DraftKings"
   },
   {
     "id": "nba_result_20261104_sac_lal",
@@ -28604,7 +28619,12 @@
     "weather": "MILD",
     "played": false,
     "official": true,
-    "seasonPhase": "regular"
+    "seasonPhase": "regular",
+    "oddsFavorite": "AWAY",
+    "oddsSpread": 12.5,
+    "oddsMoneylineHome": 470,
+    "oddsMoneylineAway": -650,
+    "oddsProvider": "DraftKings"
   },
   {
     "id": "nba_result_20261104_lac_mia",
@@ -28621,7 +28641,12 @@
     "weather": "MILD",
     "played": false,
     "official": true,
-    "seasonPhase": "regular"
+    "seasonPhase": "regular",
+    "oddsFavorite": "AWAY",
+    "oddsSpread": 5.5,
+    "oddsMoneylineHome": 180,
+    "oddsMoneylineAway": -216,
+    "oddsProvider": "DraftKings"
   },
   {
     "id": "nba_result_20261105_phx_orl",
