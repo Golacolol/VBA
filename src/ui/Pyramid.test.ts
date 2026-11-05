@@ -90,7 +90,7 @@ describe("PyramidHub", () => {
     // Jersey #1 prefers the classic seed (Rose MVP) over current Wemby when both wear 1.
     expect(cells[1]?.getAttribute("data-player-id")).toBe("classic_chi_2010_11_p01"); // Rose #1
     expect(cells[2]?.getAttribute("data-player-id")).not.toBe("classic_chi_2010_11_p01");
-    expect(cells[1]?.querySelector(".pyramid-jersey-num")?.textContent).toBe("1");
+    expect(cells[1]?.querySelector(".pyramid-jersey-num")).toBeNull();
     expect(cells[1]?.querySelector(".portrait-badge-kit .num")?.textContent).toBe("1");
 
     const filled = hub.root.querySelector<HTMLElement>(".pyramid-jersey-cell.is-filled");

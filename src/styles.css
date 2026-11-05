@@ -7791,11 +7791,11 @@ button.pred-side:hover {
   justify-content: center;
 }
 .pyramid-jersey-cell .pyramid-cell-kit {
-  /* Portrait kit-back — wide 4/3 clipped the digit and made #1 look like #2. */
-  width: 72%;
-  max-width: 72px;
+  /* Wider, shorter kit strip — number reads from the panel (no corner badge). */
+  width: 92%;
+  max-width: none;
   height: auto;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 5 / 4;
   overflow: hidden;
 }
 .pyramid-jersey-cell .pyramid-kit-badge,
@@ -7804,23 +7804,23 @@ button.pred-side:hover {
   height: 100%;
 }
 .pyramid-jersey-cell .portrait-badge-kit {
-  --kit-name-band: 11px;
-  justify-content: space-evenly;
-  gap: 0;
-  padding: 2px;
+  --kit-name-band: 10px;
+  justify-content: center;
+  gap: 1px;
+  padding: 3px 4px 2px;
   overflow: hidden;
 }
 .pyramid-jersey-cell .portrait-badge-kit .sur {
   flex: 0 0 var(--kit-name-band);
   height: var(--kit-name-band);
-  font-size: clamp(7px, 0.95vw, 9px) !important;
+  font-size: clamp(7px, 0.9vw, 9px) !important;
 }
 .pyramid-jersey-cell .portrait-badge-kit .num {
   display: block;
   flex: 0 0 auto;
   min-height: 0;
-  font-size: clamp(20px, 2.8vw, 30px);
-  line-height: 0.9;
+  font-size: clamp(26px, 3.6vw, 40px);
+  line-height: 0.88;
   overflow: hidden;
 }
 .pyramid-jersey-cell .pyramid-cell-photo {
@@ -7832,6 +7832,7 @@ button.pred-side:hover {
   z-index: 1;
 }
 /* Slot label — always visible so grid # is never confused with a clipped kit digit. */
+/* Empty jersey slots only — filled cards rely on the kit panel number. */
 .pyramid-jersey-num {
   font-family: "Oswald", "Arial Narrow", Impact, sans-serif;
   font-size: clamp(18px, 2.6vw, 26px);
@@ -7839,17 +7840,6 @@ button.pred-side:hover {
   line-height: 1;
   letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.55);
-}
-.pyramid-jersey-cell.is-filled .pyramid-jersey-num {
-  position: absolute;
-  top: 6px;
-  left: 7px;
-  z-index: 2;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.72);
-  pointer-events: none;
 }
 .pyramid-jersey-option-kit .portrait-badge-kit {
   --kit-name-band: 12px;
@@ -8006,8 +7996,12 @@ button.pred-side:hover {
     gap: 4px;
   }
   .pyramid-jersey-cell .pyramid-cell-kit {
-    width: 90%;
+    width: 96%;
     max-width: none;
+    aspect-ratio: 5 / 4;
+  }
+  .pyramid-jersey-cell .portrait-badge-kit .num {
+    font-size: clamp(22px, 5.5vw, 34px);
   }
   .pyramid-jersey-cell .pyramid-cell-photo {
     width: min(56px, 68%);

@@ -1487,7 +1487,6 @@ export class PyramidHub {
         const kitEntry = { ...entry, shirtNumber: n };
         cells.push(`
           <button type="button" class="pyramid-jersey-cell is-filled" data-pyramid="jersey-open" data-jersey="${n}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · jersey ${n} · tap to change`)}>
-            <span class="pyramid-jersey-num" aria-hidden="true">${n}</span>
             <div class="pyramid-cell-kit-row">
               <div class="pyramid-cell-kit">${this.kitBadgeHtml(kitEntry)}</div>
             </div>
