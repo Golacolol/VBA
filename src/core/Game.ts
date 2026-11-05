@@ -985,7 +985,7 @@ export class Game {
   private menuAction(id: string): void {
     const f = this.listedFixture();
     // Lock dials before any leave-menu action so a late spin cannot rewrite the club mid-launch.
-    if (id === "sim" || id === "next" || id === "quick" || id === "spot" || id === "miteam") {
+    if (id === "sim" || id === "next" || id === "spot" || id === "miteam") {
       this.menu.lockTeamSelect();
     }
     if (id === "sim") {
@@ -1011,11 +1011,9 @@ export class Game {
       this.openMiTeamBuilder();
       return;
     }
-    if (id === "quick") {
-      this.practice = "none";
-      this.leagueFixtureId = null;
-      if (this.launchTableOrFlick({ ...this.listedFixture() })) return;
-      this.openQuickMatch();
+    if (id === "predictions") {
+      this.menu.openPredictions();
+      this.paintMainMenu();
       return;
     }
     if (id === "spot") {
@@ -1030,7 +1028,7 @@ export class Game {
       this.paintMainMenu();
       return;
     }
-    if (id === "predictions") {
+    if (id === "bracket") {
       this.openPyramidHub("bracket");
       return;
     }

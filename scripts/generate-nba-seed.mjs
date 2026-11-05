@@ -263,44 +263,9 @@ function main() {
     });
   }
 
-  // Thin intra-conference schedule for the next ~3 weeks (home/away stubs).
+  // Fixtures come from ESPN via `scripts/refresh-nba-results.mjs` —
+  // do not invent intra-conference stubs (they fight real scores/slate).
   const fixtures = [];
-  const start = new Date();
-  start.setUTCHours(0, 0, 0, 0);
-  const byConf = {
-    EAST: TEAMS.filter((t) => t.conference === "EAST"),
-    WEST: TEAMS.filter((t) => t.conference === "WEST"),
-  };
-  let fixtureN = 0;
-  for (const conf of ["EAST", "WEST"]) {
-    const list = byConf[conf];
-    for (let day = 0; day < 21; day++) {
-      const d = new Date(start);
-      d.setUTCDate(d.getUTCDate() + day);
-      const pairs = Math.floor(list.length / 2);
-      for (let p = 0; p < pairs; p++) {
-        const home = list[(day + p) % list.length];
-        const away = list[(day + p + Math.ceil(list.length / 2)) % list.length];
-        if (home.id === away.id) continue;
-        fixtureN += 1;
-        fixtures.push({
-          id: `nba_fix_${String(fixtureN).padStart(4, "0")}`,
-          homeTeamId: home.id,
-          awayTeamId: away.id,
-          venueId: `${home.id}_arena`,
-          competition: conf === "EAST" ? "Eastern Conference" : "Western Conference",
-          date: isoDate(d),
-          time: "19:00",
-          durationSeconds: 600,
-          homeLineupId: `${home.id}_lineup`,
-          awayLineupId: `${away.id}_lineup`,
-          timeOfDay: "EVENING",
-          weather: "MILD",
-          played: false,
-        });
-      }
-    }
-  }
 
   const advertising = [
     { board: 1, label: "VORTEX", color: "#070b14", textColor: "#3ec6ff" },

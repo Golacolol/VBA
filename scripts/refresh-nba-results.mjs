@@ -1,8 +1,10 @@
 /**
- * Pull completed ESPN NBA scoreboard games into public/data/fixtures.json
- * (early-season results for Fixtures / standings).
+ * Sync ESPN NBA scoreboard into public/data/fixtures.json —
+ * completed scores + upcoming schedule (replaces fake seed stubs).
  *
- * Usage: node scripts/refresh-nba-results.mjs [--from YYYYMMDD] [--to YYYYMMDD]
+ * Usage:
+ *   node scripts/refresh-nba-results.mjs [--from YYYYMMDD] [--to YYYYMMDD]
+ *   node scripts/refresh-nba-results.mjs --schedule   # tip-offs / slate only
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -124,6 +126,13 @@ function defaultSeasonFromYmd(now = new Date()) {
   return `${startYear}1001`;
 }
 
+/** Include upcoming slate so Fixtures are not left on fake seed pairings. */
+function defaultToYmd(now = new Date(), aheadDays = 21) {
+  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  d.setUTCDate(d.getUTCDate() + aheadDays);
+  return ymd(d);
+}
+
 function findFixture(fixtures, byPairDate, date, homeId, awayId) {
   const key = `${date}|${homeId}|${awayId}`;
   let fixture = byPairDate.get(key);
@@ -138,20 +147,63 @@ function findFixture(fixtures, byPairDate, date, homeId, awayId) {
   );
 }
 
+/**
+ * Resolve an existing row for this ESPN event.
+ * Prefer stable result id, then exact UK/ET date. Only reclaim fake
+ * `nba_fix_*` stubs nearby — never rewrite another night's `nba_result_*`.
+ */
+function findFixtureNear(fixtures, byPairDate, date, etDate, homeId, awayId, resultId) {
+  const byId = resultId ? fixtures.find((f) => f.id === resultId) : null;
+  if (byId) return byId;
+  const hit =
+    findFixture(fixtures, byPairDate, date, homeId, awayId) ||
+    (etDate !== date ? findFixture(fixtures, byPairDate, etDate, homeId, awayId) : null);
+  if (hit) {
+    // Same pairing on this slate day is fine; a different result-id night is not.
+    if (!String(hit.id).startsWith("nba_result_") || hit.id === resultId) return hit;
+    const idDay = String(hit.id).slice("nba_result_".length, "nba_result_".length + 8);
+    if (idDay === etDate.replace(/-/g, "")) return hit;
+    return null;
+  }
+  const center = Date.parse(etDate);
+  if (!Number.isFinite(center)) return null;
+  return (
+    fixtures.find((f) => {
+      if (!String(f.id).startsWith("nba_fix_")) return false;
+      const same =
+        (f.homeTeamId === homeId && f.awayTeamId === awayId) ||
+        (f.homeTeamId === awayId && f.awayTeamId === homeId);
+      if (!same) return false;
+      const t = Date.parse(f.date);
+      if (!Number.isFinite(t)) return false;
+      return Math.abs(t - center) / 86400000 <= 1.5;
+    }) || null
+  );
+}
+
+function reindexPair(byPairDate, fixture, prevDate, prevHome, prevAway) {
+  byPairDate.delete(`${prevDate}|${prevHome}|${prevAway}`);
+  byPairDate.set(`${fixture.date}|${fixture.homeTeamId}|${fixture.awayTeamId}`, fixture);
+}
+
 async function main() {
   const from = argValue("--from", defaultSeasonFromYmd());
-  const to = argValue("--to", ymd(new Date()));
+  const to = argValue("--to", defaultToYmd());
   const scheduleOnly = process.argv.includes("--schedule");
-  const fixtures = JSON.parse(fs.readFileSync(fixturesPath, "utf8"));
+  let fixtures = JSON.parse(fs.readFileSync(fixturesPath, "utf8"));
   const byPairDate = new Map();
   for (const f of fixtures) {
     byPairDate.set(`${f.date}|${f.homeTeamId}|${f.awayTeamId}`, f);
   }
 
   const overlayResults = [];
+  const touched = new Set();
   let added = 0;
   let updated = 0;
-  let tipUpdated = 0;
+  let scheduled = 0;
+
+  const fromIso = `${from.slice(0, 4)}-${from.slice(4, 6)}-${from.slice(6, 8)}`;
+  const toIso = `${to.slice(0, 4)}-${to.slice(4, 6)}-${to.slice(6, 8)}`;
 
   for (const day of eachDay(from, to)) {
     process.stdout.write(`${day}… `);
@@ -177,67 +229,31 @@ async function main() {
       const etDate = easternDateFromEspn(ev.date);
       const completed = !!ev.status?.type?.completed;
       const seasonPhase = seasonPhaseFromEspn(ev);
+      const competition = competitionFor(homeMeta);
+      const idDay = etDate.replace(/-/g, "");
+      const resultId = `nba_result_${idDay}_${homeMeta.abbr}_${awayMeta.abbr}`;
 
-      // Scheduled / in-progress: refresh tip-off on matching stubs.
-      if (!completed || scheduleOnly) {
-        const stub =
-          findFixture(fixtures, byPairDate, date, homeMeta.id, awayMeta.id) ||
-          (etDate !== date ? findFixture(fixtures, byPairDate, etDate, homeMeta.id, awayMeta.id) : null);
-        if (stub && !stub.played && tip) {
-          let changed = false;
-          if (stub.time !== tip) {
-            stub.time = tip;
-            changed = true;
-          }
-          if (stub.date !== date) {
-            byPairDate.delete(`${stub.date}|${stub.homeTeamId}|${stub.awayTeamId}`);
-            stub.date = date;
-            byPairDate.set(`${date}|${stub.homeTeamId}|${stub.awayTeamId}`, stub);
-            changed = true;
-          }
-          if (stub.seasonPhase !== seasonPhase) {
-            stub.seasonPhase = seasonPhase;
-            changed = true;
-          }
-          if (changed) {
-            stub.official = true;
-            tipUpdated += 1;
-          }
-        }
-        if (!completed) continue;
-      }
-      if (scheduleOnly) continue;
+      let fixture = findFixtureNear(
+        fixtures,
+        byPairDate,
+        date,
+        etDate,
+        homeMeta.id,
+        awayMeta.id,
+        resultId,
+      );
 
       const homeScore = Number(homeC.score);
       const awayScore = Number(awayC.score);
-      if (!Number.isFinite(homeScore) || !Number.isFinite(awayScore)) continue;
-      const key = `${date}|${homeMeta.id}|${awayMeta.id}`;
-      const competition = competitionFor(homeMeta);
-      const row = {
-        competition,
-        date,
-        time: tip,
-        homeTeamId: homeMeta.id,
-        awayTeamId: awayMeta.id,
-        homeScore,
-        awayScore,
-        played: true,
-        seasonPhase,
-      };
-      // Standings overlay only needs regular-season results.
-      if (seasonPhase === "regular") overlayResults.push(row);
+      const hasScores =
+        completed && Number.isFinite(homeScore) && Number.isFinite(awayScore) && !scheduleOnly;
 
-      let fixture = findFixture(fixtures, byPairDate, date, homeMeta.id, awayMeta.id);
-      if (!fixture && etDate !== date) {
-        fixture = findFixture(fixtures, byPairDate, etDate, homeMeta.id, awayMeta.id);
-      }
       if (fixture) {
-        byPairDate.delete(`${fixture.date}|${fixture.homeTeamId}|${fixture.awayTeamId}`);
-        fixture.played = true;
+        const prevDate = fixture.date;
+        const prevHome = fixture.homeTeamId;
+        const prevAway = fixture.awayTeamId;
         fixture.homeTeamId = homeMeta.id;
         fixture.awayTeamId = awayMeta.id;
-        fixture.homeScore = homeScore;
-        fixture.awayScore = awayScore;
         fixture.competition = competition;
         fixture.date = date;
         fixture.time = tip || fixture.time;
@@ -246,39 +262,125 @@ async function main() {
         fixture.venueId = `${homeMeta.id}_arena`;
         fixture.homeLineupId = `${homeMeta.id}_lineup`;
         fixture.awayLineupId = `${awayMeta.id}_lineup`;
-        byPairDate.set(key, fixture);
+        if (hasScores) {
+          fixture.played = true;
+          fixture.homeScore = homeScore;
+          fixture.awayScore = awayScore;
+        } else {
+          // Scheduled / live — never keep a stale final from a wrong stub merge.
+          fixture.played = false;
+          delete fixture.homeScore;
+          delete fixture.awayScore;
+        }
+        if (resultId && String(fixture.id).startsWith("nba_fix_")) {
+          fixture.id = resultId;
+        }
+        reindexPair(byPairDate, fixture, prevDate, prevHome, prevAway);
+        touched.add(fixture.id);
         updated += 1;
       } else {
-        // Prefer ET calendar day in result ids (stable vs UK tip-date shifts).
-        const idDay = etDate.replace(/-/g, "");
-        const id = `nba_result_${idDay}_${homeMeta.abbr}_${awayMeta.abbr}`;
         const created = {
-          id,
+          id: hasScores || completed ? resultId : `nba_result_${idDay}_${homeMeta.abbr}_${awayMeta.abbr}`,
           homeTeamId: homeMeta.id,
           awayTeamId: awayMeta.id,
           venueId: `${homeMeta.id}_arena`,
           competition,
           date,
-          time: tip,
+          time: tip || "00:00",
           durationSeconds: 600,
           homeLineupId: `${homeMeta.id}_lineup`,
           awayLineupId: `${awayMeta.id}_lineup`,
           timeOfDay: "EVENING",
           weather: "MILD",
-          played: true,
-          homeScore,
-          awayScore,
+          played: !!hasScores,
           official: true,
           seasonPhase,
         };
+        if (hasScores) {
+          created.homeScore = homeScore;
+          created.awayScore = awayScore;
+        }
         fixtures.push(created);
-        byPairDate.set(key, created);
+        byPairDate.set(`${date}|${homeMeta.id}|${awayMeta.id}`, created);
+        touched.add(created.id);
         added += 1;
+        if (!hasScores) scheduled += 1;
+      }
+
+      if (hasScores && seasonPhase === "regular") {
+        overlayResults.push({
+          competition,
+          date,
+          time: tip,
+          homeTeamId: homeMeta.id,
+          awayTeamId: awayMeta.id,
+          homeScore,
+          awayScore,
+          played: true,
+          seasonPhase,
+        });
       }
       dayDone += 1;
     }
-    console.log(`${dayDone} results`);
+    console.log(`${dayDone} games`);
     await new Promise((r) => setTimeout(r, 80));
+  }
+
+  // Drop all remaining fake seed stubs — ESPN slate is authoritative.
+  const before = fixtures.length;
+  fixtures = fixtures.filter((f) => !String(f.id).startsWith("nba_fix_"));
+  const pruned = before - fixtures.length;
+
+  // Collapse UK/ET date-shift duplicates (same pairing + score within 36h).
+  const deduped = [];
+  const seenPair = new Map();
+  let collapsed = 0;
+  for (const f of fixtures) {
+    if (!f.played || f.homeScore == null || f.awayScore == null) {
+      deduped.push(f);
+      continue;
+    }
+    const teams = [f.homeTeamId, f.awayTeamId].sort().join("|");
+    const scoreKey = `${f.homeScore}-${f.awayScore}`;
+    const t = Date.parse(f.date);
+    const prev = seenPair.get(`${teams}|${scoreKey}`);
+    if (prev != null && Number.isFinite(t) && Math.abs(t - prev.t) <= 36 * 3600 * 1000) {
+      // Prefer the row whose id embeds the ESPN Eastern day.
+      const prevEt = String(prev.f.id).match(/^nba_result_(\d{8})_/)?.[1];
+      const curEt = String(f.id).match(/^nba_result_(\d{8})_/)?.[1];
+      const prevDate = prevEt ? `${prevEt.slice(0, 4)}-${prevEt.slice(4, 6)}-${prevEt.slice(6, 8)}` : prev.f.date;
+      const curDate = curEt ? `${curEt.slice(0, 4)}-${curEt.slice(4, 6)}-${curEt.slice(6, 8)}` : f.date;
+      const prevAlign = Math.abs(Date.parse(prevDate) - prev.t);
+      const curAlign = Math.abs(Date.parse(curDate) - t);
+      if (curAlign < prevAlign) {
+        deduped[prev.index] = f;
+        seenPair.set(`${teams}|${scoreKey}`, { f, t, index: prev.index });
+      }
+      collapsed += 1;
+      continue;
+    }
+    seenPair.set(`${teams}|${scoreKey}`, { f, t, index: deduped.length });
+    deduped.push(f);
+  }
+  fixtures = deduped.filter(Boolean);
+
+  // Rebuild overlay from surviving regular-season finals in-range.
+  overlayResults.length = 0;
+  for (const f of fixtures) {
+    if (!f.played || f.seasonPhase !== "regular") continue;
+    if (f.date < fromIso || f.date > toIso) continue;
+    if (f.homeScore == null || f.awayScore == null) continue;
+    overlayResults.push({
+      competition: f.competition,
+      date: f.date,
+      time: f.time,
+      homeTeamId: f.homeTeamId,
+      awayTeamId: f.awayTeamId,
+      homeScore: f.homeScore,
+      awayScore: f.awayScore,
+      played: true,
+      seasonPhase: "regular",
+    });
   }
 
   fixtures.sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time) || a.id.localeCompare(b.id));
@@ -296,7 +398,7 @@ async function main() {
     )}\n`,
   );
   console.log(
-    `Fixtures: +${added} new, ${updated} updated, ${tipUpdated} tip-offs, ${overlayResults.length} completed games`,
+    `Fixtures: +${added} new (${scheduled} scheduled), ${updated} updated, ${pruned} fake stubs pruned, ${collapsed} date-shift dupes collapsed, ${overlayResults.length} completed regular-season games`,
   );
 }
 

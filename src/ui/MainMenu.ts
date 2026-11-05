@@ -111,9 +111,9 @@ export class MainMenu {
     { id: "next", label: "Play Next Fixture", hint: "Formation, then a coming-soon match" },
     { id: "league-fixtures", label: "League Fixtures", hint: "East / West standings and fixtures" },
     { id: "miteam", label: "MiTeam", hint: "Build a User five from packs" },
-    { id: "quick", label: "Quick Match", hint: "Pick opposition, then a coming-soon match" },
+    { id: "bracket", label: "Bracket", hint: "Playoff bracket · ADV / WIN from standings" },
     { id: "spot", label: "Practice Court", hint: "Coming soon" },
-    { id: "predictions", label: "Bracket", hint: "Playoff bracket · ADV / WIN from standings" },
+    { id: "predictions", label: "Predictions", hint: "Pick fixtures and score weekly points" },
     { id: "database", label: "Database", hint: "NBA teams and player ratings" },
     { id: "settings", label: "Options", hint: "Match settings, controls, display, advanced" },
   ] as const;
