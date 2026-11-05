@@ -638,7 +638,7 @@ export const CLASSIC_LOCAL_PORTRAITS = {
   "Ray Allen": "/assets/portraits/classic/ray-allen.png",
   "Richard Petruska": "/assets/portraits/classic/richard-petruska.png",
   "Rick Carlisle": "/assets/portraits/classic/rick-carlisle.jpg",
-  "Rick Fox": "/assets/portraits/classic/rick-fox.jpg",
+  "Rick Fox": "/assets/portraits/classic/rick-fox.png",
   "Rick Mahorn": "/assets/portraits/classic/rick-mahorn.png",
   "Robert Horry": "/assets/portraits/classic/robert-horry.png",
   "Rodney Buford": "/assets/portraits/classic/rodney-buford.png",
