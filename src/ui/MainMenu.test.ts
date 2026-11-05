@@ -113,6 +113,53 @@ describe("MainMenu LEAGUE mode button", () => {
     expect(menu.root.querySelector('[data-mode="PYRAMID"]')).toBeTruthy();
   });
 
+  it("renders the fixture tip-off time from the listed match (not a hard-coded 15:00)", () => {
+    const home = team("home", "Home", "HOM");
+    const away = team("away", "Away", "AWY");
+    const ground = stadium("ground", "Home Park");
+    const fixture = {
+      id: "f-late",
+      homeTeamId: home.id,
+      awayTeamId: away.id,
+      venueId: ground.id,
+      competition: "Eastern Conference",
+      date: "2026-11-05",
+      time: "00:30",
+      played: false,
+    } as FixtureRecord;
+    const db = {
+      fixtures: [fixture],
+      teams: new Map([
+        [home.id, home],
+        [away.id, away],
+      ]),
+    } as unknown as GameDatabase;
+    const host = document.createElement("div");
+    const menu = new MainMenu(host);
+    menu.render(
+      fixture,
+      home,
+      away,
+      {
+        timeOfDay: "EVENING",
+        gameplayMode: "BASKETBALL",
+        playMode: "BASKETBALL",
+        showLeague: false,
+        kickOffTime: "00:30",
+        matchDuration: 600,
+        kitChoice: "home",
+      },
+      { team: home, homeGround: ground, matchGround: ground, teams: [home, away] },
+      db,
+    );
+    const meta = menu.root.querySelector(".fixture-detail-row .meta")?.textContent ?? "";
+    expect(meta).toContain("00:30");
+    expect(meta).not.toContain("15:00");
+    expect(fixture.time).toBe("00:30");
+    menu.dispose();
+    host.remove();
+  });
+
   it("renders next fixture date, tip-off time, and countdown in the Next Fixture panel", () => {
     const menu = paint(false);
     const detail = menu.root.querySelector(".fixture-detail-row");

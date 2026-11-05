@@ -9,7 +9,7 @@ import { GameMode } from "./GameMode";
 import { SaveManager } from "./SaveManager";
 import { isProductMode, type ProductMode } from "./ProductMode";
 import { SceneManager } from "./SceneManager";
-import { AUTOPLAY_IDLE_SECONDS, AUTOPLAY_NEXT_MATCH_HOLD, DEFAULT_KICK_OFF_TIME, DEFAULT_TEAM_ID, HALF_LENGTH, HALF_WIDTH, PRE_MATCH_CARD_SECONDS, SIM_BANNER_DELAY_SECONDS, clampMatchDuration, kickOffRemainingSeconds } from "../football/constants";
+import { AUTOPLAY_IDLE_SECONDS, AUTOPLAY_NEXT_MATCH_HOLD, DEFAULT_KICK_OFF_TIME, DEFAULT_TEAM_ID, HALF_LENGTH, HALF_WIDTH, PRE_MATCH_CARD_SECONDS, SIM_BANNER_DELAY_SECONDS, clampMatchDuration, kickOffRemainingSeconds, normalizeKickOffTime } from "../football/constants";
 import { MatchCamera } from "../football/camera/MatchCamera";
 import { InputManager } from "../football/controls/InputManager";
 import { Match } from "../football/Match";
@@ -729,8 +729,8 @@ export class Game {
   private paintMainMenu(): void {
     const f = this.listedFixture();
     const saved = this.save.data.settings;
-    saved.kickOffTime = DEFAULT_KICK_OFF_TIME;
-    f.time = DEFAULT_KICK_OFF_TIME;
+    // Use the fixture's real tip-off — never overwrite `f.time` (that corrupted League Fixtures).
+    const tipOff = normalizeKickOffTime(f.time || saved.kickOffTime || DEFAULT_KICK_OFF_TIME);
     const club = this.db.getTeam(this.defaultClubId());
     this.save.data.predictions = ensurePredictionWeek(this.save.data.predictions, this.db.fixtures);
     this.save.data.predictions = ensurePredictionWeek(
@@ -744,7 +744,7 @@ export class Game {
       gameplayMode: saved.gameplayMode,
       playMode: saved.gameplayMode,
       showLeague: this.hasUserLeagueProgress(),
-      kickOffTime: saved.kickOffTime,
+      kickOffTime: tipOff,
       matchDuration: clampMatchDuration(saved.matchDuration),
       kitChoice: saved.menuKitChoice === "away" ? "away" : "home",
     }, {

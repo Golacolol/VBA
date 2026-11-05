@@ -137,7 +137,7 @@ export class MainMenu {
     this.root.hidden = false;
     this.timeOfDay = view.timeOfDay;
     this.gameplayMode = view.gameplayMode;
-    this.kickOffTime = DEFAULT_KICK_OFF_TIME;
+    this.kickOffTime = view.kickOffTime || fixture.time || DEFAULT_KICK_OFF_TIME;
     this.matchDuration = view.matchDuration;
     this.kitChoice = view.kitChoice === "away" ? "away" : "home";
     const secs = Math.max(0, Math.ceil(this.countdown));
@@ -220,8 +220,8 @@ export class MainMenu {
             <div class="menu-fixture fixture-match">
               <div class="fixture-match-main">
                 <div class="fixture-detail-row">
-                  <span class="meta">${formatFixtureDateUk(fixture.date, view.kickOffTime || DEFAULT_KICK_OFF_TIME)} · ${formatFixtureTipOffUk(fixture.date, view.kickOffTime || DEFAULT_KICK_OFF_TIME)} · ${club.matchGround.name}</span>
-                  ${kickCountdownBlockHtml(fixture.date, view.kickOffTime || DEFAULT_KICK_OFF_TIME)}
+                  <span class="meta">${formatFixtureDateUk(fixture.date, view.kickOffTime || fixture.time || DEFAULT_KICK_OFF_TIME)} · ${formatFixtureTipOffUk(fixture.date, view.kickOffTime || fixture.time || DEFAULT_KICK_OFF_TIME)} · ${club.matchGround.name}</span>
+                  ${kickCountdownBlockHtml(fixture.date, view.kickOffTime || fixture.time || DEFAULT_KICK_OFF_TIME)}
                 </div>
                 <div class="fixture-teams-row">
                   <button type="button" class="fixture-copy" data-id="next" aria-label="Play next fixture ${home.abbreviation} vs ${away.abbreviation}">
