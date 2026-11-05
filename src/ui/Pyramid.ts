@@ -307,10 +307,13 @@ export class PyramidHub {
 
   /** Kit-back badge only (surname over shirt #) — portrait stays separate. */
   private kitBadgeHtml(entry: PyramidEntry): string {
-    // Include jersey 0 (Westbrook / Arenas); `> 0` wrongly fell back to rank.
-    const shirt = Number.isFinite(entry.shirtNumber) ? entry.shirtNumber : entry.rank;
+    // Coerce stringy shirt numbers; include 0 (Westbrook / Arenas).
+    // Do not pass `id` — speculative portrait URLs would replace the kit-back
+    // digit with a headshot and make the jersey # ambiguous (e.g. Wemby #1).
+    const raw = Number(entry.shirtNumber);
+    const shirt = Number.isFinite(raw) ? raw : entry.rank;
     return kitMarkerHtml(
-      { id: entry.playerId, name: entry.name, displayName: entry.name },
+      { name: entry.name, displayName: entry.name },
       shirt,
       {
         primaryColor: entry.color,
@@ -1234,7 +1237,17 @@ export class PyramidHub {
       const n = Number(t.closest<HTMLElement>("[data-jersey]")?.getAttribute("data-jersey"));
       const playerId = t.closest<HTMLElement>("[data-player-id]")?.getAttribute("data-player-id");
       if (!Number.isInteger(n) || n < 0 || n > 99 || !playerId) return;
-      const jerseyChoice = { ...(this.state().jerseyChoice ?? {}), [String(n)]: playerId };
+      const byNum = this.jerseyCandidatesByNumber();
+      const jerseyChoice: Record<string, string> = { ...(this.state().jerseyChoice ?? {}) };
+      // One grid seat per pick — drop this player from other numbers they do not wear.
+      for (const [key, id] of Object.entries(jerseyChoice)) {
+        if (id !== playerId) continue;
+        const other = Number(key);
+        if (other === n) continue;
+        const wears = (byNum.get(other) ?? []).some((c) => c.playerId === playerId);
+        if (!wears) delete jerseyChoice[key];
+      }
+      jerseyChoice[String(n)] = playerId;
       this.jerseyPick = null;
       this.persist({ jerseyChoice });
       this.render();
@@ -1474,6 +1487,7 @@ export class PyramidHub {
         const kitEntry = { ...entry, shirtNumber: n };
         cells.push(`
           <button type="button" class="pyramid-jersey-cell is-filled" data-pyramid="jersey-open" data-jersey="${n}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(`${entry.name} · jersey ${n} · tap to change`)}>
+            <span class="pyramid-jersey-num" aria-hidden="true">${n}</span>
             <div class="pyramid-cell-kit-row">
               <div class="pyramid-cell-kit">${this.kitBadgeHtml(kitEntry)}</div>
             </div>

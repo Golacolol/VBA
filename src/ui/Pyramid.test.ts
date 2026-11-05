@@ -86,6 +86,12 @@ describe("PyramidHub", () => {
     expect(hub.root.querySelector(".pyramid-jersey-cell .pyramid-move")).toBeNull();
     expect(hub.root.querySelector(".pyramid-pool")).toBeNull();
 
+    const cells = [...hub.root.querySelectorAll<HTMLElement>(".pyramid-jersey-cell")];
+    expect(cells[1]?.getAttribute("data-player-id")).toBe("espn_5104157"); // Wemby #1
+    expect(cells[2]?.getAttribute("data-player-id")).not.toBe("espn_5104157");
+    expect(cells[1]?.querySelector(".pyramid-jersey-num")?.textContent).toBe("1");
+    expect(cells[1]?.querySelector(".portrait-badge-kit .num")?.textContent).toBe("1");
+
     const filled = hub.root.querySelector<HTMLElement>(".pyramid-jersey-cell.is-filled");
     expect(filled?.querySelector(".pyramid-cell-kit")).toBeTruthy();
     expect(filled?.querySelector(".pyramid-cell-photo")).toBeTruthy();
