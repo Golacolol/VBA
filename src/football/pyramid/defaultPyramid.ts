@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 15;
+export const PYRAMID_SEED_VERSION = 16;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -131,13 +131,13 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_sas_1998_99_p04", // 12 Tim Duncan (95)
   "classic_mil_2020_21_p03", // 13 Giannis Antetokounmpo (94)
   "classic_gsw_2016_17_p03", // 14 Kevin Durant (94)
-  "classic_chi_2010_11_p01", // 15 Derrick Rose (94) — 2010/11 MVP
-  "classic_cin_1963_64_p01", // 16 Oscar Robertson (94)
-  "classic_lal_1971_72_p01", // 17 Jerry West (93)
-  "classic_den_2022_23_p05", // 18 Nikola Jokic (93 — active career)
-  "classic_phi_1982_83_p03", // 19 Julius Erving (93)
-  "classic_phi_1982_83_p05", // 20 Moses Malone (93)
-  "classic_bos_2007_08_p04", // 21 Kevin Garnett (93)
+  "classic_cin_1963_64_p01", // 15 Oscar Robertson (94)
+  "classic_lal_1971_72_p01", // 16 Jerry West (93)
+  "classic_den_2022_23_p05", // 17 Nikola Jokic (93 — active career)
+  "classic_phi_1982_83_p03", // 18 Julius Erving (93)
+  "classic_phi_1982_83_p05", // 19 Moses Malone (93)
+  "classic_bos_2007_08_p04", // 20 Kevin Garnett (93)
+  "classic_chi_2010_11_p01", // 21 Derrick Rose (92) — 2010/11 MVP
   "classic_lal_1953_54_p05", // 22 George Mikan (92) — Minneapolis dynasty
   "classic_dal_2010_11_p04", // 23 Dirk Nowitzki (92)
   "classic_mia_2012_13_p02", // 24 Dwyane Wade (92)

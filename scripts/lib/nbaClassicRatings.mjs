@@ -44,8 +44,8 @@ export const CLASSIC_PEAK_OVR = {
   "Chris Paul": 91,
   "Kawhi Leonard": 92,
   "Jason Kidd": 90,
-  // 2010/11 Bulls — Rose MVP season
-  "Derrick Rose": 94,
+  // 2010/11 Bulls — Rose MVP season (peak below Durant/Giannis band)
+  "Derrick Rose": 92,
   "Joakim Noah": 88,
   "Luol Deng": 86,
   "Carlos Boozer": 85,
