@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 18;
+export const PYRAMID_SEED_VERSION = 19;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -137,19 +137,19 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_phi_1982_83_p03", // 18 Julius Erving (93)
   "classic_phi_1982_83_p05", // 19 Moses Malone (93)
   "classic_bos_2007_08_p04", // 20 Kevin Garnett (93)
-  "classic_chi_2010_11_p01", // 21 Derrick Rose (92) — 2010/11 MVP
+  "classic_det_1988_89_p01", // 21 Isiah Thomas (91) — takes Rose's prior slot
   "classic_lal_1953_54_p05", // 22 George Mikan (92) — Minneapolis dynasty
   "classic_dal_2010_11_p04", // 23 Dirk Nowitzki (92)
-  "classic_mia_2012_13_p02", // 24 Dwyane Wade (92)
+  "classic_phi_2000_01_p01", // 24 Allen Iverson (90)
   "classic_phx_1992_93_p04", // 25 Charles Barkley (92)
-  "classic_det_1988_89_p01", // 26 Isiah Thomas (91)
+  "classic_mia_2012_13_p02", // 26 Dwyane Wade (92)
   "classic_uta_1997_98_p04", // 27 Karl Malone (92)
   "classic_sas_1998_99_p05", // 28 David Robinson (92)
   "classic_uta_1997_98_p01", // 29 John Stockton (91)
   "classic_chi_1995_96_p03", // 30 Scottie Pippen (93)
   "classic_sas_2013_14_p03", // 31 Kawhi Leonard (92)
-  "classic_lal_1971_72_p11", // 32 Elgin Baylor (92)
-  "classic_phi_2000_01_p01", // 33 Allen Iverson (90)
+  "classic_chi_2010_11_p01", // 32 Derrick Rose (92) — swapped with Baylor
+  "classic_lal_1971_72_p11", // 33 Elgin Baylor (92)
   "classic_nyk_1993_94_p05", // 34 Patrick Ewing (90)
   "classic_okc_1995_96_p01", // 35 Gary Payton (90)
   "classic_phx_2004_05_p01", // 36 Steve Nash (91)
