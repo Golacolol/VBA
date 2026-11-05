@@ -2635,9 +2635,21 @@ select.formation-chip.formation-select option {
 }
 .player-card {
   --card-accent: #e8a84a;
-  /* Cap PNG / hex so header + kit always fit (narrow mobile / Firefox). */
-  --photo-size: min(11.5rem, 44cqi, 30cqh);
-  --hex-size: min(148px, 52cqi, 22cqh);
+  /* PNG / hex stay large; chrome (team, kit name/number) scales with the card. */
+  --photo-size: min(11.5rem, 48cqi, 34cqh);
+  --hex-size: min(148px, 70cqi, 34cqh);
+  --card-pad-y: clamp(3px, 1.4cqh, 7px);
+  --card-pad-x: clamp(5px, 2.4cqi, 8px);
+  --card-gap: clamp(1px, 0.55cqh, 3px);
+  --team-name-size: clamp(12px, min(7.7cqi, 5.4cqh), 24px);
+  --meta-label-size: clamp(7px, min(2.9cqi, 2.1cqh), 9px);
+  --pos-code-size: clamp(10px, min(4.8cqi, 3.4cqh), 15px);
+  --kit-name-size: clamp(9px, min(4.5cqi, 3.2cqh), 14px);
+  --kit-num-size: clamp(18px, min(11cqi, 7.6cqh), 34px);
+  --kit-name-band: clamp(10px, min(5.1cqi, 3.6cqh), 16px);
+  --kit-pad-y: clamp(3px, 1.1cqh, 5px);
+  --kit-pad-x: clamp(5px, 2.4cqi, 8px);
+  --ovr-size: clamp(14px, min(8.3cqi, 5.9cqh), 26px);
   position: relative;
   width: min(100%, var(--sports-card-w, 312px));
   max-width: var(--sports-card-w, 312px);
@@ -2649,21 +2661,6 @@ select.formation-chip.formation-select option {
   perspective: 1100px;
   container-type: size;
   container-name: sports-card;
-}
-/* Very short / narrow cards: tighten chrome so kit never drops off. */
-@container sports-card (max-height: 380px), sports-card (max-width: 240px) {
-  .player-card-front {
-    --photo-size: min(9.5rem, 46cqi, 28cqh);
-    --hex-size: min(120px, 48cqi, 20cqh);
-    padding: 5px 6px 4px;
-    gap: 1px;
-  }
-  .player-card-front .player-card-shirt {
-    padding: 4px 6px;
-  }
-  .player-card-front .player-card-shirt-num {
-    font-size: 28px;
-  }
 }
 .player-card-select {
   width: min(100%, var(--sports-card-w, 312px));
@@ -2694,8 +2691,8 @@ select.formation-chip.formation-select option {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 3px;
-  padding: 7px 8px 5px;
+  gap: var(--card-gap, 3px);
+  padding: var(--card-pad-y, 7px) var(--card-pad-x, 8px) clamp(3px, 1.1cqh, 5px);
   border-radius: 12px;
   border: 2px solid rgba(197, 165, 114, 0.75);
   background:
@@ -2710,15 +2707,15 @@ select.formation-chip.formation-select option {
   box-sizing: border-box;
   min-height: 0;
 }
-/* Front: header + kit are fixed rows; PNG + hex share leftover height (mobile-safe). */
+/* Front: scaled header/kit rows; PNG + hex share leftover height equally. */
 .player-card-front {
   z-index: 1;
   display: grid;
-  grid-template-rows: auto minmax(0, 1.15fr) minmax(0, 0.9fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr) auto;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
   justify-items: center;
-  gap: 2px;
+  gap: var(--card-gap, 2px);
   min-height: 0;
 }
 .player-card-front > .player-card-top {
@@ -2753,7 +2750,7 @@ select.formation-chip.formation-select option {
   margin: 0;
   font-style: normal;
   font-family: "Oswald", "Arial Narrow", sans-serif;
-  font-size: 9px;
+  font-size: var(--meta-label-size, 9px);
   letter-spacing: 0.14em;
   opacity: 0.65;
   font-weight: 700;
@@ -2771,13 +2768,13 @@ select.formation-chip.formation-select option {
   align-self: end;
   display: block;
   font-family: "Oswald", "Arial Narrow", sans-serif;
-  font-size: 15px;
+  font-size: var(--pos-code-size, 15px);
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--gold);
   border: 1px solid rgba(197, 165, 114, 0.45);
   border-radius: 4px;
-  padding: 2px 7px;
+  padding: clamp(1px, 0.4cqh, 2px) clamp(4px, 2cqi, 7px);
   line-height: 1.1;
   box-sizing: border-box;
 }
@@ -2796,7 +2793,7 @@ select.formation-chip.formation-select option {
   width: 100%;
   /* Distinct from Oswald kit/OVR type — condensed sports display on the front. */
   font-family: "Bebas Neue", "Arial Narrow", Impact, sans-serif;
-  font-size: 24px;
+  font-size: var(--team-name-size, 24px);
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -2877,7 +2874,7 @@ select.formation-chip.formation-select option {
   justify-self: center;
   align-self: end;
   font-family: "Oswald", "Arial Narrow", Impact, sans-serif;
-  font-size: 26px;
+  font-size: var(--ovr-size, 26px);
   font-weight: 800;
   line-height: 1;
   color: var(--paper);
@@ -3050,12 +3047,11 @@ select.formation-chip.formation-select option {
   padding: 4px;
 }
 .player-card-shirt {
-  --kit-name-band: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: clamp(1px, 0.4cqh, 2px);
   font-family: "Oswald", "Arial Narrow", Impact, sans-serif;
   text-transform: uppercase;
   text-align: center;
@@ -3065,7 +3061,7 @@ select.formation-chip.formation-select option {
   overflow: hidden;
   border-radius: 5px;
   /* Even inset — surname reads smaller than the shirt number. */
-  padding: 5px 8px;
+  padding: var(--kit-pad-y, 5px) var(--kit-pad-x, 8px);
   box-sizing: border-box;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -3073,7 +3069,7 @@ select.formation-chip.formation-select option {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: var(--kit-name-size, 14px);
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1;
@@ -3094,7 +3090,7 @@ select.formation-chip.formation-select option {
 .player-card-shirt-num {
   display: block;
   flex: 0 0 auto;
-  font-size: 34px;
+  font-size: var(--kit-num-size, 34px);
   font-weight: 800;
   line-height: 0.88;
   letter-spacing: -0.03em;
@@ -3106,18 +3102,18 @@ select.formation-chip.formation-select option {
 }
 /* Back head is a short strip beside POS/OVR — even inset above name / below number. */
 .player-card-back-head .player-card-shirt-back {
-  --kit-name-band: 14px;
-  padding: 4px 6px;
+  --kit-name-band: clamp(10px, min(4.5cqi, 3.2cqh), 14px);
+  --kit-name-size: clamp(9px, min(4.5cqi, 3.2cqh), 14px);
+  --kit-num-size: clamp(16px, min(7.7cqi, 5.5cqh), 24px);
+  padding: clamp(2px, 0.8cqh, 4px) clamp(4px, 1.8cqi, 6px);
   gap: 2px;
   justify-content: center;
 }
 .player-card-shirt-back .player-card-shirt-name {
-  font-size: 14px;
   letter-spacing: 0.06em;
   line-height: 1;
 }
 .player-card-shirt-back .player-card-shirt-num {
-  font-size: 24px;
   line-height: 1;
   padding-bottom: 0;
 }
@@ -6752,19 +6748,15 @@ button.pred-side:hover {
 .miteam-reveal .player-card-shirt,
 .miteam-pack-under .player-card-shirt {
   /* Even inset so name + number sit centred in the kit panel (not bottom-heavy). */
-  padding: 6px 8px;
   justify-content: center;
   align-items: center;
-  gap: 1px;
 }
 .miteam-reveal .player-card-shirt-name,
 .miteam-pack-under .player-card-shirt-name {
-  font-size: 13px;
   align-self: center;
 }
 .miteam-reveal .player-card-shirt-num,
 .miteam-pack-under .player-card-shirt-num {
-  font-size: 30px;
   line-height: 0.85;
   align-self: center;
   text-align: center;
