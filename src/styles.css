@@ -2635,10 +2635,9 @@ select.formation-chip.formation-select option {
 }
 .player-card {
   --card-accent: #e8a84a;
-  /* Photo / hex against the card box (Firefox-safe; % flex widths collapse).
-     Hex leaves room for the kit panel under the PNG (~8rem header+kit+gaps). */
-  --photo-size: min(11.5rem, 48cqi, 34cqh);
-  --hex-size: max(100px, min(148px, 58cqi, calc(100cqh - var(--photo-size) - 8rem)));
+  /* Cap PNG / hex so header + kit always fit (narrow mobile / Firefox). */
+  --photo-size: min(11.5rem, 44cqi, 30cqh);
+  --hex-size: min(148px, 52cqi, 22cqh);
   position: relative;
   width: min(100%, var(--sports-card-w, 312px));
   max-width: var(--sports-card-w, 312px);
@@ -2650,6 +2649,21 @@ select.formation-chip.formation-select option {
   perspective: 1100px;
   container-type: size;
   container-name: sports-card;
+}
+/* Very short / narrow cards: tighten chrome so kit never drops off. */
+@container sports-card (max-height: 380px), sports-card (max-width: 240px) {
+  .player-card-front {
+    --photo-size: min(9.5rem, 46cqi, 28cqh);
+    --hex-size: min(120px, 48cqi, 20cqh);
+    padding: 5px 6px 4px;
+    gap: 1px;
+  }
+  .player-card-front .player-card-shirt {
+    padding: 4px 6px;
+  }
+  .player-card-front .player-card-shirt-num {
+    font-size: 28px;
+  }
 }
 .player-card-select {
   width: min(100%, var(--sports-card-w, 312px));
@@ -2694,9 +2708,28 @@ select.formation-chip.formation-select option {
   -webkit-backface-visibility: hidden;
   overflow: hidden;
   box-sizing: border-box;
+  min-height: 0;
 }
+/* Front: header + kit are fixed rows; PNG + hex share leftover height (mobile-safe). */
 .player-card-front {
   z-index: 1;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1.15fr) minmax(0, 0.9fr) auto;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 2px;
+  min-height: 0;
+}
+.player-card-front > .player-card-top {
+  justify-self: stretch;
+  width: 100%;
+}
+.player-card-front > .player-card-shirt {
+  justify-self: stretch;
+  width: 100%;
+  margin-top: 0;
+  align-self: end;
 }
 .player-card-back {
   transform: rotateY(180deg);
@@ -2903,14 +2936,15 @@ select.formation-chip.formation-select option {
   object-fit: contain;
   object-position: center center;
 }
-/* Emblem slot: crest + PNG share flex space (max 48%) so the hex isn’t crowded. */
-.player-card-front .player-card-photo.has-photo,
+/* Crest / preview slots — clamp to the front-face photo row on short cards. */
 .player-card-front .player-card-photo.has-crest,
 .player-card-edit-portrait-preview .player-card-photo.has-crest {
-  flex: 1 1 0;
+  flex: unset;
   min-width: 0;
   min-height: 0;
-  max-height: 48%;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
   margin: 0 auto;
   align-self: center;
   overflow: hidden;
@@ -2918,21 +2952,21 @@ select.formation-chip.formation-select option {
   aspect-ratio: 1 / 1;
 }
 /*
- * PNG gold circle: explicit width + height from card container units.
- * Firefox collapses flex items sized with % width + height:auto + aspect-ratio
- * (portrait ends up tiny while the fixed hex looks huge).
+ * PNG gold circle: size from card units, then clamp to the grid row so narrow
+ * mobile / Firefox never push the kit panel off-card.
  */
 .player-card-front .player-card-photo.has-photo {
   position: relative;
-  flex: 0 0 auto;
-  width: var(--photo-size);
-  height: var(--photo-size);
+  flex: unset;
+  width: min(var(--photo-size), 100%);
+  height: auto;
   max-width: 100%;
-  max-height: none;
+  max-height: 100%;
   min-width: 0;
   min-height: 0;
   aspect-ratio: 1 / 1;
   align-self: center;
+  justify-self: center;
   border-radius: 50%;
   border: 3px solid var(--gold);
   box-shadow:
@@ -3035,10 +3069,6 @@ select.formation-chip.formation-select option {
   box-sizing: border-box;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
-/* Pin kit block to the bottom of the front face so leftover space isn’t a dead band. */
-.player-card-front > .player-card-shirt {
-  margin-top: auto;
-}
 .player-card-shirt-name {
   display: flex;
   align-items: center;
@@ -3093,21 +3123,27 @@ select.formation-chip.formation-select option {
 }
 .player-card-front .profile-stats {
   margin: 0 auto;
-  flex: 0 0 auto;
-  /* Beat inline width/height from profileStatsBlock so Firefox can shrink the hex. */
-  width: var(--hex-size, 148px) !important;
-  height: var(--hex-size, 148px) !important;
-  max-width: var(--hex-size, 148px);
-  max-height: var(--hex-size, 148px);
+  flex: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Beat inline size from profileStatsBlock; clamp to hex row on short cards. */
+  width: min(var(--hex-size, 148px), 100%) !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+  max-width: min(var(--hex-size, 148px), 100%);
+  max-height: 100%;
   min-width: 0;
   min-height: 0;
+  align-self: center;
+  justify-self: center;
 }
 .player-card-front .profile-hex-svg,
 .player-card-front .profile-full-svg {
-  width: var(--hex-size, 148px) !important;
-  height: var(--hex-size, 148px) !important;
-  max-width: var(--hex-size, 148px);
-  max-height: var(--hex-size, 148px);
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
 }
 .player-card-flip-nav {
   display: flex;
@@ -6661,12 +6697,11 @@ button.pred-side:hover {
 }
 .miteam-reveal .player-card-front .player-card-photo.has-photo,
 .miteam-pack-under .player-card-front .player-card-photo.has-photo {
-  /* Keep definite square sizing — do not revert to flex-grow + width:auto (Firefox collapses). */
-  width: var(--photo-size);
-  height: var(--photo-size);
+  width: min(var(--photo-size), 100%);
+  height: auto;
   max-width: 100%;
-  max-height: none;
-  flex: 0 0 auto;
+  max-height: 100%;
+  flex: unset;
   min-width: 0;
   min-height: 0;
   margin: 0 auto;
@@ -6678,8 +6713,8 @@ button.pred-side:hover {
   width: 100%;
   max-width: 100%;
   height: auto;
-  max-height: 48%;
-  flex: 1 1 0;
+  max-height: 100%;
+  flex: unset;
   min-width: 0;
   min-height: 0;
   margin: 0 auto;
@@ -6704,7 +6739,6 @@ button.pred-side:hover {
 .miteam-reveal .player-card-front .profile-stats,
 .miteam-pack-under .player-card-front .profile-stats,
 .player-pitch-select .player-card-front .profile-stats {
-  flex: 0 0 auto;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -6717,8 +6751,6 @@ button.pred-side:hover {
 }
 .miteam-reveal .player-card-shirt,
 .miteam-pack-under .player-card-shirt {
-  flex: 0 0 auto;
-  margin-top: auto;
   /* Even inset so name + number sit centred in the kit panel (not bottom-heavy). */
   padding: 6px 8px;
   justify-content: center;
