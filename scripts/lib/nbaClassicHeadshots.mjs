@@ -549,7 +549,7 @@ export const CLASSIC_LOCAL_PORTRAITS = {
   "Etan Thomas": "/assets/portraits/classic/etan-thomas.jpg",
   "Fennis Dembo": "/assets/portraits/classic/fennis-dembo.png",
   "Frank Brickowski": "/assets/portraits/classic/frank-brickowski.png",
-  "Gail Goodrich": "/assets/portraits/classic/gail-goodrich.jpg",
+  "Gail Goodrich": "/assets/portraits/classic/gail-goodrich.png",
   "George Lynch": "/assets/portraits/classic/george-lynch.png",
   "Grant Long": "/assets/portraits/classic/grant-long.png",
   "Greg Anthony": "/assets/portraits/classic/greg-anthony.png",
