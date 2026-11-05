@@ -351,7 +351,7 @@ export const CLASSIC_PEAK_OVR = {
   "Jared Dudley": 76,
   "Caron Butler": 84,
   // 2007/08 Wizards (Agent Zero + Swaggy P)
-  "Gilbert Arenas": 89,
+  "Gilbert Arenas": 88,
   "DeShawn Stevenson": 76,
   "Brendan Haywood": 78,
   "Antonio Daniels": 76,

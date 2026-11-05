@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 16;
+export const PYRAMID_SEED_VERSION = 18;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -142,10 +142,10 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_dal_2010_11_p04", // 23 Dirk Nowitzki (92)
   "classic_mia_2012_13_p02", // 24 Dwyane Wade (92)
   "classic_phx_1992_93_p04", // 25 Charles Barkley (92)
-  "classic_uta_1997_98_p04", // 26 Karl Malone (92)
-  "classic_sas_1998_99_p05", // 27 David Robinson (92)
-  "classic_uta_1997_98_p01", // 28 John Stockton (91)
-  "classic_det_1988_89_p01", // 29 Isiah Thomas (91)
+  "classic_det_1988_89_p01", // 26 Isiah Thomas (91)
+  "classic_uta_1997_98_p04", // 27 Karl Malone (92)
+  "classic_sas_1998_99_p05", // 28 David Robinson (92)
+  "classic_uta_1997_98_p01", // 29 John Stockton (91)
   "classic_chi_1995_96_p03", // 30 Scottie Pippen (93)
   "classic_sas_2013_14_p03", // 31 Kawhi Leonard (92)
   "classic_lal_1971_72_p11", // 32 Elgin Baylor (92)
@@ -188,21 +188,21 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "classic_lal_2019_20_p04", // 59 Anthony Davis (90) — 2019/20 peak form
   // Classic 89s (Beal dropped to 86 — not this band)
   "classic_atl_1990_91_p03", // 59 Dominique Wilkins (89)
-  "classic_was_2007_08_p01", // 60 Gilbert Arenas (89)
-  "classic_was_2016_17_p01", // 61 John Wall (89)
-  "classic_gsw_2016_17_p02", // 62 Klay Thompson (89)
-  "classic_sas_2013_14_p02", // 63 Manu Ginobili (89)
-  "classic_bos_2007_08_p03", // 64 Paul Pierce (89)
-  "classic_mia_2012_13_p06", // 65 Ray Allen (89)
-  "classic_ind_1999_00_p02", // 66 Reggie Miller (89)
-  "classic_okc_2011_12_p01", // 67 Russell Westbrook (89)
+  "classic_was_2016_17_p01", // 60 John Wall (89)
+  "classic_gsw_2016_17_p02", // 61 Klay Thompson (89)
+  "classic_sas_2013_14_p02", // 62 Manu Ginobili (89)
+  "classic_bos_2007_08_p03", // 63 Paul Pierce (89)
+  "classic_mia_2012_13_p06", // 64 Ray Allen (89)
+  "classic_ind_1999_00_p02", // 65 Reggie Miller (89)
+  "classic_okc_2011_12_p01", // 66 Russell Westbrook (89)
   // 88 band
-  "classic_phx_2004_05_p05", // 68 Amar'e Stoudemire (88)
-  "classic_det_2003_04_p01", // 69 Chauncey Billups (88)
-  "classic_mia_2012_13_p05", // 70 Chris Bosh (88)
-  "classic_chi_1995_96_p04", // 71 Dennis Rodman (88)
-  "espn_3136193", // 72 Devin Booker (88)
-  "espn_3908809", // 73 Donovan Mitchell (88)
+  "classic_phx_2004_05_p05", // 67 Amar'e Stoudemire (88)
+  "classic_det_2003_04_p01", // 68 Chauncey Billups (88)
+  "classic_mia_2012_13_p05", // 69 Chris Bosh (88)
+  "classic_chi_1995_96_p04", // 70 Dennis Rodman (88)
+  "espn_3136193", // 71 Devin Booker (88)
+  "espn_3908809", // 72 Donovan Mitchell (88)
+  "classic_was_2007_08_p01", // 73 Gilbert Arenas (88)
   "espn_4065648", // 74 Jayson Tatum (88)
   "classic_cin_1963_64_p10", // 75 Jerry Lucas (88)
   "classic_cle_2015_16_p04", // 76 Kevin Love (88)
