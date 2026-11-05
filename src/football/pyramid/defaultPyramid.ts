@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 14;
+export const PYRAMID_SEED_VERSION = 15;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -131,42 +131,42 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_sas_1998_99_p04", // 12 Tim Duncan (95)
   "classic_mil_2020_21_p03", // 13 Giannis Antetokounmpo (94)
   "classic_gsw_2016_17_p03", // 14 Kevin Durant (94)
-  "classic_cin_1963_64_p01", // 15 Oscar Robertson (94)
-  "classic_lal_1971_72_p01", // 16 Jerry West (93)
-  "classic_den_2022_23_p05", // 17 Nikola Jokic (93 — active career)
-  "classic_phi_1982_83_p03", // 18 Julius Erving (93)
-  "classic_phi_1982_83_p05", // 19 Moses Malone (93)
-  "classic_bos_2007_08_p04", // 20 Kevin Garnett (93)
-  "classic_lal_1953_54_p05", // 21 George Mikan (92) — Minneapolis dynasty
-  "classic_dal_2010_11_p04", // 22 Dirk Nowitzki (92)
-  "classic_mia_2012_13_p02", // 23 Dwyane Wade (92)
-  "classic_phx_1992_93_p04", // 24 Charles Barkley (92)
-  "classic_uta_1997_98_p04", // 25 Karl Malone (92)
-  "classic_sas_1998_99_p05", // 26 David Robinson (92)
-  "classic_uta_1997_98_p01", // 27 John Stockton (91)
-  "classic_det_1988_89_p01", // 28 Isiah Thomas (91)
-  "classic_chi_1995_96_p03", // 29 Scottie Pippen (93)
-  "classic_sas_2013_14_p03", // 30 Kawhi Leonard (92)
-  "classic_lal_1971_72_p11", // 31 Elgin Baylor (92)
-  "classic_phi_2000_01_p01", // 32 Allen Iverson (90)
-  "classic_nyk_1993_94_p05", // 33 Patrick Ewing (90)
-  "classic_okc_1995_96_p01", // 34 Gary Payton (90)
-  "classic_phx_2004_05_p01", // 35 Steve Nash (91)
-  "classic_hou_1994_95_p02", // 36 Clyde Drexler (90)
-  "classic_lal_1986_87_p03", // 37 James Worthy (90)
-  "classic_bos_1985_86_p04", // 38 Kevin McHale (90)
-  "classic_hou_2006_07_p02", // 39 Tracy McGrady (90)
-  "classic_bos_1964_65_p03", // 40 John Havlicek (91)
-  "classic_orl_1994_95_p01", // 41 Anfernee Hardaway (91)
-  "classic_hou_2018_19_p01", // 42 Chris Paul (91)
-  "classic_sac_2001_02_p04", // 43 Chris Webber (91)
-  "classic_gsw_2016_17_p04", // 44 Draymond Green (90) — peak two-way / dynasty anchor
-  "classic_det_1996_97_p03", // 45 Grant Hill (91)
-  "classic_hou_2018_19_p02", // 46 James Harden (90)
-  "classic_cle_2015_16_p01", // 47 Kyrie Irving (91)
-  "classic_uta_1976_77_p02", // 48 Pete Maravich (91)
-  "classic_cha_1992_93_p05", // 49 Alonzo Mourning (90)
-  "classic_lac_2013_14_p04", // 50 Blake Griffin (90)
+  "classic_chi_2010_11_p01", // 15 Derrick Rose (94) — 2010/11 MVP
+  "classic_cin_1963_64_p01", // 16 Oscar Robertson (94)
+  "classic_lal_1971_72_p01", // 17 Jerry West (93)
+  "classic_den_2022_23_p05", // 18 Nikola Jokic (93 — active career)
+  "classic_phi_1982_83_p03", // 19 Julius Erving (93)
+  "classic_phi_1982_83_p05", // 20 Moses Malone (93)
+  "classic_bos_2007_08_p04", // 21 Kevin Garnett (93)
+  "classic_lal_1953_54_p05", // 22 George Mikan (92) — Minneapolis dynasty
+  "classic_dal_2010_11_p04", // 23 Dirk Nowitzki (92)
+  "classic_mia_2012_13_p02", // 24 Dwyane Wade (92)
+  "classic_phx_1992_93_p04", // 25 Charles Barkley (92)
+  "classic_uta_1997_98_p04", // 26 Karl Malone (92)
+  "classic_sas_1998_99_p05", // 27 David Robinson (92)
+  "classic_uta_1997_98_p01", // 28 John Stockton (91)
+  "classic_det_1988_89_p01", // 29 Isiah Thomas (91)
+  "classic_chi_1995_96_p03", // 30 Scottie Pippen (93)
+  "classic_sas_2013_14_p03", // 31 Kawhi Leonard (92)
+  "classic_lal_1971_72_p11", // 32 Elgin Baylor (92)
+  "classic_phi_2000_01_p01", // 33 Allen Iverson (90)
+  "classic_nyk_1993_94_p05", // 34 Patrick Ewing (90)
+  "classic_okc_1995_96_p01", // 35 Gary Payton (90)
+  "classic_phx_2004_05_p01", // 36 Steve Nash (91)
+  "classic_hou_1994_95_p02", // 37 Clyde Drexler (90)
+  "classic_lal_1986_87_p03", // 38 James Worthy (90)
+  "classic_bos_1985_86_p04", // 39 Kevin McHale (90)
+  "classic_hou_2006_07_p02", // 40 Tracy McGrady (90)
+  "classic_bos_1964_65_p03", // 41 John Havlicek (91)
+  "classic_orl_1994_95_p01", // 42 Anfernee Hardaway (91)
+  "classic_hou_2018_19_p01", // 43 Chris Paul (91)
+  "classic_sac_2001_02_p04", // 44 Chris Webber (91)
+  "classic_gsw_2016_17_p04", // 45 Draymond Green (90) — peak two-way / dynasty anchor
+  "classic_det_1996_97_p03", // 46 Grant Hill (91)
+  "classic_hou_2018_19_p02", // 47 James Harden (90)
+  "classic_cle_2015_16_p01", // 48 Kyrie Irving (91)
+  "classic_uta_1976_77_p02", // 49 Pete Maravich (91)
+  "classic_cha_1992_93_p05", // 50 Alonzo Mourning (90) — Blake Griffin → reserve for Rose
 ];
 
 /**
@@ -177,14 +177,15 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
  */
 export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   // Elite currents outside Top 50
-  "espn_4278073", // 51 Shai Gilgeous-Alexander (95)
-  "espn_3945274", // 52 Luka Doncic (94)
+  "espn_4278073", // 51 Shai Gilgeous-Alexander (92)
+  "espn_3945274", // 52 Luka Doncic (93)
   "espn_5104157", // 53 Victor Wembanyama (92)
   "espn_4594268", // 54 Anthony Edwards (91)
   "espn_3934672", // 55 Jalen Brunson (90)
   "classic_dal_2010_11_p01", // 56 Jason Kidd (90)
-  "classic_nyk_2011_12_p03", // 57 Carmelo Anthony (90) — edged from Top 50 by Mikan
-  "classic_lal_2019_20_p04", // 58 Anthony Davis (90) — 2019/20 peak form
+  "classic_lac_2013_14_p04", // 57 Blake Griffin (90) — edged from Top 50 by Rose MVP
+  "classic_nyk_2011_12_p03", // 58 Carmelo Anthony (90) — edged from Top 50 by Mikan
+  "classic_lal_2019_20_p04", // 59 Anthony Davis (90) — 2019/20 peak form
   // Classic 89s (Beal dropped to 86 — not this band)
   "classic_atl_1990_91_p03", // 59 Dominique Wilkins (89)
   "classic_was_2007_08_p01", // 60 Gilbert Arenas (89)
@@ -282,7 +283,7 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   // Deep classic fill
   "classic_nyk_1993_94_p04", // 147 Anthony Mason (82)
   "classic_det_1988_89_p05", // 148 Bill Laimbeer (82)
-  "classic_lal_1986_87_p02", // 149 Byron Scott (82)
+  // Byron Scott dropped so Blake Griffin can sit in the 90 reserve band
 ];
 
 export function defaultPyramidSave(): PyramidSave {

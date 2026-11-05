@@ -2077,5 +2077,32 @@
         "slot": "C"
       }
     ]
+  },
+  {
+    "id": "classic_chi_2010_11_lineup",
+    "teamId": "classic_chi_2010_11",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_chi_2010_11_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_chi_2010_11_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_chi_2010_11_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_chi_2010_11_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_chi_2010_11_p05",
+        "slot": "C"
+      }
+    ]
   }
 ]

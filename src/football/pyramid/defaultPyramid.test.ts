@@ -270,13 +270,15 @@ describe("defaultPyramid", () => {
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(14);
+    expect(defaultPyramidSave().seedVersion).toBe(15);
     expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
     expect(DEFAULT_PYRAMID_ORDER[10]).toBe("classic_hou_1994_95_p05"); // Olajuwon #11
-    expect(DEFAULT_PYRAMID_ORDER[15]).toBe("classic_lal_1971_72_p01"); // West #16
-    expect(DEFAULT_PYRAMID_ORDER[16]).toBe("classic_den_2022_23_p05"); // Jokic #17 (93 active)
-    expect(DEFAULT_PYRAMID_ORDER[20]).toBe("classic_lal_1953_54_p05"); // Mikan #21
-    expect(DEFAULT_PYRAMID_ORDER[49]).toBe("classic_lac_2013_14_p04"); // Blake Griffin #50
+    expect(DEFAULT_PYRAMID_ORDER[14]).toBe("classic_chi_2010_11_p01"); // Rose #15
+    expect(DEFAULT_PYRAMID_ORDER[16]).toBe("classic_lal_1971_72_p01"); // West #17
+    expect(DEFAULT_PYRAMID_ORDER[17]).toBe("classic_den_2022_23_p05"); // Jokic #18 (93 active)
+    expect(DEFAULT_PYRAMID_ORDER[21]).toBe("classic_lal_1953_54_p05"); // Mikan #22
+    expect(DEFAULT_PYRAMID_ORDER[49]).toBe("classic_cha_1992_93_p05"); // Mourning #50
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_lac_2013_14_p04"); // Blake → reserve
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p01"); // Billups
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p05"); // Ben Wallace
   });
@@ -291,6 +293,7 @@ describe("defaultPyramid", () => {
     expect(stale.order[0]).toBe(DEFAULT_PYRAMID_ORDER[0]);
     expect(stale.order).toContain("classic_hou_1994_95_p05");
     expect(stale.order).toContain("classic_lal_1953_54_p05"); // Mikan
+    expect(stale.order).toContain("classic_chi_2010_11_p01"); // Rose MVP
     expect(stale.pool).toContain("classic_nyk_2011_12_p03"); // Carmelo → reserve
     expect(stale.order).toContain("classic_orl_1994_95_p01");
     expect(stale.order).toContain("classic_lal_2009_10_p02");
@@ -299,7 +302,7 @@ describe("defaultPyramid", () => {
     expect(stale.pool).toContain("classic_tor_2000_01_p02"); // Vince → reserve
     expect(stale.pool).toContain("classic_det_2003_04_p01"); // Billups
     expect(stale.pool).toContain("classic_lal_2019_20_p05"); // Dwight
-    expect(stale.seedVersion).toBe(14);
+    expect(stale.seedVersion).toBe(15);
     expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
     expect(stale.order[10]).toBe("classic_hou_1994_95_p05");
   });

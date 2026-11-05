@@ -15,11 +15,11 @@ import { attrsTowardOvr } from "./nbaClassicRatings.mjs";
 
 /** Exact displayName → current overall. */
 export const CURRENT_OVR = {
-  // MVP / elite — Jokic held at 93 (same as classic peak) until the full career is on the books.
+  // MVP / elite — current form, below all-time pantheon peaks (Jordan 99, etc.).
   "Nikola Jokic": 93,
-  "Shai Gilgeous-Alexander": 95,
+  "Luka Doncic": 93,
   "Giannis Antetokounmpo": 94,
-  "Luka Doncic": 94,
+  "Shai Gilgeous-Alexander": 92,
   "Victor Wembanyama": 92,
 
   // Superstar / All-NBA

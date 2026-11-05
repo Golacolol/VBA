@@ -2787,5 +2787,42 @@
     "league": "WEST",
     "historicSeason": "2019/20",
     "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_chi_2010_11",
+    "name": "Chicago Bulls — 2010/11",
+    "abbreviation": "CHI",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Chicago",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_chi.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_chi_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2010/11",
+    "franchiseId": "nba_chi"
   }
 ]

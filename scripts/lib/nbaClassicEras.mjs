@@ -285,6 +285,30 @@ export const CLASSIC_ERAS = [
     ],
   },
   {
+    // Rose MVP season — fills Derrick Rose + 2010/11 Bulls depth for Draft / Pyramid.
+    id: "classic_chi_2010_11",
+    franchiseId: "nba_chi",
+    season: "2010/11",
+    name: "Chicago Bulls — 2010/11",
+    starters: [
+      { name: "Derrick Rose", number: 1, pos: "PG" },
+      { name: "Keith Bogans", number: 6, pos: "SG" },
+      { name: "Luol Deng", number: 9, pos: "SF" },
+      { name: "Carlos Boozer", number: 5, pos: "PF" },
+      { name: "Joakim Noah", number: 13, pos: "C" },
+    ],
+    bench: [
+      { name: "Taj Gibson", number: 22, pos: "PF" },
+      { name: "Kyle Korver", number: 26, pos: "SG" },
+      { name: "Ronnie Brewer", number: 11, pos: "SG" },
+      { name: "C.J. Watson", number: 32, pos: "PG" },
+      { name: "Omer Asik", number: 41, pos: "C" },
+      { name: "Kurt Thomas", number: 40, pos: "PF" },
+      { name: "Brian Scalabrine", number: 24, pos: "PF" },
+      { name: "Rasual Butler", number: 8, pos: "SF" },
+    ],
+  },
+  {
     id: "classic_lal_1986_87",
     franchiseId: "nba_lal",
     season: "1986/87",

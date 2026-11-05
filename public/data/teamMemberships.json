@@ -7908,5 +7908,96 @@
     "shirtNumber": 28,
     "squadRole": "BENCH",
     "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p01",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 1,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_chi_2010_11_p02",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 6,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p03",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 9,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p04",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 5,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p05",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 13,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p06",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 22,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p07",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 26,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p08",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 11,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p09",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 32,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p10",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 41,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p11",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 40,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p12",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 24,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_chi_2010_11_p13",
+    "teamId": "classic_chi_2010_11",
+    "shirtNumber": 8,
+    "squadRole": "BENCH",
+    "captain": false
   }
 ]

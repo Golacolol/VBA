@@ -8205,6 +8205,23 @@ button.pred-side:hover {
   pointer-events: none;
   transform: scale(0.92);
   transform-origin: top center;
+  width: 100%;
+  max-width: 100%;
+}
+/* No hex on draft picks — use a square card so PNG sits on the kit without a dead band. */
+.pyramid-draft-card .player-card,
+.pyramid-draft-card .player-card-select {
+  --sports-card-ar: 1 / 1;
+  --photo-size: min(9.5rem, 58cqi, 48cqh);
+  --team-name-size: clamp(10px, 6.5cqi, 14px);
+  --kit-name-size: clamp(8px, 4.2cqi, 12px);
+  --kit-num-size: clamp(16px, 10cqi, 28px);
+  --kit-name-band: clamp(9px, 4.8cqi, 14px);
+  --ovr-size: clamp(12px, 7cqi, 20px);
+  --pos-code-size: clamp(9px, 4.2cqi, 12px);
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
 }
 .pyramid-draft-card .profile-stats,
 .pyramid-draft-card .player-card-flip-nav,
@@ -8212,7 +8229,9 @@ button.pred-side:hover {
   display: none !important;
 }
 .pyramid-draft-card .player-card-front {
-  gap: 6px;
+  gap: 4px;
+  /* header | photo | kit — no empty hex row */
+  grid-template-rows: auto minmax(0, 1fr) auto;
 }
 .pyramid-draft-card .player-card-top {
   grid-template-columns: minmax(26px, 0.75fr) minmax(0, 1.5fr) minmax(26px, 0.75fr);
@@ -8222,7 +8241,7 @@ button.pred-side:hover {
   min-width: 0;
   max-width: 100%;
   width: 100%;
-  font-size: 12px;
+  font-size: var(--team-name-size, 12px);
   letter-spacing: 0.05em;
   overflow: hidden;
   text-overflow: clip;
