@@ -140,7 +140,7 @@ export class PyramidHub {
   private ringRaf = 0;
   private ringLastTs = 0;
   private ringResizeObserver: ResizeObserver | null = null;
-  /** Reserve search query (players outside Top 50 + 51–150). */
+  /** Reserve search query (players outside Top 50 + 51–149). */
   private poolQuery = "";
   /** Open jersey-number picker (0–99), or null when closed. */
   private jerseyPick: number | null = null;

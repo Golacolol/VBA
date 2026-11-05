@@ -4,8 +4,8 @@ import { normalizeBracketSave, type BracketSave } from "../bracket/PlayoffBracke
 import { normalizeDraftSave, type DraftSave } from "./draft";
 
 export const PYRAMID_SIZE = 50;
-/** Extra 100 who can be elevated into the Top 50 but hold no Ring position (#51–#150). */
-export const PYRAMID_POOL_SIZE = 100;
+/** Extra 99 who can be elevated into the Top 50 but hold no Ring position (#51–#149). */
+export const PYRAMID_POOL_SIZE = 99;
 
 /** Default row widths from apex (#1) to base — sums to 50 (steps pattern). */
 export const PYRAMID_TIER_COUNTS = [1, 2, 3, 4, 5, 6, 7, 8, 14] as const;
@@ -85,13 +85,13 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 13;
+export const PYRAMID_SEED_VERSION = 14;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
   /** Top 50 player ids; index 0 = rank #1. */
   order: string[];
-  /** Reserve 100 (#51–#150) — not ranked on the Ring; can swap into `order`. */
+  /** Reserve 99 (#51–#149) — not ranked on the Ring; can swap into `order`. */
   pool: string[];
   view: PyramidViewId;
   /** Curated-seed generation; mismatch replaces order/pool with defaults. */
@@ -170,7 +170,7 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
 ];
 
 /**
- * Curated reserve 51–150 — elevate/swap into Top 50; excluded from Ring.
+ * Curated reserve 51–149 — elevate/swap into Top 50; excluded from Ring.
  * Mix of classic peaks + current espn_* stars who miss the Top 50.
  * Classics at a given OVR sit ahead of same-band currents (room for both).
  * Ordered by overall band (then name within band). Bump {@link PYRAMID_SEED_VERSION} when this changes.
@@ -283,7 +283,6 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "classic_nyk_1993_94_p04", // 147 Anthony Mason (82)
   "classic_det_1988_89_p05", // 148 Bill Laimbeer (82)
   "classic_lal_1986_87_p02", // 149 Byron Scott (82)
-  "classic_phx_1992_93_p02", // 150 Dan Majerle (82)
 ];
 
 export function defaultPyramidSave(): PyramidSave {

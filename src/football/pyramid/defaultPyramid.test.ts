@@ -270,7 +270,7 @@ describe("defaultPyramid", () => {
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(13);
+    expect(defaultPyramidSave().seedVersion).toBe(14);
     expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
     expect(DEFAULT_PYRAMID_ORDER[10]).toBe("classic_hou_1994_95_p05"); // Olajuwon #11
     expect(DEFAULT_PYRAMID_ORDER[15]).toBe("classic_lal_1971_72_p01"); // West #16
@@ -299,7 +299,7 @@ describe("defaultPyramid", () => {
     expect(stale.pool).toContain("classic_tor_2000_01_p02"); // Vince → reserve
     expect(stale.pool).toContain("classic_det_2003_04_p01"); // Billups
     expect(stale.pool).toContain("classic_lal_2019_20_p05"); // Dwight
-    expect(stale.seedVersion).toBe(13);
+    expect(stale.seedVersion).toBe(14);
     expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
     expect(stale.order[10]).toBe("classic_hou_1994_95_p05");
   });
