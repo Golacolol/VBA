@@ -284,6 +284,10 @@ export class Game {
         this.goMenu();
         return;
       }
+      if (act === "court-back") {
+        this.goMenu();
+        return;
+      }
       const id = btn.getAttribute("data-id");
       const tod = btn.getAttribute("data-tod");
       const mode = btn.getAttribute("data-mode");
@@ -506,6 +510,10 @@ export class Game {
           }
         }
         if (char === "start") this.beginPreMatch();
+        if (char === "open-miteam") {
+          this.openMiTeamBuilder();
+          return;
+        }
         if (char === "back") {
           this.goMenu();
           return;
@@ -633,6 +641,7 @@ export class Game {
     this.ui.querySelectorAll<HTMLElement>(".match-stub").forEach((el) => {
       el.hidden = true;
     });
+    this.hideCourtViewChrome();
     this.attractHold = 0;
     this.simBannerPlayT = 0;
     this.fixtureSim = false;
@@ -990,9 +999,8 @@ export class Game {
   }
 
   private menuAction(id: string): void {
-    const f = this.listedFixture();
     // Lock dials before any leave-menu action so a late spin cannot rewrite the club mid-launch.
-    if (id === "sim" || id === "next" || id === "spot" || id === "miteam") {
+    if (id === "sim" || id === "next" || id === "miteam" || id === "spot") {
       this.menu.lockTeamSelect();
     }
     if (id === "sim") {
@@ -1004,6 +1012,15 @@ export class Game {
     }
     if (id === "next") {
       this.practice = "none";
+      // Incomplete / empty MiTeam — resume the pack builder instead of an empty formation.
+      if (this.defaultClubId() === MITEAM_TEAM_ID) {
+        ensureMiTeamSave(this.save);
+        const mt = this.save.data.miteam;
+        if (!mt || !xiComplete(mt.roster)) {
+          this.openMiTeamBuilder();
+          return;
+        }
+      }
       const fixture = { ...this.listedFixture() };
       this.pendingFixture = fixture;
       this.leagueFixtureId = this.leagueMatchId(fixture);
@@ -1024,10 +1041,7 @@ export class Game {
       return;
     }
     if (id === "spot") {
-      this.pendingFixture = { ...f, durationSeconds: this.save.data.settings.matchDuration };
-      this.practice = "spot";
-      this.leagueFixtureId = null;
-      this.openCharacterSelect(this.defaultClubId());
+      this.openCourtView();
       return;
     }
     if (id === "league-fixtures") {
@@ -1330,6 +1344,7 @@ export class Game {
     this.save.data.settings.leagueProgression = false;
     const current = this.defaultClubId();
     if (current !== MITEAM_TEAM_ID) this.clubBeforeMiTeam = current;
+    else if (!this.clubBeforeMiTeam) this.clubBeforeMiTeam = MITEAM_TEAM_ID;
     ensureMiTeamSave(this.save);
     applyMiTeamToDb(this.db, this.save);
     this.save.data.settings.defaultTeamId = MITEAM_TEAM_ID;
@@ -1429,6 +1444,16 @@ export class Game {
   }
 
   private openCharacterSelect(teamId: string, options?: { quickMatch?: boolean }): void {
+    // Empty or incomplete MiTeam five — continue packing instead of the empty-squad panel.
+    if (teamId === MITEAM_TEAM_ID) {
+      ensureMiTeamSave(this.save);
+      applyMiTeamToDb(this.db, this.save);
+      const mt = this.save.data.miteam;
+      if (!mt || !xiComplete(mt.roster)) {
+        this.openMiTeamBuilder();
+        return;
+      }
+    }
     this.menu.hide();
     this.miteam.hide();
     try {
@@ -1632,6 +1657,38 @@ export class Game {
     this.camera.camera.lookAt(0, 1.2, 8);
   }
 
+  private openCourtView(): void {
+    this.practice = "none";
+    this.leagueFixtureId = null;
+    this.chars.hide();
+    this.miteam.hide();
+    this.pyramid.hide();
+    this.simLab.hide();
+    this.pause.hide();
+    this.settings.hide();
+    this.matchCard.hide();
+    this.menu.hide();
+    this.appState = AppState.COURT_VIEW;
+    this.ensureCourtViewChrome();
+  }
+
+  private ensureCourtViewChrome(): void {
+    let el = this.ui.querySelector<HTMLElement>(".court-view");
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "court-view";
+      el.innerHTML = `<button type="button" data-act="court-back" class="court-view-back">Back</button>`;
+      this.ui.appendChild(el);
+    }
+    el.hidden = false;
+  }
+
+  private hideCourtViewChrome(): void {
+    this.ui.querySelectorAll<HTMLElement>(".court-view").forEach((node) => {
+      node.hidden = true;
+    });
+  }
+
   private showMatchStub(): void {
     this.chars.hide();
     this.menu.hide();
@@ -1810,6 +1867,10 @@ export class Game {
   private dismissOverlay(): boolean {
     if (this.pauseFormationOpen) {
       this.closePauseFormation(false);
+      return true;
+    }
+    if (this.appState === AppState.COURT_VIEW) {
+      this.goMenu();
       return true;
     }
     if (this.appState === AppState.MAIN_MENU && this.menu.panel !== "menu") {
@@ -2005,10 +2066,15 @@ export class Game {
     }
     if (intent.pause && this.dismissOverlay()) return;
 
-    if (this.appState === AppState.MAIN_MENU) {
+    if (this.appState === AppState.MAIN_MENU || this.appState === AppState.COURT_VIEW) {
       this.menuStadium?.update(dt);
       this.camera.preMatch(performance.now() / 1000);
       this.paintMenuJumbotron();
+    }
+
+    if (this.appState === AppState.COURT_VIEW) {
+      this.input.lastInputAt = performance.now();
+    } else if (this.appState === AppState.MAIN_MENU) {
       const listed = this.listedFixture();
       this.menu.setKickOffCountdown(kickOffRemainingSeconds(listed.date, listed.time || DEFAULT_KICK_OFF_TIME));
       if (this.menu.panel !== "menu") {

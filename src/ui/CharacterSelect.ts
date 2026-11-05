@@ -2332,11 +2332,17 @@ export class CharacterSelect {
     const bySlot = new Map(this.xi.map((row) => [row.slot, row]));
     const selected = this.players[this.index] ?? this.xi[0]?.player ?? this.players[0];
     if (!selected) {
+      const miteamEmpty = this.teamId === MITEAM_TEAM_ID;
       this.root.innerHTML = `
         <div class="char-panel char-panel-team">
           <div class="team-select-head">${this.teamTitleHtml(this.teamName)}</div>
-          <p class="hint">No players in this squad yet. Pack a MiTeam five or choose another club.</p>
+          <p class="hint">${
+            miteamEmpty
+              ? "Finish packing your MiTeam five to play."
+              : "No players in this squad yet. Choose another club."
+          }</p>
           <div class="char-nav">
+            ${miteamEmpty ? `<button type="button" data-char="open-miteam" class="primary">Continue MiTeam</button>` : ""}
             <button type="button" data-char="back">Back</button>
           </div>
         </div>`;

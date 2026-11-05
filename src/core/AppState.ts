@@ -1,6 +1,8 @@
 export const AppState = {
   BOOT: "BOOT",
   MAIN_MENU: "MAIN_MENU",
+  /** Menus hidden — look at the 3D arena (Practice Court). */
+  COURT_VIEW: "COURT_VIEW",
   MATCH_SETUP: "MATCH_SETUP",
   CHARACTER_SELECT: "CHARACTER_SELECT",
   PRE_MATCH: "PRE_MATCH",

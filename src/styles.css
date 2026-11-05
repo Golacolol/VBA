@@ -503,6 +503,33 @@ html, body, #app { margin: 0; height: 100%; overflow: hidden; background: #07080
 .menu-screen[hidden], .char-select[hidden], .editor-screen[hidden], .pause-menu[hidden] {
   display: none !important;
 }
+.court-view {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+.court-view[hidden] { display: none !important; }
+.court-view-back {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  pointer-events: auto;
+  padding: 10px 18px;
+  border: 1px solid var(--gold);
+  background: rgba(8, 14, 24, 0.88);
+  color: var(--paper);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font: inherit;
+}
+.court-view-back:hover,
+.court-view-back:focus-visible {
+  background: rgba(20, 32, 52, 0.95);
+  outline: none;
+}
+
 .match-stub {
   position: absolute;
   inset: 0;
