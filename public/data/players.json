@@ -25540,7 +25540,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ron Harper"
+      "fullName": "Ron Harper",
+      "portraitAsset": "/assets/portraits/classic/ron-harper.png"
     },
     "finishing": 82,
     "midRange": 82,
@@ -25586,7 +25587,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Michael Jordan"
+      "fullName": "Michael Jordan",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/893.png"
     },
     "finishing": 99,
     "midRange": 99,
@@ -25632,7 +25634,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Scottie Pippen"
+      "fullName": "Scottie Pippen",
+      "portraitAsset": "/assets/portraits/classic/scottie-pippen.png"
     },
     "finishing": 95,
     "midRange": 94,
@@ -25678,7 +25681,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dennis Rodman"
+      "fullName": "Dennis Rodman",
+      "portraitAsset": "/assets/portraits/classic/dennis-rodman.png"
     },
     "finishing": 81,
     "midRange": 79,
@@ -25724,7 +25728,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Luc Longley"
+      "fullName": "Luc Longley",
+      "portraitAsset": "/assets/portraits/classic/luc-longley.png"
     },
     "finishing": 79,
     "midRange": 75,
@@ -25770,7 +25775,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Toni Kukoc"
+      "fullName": "Toni Kukoc",
+      "portraitAsset": "/assets/portraits/classic/toni-kukoc.png"
     },
     "finishing": 85,
     "midRange": 84,
@@ -25816,7 +25822,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Steve Kerr"
+      "fullName": "Steve Kerr",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/70.png"
     },
     "finishing": 82,
     "midRange": 83,
@@ -25862,7 +25869,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bill Wennington"
+      "fullName": "Bill Wennington",
+      "portraitAsset": "/assets/portraits/classic/bill-wennington.png"
     },
     "finishing": 73,
     "midRange": 70,
@@ -25908,7 +25916,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jud Buechler"
+      "fullName": "Jud Buechler",
+      "portraitAsset": "/assets/portraits/classic/jud-buechler.png"
     },
     "finishing": 74,
     "midRange": 73,
@@ -25954,7 +25963,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Randy Brown"
+      "fullName": "Randy Brown",
+      "portraitAsset": "/assets/portraits/classic/randy-brown.png"
     },
     "finishing": 73,
     "midRange": 75,
@@ -26000,7 +26010,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Salley"
+      "fullName": "John Salley",
+      "portraitAsset": "/assets/portraits/classic/john-salley.png"
     },
     "finishing": 79,
     "midRange": 75,
@@ -26046,7 +26057,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Edwards"
+      "fullName": "James Edwards",
+      "portraitAsset": "/assets/portraits/classic/james-edwards.jpg"
     },
     "finishing": 77,
     "midRange": 74,
@@ -26092,7 +26104,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dickey Simpkins"
+      "fullName": "Dickey Simpkins",
+      "portraitAsset": "/assets/portraits/classic/dickey-simpkins.png"
     },
     "finishing": 71,
     "midRange": 71,
@@ -26138,7 +26151,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Stephen Curry"
+      "fullName": "Stephen Curry",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201939.png"
     },
     "finishing": 97,
     "midRange": 96,
@@ -26184,7 +26198,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Klay Thompson"
+      "fullName": "Klay Thompson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202691.png"
     },
     "finishing": 90,
     "midRange": 92,
@@ -26230,7 +26245,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kevin Durant"
+      "fullName": "Kevin Durant",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201142.png"
     },
     "finishing": 95,
     "midRange": 94,
@@ -26276,7 +26292,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Draymond Green"
+      "fullName": "Draymond Green",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203110.png"
     },
     "finishing": 92,
     "midRange": 90,
@@ -26322,7 +26339,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Zaza Pachulia"
+      "fullName": "Zaza Pachulia",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2585.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -26368,7 +26386,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Andre Iguodala"
+      "fullName": "Andre Iguodala",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2738.png"
     },
     "finishing": 87,
     "midRange": 87,
@@ -26414,7 +26433,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shaun Livingston"
+      "fullName": "Shaun Livingston",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2733.png"
     },
     "finishing": 80,
     "midRange": 81,
@@ -26460,7 +26480,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "David West"
+      "fullName": "David West",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2561.png"
     },
     "finishing": 83,
     "midRange": 80,
@@ -26506,7 +26527,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "JaVale McGee"
+      "fullName": "JaVale McGee",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201580.png"
     },
     "finishing": 81,
     "midRange": 77,
@@ -26552,7 +26574,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ian Clark"
+      "fullName": "Ian Clark",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203546.png"
     },
     "finishing": 77,
     "midRange": 77,
@@ -26598,7 +26621,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Patrick McCaw"
+      "fullName": "Patrick McCaw",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1627775.png"
     },
     "finishing": 74,
     "midRange": 74,
@@ -26644,7 +26668,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Michael McAdoo"
+      "fullName": "James Michael McAdoo",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203949.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -26690,7 +26715,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nick Young"
+      "fullName": "Nick Young",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201156.png"
     },
     "finishing": 79,
     "midRange": 81,
@@ -26736,7 +26762,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nate Archibald"
+      "fullName": "Nate Archibald",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76054.png"
     },
     "finishing": 86,
     "midRange": 88,
@@ -26782,7 +26809,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Ford"
+      "fullName": "Chris Ford",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76733.png"
     },
     "finishing": 80,
     "midRange": 82,
@@ -26828,7 +26856,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Cedric Maxwell"
+      "fullName": "Cedric Maxwell",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77487.png"
     },
     "finishing": 85,
     "midRange": 85,
@@ -26874,7 +26903,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Larry Bird"
+      "fullName": "Larry Bird",
+      "portraitAsset": "/assets/portraits/classic/larry-bird.png"
     },
     "finishing": 99,
     "midRange": 99,
@@ -26920,7 +26950,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Robert Parish"
+      "fullName": "Robert Parish",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/305.png"
     },
     "finishing": 89,
     "midRange": 85,
@@ -26966,7 +26997,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kevin McHale"
+      "fullName": "Kevin McHale",
+      "portraitAsset": "/assets/portraits/classic/kevin-mchale.png"
     },
     "finishing": 92,
     "midRange": 89,
@@ -27012,7 +27044,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "M.L. Carr"
+      "fullName": "M.L. Carr",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76351.png"
     },
     "finishing": 79,
     "midRange": 76,
@@ -27058,7 +27091,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Gerald Henderson"
+      "fullName": "Gerald Henderson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76993.png"
     },
     "finishing": 76,
     "midRange": 79,
@@ -27104,7 +27138,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rick Robey"
+      "fullName": "Rick Robey",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77984.png"
     },
     "finishing": 77,
     "midRange": 73,
@@ -27150,7 +27185,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Eric Fernsten"
+      "fullName": "Eric Fernsten",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76707.png"
     },
     "finishing": 72,
     "midRange": 69,
@@ -27196,7 +27232,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Terry Duerod"
+      "fullName": "Terry Duerod",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76608.png"
     },
     "finishing": 71,
     "midRange": 74,
@@ -27242,7 +27279,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Wayne Kreklow"
+      "fullName": "Wayne Kreklow",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77312.png"
     },
     "finishing": 71,
     "midRange": 72,
@@ -27288,7 +27326,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Charles Bradley"
+      "fullName": "Charles Bradley",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76230.png"
     },
     "finishing": 69,
     "midRange": 72,
@@ -27334,7 +27373,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dennis Johnson"
+      "fullName": "Dennis Johnson",
+      "portraitAsset": "/assets/portraits/classic/dennis-johnson.png"
     },
     "finishing": 83,
     "midRange": 84,
@@ -27380,7 +27420,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Danny Ainge"
+      "fullName": "Danny Ainge",
+      "portraitAsset": "/assets/portraits/classic/danny-ainge.png"
     },
     "finishing": 85,
     "midRange": 86,
@@ -27426,7 +27467,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Larry Bird"
+      "fullName": "Larry Bird",
+      "portraitAsset": "/assets/portraits/classic/larry-bird.png"
     },
     "finishing": 98,
     "midRange": 99,
@@ -27472,7 +27514,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kevin McHale"
+      "fullName": "Kevin McHale",
+      "portraitAsset": "/assets/portraits/classic/kevin-mchale.png"
     },
     "finishing": 93,
     "midRange": 90,
@@ -27518,7 +27561,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Robert Parish"
+      "fullName": "Robert Parish",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/305.png"
     },
     "finishing": 90,
     "midRange": 87,
@@ -27564,7 +27608,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bill Walton"
+      "fullName": "Bill Walton",
+      "portraitAsset": "/assets/portraits/classic/bill-walton.png"
     },
     "finishing": 89,
     "midRange": 86,
@@ -27610,7 +27655,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Scott Wedman"
+      "fullName": "Scott Wedman",
+      "portraitAsset": "/assets/portraits/classic/scott-wedman.jpg"
     },
     "finishing": 79,
     "midRange": 76,
@@ -27656,7 +27702,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jerry Sichting"
+      "fullName": "Jerry Sichting",
+      "portraitAsset": "/assets/portraits/classic/jerry-sichting.jpg"
     },
     "finishing": 73,
     "midRange": 74,
@@ -27702,7 +27749,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sam Vincent"
+      "fullName": "Sam Vincent",
+      "portraitAsset": "/assets/portraits/classic/sam-vincent.jpg"
     },
     "finishing": 77,
     "midRange": 77,
@@ -27748,7 +27796,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "David Thirdkill"
+      "fullName": "David Thirdkill",
+      "portraitAsset": "/assets/portraits/classic/david-thirdkill.png"
     },
     "finishing": 72,
     "midRange": 71,
@@ -27794,7 +27843,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rick Carlisle"
+      "fullName": "Rick Carlisle",
+      "portraitAsset": "/assets/portraits/classic/rick-carlisle.jpg"
     },
     "finishing": 75,
     "midRange": 74,
@@ -27840,7 +27890,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Greg Kite"
+      "fullName": "Greg Kite",
+      "portraitAsset": "/assets/portraits/classic/greg-kite.jpg"
     },
     "finishing": 73,
     "midRange": 68,
@@ -27886,7 +27937,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sly Williams"
+      "fullName": "Sly Williams",
+      "portraitAsset": "/assets/portraits/classic/sly-williams.png"
     },
     "finishing": 74,
     "midRange": 72,
@@ -28116,7 +28168,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "George Mikan"
+      "fullName": "George Mikan",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/600012.png"
     },
     "finishing": 93,
     "midRange": 90,
@@ -28438,7 +28491,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Derek Fisher"
+      "fullName": "Derek Fisher",
+      "portraitAsset": "/assets/portraits/classic/derek-fisher.png"
     },
     "finishing": 78,
     "midRange": 78,
@@ -28484,7 +28538,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kobe Bryant"
+      "fullName": "Kobe Bryant",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/977.png"
     },
     "finishing": 99,
     "midRange": 99,
@@ -28530,7 +28585,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rick Fox"
+      "fullName": "Rick Fox",
+      "portraitAsset": "/assets/portraits/classic/rick-fox.png"
     },
     "finishing": 84,
     "midRange": 84,
@@ -28576,7 +28632,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Horace Grant"
+      "fullName": "Horace Grant",
+      "portraitAsset": "/assets/portraits/classic/horace-grant.png"
     },
     "finishing": 85,
     "midRange": 83,
@@ -28622,7 +28679,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shaquille O'Neal"
+      "fullName": "Shaquille O'Neal",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/406.png"
     },
     "finishing": 99,
     "midRange": 88,
@@ -28668,7 +28726,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Robert Horry"
+      "fullName": "Robert Horry",
+      "portraitAsset": "/assets/portraits/classic/robert-horry.png"
     },
     "finishing": 81,
     "midRange": 80,
@@ -28714,7 +28773,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brian Shaw"
+      "fullName": "Brian Shaw",
+      "portraitAsset": "/assets/portraits/classic/brian-shaw.png"
     },
     "finishing": 72,
     "midRange": 75,
@@ -28760,7 +28820,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ron Harper"
+      "fullName": "Ron Harper",
+      "portraitAsset": "/assets/portraits/classic/ron-harper.png"
     },
     "finishing": 85,
     "midRange": 85,
@@ -28806,7 +28867,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mark Madsen"
+      "fullName": "Mark Madsen",
+      "portraitAsset": "/assets/portraits/classic/mark-madsen.jpg"
     },
     "finishing": 77,
     "midRange": 73,
@@ -28852,7 +28914,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tyronn Lue"
+      "fullName": "Tyronn Lue",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1731.png"
     },
     "finishing": 74,
     "midRange": 75,
@@ -28898,7 +28961,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Isaiah Rider"
+      "fullName": "Isaiah Rider",
+      "portraitAsset": "/assets/portraits/classic/isaiah-rider.png"
     },
     "finishing": 76,
     "midRange": 76,
@@ -28944,7 +29008,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Greg Foster"
+      "fullName": "Greg Foster",
+      "portraitAsset": "/assets/portraits/classic/greg-foster.png"
     },
     "finishing": 75,
     "midRange": 72,
@@ -28990,7 +29055,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mike Penberthy"
+      "fullName": "Mike Penberthy",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2130.png"
     },
     "finishing": 76,
     "midRange": 77,
@@ -29036,7 +29102,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Derek Fisher"
+      "fullName": "Derek Fisher",
+      "portraitAsset": "/assets/portraits/classic/derek-fisher.png"
     },
     "finishing": 77,
     "midRange": 79,
@@ -29082,7 +29149,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kobe Bryant"
+      "fullName": "Kobe Bryant",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/977.png"
     },
     "finishing": 99,
     "midRange": 99,
@@ -29128,7 +29196,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Metta World Peace"
+      "fullName": "Metta World Peace",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1897.png"
     },
     "finishing": 86,
     "midRange": 85,
@@ -29174,7 +29243,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Pau Gasol"
+      "fullName": "Pau Gasol",
+      "portraitAsset": "/assets/portraits/classic/pau-gasol.png"
     },
     "finishing": 89,
     "midRange": 89,
@@ -29220,7 +29290,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Andrew Bynum"
+      "fullName": "Andrew Bynum",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2744.png"
     },
     "finishing": 87,
     "midRange": 83,
@@ -29266,7 +29337,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Lamar Odom"
+      "fullName": "Lamar Odom",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2037.png"
     },
     "finishing": 87,
     "midRange": 85,
@@ -29312,7 +29384,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shannon Brown"
+      "fullName": "Shannon Brown",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200756.png"
     },
     "finishing": 79,
     "midRange": 80,
@@ -29358,7 +29431,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jordan Farmar"
+      "fullName": "Jordan Farmar",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200785.png"
     },
     "finishing": 76,
     "midRange": 77,
@@ -29404,7 +29478,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Luke Walton"
+      "fullName": "Luke Walton",
+      "portraitAsset": "/assets/portraits/classic/luke-walton.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -29450,7 +29525,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sasha Vujacic"
+      "fullName": "Sasha Vujacic",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2756.png"
     },
     "finishing": 75,
     "midRange": 78,
@@ -29496,7 +29572,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Josh Powell"
+      "fullName": "Josh Powell",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2863.png"
     },
     "finishing": 73,
     "midRange": 72,
@@ -29542,7 +29619,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "DJ Mbenga"
+      "fullName": "DJ Mbenga",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2750.png"
     },
     "finishing": 75,
     "midRange": 71,
@@ -29588,7 +29666,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Adam Morrison"
+      "fullName": "Adam Morrison",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200797.png"
     },
     "finishing": 71,
     "midRange": 71,
@@ -29634,7 +29713,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "LeBron James"
+      "fullName": "LeBron James",
+      "portraitAsset": "/assets/portraits/classic/lebron-james.png"
     },
     "finishing": 99,
     "midRange": 96,
@@ -29680,7 +29760,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Danny Green"
+      "fullName": "Danny Green",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201980.png"
     },
     "finishing": 83,
     "midRange": 84,
@@ -29726,7 +29807,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kentavious Caldwell-Pope"
+      "fullName": "Kentavious Caldwell-Pope",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203484.png"
     },
     "finishing": 83,
     "midRange": 81,
@@ -29772,7 +29854,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Anthony Davis"
+      "fullName": "Anthony Davis",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203076.png"
     },
     "finishing": 92,
     "midRange": 89,
@@ -29818,7 +29901,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dwight Howard"
+      "fullName": "Dwight Howard",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2730.png"
     },
     "finishing": 89,
     "midRange": 86,
@@ -29864,7 +29948,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rajon Rondo"
+      "fullName": "Rajon Rondo",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200765.png"
     },
     "finishing": 74,
     "midRange": 75,
@@ -29910,7 +29995,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Alex Caruso"
+      "fullName": "Alex Caruso",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1627936.png"
     },
     "finishing": 81,
     "midRange": 82,
@@ -29956,7 +30042,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kyle Kuzma"
+      "fullName": "Kyle Kuzma",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1628398.png"
     },
     "finishing": 83,
     "midRange": 80,
@@ -30002,7 +30089,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "JaVale McGee"
+      "fullName": "JaVale McGee",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201580.png"
     },
     "finishing": 81,
     "midRange": 77,
@@ -30048,7 +30136,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Avery Bradley"
+      "fullName": "Avery Bradley",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202340.png"
     },
     "finishing": 81,
     "midRange": 80,
@@ -30094,7 +30183,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Markieff Morris"
+      "fullName": "Markieff Morris",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202693.png"
     },
     "finishing": 82,
     "midRange": 79,
@@ -30140,7 +30230,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jared Dudley"
+      "fullName": "Jared Dudley",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201162.png"
     },
     "finishing": 78,
     "midRange": 78,
@@ -30186,7 +30277,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Quinn Cook"
+      "fullName": "Quinn Cook",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1626181.png"
     },
     "finishing": 72,
     "midRange": 73,
@@ -30232,7 +30324,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tony Parker"
+      "fullName": "Tony Parker",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2225.png"
     },
     "finishing": 88,
     "midRange": 88,
@@ -30278,7 +30371,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Manu Ginobili"
+      "fullName": "Manu Ginobili",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1938.png"
     },
     "finishing": 90,
     "midRange": 93,
@@ -30324,7 +30418,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kawhi Leonard"
+      "fullName": "Kawhi Leonard",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202695.png"
     },
     "finishing": 94,
     "midRange": 92,
@@ -30370,7 +30465,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tim Duncan"
+      "fullName": "Tim Duncan",
+      "portraitAsset": "/assets/portraits/classic/tim-duncan.png"
     },
     "finishing": 99,
     "midRange": 99,
@@ -30416,7 +30512,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tiago Splitter"
+      "fullName": "Tiago Splitter",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201168.png"
     },
     "finishing": 85,
     "midRange": 79,
@@ -30462,7 +30559,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Boris Diaw"
+      "fullName": "Boris Diaw",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2564.png"
     },
     "finishing": 77,
     "midRange": 74,
@@ -30508,7 +30606,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Danny Green"
+      "fullName": "Danny Green",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201980.png"
     },
     "finishing": 84,
     "midRange": 85,
@@ -30554,7 +30653,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Patty Mills"
+      "fullName": "Patty Mills",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201988.png"
     },
     "finishing": 72,
     "midRange": 75,
@@ -30600,7 +30700,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Marco Belinelli"
+      "fullName": "Marco Belinelli",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201158.png"
     },
     "finishing": 77,
     "midRange": 78,
@@ -30646,7 +30747,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Matt Bonner"
+      "fullName": "Matt Bonner",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2588.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -30692,7 +30794,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Aron Baynes"
+      "fullName": "Aron Baynes",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203382.png"
     },
     "finishing": 75,
     "midRange": 72,
@@ -30738,7 +30841,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Cory Joseph"
+      "fullName": "Cory Joseph",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202709.png"
     },
     "finishing": 73,
     "midRange": 73,
@@ -30784,7 +30888,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jeff Ayres"
+      "fullName": "Jeff Ayres",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201965.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -30830,7 +30935,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mario Chalmers"
+      "fullName": "Mario Chalmers",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201596.png"
     },
     "finishing": 81,
     "midRange": 82,
@@ -30876,7 +30982,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dwyane Wade"
+      "fullName": "Dwyane Wade",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2548.png"
     },
     "finishing": 95,
     "midRange": 95,
@@ -30922,7 +31029,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "LeBron James"
+      "fullName": "LeBron James",
+      "portraitAsset": "/assets/portraits/classic/lebron-james.png"
     },
     "finishing": 99,
     "midRange": 97,
@@ -30968,7 +31076,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Udonis Haslem"
+      "fullName": "Udonis Haslem",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2617.png"
     },
     "finishing": 81,
     "midRange": 77,
@@ -31014,7 +31123,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Bosh"
+      "fullName": "Chris Bosh",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2547.png"
     },
     "finishing": 90,
     "midRange": 87,
@@ -31060,7 +31170,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ray Allen"
+      "fullName": "Ray Allen",
+      "portraitAsset": "/assets/portraits/classic/ray-allen.png"
     },
     "finishing": 91,
     "midRange": 91,
@@ -31106,7 +31217,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shane Battier"
+      "fullName": "Shane Battier",
+      "portraitAsset": "/assets/portraits/classic/shane-battier.jpg"
     },
     "finishing": 81,
     "midRange": 80,
@@ -31152,7 +31264,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Andersen"
+      "fullName": "Chris Andersen",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2365.png"
     },
     "finishing": 76,
     "midRange": 71,
@@ -31198,7 +31311,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Norris Cole"
+      "fullName": "Norris Cole",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202708.png"
     },
     "finishing": 74,
     "midRange": 75,
@@ -31244,7 +31358,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mike Miller"
+      "fullName": "Mike Miller",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2034.png"
     },
     "finishing": 81,
     "midRange": 78,
@@ -31290,7 +31405,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Joel Anthony"
+      "fullName": "Joel Anthony",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201202.png"
     },
     "finishing": 77,
     "midRange": 72,
@@ -31336,7 +31452,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Jones"
+      "fullName": "James Jones",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2592.png"
     },
     "finishing": 77,
     "midRange": 74,
@@ -31382,7 +31499,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rashard Lewis"
+      "fullName": "Rashard Lewis",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1740.png"
     },
     "finishing": 75,
     "midRange": 75,
@@ -31428,7 +31546,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jamal Murray"
+      "fullName": "Jamal Murray",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1627750.png"
     },
     "finishing": 86,
     "midRange": 88,
@@ -31474,7 +31593,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kentavious Caldwell-Pope"
+      "fullName": "Kentavious Caldwell-Pope",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203484.png"
     },
     "finishing": 83,
     "midRange": 83,
@@ -31520,7 +31640,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Michael Porter Jr."
+      "fullName": "Michael Porter Jr.",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1629008.png"
     },
     "finishing": 86,
     "midRange": 84,
@@ -31566,7 +31687,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Aaron Gordon"
+      "fullName": "Aaron Gordon",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203932.png"
     },
     "finishing": 87,
     "midRange": 83,
@@ -31612,7 +31734,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nikola Jokic"
+      "fullName": "Nikola Jokic",
+      "portraitAsset": "/assets/portraits/classic/nikola-jokic.png"
     },
     "finishing": 96,
     "midRange": 91,
@@ -31658,7 +31781,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bruce Brown"
+      "fullName": "Bruce Brown",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1628971.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -31704,7 +31828,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jeff Green"
+      "fullName": "Jeff Green",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201145.png"
     },
     "finishing": 77,
     "midRange": 73,
@@ -31750,7 +31875,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Christian Braun"
+      "fullName": "Christian Braun",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1631128.png"
     },
     "finishing": 76,
     "midRange": 76,
@@ -31796,7 +31922,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bones Hyland"
+      "fullName": "Bones Hyland",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630538.png"
     },
     "finishing": 73,
     "midRange": 73,
@@ -31842,7 +31969,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "DeAndre Jordan"
+      "fullName": "DeAndre Jordan",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201599.png"
     },
     "finishing": 87,
     "midRange": 83,
@@ -31888,7 +32016,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Vlatko Cancar"
+      "fullName": "Vlatko Cancar",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1628427.png"
     },
     "finishing": 75,
     "midRange": 75,
@@ -31934,7 +32063,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Zeke Nnaji"
+      "fullName": "Zeke Nnaji",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1630192.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -31980,7 +32110,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Peyton Watson"
+      "fullName": "Peyton Watson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1631212.png"
     },
     "finishing": 75,
     "midRange": 74,
@@ -32026,7 +32157,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rajon Rondo"
+      "fullName": "Rajon Rondo",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200765.png"
     },
     "finishing": 81,
     "midRange": 82,
@@ -32072,7 +32204,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ray Allen"
+      "fullName": "Ray Allen",
+      "portraitAsset": "/assets/portraits/classic/ray-allen.png"
     },
     "finishing": 91,
     "midRange": 92,
@@ -32118,7 +32251,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Paul Pierce"
+      "fullName": "Paul Pierce",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1718.png"
     },
     "finishing": 91,
     "midRange": 91,
@@ -32164,7 +32298,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kevin Garnett"
+      "fullName": "Kevin Garnett",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/708.png"
     },
     "finishing": 95,
     "midRange": 92,
@@ -32210,7 +32345,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kendrick Perkins"
+      "fullName": "Kendrick Perkins",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2570.png"
     },
     "finishing": 78,
     "midRange": 75,
@@ -32256,7 +32392,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Posey"
+      "fullName": "James Posey",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1899.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -32302,7 +32439,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Eddie House"
+      "fullName": "Eddie House",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2067.png"
     },
     "finishing": 75,
     "midRange": 78,
@@ -32348,7 +32486,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "P.J. Brown"
+      "fullName": "P.J. Brown",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/136.png"
     },
     "finishing": 75,
     "midRange": 73,
@@ -32394,7 +32533,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Leon Powe"
+      "fullName": "Leon Powe",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200796.png"
     },
     "finishing": 75,
     "midRange": 75,
@@ -32440,7 +32580,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tony Allen"
+      "fullName": "Tony Allen",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2754.png"
     },
     "finishing": 85,
     "midRange": 85,
@@ -32486,7 +32627,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Glen Davis"
+      "fullName": "Glen Davis",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201175.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -32532,7 +32674,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sam Cassell"
+      "fullName": "Sam Cassell",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/208.png"
     },
     "finishing": 74,
     "midRange": 73,
@@ -32578,7 +32721,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brian Scalabrine"
+      "fullName": "Brian Scalabrine",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2243.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -32624,7 +32768,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jason Kidd"
+      "fullName": "Jason Kidd",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/467.png"
     },
     "finishing": 90,
     "midRange": 91,
@@ -32670,7 +32815,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jason Terry"
+      "fullName": "Jason Terry",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1891.png"
     },
     "finishing": 84,
     "midRange": 84,
@@ -32716,7 +32862,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shawn Marion"
+      "fullName": "Shawn Marion",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1890.png"
     },
     "finishing": 84,
     "midRange": 83,
@@ -32762,7 +32909,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dirk Nowitzki"
+      "fullName": "Dirk Nowitzki",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1717.png"
     },
     "finishing": 95,
     "midRange": 91,
@@ -32808,7 +32956,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tyson Chandler"
+      "fullName": "Tyson Chandler",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2199.png"
     },
     "finishing": 89,
     "midRange": 83,
@@ -32854,7 +33003,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jose Juan Barea"
+      "fullName": "Jose Juan Barea",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200826.png"
     },
     "finishing": 73,
     "midRange": 74,
@@ -32900,7 +33050,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Peja Stojakovic"
+      "fullName": "Peja Stojakovic",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/978.png"
     },
     "finishing": 89,
     "midRange": 89,
@@ -32946,7 +33097,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brendan Haywood"
+      "fullName": "Brendan Haywood",
+      "portraitAsset": "/assets/portraits/classic/brendan-haywood.jpg"
     },
     "finishing": 81,
     "midRange": 75,
@@ -32992,7 +33144,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "DeShawn Stevenson"
+      "fullName": "DeShawn Stevenson",
+      "portraitAsset": "/assets/portraits/classic/deshawn-stevenson.jpg"
     },
     "finishing": 79,
     "midRange": 80,
@@ -33038,7 +33191,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brian Cardinal"
+      "fullName": "Brian Cardinal",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2073.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -33084,7 +33238,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ian Mahinmi"
+      "fullName": "Ian Mahinmi",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/101133.png"
     },
     "finishing": 75,
     "midRange": 71,
@@ -33130,7 +33285,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Corey Brewer"
+      "fullName": "Corey Brewer",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201147.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -33176,7 +33332,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dominique Jones"
+      "fullName": "Dominique Jones",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202346.png"
     },
     "finishing": 77,
     "midRange": 77,
@@ -33222,7 +33379,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Derrick Rose"
+      "fullName": "Derrick Rose",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201565.png"
     },
     "finishing": 90,
     "midRange": 93,
@@ -33268,7 +33426,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Keith Bogans"
+      "fullName": "Keith Bogans",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2586.png"
     },
     "finishing": 79,
     "midRange": 80,
@@ -33314,7 +33473,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Luol Deng"
+      "fullName": "Luol Deng",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2736.png"
     },
     "finishing": 88,
     "midRange": 88,
@@ -33360,7 +33520,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Carlos Boozer"
+      "fullName": "Carlos Boozer",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2419.png"
     },
     "finishing": 86,
     "midRange": 84,
@@ -33406,7 +33567,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Joakim Noah"
+      "fullName": "Joakim Noah",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201149.png"
     },
     "finishing": 91,
     "midRange": 87,
@@ -33452,7 +33614,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Taj Gibson"
+      "fullName": "Taj Gibson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201959.png"
     },
     "finishing": 85,
     "midRange": 83,
@@ -33498,7 +33661,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kyle Korver"
+      "fullName": "Kyle Korver",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2594.png"
     },
     "finishing": 82,
     "midRange": 84,
@@ -33544,7 +33708,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ronnie Brewer"
+      "fullName": "Ronnie Brewer",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200751.png"
     },
     "finishing": 80,
     "midRange": 82,
@@ -33590,7 +33755,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "C.J. Watson"
+      "fullName": "C.J. Watson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201228.png"
     },
     "finishing": 76,
     "midRange": 76,
@@ -33636,7 +33802,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Omer Asik"
+      "fullName": "Omer Asik",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201589.png"
     },
     "finishing": 79,
     "midRange": 73,
@@ -33682,7 +33849,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kurt Thomas"
+      "fullName": "Kurt Thomas",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/703.png"
     },
     "finishing": 75,
     "midRange": 73,
@@ -33728,7 +33896,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brian Scalabrine"
+      "fullName": "Brian Scalabrine",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2243.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -33774,7 +33943,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rasual Butler"
+      "fullName": "Rasual Butler",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2446.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -33820,7 +33990,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Magic Johnson"
+      "fullName": "Magic Johnson",
+      "portraitAsset": "/assets/portraits/classic/magic-johnson.png"
     },
     "finishing": 97,
     "midRange": 97,
@@ -33866,7 +34037,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Norm Nixon"
+      "fullName": "Norm Nixon",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77721.png"
     },
     "finishing": 87,
     "midRange": 87,
@@ -33912,7 +34084,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jamaal Wilkes"
+      "fullName": "Jamaal Wilkes",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/78532.png"
     },
     "finishing": 88,
     "midRange": 86,
@@ -33958,7 +34131,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jim Chones"
+      "fullName": "Jim Chones",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76392.png"
     },
     "finishing": 82,
     "midRange": 79,
@@ -34004,7 +34178,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kareem Abdul-Jabbar"
+      "fullName": "Kareem Abdul-Jabbar",
+      "portraitAsset": "/assets/portraits/classic/kareem-abdul-jabbar.png"
     },
     "finishing": 99,
     "midRange": 97,
@@ -34050,7 +34225,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Michael Cooper"
+      "fullName": "Michael Cooper",
+      "portraitAsset": "/assets/portraits/classic/michael-cooper.jpg"
     },
     "finishing": 75,
     "midRange": 76,
@@ -34096,7 +34272,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Spencer Haywood"
+      "fullName": "Spencer Haywood",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76981.png"
     },
     "finishing": 83,
     "midRange": 82,
@@ -34142,7 +34319,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mark Landsberger"
+      "fullName": "Mark Landsberger",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77334.png"
     },
     "finishing": 78,
     "midRange": 76,
@@ -34188,7 +34366,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brad Holland"
+      "fullName": "Brad Holland",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77040.png"
     },
     "finishing": 77,
     "midRange": 77,
@@ -34234,7 +34413,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jim Brewer"
+      "fullName": "Jim Brewer",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76248.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -34280,7 +34460,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Don Ford"
+      "fullName": "Don Ford",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76734.png"
     },
     "finishing": 74,
     "midRange": 74,
@@ -34326,7 +34507,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Butch Lee"
+      "fullName": "Butch Lee",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77356.png"
     },
     "finishing": 72,
     "midRange": 73,
@@ -34372,7 +34554,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Marty Byrnes"
+      "fullName": "Marty Byrnes",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76321.png"
     },
     "finishing": 73,
     "midRange": 72,
@@ -34418,7 +34601,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Magic Johnson"
+      "fullName": "Magic Johnson",
+      "portraitAsset": "/assets/portraits/classic/magic-johnson.png"
     },
     "finishing": 96,
     "midRange": 95,
@@ -34464,7 +34648,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Byron Scott"
+      "fullName": "Byron Scott",
+      "portraitAsset": "/assets/portraits/classic/byron-scott.png"
     },
     "finishing": 83,
     "midRange": 84,
@@ -34510,7 +34695,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Worthy"
+      "fullName": "James Worthy",
+      "portraitAsset": "/assets/portraits/classic/james-worthy.png"
     },
     "finishing": 93,
     "midRange": 92,
@@ -34556,7 +34742,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "A.C. Green"
+      "fullName": "A.C. Green",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/920.png"
     },
     "finishing": 81,
     "midRange": 80,
@@ -34602,7 +34789,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kareem Abdul-Jabbar"
+      "fullName": "Kareem Abdul-Jabbar",
+      "portraitAsset": "/assets/portraits/classic/kareem-abdul-jabbar.png"
     },
     "finishing": 99,
     "midRange": 97,
@@ -34648,7 +34836,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Michael Cooper"
+      "fullName": "Michael Cooper",
+      "portraitAsset": "/assets/portraits/classic/michael-cooper.jpg"
     },
     "finishing": 77,
     "midRange": 77,
@@ -34694,7 +34883,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mychal Thompson"
+      "fullName": "Mychal Thompson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/78331.png"
     },
     "finishing": 77,
     "midRange": 73,
@@ -34740,7 +34930,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kurt Rambis"
+      "fullName": "Kurt Rambis",
+      "portraitAsset": "/assets/portraits/classic/kurt-rambis.jpg"
     },
     "finishing": 75,
     "midRange": 73,
@@ -34786,7 +34977,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Wes Matthews"
+      "fullName": "Wes Matthews",
+      "portraitAsset": "/assets/portraits/classic/wes-matthews.png"
     },
     "finishing": 73,
     "midRange": 73,
@@ -34832,7 +35024,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Adrian Branch"
+      "fullName": "Adrian Branch",
+      "portraitAsset": "/assets/portraits/classic/adrian-branch.jpg"
     },
     "finishing": 76,
     "midRange": 74,
@@ -34878,7 +35071,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Billy Thompson"
+      "fullName": "Billy Thompson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1631.png"
     },
     "finishing": 75,
     "midRange": 74,
@@ -34924,7 +35118,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Frank Brickowski"
+      "fullName": "Frank Brickowski",
+      "portraitAsset": "/assets/portraits/classic/frank-brickowski.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -34970,7 +35165,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mike Smrek"
+      "fullName": "Mike Smrek",
+      "portraitAsset": "/assets/portraits/classic/mike-smrek.png"
     },
     "finishing": 77,
     "midRange": 73,
@@ -35016,7 +35212,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kenny Smith"
+      "fullName": "Kenny Smith",
+      "portraitAsset": "/assets/portraits/classic/kenny-smith.png"
     },
     "finishing": 82,
     "midRange": 81,
@@ -35062,7 +35259,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Clyde Drexler"
+      "fullName": "Clyde Drexler",
+      "portraitAsset": "/assets/portraits/classic/clyde-drexler.png"
     },
     "finishing": 91,
     "midRange": 93,
@@ -35108,7 +35306,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Robert Horry"
+      "fullName": "Robert Horry",
+      "portraitAsset": "/assets/portraits/classic/robert-horry.png"
     },
     "finishing": 83,
     "midRange": 80,
@@ -35154,7 +35353,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mario Elie"
+      "fullName": "Mario Elie",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/53.png"
     },
     "finishing": 81,
     "midRange": 81,
@@ -35200,7 +35400,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Hakeem Olajuwon"
+      "fullName": "Hakeem Olajuwon",
+      "portraitAsset": "/assets/portraits/classic/hakeem-olajuwon.png"
     },
     "finishing": 96,
     "midRange": 92,
@@ -35246,7 +35447,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sam Cassell"
+      "fullName": "Sam Cassell",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/208.png"
     },
     "finishing": 73,
     "midRange": 74,
@@ -35292,7 +35494,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Vernon Maxwell"
+      "fullName": "Vernon Maxwell",
+      "portraitAsset": "/assets/portraits/classic/vernon-maxwell.png"
     },
     "finishing": 80,
     "midRange": 81,
@@ -35338,7 +35541,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chucky Brown"
+      "fullName": "Chucky Brown",
+      "portraitAsset": "/assets/portraits/classic/chucky-brown.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -35384,7 +35588,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Carl Herrera"
+      "fullName": "Carl Herrera",
+      "portraitAsset": "/assets/portraits/classic/carl-herrera.jpg"
     },
     "finishing": 76,
     "midRange": 73,
@@ -35430,7 +35635,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Zan Tabak"
+      "fullName": "Zan Tabak",
+      "portraitAsset": "/assets/portraits/classic/zan-tabak.jpg"
     },
     "finishing": 74,
     "midRange": 70,
@@ -35476,7 +35682,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Pete Chilcutt"
+      "fullName": "Pete Chilcutt",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/184.png"
     },
     "finishing": 73,
     "midRange": 73,
@@ -35522,7 +35729,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Charles Jones"
+      "fullName": "Charles Jones",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/186.png"
     },
     "finishing": 75,
     "midRange": 70,
@@ -35568,7 +35776,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tracy Murray"
+      "fullName": "Tracy Murray",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/918.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -35614,7 +35823,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kenny Smith"
+      "fullName": "Kenny Smith",
+      "portraitAsset": "/assets/portraits/classic/kenny-smith.png"
     },
     "finishing": 82,
     "midRange": 81,
@@ -35660,7 +35870,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Vernon Maxwell"
+      "fullName": "Vernon Maxwell",
+      "portraitAsset": "/assets/portraits/classic/vernon-maxwell.png"
     },
     "finishing": 80,
     "midRange": 82,
@@ -35706,7 +35917,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Robert Horry"
+      "fullName": "Robert Horry",
+      "portraitAsset": "/assets/portraits/classic/robert-horry.png"
     },
     "finishing": 83,
     "midRange": 80,
@@ -35752,7 +35964,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Otis Thorpe"
+      "fullName": "Otis Thorpe",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/901.png"
     },
     "finishing": 83,
     "midRange": 83,
@@ -35798,7 +36011,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Hakeem Olajuwon"
+      "fullName": "Hakeem Olajuwon",
+      "portraitAsset": "/assets/portraits/classic/hakeem-olajuwon.png"
     },
     "finishing": 96,
     "midRange": 92,
@@ -35844,7 +36058,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sam Cassell"
+      "fullName": "Sam Cassell",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/208.png"
     },
     "finishing": 74,
     "midRange": 75,
@@ -35890,7 +36105,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mario Elie"
+      "fullName": "Mario Elie",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/53.png"
     },
     "finishing": 82,
     "midRange": 83,
@@ -35936,7 +36152,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Carl Herrera"
+      "fullName": "Carl Herrera",
+      "portraitAsset": "/assets/portraits/classic/carl-herrera.jpg"
     },
     "finishing": 76,
     "midRange": 73,
@@ -35982,7 +36199,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Scott Brooks"
+      "fullName": "Scott Brooks",
+      "portraitAsset": "/assets/portraits/classic/scott-brooks.png"
     },
     "finishing": 72,
     "midRange": 74,
@@ -36028,7 +36246,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Jent"
+      "fullName": "Chris Jent",
+      "portraitAsset": "/assets/portraits/classic/chris-jent.png"
     },
     "finishing": 71,
     "midRange": 72,
@@ -36074,7 +36293,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Earl Cureton"
+      "fullName": "Earl Cureton",
+      "portraitAsset": "/assets/portraits/classic/earl-cureton.png"
     },
     "finishing": 71,
     "midRange": 67,
@@ -36120,7 +36340,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Matt Bullard"
+      "fullName": "Matt Bullard",
+      "portraitAsset": "/assets/portraits/classic/matt-bullard.png"
     },
     "finishing": 73,
     "midRange": 71,
@@ -36166,7 +36387,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Richard Petruska"
+      "fullName": "Richard Petruska",
+      "portraitAsset": "/assets/portraits/classic/richard-petruska.png"
     },
     "finishing": 71,
     "midRange": 67,
@@ -36212,7 +36434,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rafer Alston"
+      "fullName": "Rafer Alston",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1747.png"
     },
     "finishing": 77,
     "midRange": 77,
@@ -36258,7 +36481,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tracy McGrady"
+      "fullName": "Tracy McGrady",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1503.png"
     },
     "finishing": 93,
     "midRange": 94,
@@ -36304,7 +36528,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shane Battier"
+      "fullName": "Shane Battier",
+      "portraitAsset": "/assets/portraits/classic/shane-battier.jpg"
     },
     "finishing": 82,
     "midRange": 81,
@@ -36350,7 +36575,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Juwan Howard"
+      "fullName": "Juwan Howard",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/436.png"
     },
     "finishing": 83,
     "midRange": 83,
@@ -36396,7 +36622,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Yao Ming"
+      "fullName": "Yao Ming",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2397.png"
     },
     "finishing": 91,
     "midRange": 86,
@@ -36442,7 +36669,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Luther Head"
+      "fullName": "Luther Head",
+      "portraitAsset": "/assets/portraits/classic/luther-head.png"
     },
     "finishing": 78,
     "midRange": 80,
@@ -36488,7 +36716,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bonzi Wells"
+      "fullName": "Bonzi Wells",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1719.png"
     },
     "finishing": 78,
     "midRange": 77,
@@ -36534,7 +36763,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chuck Hayes"
+      "fullName": "Chuck Hayes",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/101236.png"
     },
     "finishing": 78,
     "midRange": 76,
@@ -36580,7 +36810,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dikembe Mutombo"
+      "fullName": "Dikembe Mutombo",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/87.png"
     },
     "finishing": 88,
     "midRange": 84,
@@ -36626,7 +36857,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kirk Snyder"
+      "fullName": "Kirk Snyder",
+      "portraitAsset": "/assets/portraits/classic/kirk-snyder.png"
     },
     "finishing": 73,
     "midRange": 75,
@@ -36672,7 +36904,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Lucas III"
+      "fullName": "John Lucas III",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201627.png"
     },
     "finishing": 71,
     "midRange": 72,
@@ -36718,7 +36951,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Steve Novak"
+      "fullName": "Steve Novak",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200779.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -36810,7 +37044,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kevin Johnson"
+      "fullName": "Kevin Johnson",
+      "portraitAsset": "/assets/portraits/classic/kevin-johnson.png"
     },
     "finishing": 84,
     "midRange": 86,
@@ -36856,7 +37091,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dan Majerle"
+      "fullName": "Dan Majerle",
+      "portraitAsset": "/assets/portraits/classic/dan-majerle.png"
     },
     "finishing": 85,
     "midRange": 84,
@@ -36948,7 +37184,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Charles Barkley"
+      "fullName": "Charles Barkley",
+      "portraitAsset": "/assets/portraits/classic/charles-barkley.png"
     },
     "finishing": 95,
     "midRange": 91,
@@ -36994,7 +37231,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mark West"
+      "fullName": "Mark West",
+      "portraitAsset": "/assets/portraits/classic/mark-west.png"
     },
     "finishing": 83,
     "midRange": 81,
@@ -37040,7 +37278,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Danny Ainge"
+      "fullName": "Danny Ainge",
+      "portraitAsset": "/assets/portraits/classic/danny-ainge.png"
     },
     "finishing": 85,
     "midRange": 84,
@@ -37132,7 +37371,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tom Chambers"
+      "fullName": "Tom Chambers",
+      "portraitAsset": "/assets/portraits/classic/tom-chambers.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -37454,7 +37694,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Reggie Miller"
+      "fullName": "Reggie Miller",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/397.png"
     },
     "finishing": 91,
     "midRange": 92,
@@ -37500,7 +37741,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jalen Rose"
+      "fullName": "Jalen Rose",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/147.png"
     },
     "finishing": 83,
     "midRange": 84,
@@ -37776,7 +38018,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sam Perkins"
+      "fullName": "Sam Perkins",
+      "portraitAsset": "/assets/portraits/classic/sam-perkins.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -37822,7 +38065,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Mullin"
+      "fullName": "Chris Mullin",
+      "portraitAsset": "/assets/portraits/classic/chris-mullin.png"
     },
     "finishing": 89,
     "midRange": 86,
@@ -37914,7 +38158,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Zan Tabak"
+      "fullName": "Zan Tabak",
+      "portraitAsset": "/assets/portraits/classic/zan-tabak.jpg"
     },
     "finishing": 75,
     "midRange": 70,
@@ -38006,7 +38251,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Alvin Williams"
+      "fullName": "Alvin Williams",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/204.png"
     },
     "finishing": 81,
     "midRange": 82,
@@ -38052,7 +38298,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Vince Carter"
+      "fullName": "Vince Carter",
+      "portraitAsset": "/assets/portraits/classic/vince-carter.png"
     },
     "finishing": 89,
     "midRange": 92,
@@ -38098,7 +38345,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Morris Peterson"
+      "fullName": "Morris Peterson",
+      "portraitAsset": "/assets/portraits/classic/morris-peterson.png"
     },
     "finishing": 85,
     "midRange": 84,
@@ -38144,7 +38392,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Charles Oakley"
+      "fullName": "Charles Oakley",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/297.png"
     },
     "finishing": 85,
     "midRange": 83,
@@ -38190,7 +38439,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Antonio Davis"
+      "fullName": "Antonio Davis",
+      "portraitAsset": "/assets/portraits/classic/antonio-davis.png"
     },
     "finishing": 85,
     "midRange": 81,
@@ -38236,7 +38486,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dell Curry"
+      "fullName": "Dell Curry",
+      "portraitAsset": "/assets/portraits/classic/dell-curry.png"
     },
     "finishing": 79,
     "midRange": 79,
@@ -38282,7 +38533,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jerome Williams"
+      "fullName": "Jerome Williams",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/757.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -38374,7 +38626,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Childs"
+      "fullName": "Chris Childs",
+      "portraitAsset": "/assets/portraits/classic/chris-childs.png"
     },
     "finishing": 73,
     "midRange": 74,
@@ -38420,7 +38673,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Corliss Williamson"
+      "fullName": "Corliss Williamson",
+      "portraitAsset": "/assets/portraits/classic/corliss-williamson.png"
     },
     "finishing": 79,
     "midRange": 80,
@@ -38466,7 +38720,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Michael Stewart"
+      "fullName": "Michael Stewart",
+      "portraitAsset": "/assets/portraits/classic/michael-stewart.png"
     },
     "finishing": 75,
     "midRange": 72,
@@ -38512,7 +38767,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tracy Murray"
+      "fullName": "Tracy Murray",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/918.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -38558,7 +38814,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Muggsy Bogues"
+      "fullName": "Muggsy Bogues",
+      "portraitAsset": "/assets/portraits/classic/muggsy-bogues.png"
     },
     "finishing": 74,
     "midRange": 75,
@@ -38604,7 +38861,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Stockton"
+      "fullName": "John Stockton",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/304.png"
     },
     "finishing": 91,
     "midRange": 92,
@@ -38650,7 +38908,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jeff Hornacek"
+      "fullName": "Jeff Hornacek",
+      "portraitAsset": "/assets/portraits/classic/jeff-hornacek.png"
     },
     "finishing": 86,
     "midRange": 87,
@@ -38742,7 +39001,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Karl Malone"
+      "fullName": "Karl Malone",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/252.png"
     },
     "finishing": 95,
     "midRange": 92,
@@ -38788,7 +39048,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Greg Ostertag"
+      "fullName": "Greg Ostertag",
+      "portraitAsset": "/assets/portraits/classic/greg-ostertag.png"
     },
     "finishing": 85,
     "midRange": 80,
@@ -38834,7 +39095,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Howard Eisley"
+      "fullName": "Howard Eisley",
+      "portraitAsset": "/assets/portraits/classic/howard-eisley.png"
     },
     "finishing": 73,
     "midRange": 75,
@@ -38880,7 +39142,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shandon Anderson"
+      "fullName": "Shandon Anderson",
+      "portraitAsset": "/assets/portraits/classic/shandon-anderson.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -38926,7 +39189,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Adam Keefe"
+      "fullName": "Adam Keefe",
+      "portraitAsset": "/assets/portraits/classic/adam-keefe.png"
     },
     "finishing": 75,
     "midRange": 75,
@@ -38972,7 +39236,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Antoine Carr"
+      "fullName": "Antoine Carr",
+      "portraitAsset": "/assets/portraits/classic/antoine-carr.png"
     },
     "finishing": 75,
     "midRange": 73,
@@ -39018,7 +39283,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Morris"
+      "fullName": "Chris Morris",
+      "portraitAsset": "/assets/portraits/classic/chris-morris.jpg"
     },
     "finishing": 76,
     "midRange": 75,
@@ -39064,7 +39330,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jacque Vaughn"
+      "fullName": "Jacque Vaughn",
+      "portraitAsset": "/assets/portraits/classic/jacque-vaughn.png"
     },
     "finishing": 73,
     "midRange": 74,
@@ -39110,7 +39377,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Greg Foster"
+      "fullName": "Greg Foster",
+      "portraitAsset": "/assets/portraits/classic/greg-foster.png"
     },
     "finishing": 76,
     "midRange": 71,
@@ -39156,7 +39424,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Troy Hudson"
+      "fullName": "Troy Hudson",
+      "portraitAsset": "/assets/portraits/classic/troy-hudson.png"
     },
     "finishing": 72,
     "midRange": 75,
@@ -39202,7 +39471,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Allen Iverson"
+      "fullName": "Allen Iverson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/947.png"
     },
     "finishing": 89,
     "midRange": 90,
@@ -39248,7 +39518,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Aaron McKie"
+      "fullName": "Aaron McKie",
+      "portraitAsset": "/assets/portraits/classic/aaron-mckie.png"
     },
     "finishing": 79,
     "midRange": 80,
@@ -39294,7 +39565,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jumaine Jones"
+      "fullName": "Jumaine Jones",
+      "portraitAsset": "/assets/portraits/classic/jumaine-jones.png"
     },
     "finishing": 83,
     "midRange": 82,
@@ -39340,7 +39612,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tyrone Hill"
+      "fullName": "Tyrone Hill",
+      "portraitAsset": "/assets/portraits/classic/tyrone-hill.png"
     },
     "finishing": 83,
     "midRange": 82,
@@ -39386,7 +39659,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dikembe Mutombo"
+      "fullName": "Dikembe Mutombo",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/87.png"
     },
     "finishing": 87,
     "midRange": 83,
@@ -39432,7 +39706,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Eric Snow"
+      "fullName": "Eric Snow",
+      "portraitAsset": "/assets/portraits/classic/eric-snow.png"
     },
     "finishing": 76,
     "midRange": 76,
@@ -39524,7 +39799,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "George Lynch"
+      "fullName": "George Lynch",
+      "portraitAsset": "/assets/portraits/classic/george-lynch.png"
     },
     "finishing": 75,
     "midRange": 74,
@@ -39570,7 +39846,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Theo Ratliff"
+      "fullName": "Theo Ratliff",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/689.png"
     },
     "finishing": 77,
     "midRange": 72,
@@ -39616,7 +39893,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Todd MacCulloch"
+      "fullName": "Todd MacCulloch",
+      "portraitAsset": "/assets/portraits/classic/todd-macculloch.png"
     },
     "finishing": 77,
     "midRange": 73,
@@ -39708,7 +39986,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rodney Buford"
+      "fullName": "Rodney Buford",
+      "portraitAsset": "/assets/portraits/classic/rodney-buford.png"
     },
     "finishing": 75,
     "midRange": 78,
@@ -39754,7 +40033,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Matt Geiger"
+      "fullName": "Matt Geiger",
+      "portraitAsset": "/assets/portraits/classic/matt-geiger.png"
     },
     "finishing": 76,
     "midRange": 72,
@@ -39800,7 +40080,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Isiah Thomas"
+      "fullName": "Isiah Thomas",
+      "portraitAsset": "/assets/portraits/classic/isiah-thomas.png"
     },
     "finishing": 91,
     "midRange": 90,
@@ -39846,7 +40127,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Joe Dumars"
+      "fullName": "Joe Dumars",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/247.png"
     },
     "finishing": 88,
     "midRange": 88,
@@ -39892,7 +40174,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mark Aguirre"
+      "fullName": "Mark Aguirre",
+      "portraitAsset": "/assets/portraits/classic/mark-aguirre.png"
     },
     "finishing": 86,
     "midRange": 85,
@@ -39938,7 +40221,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rick Mahorn"
+      "fullName": "Rick Mahorn",
+      "portraitAsset": "/assets/portraits/classic/rick-mahorn.png"
     },
     "finishing": 83,
     "midRange": 82,
@@ -39984,7 +40268,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bill Laimbeer"
+      "fullName": "Bill Laimbeer",
+      "portraitAsset": "/assets/portraits/classic/bill-laimbeer.png"
     },
     "finishing": 84,
     "midRange": 80,
@@ -40076,7 +40361,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dennis Rodman"
+      "fullName": "Dennis Rodman",
+      "portraitAsset": "/assets/portraits/classic/dennis-rodman.png"
     },
     "finishing": 82,
     "midRange": 79,
@@ -40122,7 +40408,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Salley"
+      "fullName": "John Salley",
+      "portraitAsset": "/assets/portraits/classic/john-salley.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -40168,7 +40455,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Edwards"
+      "fullName": "James Edwards",
+      "portraitAsset": "/assets/portraits/classic/james-edwards.jpg"
     },
     "finishing": 77,
     "midRange": 73,
@@ -40214,7 +40502,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Long"
+      "fullName": "John Long",
+      "portraitAsset": "/assets/portraits/classic/john-long.png"
     },
     "finishing": 76,
     "midRange": 78,
@@ -40260,7 +40549,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "William Bedford"
+      "fullName": "William Bedford",
+      "portraitAsset": "/assets/portraits/classic/william-bedford.png"
     },
     "finishing": 76,
     "midRange": 73,
@@ -40306,7 +40596,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Fennis Dembo"
+      "fullName": "Fennis Dembo",
+      "portraitAsset": "/assets/portraits/classic/fennis-dembo.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -40352,7 +40643,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Micheal Williams"
+      "fullName": "Micheal Williams",
+      "portraitAsset": "/assets/portraits/classic/micheal-williams.png"
     },
     "finishing": 72,
     "midRange": 74,
@@ -40398,7 +40690,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Derek Harper"
+      "fullName": "Derek Harper",
+      "portraitAsset": "/assets/portraits/classic/derek-harper.png"
     },
     "finishing": 78,
     "midRange": 80,
@@ -40444,7 +40737,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Starks"
+      "fullName": "John Starks",
+      "portraitAsset": "/assets/portraits/classic/john-starks.png"
     },
     "finishing": 82,
     "midRange": 84,
@@ -40490,7 +40784,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Charles Oakley"
+      "fullName": "Charles Oakley",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/297.png"
     },
     "finishing": 84,
     "midRange": 83,
@@ -40536,7 +40831,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Anthony Mason"
+      "fullName": "Anthony Mason",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/193.png"
     },
     "finishing": 84,
     "midRange": 82,
@@ -40582,7 +40878,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Patrick Ewing"
+      "fullName": "Patrick Ewing",
+      "portraitAsset": "/assets/portraits/classic/patrick-ewing.png"
     },
     "finishing": 93,
     "midRange": 87,
@@ -40628,7 +40925,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Hubert Davis"
+      "fullName": "Hubert Davis",
+      "portraitAsset": "/assets/portraits/classic/hubert-davis.png"
     },
     "finishing": 76,
     "midRange": 77,
@@ -40674,7 +40972,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Greg Anthony"
+      "fullName": "Greg Anthony",
+      "portraitAsset": "/assets/portraits/classic/greg-anthony.png"
     },
     "finishing": 73,
     "midRange": 73,
@@ -40720,7 +41019,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Charles Smith"
+      "fullName": "Charles Smith",
+      "portraitAsset": "/assets/portraits/classic/charles-smith.png"
     },
     "finishing": 75,
     "midRange": 73,
@@ -40766,7 +41066,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Herb Williams"
+      "fullName": "Herb Williams",
+      "portraitAsset": "/assets/portraits/classic/herb-williams.png"
     },
     "finishing": 75,
     "midRange": 72,
@@ -40858,7 +41159,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Doc Rivers"
+      "fullName": "Doc Rivers",
+      "portraitAsset": "/assets/portraits/classic/doc-rivers.png"
     },
     "finishing": 74,
     "midRange": 74,
@@ -40996,7 +41298,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jeremy Lin"
+      "fullName": "Jeremy Lin",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202391.png"
     },
     "finishing": 84,
     "midRange": 83,
@@ -41042,7 +41345,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Landry Fields"
+      "fullName": "Landry Fields",
+      "portraitAsset": "/assets/portraits/classic/landry-fields.jpg"
     },
     "finishing": 77,
     "midRange": 80,
@@ -41088,7 +41392,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Carmelo Anthony"
+      "fullName": "Carmelo Anthony",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2546.png"
     },
     "finishing": 92,
     "midRange": 92,
@@ -41134,7 +41439,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Amar'e Stoudemire"
+      "fullName": "Amar'e Stoudemire",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2405.png"
     },
     "finishing": 91,
     "midRange": 89,
@@ -41180,7 +41486,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tyson Chandler"
+      "fullName": "Tyson Chandler",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2199.png"
     },
     "finishing": 87,
     "midRange": 83,
@@ -41226,7 +41533,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Iman Shumpert"
+      "fullName": "Iman Shumpert",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202697.png"
     },
     "finishing": 79,
     "midRange": 82,
@@ -41272,7 +41580,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "J.R. Smith"
+      "fullName": "J.R. Smith",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2747.png"
     },
     "finishing": 85,
     "midRange": 85,
@@ -41318,7 +41627,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Steve Novak"
+      "fullName": "Steve Novak",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200779.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -41364,7 +41674,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Toney Douglas"
+      "fullName": "Toney Douglas",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201962.png"
     },
     "finishing": 74,
     "midRange": 75,
@@ -41410,7 +41721,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jared Jeffries"
+      "fullName": "Jared Jeffries",
+      "portraitAsset": "/assets/portraits/classic/jared-jeffries.jpg"
     },
     "finishing": 73,
     "midRange": 73,
@@ -41456,7 +41768,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Baron Davis"
+      "fullName": "Baron Davis",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1884.png"
     },
     "finishing": 78,
     "midRange": 80,
@@ -41502,7 +41815,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Josh Harrellson"
+      "fullName": "Josh Harrellson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202725.png"
     },
     "finishing": 72,
     "midRange": 69,
@@ -41548,7 +41862,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mike Bibby"
+      "fullName": "Mike Bibby",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1710.png"
     },
     "finishing": 84,
     "midRange": 86,
@@ -41594,7 +41909,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Avery Johnson"
+      "fullName": "Avery Johnson",
+      "portraitAsset": "/assets/portraits/classic/avery-johnson.jpg"
     },
     "finishing": 79,
     "midRange": 79,
@@ -41640,7 +41956,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mario Elie"
+      "fullName": "Mario Elie",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/53.png"
     },
     "finishing": 81,
     "midRange": 82,
@@ -41686,7 +42003,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sean Elliott"
+      "fullName": "Sean Elliott",
+      "portraitAsset": "/assets/portraits/classic/sean-elliott.png"
     },
     "finishing": 84,
     "midRange": 84,
@@ -41732,7 +42050,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tim Duncan"
+      "fullName": "Tim Duncan",
+      "portraitAsset": "/assets/portraits/classic/tim-duncan.png"
     },
     "finishing": 99,
     "midRange": 98,
@@ -41778,7 +42097,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "David Robinson"
+      "fullName": "David Robinson",
+      "portraitAsset": "/assets/portraits/classic/david-robinson.png"
     },
     "finishing": 93,
     "midRange": 91,
@@ -41824,7 +42144,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jaren Jackson"
+      "fullName": "Jaren Jackson",
+      "portraitAsset": "/assets/portraits/classic/jaren-jackson.png"
     },
     "finishing": 76,
     "midRange": 78,
@@ -41870,7 +42191,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jerome Kersey"
+      "fullName": "Jerome Kersey",
+      "portraitAsset": "/assets/portraits/classic/jerome-kersey.jpg"
     },
     "finishing": 76,
     "midRange": 76,
@@ -41916,7 +42238,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Malik Rose"
+      "fullName": "Malik Rose",
+      "portraitAsset": "/assets/portraits/classic/malik-rose.png"
     },
     "finishing": 77,
     "midRange": 74,
@@ -41962,7 +42285,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Steve Kerr"
+      "fullName": "Steve Kerr",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/70.png"
     },
     "finishing": 82,
     "midRange": 84,
@@ -42008,7 +42332,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Will Perdue"
+      "fullName": "Will Perdue",
+      "portraitAsset": "/assets/portraits/classic/will-perdue.png"
     },
     "finishing": 75,
     "midRange": 73,
@@ -42054,7 +42379,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Antonio Daniels"
+      "fullName": "Antonio Daniels",
+      "portraitAsset": "/assets/portraits/classic/antonio-daniels.png"
     },
     "finishing": 76,
     "midRange": 77,
@@ -42192,7 +42518,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jrue Holiday"
+      "fullName": "Jrue Holiday",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201950.png"
     },
     "finishing": 86,
     "midRange": 85,
@@ -42238,7 +42565,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Khris Middleton"
+      "fullName": "Khris Middleton",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203114.png"
     },
     "finishing": 87,
     "midRange": 90,
@@ -42284,7 +42612,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Giannis Antetokounmpo"
+      "fullName": "Giannis Antetokounmpo",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203507.png"
     },
     "finishing": 96,
     "midRange": 93,
@@ -42330,7 +42659,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "P.J. Tucker"
+      "fullName": "P.J. Tucker",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200782.png"
     },
     "finishing": 81,
     "midRange": 80,
@@ -42376,7 +42706,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brook Lopez"
+      "fullName": "Brook Lopez",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201572.png"
     },
     "finishing": 84,
     "midRange": 81,
@@ -42422,7 +42753,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bobby Portis"
+      "fullName": "Bobby Portis",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1626171.png"
     },
     "finishing": 77,
     "midRange": 74,
@@ -42468,7 +42800,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Pat Connaughton"
+      "fullName": "Pat Connaughton",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1626192.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -42514,7 +42847,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jeff Teague"
+      "fullName": "Jeff Teague",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201952.png"
     },
     "finishing": 73,
     "midRange": 74,
@@ -42606,7 +42940,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Thanasis Antetokounmpo"
+      "fullName": "Thanasis Antetokounmpo",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203648.png"
     },
     "finishing": 77,
     "midRange": 74,
@@ -42652,7 +42987,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Donte DiVincenzo"
+      "fullName": "Donte DiVincenzo",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1628978.png"
     },
     "finishing": 76,
     "midRange": 78,
@@ -42698,7 +43034,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jordan Nwora"
+      "fullName": "Jordan Nwora",
+      "portraitAsset": "/assets/portraits/classic/jordan-nwora.jpg"
     },
     "finishing": 77,
     "midRange": 76,
@@ -42790,7 +43127,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Spud Webb"
+      "fullName": "Spud Webb",
+      "portraitAsset": "/assets/portraits/classic/spud-webb.png"
     },
     "finishing": 74,
     "midRange": 75,
@@ -42836,7 +43174,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Doc Rivers"
+      "fullName": "Doc Rivers",
+      "portraitAsset": "/assets/portraits/classic/doc-rivers.png"
     },
     "finishing": 85,
     "midRange": 84,
@@ -42882,7 +43221,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dominique Wilkins"
+      "fullName": "Dominique Wilkins",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1122.png"
     },
     "finishing": 90,
     "midRange": 91,
@@ -42928,7 +43268,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kevin Willis"
+      "fullName": "Kevin Willis",
+      "portraitAsset": "/assets/portraits/classic/kevin-willis.png"
     },
     "finishing": 85,
     "midRange": 83,
@@ -42974,7 +43315,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Moses Malone"
+      "fullName": "Moses Malone",
+      "portraitAsset": "/assets/portraits/classic/moses-malone.png"
     },
     "finishing": 94,
     "midRange": 92,
@@ -43020,7 +43362,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Battle"
+      "fullName": "John Battle",
+      "portraitAsset": "/assets/portraits/classic/john-battle.png"
     },
     "finishing": 76,
     "midRange": 76,
@@ -43204,7 +43547,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sidney Moncrief"
+      "fullName": "Sidney Moncrief",
+      "portraitAsset": "/assets/portraits/classic/sidney-moncrief.png"
     },
     "finishing": 77,
     "midRange": 78,
@@ -43388,7 +43732,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Steve Nash"
+      "fullName": "Steve Nash",
+      "portraitAsset": "/assets/portraits/classic/steve-nash.png"
     },
     "finishing": 91,
     "midRange": 91,
@@ -43434,7 +43779,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Joe Johnson"
+      "fullName": "Joe Johnson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2207.png"
     },
     "finishing": 85,
     "midRange": 87,
@@ -43480,7 +43826,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Quentin Richardson"
+      "fullName": "Quentin Richardson",
+      "portraitAsset": "/assets/portraits/classic/quentin-richardson.png"
     },
     "finishing": 78,
     "midRange": 76,
@@ -43526,7 +43873,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shawn Marion"
+      "fullName": "Shawn Marion",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1890.png"
     },
     "finishing": 83,
     "midRange": 81,
@@ -43572,7 +43920,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Amar'e Stoudemire"
+      "fullName": "Amar'e Stoudemire",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2405.png"
     },
     "finishing": 90,
     "midRange": 87,
@@ -43664,7 +44013,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Steven Hunter"
+      "fullName": "Steven Hunter",
+      "portraitAsset": "/assets/portraits/classic/steven-hunter.png"
     },
     "finishing": 77,
     "midRange": 72,
@@ -43710,7 +44060,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bo Outlaw"
+      "fullName": "Bo Outlaw",
+      "portraitAsset": "/assets/portraits/classic/bo-outlaw.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -43756,7 +44107,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Leandro Barbosa"
+      "fullName": "Leandro Barbosa",
+      "portraitAsset": "/assets/portraits/classic/leandro-barbosa.png"
     },
     "finishing": 79,
     "midRange": 81,
@@ -43802,7 +44154,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Casey Jacobsen"
+      "fullName": "Casey Jacobsen",
+      "portraitAsset": "/assets/portraits/classic/casey-jacobsen.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -43848,7 +44201,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Walter McCarty"
+      "fullName": "Walter McCarty",
+      "portraitAsset": "/assets/portraits/classic/walter-mccarty.png"
     },
     "finishing": 75,
     "midRange": 74,
@@ -43894,7 +44248,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jake Voskuhl"
+      "fullName": "Jake Voskuhl",
+      "portraitAsset": "/assets/portraits/classic/jake-voskuhl.png"
     },
     "finishing": 76,
     "midRange": 73,
@@ -43940,7 +44295,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Yuta Tabuse"
+      "fullName": "Yuta Tabuse",
+      "portraitAsset": "/assets/portraits/classic/yuta-tabuse.png"
     },
     "finishing": 73,
     "midRange": 74,
@@ -43986,7 +44342,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Maurice Cheeks"
+      "fullName": "Maurice Cheeks",
+      "portraitAsset": "/assets/portraits/classic/maurice-cheeks.png"
     },
     "finishing": 86,
     "midRange": 85,
@@ -44032,7 +44389,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Andrew Toney"
+      "fullName": "Andrew Toney",
+      "portraitAsset": "/assets/portraits/classic/andrew-toney.jpg"
     },
     "finishing": 87,
     "midRange": 86,
@@ -44078,7 +44436,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Julius Erving"
+      "fullName": "Julius Erving",
+      "portraitAsset": "/assets/portraits/classic/julius-erving.png"
     },
     "finishing": 96,
     "midRange": 94,
@@ -44170,7 +44529,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Moses Malone"
+      "fullName": "Moses Malone",
+      "portraitAsset": "/assets/portraits/classic/moses-malone.png"
     },
     "finishing": 94,
     "midRange": 90,
@@ -44216,7 +44576,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bobby Jones"
+      "fullName": "Bobby Jones",
+      "portraitAsset": "/assets/portraits/classic/bobby-jones.png"
     },
     "finishing": 85,
     "midRange": 82,
@@ -44400,7 +44761,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Earl Cureton"
+      "fullName": "Earl Cureton",
+      "portraitAsset": "/assets/portraits/classic/earl-cureton.png"
     },
     "finishing": 72,
     "midRange": 70,
@@ -44584,7 +44946,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "K.C. Jones"
+      "fullName": "K.C. Jones",
+      "portraitAsset": "/assets/portraits/classic/kc-jones.jpg"
     },
     "finishing": 81,
     "midRange": 82,
@@ -44630,7 +44993,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sam Jones"
+      "fullName": "Sam Jones",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77196.png"
     },
     "finishing": 91,
     "midRange": 90,
@@ -44676,7 +45040,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Havlicek"
+      "fullName": "John Havlicek",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76970.png"
     },
     "finishing": 94,
     "midRange": 92,
@@ -44722,7 +45087,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tom Heinsohn"
+      "fullName": "Tom Heinsohn",
+      "portraitAsset": "/assets/portraits/classic/tom-heinsohn.png"
     },
     "finishing": 87,
     "midRange": 84,
@@ -44768,7 +45134,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bill Russell"
+      "fullName": "Bill Russell",
+      "portraitAsset": "/assets/portraits/classic/bill-russell.png"
     },
     "finishing": 96,
     "midRange": 93,
@@ -44814,7 +45181,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Larry Siegfried"
+      "fullName": "Larry Siegfried",
+      "portraitAsset": "/assets/portraits/classic/larry-siegfried.png"
     },
     "finishing": 77,
     "midRange": 77,
@@ -44906,7 +45274,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Satch Sanders"
+      "fullName": "Satch Sanders",
+      "portraitAsset": "/assets/portraits/classic/satch-sanders.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -44952,7 +45321,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Thompson"
+      "fullName": "John Thompson",
+      "portraitAsset": "/assets/portraits/classic/john-thompson.jpg"
     },
     "finishing": 75,
     "midRange": 73,
@@ -44998,7 +45368,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mel Counts"
+      "fullName": "Mel Counts",
+      "portraitAsset": "/assets/portraits/classic/mel-counts.png"
     },
     "finishing": 75,
     "midRange": 72,
@@ -45044,7 +45415,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ron Bonham"
+      "fullName": "Ron Bonham",
+      "portraitAsset": "/assets/portraits/classic/ron-bonham.png"
     },
     "finishing": 76,
     "midRange": 76,
@@ -45182,7 +45554,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jerry West"
+      "fullName": "Jerry West",
+      "portraitAsset": "/assets/portraits/classic/jerry-west.png"
     },
     "finishing": 91,
     "midRange": 92,
@@ -45228,7 +45601,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Gail Goodrich"
+      "fullName": "Gail Goodrich",
+      "portraitAsset": "/assets/portraits/classic/gail-goodrich.png"
     },
     "finishing": 88,
     "midRange": 89,
@@ -45320,7 +45694,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Happy Hairston"
+      "fullName": "Happy Hairston",
+      "portraitAsset": "/assets/portraits/classic/happy-hairston.png"
     },
     "finishing": 83,
     "midRange": 82,
@@ -45366,7 +45741,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Wilt Chamberlain"
+      "fullName": "Wilt Chamberlain",
+      "portraitAsset": "/assets/portraits/classic/wilt-chamberlain.png"
     },
     "finishing": 97,
     "midRange": 93,
@@ -45458,7 +45834,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Keith Erickson"
+      "fullName": "Keith Erickson",
+      "portraitAsset": "/assets/portraits/classic/keith-erickson.png"
     },
     "finishing": 75,
     "midRange": 75,
@@ -45504,7 +45881,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Pat Riley"
+      "fullName": "Pat Riley",
+      "portraitAsset": "/assets/portraits/classic/pat-riley.png"
     },
     "finishing": 76,
     "midRange": 77,
@@ -45550,7 +45928,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Leroy Ellis"
+      "fullName": "Leroy Ellis",
+      "portraitAsset": "/assets/portraits/classic/leroy-ellis.png"
     },
     "finishing": 77,
     "midRange": 71,
@@ -45642,7 +46021,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Elgin Baylor"
+      "fullName": "Elgin Baylor",
+      "portraitAsset": "/assets/portraits/classic/elgin-baylor.png"
     },
     "finishing": 95,
     "midRange": 94,
@@ -45780,7 +46160,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Gary Payton"
+      "fullName": "Gary Payton",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/56.png"
     },
     "finishing": 88,
     "midRange": 90,
@@ -45826,7 +46207,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Hersey Hawkins"
+      "fullName": "Hersey Hawkins",
+      "portraitAsset": "/assets/portraits/classic/hersey-hawkins.png"
     },
     "finishing": 83,
     "midRange": 82,
@@ -45872,7 +46254,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Detlef Schrempf"
+      "fullName": "Detlef Schrempf",
+      "portraitAsset": "/assets/portraits/classic/detlef-schrempf.png"
     },
     "finishing": 85,
     "midRange": 82,
@@ -45918,7 +46301,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shawn Kemp"
+      "fullName": "Shawn Kemp",
+      "portraitAsset": "/assets/portraits/classic/shawn-kemp.png"
     },
     "finishing": 91,
     "midRange": 88,
@@ -46010,7 +46394,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nate McMillan"
+      "fullName": "Nate McMillan",
+      "portraitAsset": "/assets/portraits/classic/nate-mcmillan.png"
     },
     "finishing": 78,
     "midRange": 78,
@@ -46056,7 +46441,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sam Perkins"
+      "fullName": "Sam Perkins",
+      "portraitAsset": "/assets/portraits/classic/sam-perkins.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -46102,7 +46488,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Vincent Askew"
+      "fullName": "Vincent Askew",
+      "portraitAsset": "/assets/portraits/classic/vincent-askew.png"
     },
     "finishing": 75,
     "midRange": 77,
@@ -46148,7 +46535,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Frank Brickowski"
+      "fullName": "Frank Brickowski",
+      "portraitAsset": "/assets/portraits/classic/frank-brickowski.png"
     },
     "finishing": 75,
     "midRange": 73,
@@ -46194,7 +46582,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sherell Ford"
+      "fullName": "Sherell Ford",
+      "portraitAsset": "/assets/portraits/classic/sherell-ford.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -46240,7 +46629,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Eric Snow"
+      "fullName": "Eric Snow",
+      "portraitAsset": "/assets/portraits/classic/eric-snow.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -46286,7 +46676,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Steve Scheffler"
+      "fullName": "Steve Scheffler",
+      "portraitAsset": "/assets/portraits/classic/steve-scheffler.png"
     },
     "finishing": 76,
     "midRange": 72,
@@ -46332,7 +46723,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "David Wingate"
+      "fullName": "David Wingate",
+      "portraitAsset": "/assets/portraits/classic/david-wingate.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -46378,7 +46770,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Oscar Robertson"
+      "fullName": "Oscar Robertson",
+      "portraitAsset": "/assets/portraits/classic/oscar-robertson.png"
     },
     "finishing": 94,
     "midRange": 94,
@@ -46516,7 +46909,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bob Boozer"
+      "fullName": "Bob Boozer",
+      "portraitAsset": "/assets/portraits/classic/bob-boozer.png"
     },
     "finishing": 83,
     "midRange": 83,
@@ -46792,7 +47186,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jerry Lucas"
+      "fullName": "Jerry Lucas",
+      "portraitAsset": "/assets/portraits/classic/jerry-lucas.png"
     },
     "finishing": 90,
     "midRange": 89,
@@ -46976,7 +47371,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Gilbert Arenas"
+      "fullName": "Gilbert Arenas",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2240.png"
     },
     "finishing": 87,
     "midRange": 88,
@@ -47022,7 +47418,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "DeShawn Stevenson"
+      "fullName": "DeShawn Stevenson",
+      "portraitAsset": "/assets/portraits/classic/deshawn-stevenson.jpg"
     },
     "finishing": 79,
     "midRange": 79,
@@ -47068,7 +47465,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Caron Butler"
+      "fullName": "Caron Butler",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2406.png"
     },
     "finishing": 86,
     "midRange": 84,
@@ -47114,7 +47512,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Antawn Jamison"
+      "fullName": "Antawn Jamison",
+      "portraitAsset": "/assets/portraits/classic/antawn-jamison.jpg"
     },
     "finishing": 87,
     "midRange": 85,
@@ -47160,7 +47559,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brendan Haywood"
+      "fullName": "Brendan Haywood",
+      "portraitAsset": "/assets/portraits/classic/brendan-haywood.jpg"
     },
     "finishing": 81,
     "midRange": 76,
@@ -47206,7 +47606,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nick Young"
+      "fullName": "Nick Young",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201156.png"
     },
     "finishing": 80,
     "midRange": 82,
@@ -47252,7 +47653,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Antonio Daniels"
+      "fullName": "Antonio Daniels",
+      "portraitAsset": "/assets/portraits/classic/antonio-daniels.png"
     },
     "finishing": 76,
     "midRange": 77,
@@ -47298,7 +47700,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Andray Blatche"
+      "fullName": "Andray Blatche",
+      "portraitAsset": "/assets/portraits/classic/andray-blatche.jpg"
     },
     "finishing": 79,
     "midRange": 75,
@@ -47344,7 +47747,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Darius Songaila"
+      "fullName": "Darius Songaila",
+      "portraitAsset": "/assets/portraits/classic/darius-songaila.jpg"
     },
     "finishing": 77,
     "midRange": 75,
@@ -47390,7 +47794,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dominic McGuire"
+      "fullName": "Dominic McGuire",
+      "portraitAsset": "/assets/portraits/classic/dominic-mcguire.jpg"
     },
     "finishing": 74,
     "midRange": 72,
@@ -47436,7 +47841,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Roger Mason Jr."
+      "fullName": "Roger Mason Jr.",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2427.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -47482,7 +47888,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Etan Thomas"
+      "fullName": "Etan Thomas",
+      "portraitAsset": "/assets/portraits/classic/etan-thomas.jpg"
     },
     "finishing": 75,
     "midRange": 71,
@@ -47528,7 +47935,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Oleksiy Pecherov"
+      "fullName": "Oleksiy Pecherov",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200762.png"
     },
     "finishing": 71,
     "midRange": 69,
@@ -47574,7 +47982,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "John Wall"
+      "fullName": "John Wall",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202322.png"
     },
     "finishing": 87,
     "midRange": 88,
@@ -47620,7 +48029,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bradley Beal"
+      "fullName": "Bradley Beal",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203078.png"
     },
     "finishing": 89,
     "midRange": 90,
@@ -47666,7 +48076,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Otto Porter Jr."
+      "fullName": "Otto Porter Jr.",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203490.png"
     },
     "finishing": 86,
     "midRange": 86,
@@ -47712,7 +48123,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Markieff Morris"
+      "fullName": "Markieff Morris",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202693.png"
     },
     "finishing": 81,
     "midRange": 79,
@@ -47758,7 +48170,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Marcin Gortat"
+      "fullName": "Marcin Gortat",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/101162.png"
     },
     "finishing": 81,
     "midRange": 79,
@@ -47804,7 +48217,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kelly Oubre Jr."
+      "fullName": "Kelly Oubre Jr.",
+      "portraitAsset": "/assets/portraits/classic/kelly-oubre-jr.png"
     },
     "finishing": 81,
     "midRange": 80,
@@ -47850,7 +48264,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bojan Bogdanovic"
+      "fullName": "Bojan Bogdanovic",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202711.png"
     },
     "finishing": 82,
     "midRange": 82,
@@ -47896,7 +48311,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tomas Satoransky"
+      "fullName": "Tomas Satoransky",
+      "portraitAsset": "/assets/portraits/classic/tomas-satoransky.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -47942,7 +48358,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jason Smith"
+      "fullName": "Jason Smith",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201160.png"
     },
     "finishing": 75,
     "midRange": 72,
@@ -47988,7 +48405,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ian Mahinmi"
+      "fullName": "Ian Mahinmi",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/101133.png"
     },
     "finishing": 76,
     "midRange": 73,
@@ -48034,7 +48452,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brandon Jennings"
+      "fullName": "Brandon Jennings",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201943.png"
     },
     "finishing": 74,
     "midRange": 75,
@@ -48080,7 +48499,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Trey Burke"
+      "fullName": "Trey Burke",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203504.png"
     },
     "finishing": 73,
     "midRange": 74,
@@ -48126,7 +48546,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Marcus Thornton"
+      "fullName": "Marcus Thornton",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201041.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -48172,7 +48593,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Anfernee Hardaway"
+      "fullName": "Anfernee Hardaway",
+      "portraitAsset": "/assets/portraits/classic/anfernee-hardaway.png"
     },
     "finishing": 91,
     "midRange": 90,
@@ -48218,7 +48640,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nick Anderson"
+      "fullName": "Nick Anderson",
+      "portraitAsset": "/assets/portraits/classic/nick-anderson.png"
     },
     "finishing": 87,
     "midRange": 87,
@@ -48264,7 +48687,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dennis Scott"
+      "fullName": "Dennis Scott",
+      "portraitAsset": "/assets/portraits/classic/dennis-scott.png"
     },
     "finishing": 84,
     "midRange": 84,
@@ -48310,7 +48734,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Horace Grant"
+      "fullName": "Horace Grant",
+      "portraitAsset": "/assets/portraits/classic/horace-grant.png"
     },
     "finishing": 85,
     "midRange": 83,
@@ -48356,7 +48781,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Shaquille O'Neal"
+      "fullName": "Shaquille O'Neal",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/406.png"
     },
     "finishing": 99,
     "midRange": 87,
@@ -48402,7 +48828,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brian Shaw"
+      "fullName": "Brian Shaw",
+      "portraitAsset": "/assets/portraits/classic/brian-shaw.png"
     },
     "finishing": 72,
     "midRange": 75,
@@ -48448,7 +48875,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Donald Royal"
+      "fullName": "Donald Royal",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/45.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -48494,7 +48922,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Anthony Bowie"
+      "fullName": "Anthony Bowie",
+      "portraitAsset": "/assets/portraits/classic/anthony-bowie.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -48540,7 +48969,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Anthony Avent"
+      "fullName": "Anthony Avent",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/176.png"
     },
     "finishing": 73,
     "midRange": 72,
@@ -48586,7 +49016,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jeff Turner"
+      "fullName": "Jeff Turner",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/784.png"
     },
     "finishing": 74,
     "midRange": 73,
@@ -48632,7 +49063,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tree Rollins"
+      "fullName": "Tree Rollins",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/780.png"
     },
     "finishing": 76,
     "midRange": 72,
@@ -48678,7 +49110,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brooks Thompson"
+      "fullName": "Brooks Thompson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/84.png"
     },
     "finishing": 72,
     "midRange": 71,
@@ -48724,7 +49157,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Darrell Armstrong"
+      "fullName": "Darrell Armstrong",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/353.png"
     },
     "finishing": 76,
     "midRange": 79,
@@ -48770,7 +49204,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kyrie Irving"
+      "fullName": "Kyrie Irving",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202681.png"
     },
     "finishing": 91,
     "midRange": 92,
@@ -48816,7 +49251,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "J.R. Smith"
+      "fullName": "J.R. Smith",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2747.png"
     },
     "finishing": 83,
     "midRange": 85,
@@ -48862,7 +49298,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "LeBron James"
+      "fullName": "LeBron James",
+      "portraitAsset": "/assets/portraits/classic/lebron-james.png"
     },
     "finishing": 99,
     "midRange": 99,
@@ -48908,7 +49345,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kevin Love"
+      "fullName": "Kevin Love",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201567.png"
     },
     "finishing": 89,
     "midRange": 87,
@@ -48954,7 +49392,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tristan Thompson"
+      "fullName": "Tristan Thompson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202684.png"
     },
     "finishing": 85,
     "midRange": 79,
@@ -49000,7 +49439,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Matthew Dellavedova"
+      "fullName": "Matthew Dellavedova",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203521.png"
     },
     "finishing": 74,
     "midRange": 77,
@@ -49046,7 +49486,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Iman Shumpert"
+      "fullName": "Iman Shumpert",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202697.png"
     },
     "finishing": 79,
     "midRange": 80,
@@ -49092,7 +49533,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Richard Jefferson"
+      "fullName": "Richard Jefferson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2210.png"
     },
     "finishing": 79,
     "midRange": 78,
@@ -49138,7 +49580,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Channing Frye"
+      "fullName": "Channing Frye",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/101139.png"
     },
     "finishing": 80,
     "midRange": 75,
@@ -49184,7 +49627,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Timofey Mozgov"
+      "fullName": "Timofey Mozgov",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202389.png"
     },
     "finishing": 78,
     "midRange": 74,
@@ -49230,7 +49674,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mo Williams"
+      "fullName": "Mo Williams",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2590.png"
     },
     "finishing": 78,
     "midRange": 78,
@@ -49276,7 +49721,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Jones"
+      "fullName": "James Jones",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2592.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -49322,7 +49768,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Anderson Varejao"
+      "fullName": "Anderson Varejao",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2760.png"
     },
     "finishing": 77,
     "midRange": 73,
@@ -49368,7 +49815,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Lindsey Hunter"
+      "fullName": "Lindsey Hunter",
+      "portraitAsset": "/assets/portraits/classic/lindsey-hunter.jpg"
     },
     "finishing": 80,
     "midRange": 83,
@@ -49414,7 +49862,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Joe Dumars"
+      "fullName": "Joe Dumars",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/247.png"
     },
     "finishing": 89,
     "midRange": 89,
@@ -49460,7 +49909,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Grant Hill"
+      "fullName": "Grant Hill",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/255.png"
     },
     "finishing": 94,
     "midRange": 91,
@@ -49506,7 +49956,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Terry Mills"
+      "fullName": "Terry Mills",
+      "portraitAsset": "/assets/portraits/classic/terry-mills.jpg"
     },
     "finishing": 80,
     "midRange": 79,
@@ -49552,7 +50003,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Otis Thorpe"
+      "fullName": "Otis Thorpe",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/901.png"
     },
     "finishing": 85,
     "midRange": 80,
@@ -49598,7 +50050,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Theo Ratliff"
+      "fullName": "Theo Ratliff",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/689.png"
     },
     "finishing": 76,
     "midRange": 73,
@@ -49644,7 +50097,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Aaron McKie"
+      "fullName": "Aaron McKie",
+      "portraitAsset": "/assets/portraits/classic/aaron-mckie.png"
     },
     "finishing": 81,
     "midRange": 82,
@@ -49690,7 +50144,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Grant Long"
+      "fullName": "Grant Long",
+      "portraitAsset": "/assets/portraits/classic/grant-long.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -49736,7 +50191,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Michael Curry"
+      "fullName": "Michael Curry",
+      "portraitAsset": "/assets/portraits/classic/michael-curry.png"
     },
     "finishing": 76,
     "midRange": 76,
@@ -49782,7 +50238,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rick Mahorn"
+      "fullName": "Rick Mahorn",
+      "portraitAsset": "/assets/portraits/classic/rick-mahorn.png"
     },
     "finishing": 76,
     "midRange": 73,
@@ -49828,7 +50285,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Stacey Augmon"
+      "fullName": "Stacey Augmon",
+      "portraitAsset": "/assets/portraits/classic/stacey-augmon.jpg"
     },
     "finishing": 78,
     "midRange": 78,
@@ -49874,7 +50332,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Don Reid"
+      "fullName": "Don Reid",
+      "portraitAsset": "/assets/portraits/classic/don-reid.jpg"
     },
     "finishing": 73,
     "midRange": 71,
@@ -49920,7 +50379,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jerome Williams"
+      "fullName": "Jerome Williams",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/757.png"
     },
     "finishing": 77,
     "midRange": 74,
@@ -49966,7 +50426,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chauncey Billups"
+      "fullName": "Chauncey Billups",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1497.png"
     },
     "finishing": 86,
     "midRange": 89,
@@ -50012,7 +50473,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Richard Hamilton"
+      "fullName": "Richard Hamilton",
+      "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/1007.png"
     },
     "finishing": 86,
     "midRange": 87,
@@ -50058,7 +50520,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tayshaun Prince"
+      "fullName": "Tayshaun Prince",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2419.png"
     },
     "finishing": 84,
     "midRange": 83,
@@ -50104,7 +50567,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rasheed Wallace"
+      "fullName": "Rasheed Wallace",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/739.png"
     },
     "finishing": 87,
     "midRange": 86,
@@ -50150,7 +50614,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ben Wallace"
+      "fullName": "Ben Wallace",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1112.png"
     },
     "finishing": 89,
     "midRange": 84,
@@ -50196,7 +50661,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mehmet Okur"
+      "fullName": "Mehmet Okur",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1714.png"
     },
     "finishing": 83,
     "midRange": 81,
@@ -50242,7 +50708,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Corliss Williamson"
+      "fullName": "Corliss Williamson",
+      "portraitAsset": "/assets/portraits/classic/corliss-williamson.png"
     },
     "finishing": 81,
     "midRange": 79,
@@ -50288,7 +50755,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mike James"
+      "fullName": "Mike James",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2229.png"
     },
     "finishing": 78,
     "midRange": 79,
@@ -50334,7 +50802,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Lindsey Hunter"
+      "fullName": "Lindsey Hunter",
+      "portraitAsset": "/assets/portraits/classic/lindsey-hunter.jpg"
     },
     "finishing": 83,
     "midRange": 84,
@@ -50380,7 +50849,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Elden Campbell"
+      "fullName": "Elden Campbell",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203.png"
     },
     "finishing": 79,
     "midRange": 75,
@@ -50426,7 +50896,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Darvin Ham"
+      "fullName": "Darvin Ham",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1032.png"
     },
     "finishing": 73,
     "midRange": 73,
@@ -50472,7 +50943,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Darko Milicic"
+      "fullName": "Darko Milicic",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2548.png"
     },
     "finishing": 71,
     "midRange": 67,
@@ -50518,7 +50990,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Zeljko Rebraca"
+      "fullName": "Zeljko Rebraca",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1442.png"
     },
     "finishing": 75,
     "midRange": 73,
@@ -50564,7 +51037,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mike Bibby"
+      "fullName": "Mike Bibby",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1710.png"
     },
     "finishing": 86,
     "midRange": 86,
@@ -50610,7 +51084,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Doug Christie"
+      "fullName": "Doug Christie",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/57.png"
     },
     "finishing": 87,
     "midRange": 86,
@@ -50656,7 +51131,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Peja Stojakovic"
+      "fullName": "Peja Stojakovic",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/978.png"
     },
     "finishing": 90,
     "midRange": 89,
@@ -50702,7 +51178,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Webber"
+      "fullName": "Chris Webber",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/185.png"
     },
     "finishing": 92,
     "midRange": 92,
@@ -50748,7 +51225,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Vlade Divac"
+      "fullName": "Vlade Divac",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/124.png"
     },
     "finishing": 86,
     "midRange": 83,
@@ -50794,7 +51272,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bobby Jackson"
+      "fullName": "Bobby Jackson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1517.png"
     },
     "finishing": 80,
     "midRange": 82,
@@ -50840,7 +51319,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Hedo Turkoglu"
+      "fullName": "Hedo Turkoglu",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2045.png"
     },
     "finishing": 82,
     "midRange": 82,
@@ -50886,7 +51366,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Scot Pollard"
+      "fullName": "Scot Pollard",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1513.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -50932,7 +51413,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Lawrence Funderburke"
+      "fullName": "Lawrence Funderburke",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1444.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -50978,7 +51460,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Gerald Wallace"
+      "fullName": "Gerald Wallace",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2222.png"
     },
     "finishing": 78,
     "midRange": 76,
@@ -51024,7 +51507,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mateen Cleaves"
+      "fullName": "Mateen Cleaves",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2043.png"
     },
     "finishing": 71,
     "midRange": 72,
@@ -51070,7 +51554,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chucky Brown"
+      "fullName": "Chucky Brown",
+      "portraitAsset": "/assets/portraits/classic/chucky-brown.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -51116,7 +51601,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brent Price"
+      "fullName": "Brent Price",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/85.png"
     },
     "finishing": 70,
     "midRange": 71,
@@ -51162,7 +51648,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Damon Stoudamire"
+      "fullName": "Damon Stoudamire",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/757.png"
     },
     "finishing": 82,
     "midRange": 81,
@@ -51208,7 +51695,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Steve Smith"
+      "fullName": "Steve Smith",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/120.png"
     },
     "finishing": 87,
     "midRange": 87,
@@ -51254,7 +51742,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Scottie Pippen"
+      "fullName": "Scottie Pippen",
+      "portraitAsset": "/assets/portraits/classic/scottie-pippen.png"
     },
     "finishing": 96,
     "midRange": 94,
@@ -51300,7 +51789,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rasheed Wallace"
+      "fullName": "Rasheed Wallace",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/739.png"
     },
     "finishing": 86,
     "midRange": 85,
@@ -51346,7 +51836,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Arvydas Sabonis"
+      "fullName": "Arvydas Sabonis",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/717.png"
     },
     "finishing": 87,
     "midRange": 83,
@@ -51392,7 +51883,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bonzi Wells"
+      "fullName": "Bonzi Wells",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1719.png"
     },
     "finishing": 79,
     "midRange": 77,
@@ -51438,7 +51930,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Detlef Schrempf"
+      "fullName": "Detlef Schrempf",
+      "portraitAsset": "/assets/portraits/classic/detlef-schrempf.png"
     },
     "finishing": 85,
     "midRange": 83,
@@ -51484,7 +51977,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Brian Grant"
+      "fullName": "Brian Grant",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/258.png"
     },
     "finishing": 82,
     "midRange": 81,
@@ -51530,7 +52024,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Greg Anthony"
+      "fullName": "Greg Anthony",
+      "portraitAsset": "/assets/portraits/classic/greg-anthony.png"
     },
     "finishing": 74,
     "midRange": 74,
@@ -51576,7 +52071,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jermaine O'Neal"
+      "fullName": "Jermaine O'Neal",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/979.png"
     },
     "finishing": 83,
     "midRange": 79,
@@ -51622,7 +52118,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Stacey Augmon"
+      "fullName": "Stacey Augmon",
+      "portraitAsset": "/assets/portraits/classic/stacey-augmon.jpg"
     },
     "finishing": 79,
     "midRange": 80,
@@ -51668,7 +52165,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Antonio Harvey"
+      "fullName": "Antonio Harvey",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/176.png"
     },
     "finishing": 75,
     "midRange": 69,
@@ -51714,7 +52212,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Joe Kleine"
+      "fullName": "Joe Kleine",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/170.png"
     },
     "finishing": 72,
     "midRange": 69,
@@ -51760,7 +52259,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Stephon Marbury"
+      "fullName": "Stephon Marbury",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/950.png"
     },
     "finishing": 88,
     "midRange": 87,
@@ -51806,7 +52306,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kerry Kittles"
+      "fullName": "Kerry Kittles",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/954.png"
     },
     "finishing": 81,
     "midRange": 82,
@@ -51852,7 +52353,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kendall Gill"
+      "fullName": "Kendall Gill",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/383.png"
     },
     "finishing": 83,
     "midRange": 81,
@@ -51898,7 +52400,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Keith Van Horn"
+      "fullName": "Keith Van Horn",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1496.png"
     },
     "finishing": 82,
     "midRange": 80,
@@ -51944,7 +52447,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Aaron Williams"
+      "fullName": "Aaron Williams",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1425.png"
     },
     "finishing": 76,
     "midRange": 73,
@@ -51990,7 +52494,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Lucious Harris"
+      "fullName": "Lucious Harris",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/446.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -52036,7 +52541,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Stephen Jackson"
+      "fullName": "Stephen Jackson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1536.png"
     },
     "finishing": 83,
     "midRange": 80,
@@ -52082,7 +52588,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Johnny Newman"
+      "fullName": "Johnny Newman",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/271.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -52128,7 +52635,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jamie Feick"
+      "fullName": "Jamie Feick",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/994.png"
     },
     "finishing": 75,
     "midRange": 72,
@@ -52174,7 +52682,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Sherman Douglas"
+      "fullName": "Sherman Douglas",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/428.png"
     },
     "finishing": 73,
     "midRange": 74,
@@ -52220,7 +52729,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Evan Eschmeyer"
+      "fullName": "Evan Eschmeyer",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1915.png"
     },
     "finishing": 77,
     "midRange": 71,
@@ -52266,7 +52776,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Vladimir Stepania"
+      "fullName": "Vladimir Stepania",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1735.png"
     },
     "finishing": 77,
     "midRange": 73,
@@ -52312,7 +52823,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Eddie Gill"
+      "fullName": "Eddie Gill",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2109.png"
     },
     "finishing": 74,
     "midRange": 73,
@@ -52358,7 +52870,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Muggsy Bogues"
+      "fullName": "Muggsy Bogues",
+      "portraitAsset": "/assets/portraits/classic/muggsy-bogues.png"
     },
     "finishing": 74,
     "midRange": 73,
@@ -52404,7 +52917,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kendall Gill"
+      "fullName": "Kendall Gill",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/383.png"
     },
     "finishing": 82,
     "midRange": 84,
@@ -52450,7 +52964,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Johnny Newman"
+      "fullName": "Johnny Newman",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/271.png"
     },
     "finishing": 83,
     "midRange": 83,
@@ -52496,7 +53011,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Larry Johnson"
+      "fullName": "Larry Johnson",
+      "portraitAsset": "/assets/portraits/classic/larry-johnson.png"
     },
     "finishing": 89,
     "midRange": 87,
@@ -52542,7 +53058,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Alonzo Mourning"
+      "fullName": "Alonzo Mourning",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/297.png"
     },
     "finishing": 93,
     "midRange": 88,
@@ -52588,7 +53105,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Dell Curry"
+      "fullName": "Dell Curry",
+      "portraitAsset": "/assets/portraits/classic/dell-curry.png"
     },
     "finishing": 78,
     "midRange": 78,
@@ -52634,7 +53152,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kenny Gattison"
+      "fullName": "Kenny Gattison",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/930.png"
     },
     "finishing": 75,
     "midRange": 73,
@@ -52680,7 +53199,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "David Wingate"
+      "fullName": "David Wingate",
+      "portraitAsset": "/assets/portraits/classic/david-wingate.png"
     },
     "finishing": 76,
     "midRange": 78,
@@ -52726,7 +53246,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kevin Lynch"
+      "fullName": "Kevin Lynch",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77426.png"
     },
     "finishing": 77,
     "midRange": 78,
@@ -52772,7 +53293,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tom Tolbert"
+      "fullName": "Tom Tolbert",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/78347.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -52818,7 +53340,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "J.R. Reid"
+      "fullName": "J.R. Reid",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/462.png"
     },
     "finishing": 77,
     "midRange": 73,
@@ -52864,7 +53387,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Tony Bennett"
+      "fullName": "Tony Bennett",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76148.png"
     },
     "finishing": 73,
     "midRange": 75,
@@ -52910,7 +53434,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Lorenzo Williams"
+      "fullName": "Lorenzo Williams",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/31.png"
     },
     "finishing": 75,
     "midRange": 72,
@@ -52956,7 +53481,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Paul"
+      "fullName": "Chris Paul",
+      "portraitAsset": "/assets/portraits/classic/chris-paul.png"
     },
     "finishing": 90,
     "midRange": 90,
@@ -53002,7 +53528,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Harden"
+      "fullName": "James Harden",
+      "portraitAsset": "/assets/portraits/classic/james-harden.png"
     },
     "finishing": 91,
     "midRange": 94,
@@ -53048,7 +53575,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Eric Gordon"
+      "fullName": "Eric Gordon",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201569.png"
     },
     "finishing": 84,
     "midRange": 83,
@@ -53094,7 +53622,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "P.J. Tucker"
+      "fullName": "P.J. Tucker",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200782.png"
     },
     "finishing": 81,
     "midRange": 78,
@@ -53140,7 +53669,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Clint Capela"
+      "fullName": "Clint Capela",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203991.png"
     },
     "finishing": 87,
     "midRange": 83,
@@ -53186,7 +53716,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Gerald Green"
+      "fullName": "Gerald Green",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/101123.png"
     },
     "finishing": 79,
     "midRange": 78,
@@ -53232,7 +53763,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Austin Rivers"
+      "fullName": "Austin Rivers",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203085.png"
     },
     "finishing": 74,
     "midRange": 73,
@@ -53278,7 +53810,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Danuel House"
+      "fullName": "Danuel House",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1627863.png"
     },
     "finishing": 75,
     "midRange": 75,
@@ -53324,7 +53857,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nene"
+      "fullName": "Nene",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2403.png"
     },
     "finishing": 79,
     "midRange": 76,
@@ -53370,7 +53904,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kenneth Faried"
+      "fullName": "Kenneth Faried",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202702.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -53416,7 +53951,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Ennis"
+      "fullName": "James Ennis",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/203516.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -53462,7 +53998,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Iman Shumpert"
+      "fullName": "Iman Shumpert",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202697.png"
     },
     "finishing": 80,
     "midRange": 80,
@@ -53508,7 +54045,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Gary Clark"
+      "fullName": "Gary Clark",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1629109.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -53554,7 +54092,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Russell Westbrook"
+      "fullName": "Russell Westbrook",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201566.png"
     },
     "finishing": 89,
     "midRange": 88,
@@ -53600,7 +54139,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "James Harden"
+      "fullName": "James Harden",
+      "portraitAsset": "/assets/portraits/classic/james-harden.png"
     },
     "finishing": 93,
     "midRange": 94,
@@ -53646,7 +54186,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kevin Durant"
+      "fullName": "Kevin Durant",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201142.png"
     },
     "finishing": 95,
     "midRange": 96,
@@ -53692,7 +54233,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Serge Ibaka"
+      "fullName": "Serge Ibaka",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201586.png"
     },
     "finishing": 85,
     "midRange": 84,
@@ -53738,7 +54280,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Kendrick Perkins"
+      "fullName": "Kendrick Perkins",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2570.png"
     },
     "finishing": 77,
     "midRange": 75,
@@ -53784,7 +54327,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Thabo Sefolosha"
+      "fullName": "Thabo Sefolosha",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200757.png"
     },
     "finishing": 78,
     "midRange": 80,
@@ -53830,7 +54374,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nick Collison"
+      "fullName": "Nick Collison",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2555.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -53876,7 +54421,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Daequan Cook"
+      "fullName": "Daequan Cook",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201161.png"
     },
     "finishing": 75,
     "midRange": 77,
@@ -53922,7 +54468,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Eric Maynor"
+      "fullName": "Eric Maynor",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201953.png"
     },
     "finishing": 73,
     "midRange": 74,
@@ -53968,7 +54515,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nazr Mohammed"
+      "fullName": "Nazr Mohammed",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1737.png"
     },
     "finishing": 75,
     "midRange": 73,
@@ -54014,7 +54562,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Cole Aldrich"
+      "fullName": "Cole Aldrich",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202332.png"
     },
     "finishing": 75,
     "midRange": 72,
@@ -54060,7 +54609,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Reggie Jackson"
+      "fullName": "Reggie Jackson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/202704.png"
     },
     "finishing": 74,
     "midRange": 74,
@@ -54106,7 +54656,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Royal Ivey"
+      "fullName": "Royal Ivey",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2767.png"
     },
     "finishing": 73,
     "midRange": 73,
@@ -54152,7 +54703,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Gail Goodrich"
+      "fullName": "Gail Goodrich",
+      "portraitAsset": "/assets/portraits/classic/gail-goodrich.png"
     },
     "finishing": 85,
     "midRange": 87,
@@ -54198,7 +54750,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Pete Maravich"
+      "fullName": "Pete Maravich",
+      "portraitAsset": "/assets/portraits/classic/pete-maravich.png"
     },
     "finishing": 94,
     "midRange": 93,
@@ -54244,7 +54797,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Aaron James"
+      "fullName": "Aaron James",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77115.png"
     },
     "finishing": 83,
     "midRange": 82,
@@ -54290,7 +54844,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Truck Robinson"
+      "fullName": "Truck Robinson",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77993.png"
     },
     "finishing": 86,
     "midRange": 85,
@@ -54336,7 +54891,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rich Kelley"
+      "fullName": "Rich Kelley",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77235.png"
     },
     "finishing": 77,
     "midRange": 73,
@@ -54382,7 +54938,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Otto Moore"
+      "fullName": "Otto Moore",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77636.png"
     },
     "finishing": 75,
     "midRange": 71,
@@ -54428,7 +54985,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Paul Griffin"
+      "fullName": "Paul Griffin",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76889.png"
     },
     "finishing": 76,
     "midRange": 74,
@@ -54474,7 +55032,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Nate Williams"
+      "fullName": "Nate Williams",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/78561.png"
     },
     "finishing": 77,
     "midRange": 78,
@@ -54520,7 +55079,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jim McElroy"
+      "fullName": "Jim McElroy",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77528.png"
     },
     "finishing": 74,
     "midRange": 75,
@@ -54566,7 +55126,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Bud Stallworth"
+      "fullName": "Bud Stallworth",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/78239.png"
     },
     "finishing": 75,
     "midRange": 75,
@@ -54612,7 +55173,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Andy Walker"
+      "fullName": "Andy Walker",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/78433.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -54658,7 +55220,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Henry Ward"
+      "fullName": "Henry Ward",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/78456.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -54704,7 +55267,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ron Behagen"
+      "fullName": "Ron Behagen",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76140.png"
     },
     "finishing": 75,
     "midRange": 75,
@@ -54750,7 +55314,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Chris Paul"
+      "fullName": "Chris Paul",
+      "portraitAsset": "/assets/portraits/classic/chris-paul.png"
     },
     "finishing": 90,
     "midRange": 90,
@@ -54796,7 +55361,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "J.J. Redick"
+      "fullName": "J.J. Redick",
+      "portraitAsset": "/assets/portraits/classic/jj-redick.png"
     },
     "finishing": 84,
     "midRange": 84,
@@ -54842,7 +55408,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Matt Barnes"
+      "fullName": "Matt Barnes",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2440.png"
     },
     "finishing": 84,
     "midRange": 83,
@@ -54888,7 +55455,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Blake Griffin"
+      "fullName": "Blake Griffin",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201933.png"
     },
     "finishing": 93,
     "midRange": 90,
@@ -54934,7 +55502,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "DeAndre Jordan"
+      "fullName": "DeAndre Jordan",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201599.png"
     },
     "finishing": 87,
     "midRange": 85,
@@ -54980,7 +55549,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jamal Crawford"
+      "fullName": "Jamal Crawford",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2037.png"
     },
     "finishing": 84,
     "midRange": 85,
@@ -55026,7 +55596,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Darren Collison"
+      "fullName": "Darren Collison",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201954.png"
     },
     "finishing": 77,
     "midRange": 78,
@@ -55072,7 +55643,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jared Dudley"
+      "fullName": "Jared Dudley",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201162.png"
     },
     "finishing": 79,
     "midRange": 78,
@@ -55118,7 +55690,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Glen Davis"
+      "fullName": "Glen Davis",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201175.png"
     },
     "finishing": 76,
     "midRange": 75,
@@ -55164,7 +55737,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Willie Green"
+      "fullName": "Willie Green",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2584.png"
     },
     "finishing": 77,
     "midRange": 76,
@@ -55210,7 +55784,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Ryan Hollins"
+      "fullName": "Ryan Hollins",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/200797.png"
     },
     "finishing": 74,
     "midRange": 71,
@@ -55256,7 +55831,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Antawn Jamison"
+      "fullName": "Antawn Jamison",
+      "portraitAsset": "/assets/portraits/classic/antawn-jamison.jpg"
     },
     "finishing": 85,
     "midRange": 85,
@@ -55302,7 +55878,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Hedo Turkoglu"
+      "fullName": "Hedo Turkoglu",
+      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2045.png"
     },
     "finishing": 82,
     "midRange": 82,

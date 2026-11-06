@@ -19,6 +19,11 @@ import {
   pickPreferredStarters,
   positionOverrideFor,
 } from "./lib/nbaRosterOverrides.mjs";
+import {
+  localPortraitForName,
+  nbaHeadshotUrl,
+  nbaIdForName,
+} from "./lib/nbaClassicHeadshots.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = path.join(root, "public", "data");
@@ -418,6 +423,24 @@ async function main() {
 
   if (!skipClassics) {
     console.log("Seeding classic eras…");
+    // Keep previously linked headshots across refreshes (by id, then by full name).
+    const prevPlayersPath = path.join(outDir, "players.json");
+    const prevPortraitById = new Map();
+    const prevPortraitByName = new Map();
+    if (fs.existsSync(prevPlayersPath)) {
+      try {
+        const prev = JSON.parse(fs.readFileSync(prevPlayersPath, "utf8"));
+        for (const p of prev) {
+          const url = p?.appearance?.portraitAsset;
+          if (!url || !String(p.id || "").startsWith("classic_")) continue;
+          prevPortraitById.set(p.id, url);
+          const nm = p.appearance?.fullName || p.displayName || p.name;
+          if (nm && !prevPortraitByName.has(nm)) prevPortraitByName.set(nm, url);
+        }
+      } catch {
+        /* ignore stale parse */
+      }
+    }
     for (const era of CLASSIC_ERAS) {
       const franchise = NBA_TEAMS.find((x) => x.id === era.franchiseId);
       if (!franchise) continue;
@@ -452,6 +475,13 @@ async function main() {
         const playerId = `${era.id}_p${String(i + 1).padStart(2, "0")}`;
         const isStarter = i < era.starters.length;
         const attrs = classicAttrs(p.pos, p.name, r, isStarter ? "starter" : "bench");
+        const local = localPortraitForName(p.name);
+        const nbaId = nbaIdForName(p.name);
+        const portrait =
+          prevPortraitById.get(playerId) ||
+          local ||
+          prevPortraitByName.get(p.name) ||
+          (nbaId != null ? nbaHeadshotUrl(nbaId) : null);
         players.push({
           id: playerId,
           name: shortDisplayName(p.name),
@@ -463,7 +493,10 @@ async function main() {
           weightKg: p.pos === "C" ? 110 : 95,
           preferredHand: "R",
           preferredFoot: "R",
-          appearance: { fullName: p.name },
+          appearance: {
+            fullName: p.name,
+            ...(portrait ? { portraitAsset: portrait } : {}),
+          },
           ...attrs,
         });
         memberships.push({
