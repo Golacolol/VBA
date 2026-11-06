@@ -107,7 +107,12 @@ describe("PyramidHub", () => {
     expect(hub.root.querySelectorAll(".pyramid-draft-seat").length).toBeGreaterThanOrEqual(5);
     expect(hub.root.querySelectorAll(".pyramid-draft-filter").length).toBe(7);
     expect(hub.root.querySelector('[data-pyramid="draft-autofill"]')).toBeTruthy();
+    // Lobby shows Start; Restart replaces it once the draft is underway.
+    expect(hub.root.querySelector('[data-pyramid="draft-start"]')).toBeTruthy();
+    expect(hub.root.querySelector('[data-pyramid="draft-restart"]')).toBeNull();
+    hub.root.querySelector<HTMLElement>('[data-pyramid="draft-start"]')?.click();
     expect(hub.root.querySelector('[data-pyramid="draft-restart"]')).toBeTruthy();
+    expect(hub.root.querySelector('[data-pyramid="draft-start"]')).toBeNull();
 
     hub.root.querySelector<HTMLElement>('[data-pyramid="view"][data-view="bracket"]')?.click();
     expect(save.data.pyramid?.view).toBe("bracket");
