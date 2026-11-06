@@ -1057,7 +1057,7 @@
     "city": "Chicago",
     "primaryColor": "#CE1141",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/classic_chi_1995_96.png",
+    "badgeAsset": "/assets/emblems/nba_chi.svg",
     "defaultKit": {
       "shirt": "#CE1141",
       "shorts": "#000000",
@@ -1094,7 +1094,7 @@
     "city": "San Francisco",
     "primaryColor": "#1D428A",
     "secondaryColor": "#FFC72C",
-    "badgeAsset": "/assets/emblems/classic_gsw_2016_17.png",
+    "badgeAsset": "/assets/emblems/nba_gsw.svg",
     "defaultKit": {
       "shirt": "#1D428A",
       "shorts": "#FFC72C",
@@ -1124,6 +1124,43 @@
     "franchiseId": "nba_gsw"
   },
   {
+    "id": "classic_bos_1980_81",
+    "name": "Boston Celtics — 1980/81",
+    "abbreviation": "BOS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Boston",
+    "primaryColor": "#007A33",
+    "secondaryColor": "#BA9653",
+    "badgeAsset": "/assets/emblems/classic_bos_1980_81.png",
+    "defaultKit": {
+      "shirt": "#007A33",
+      "shorts": "#BA9653",
+      "socks": "#007A33",
+      "trim": "#BA9653",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#BA9653",
+      "shorts": "#007A33",
+      "socks": "#BA9653",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007A33",
+      "socks": "#222222",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bos_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1980/81",
+    "franchiseId": "nba_bos"
+  },
+  {
     "id": "classic_bos_1985_86",
     "name": "Boston Celtics — 1985/86",
     "abbreviation": "BOS",
@@ -1131,7 +1168,7 @@
     "city": "Boston",
     "primaryColor": "#007A33",
     "secondaryColor": "#BA9653",
-    "badgeAsset": "/assets/emblems/classic_bos_1985_86.png",
+    "badgeAsset": "/assets/emblems/nba_bos.svg",
     "defaultKit": {
       "shirt": "#007A33",
       "shorts": "#BA9653",
@@ -1159,1560 +1196,6 @@
     "league": "EAST",
     "historicSeason": "1985/86",
     "franchiseId": "nba_bos"
-  },
-  {
-    "id": "classic_lal_2000_01",
-    "name": "Los Angeles Lakers — 2000/01",
-    "abbreviation": "LAL",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Los Angeles",
-    "primaryColor": "#552583",
-    "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/classic_lal_2000_01.png",
-    "defaultKit": {
-      "shirt": "#552583",
-      "shorts": "#FDB927",
-      "socks": "#552583",
-      "trim": "#FDB927",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#FDB927",
-      "shorts": "#552583",
-      "socks": "#FDB927",
-      "trim": "#552583",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#552583",
-      "socks": "#222222",
-      "trim": "#552583",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_lal_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2000/01",
-    "franchiseId": "nba_lal"
-  },
-  {
-    "id": "classic_sas_2013_14",
-    "name": "San Antonio Spurs — 2013/14",
-    "abbreviation": "SAS",
-    "teamType": "HISTORIC_TEAM",
-    "city": "San Antonio",
-    "primaryColor": "#C4CED4",
-    "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/classic_sas_2013_14.png",
-    "defaultKit": {
-      "shirt": "#C4CED4",
-      "shorts": "#000000",
-      "socks": "#C4CED4",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#C4CED4",
-      "socks": "#000000",
-      "trim": "#C4CED4",
-      "numberColor": "#111111"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#C4CED4",
-      "socks": "#222222",
-      "trim": "#C4CED4",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "nba_sas_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2013/14",
-    "franchiseId": "nba_sas"
-  },
-  {
-    "id": "classic_mia_2012_13",
-    "name": "Miami Heat — 2012/13",
-    "abbreviation": "MIA",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Miami",
-    "primaryColor": "#98002E",
-    "secondaryColor": "#F9A01B",
-    "badgeAsset": "/assets/emblems/classic_mia_2012_13.png",
-    "defaultKit": {
-      "shirt": "#98002E",
-      "shorts": "#F9A01B",
-      "socks": "#98002E",
-      "trim": "#F9A01B",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#F9A01B",
-      "shorts": "#98002E",
-      "socks": "#F9A01B",
-      "trim": "#98002E",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#98002E",
-      "socks": "#222222",
-      "trim": "#98002E",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_mia_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2012/13",
-    "franchiseId": "nba_mia"
-  },
-  {
-    "id": "classic_den_2022_23",
-    "name": "Denver Nuggets — 2022/23",
-    "abbreviation": "DEN",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Denver",
-    "primaryColor": "#0E2240",
-    "secondaryColor": "#FEC524",
-    "badgeAsset": "/assets/emblems/classic_den_2022_23.png",
-    "defaultKit": {
-      "shirt": "#0E2240",
-      "shorts": "#FEC524",
-      "socks": "#0E2240",
-      "trim": "#FEC524",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#FEC524",
-      "shorts": "#0E2240",
-      "socks": "#FEC524",
-      "trim": "#0E2240",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#0E2240",
-      "socks": "#222222",
-      "trim": "#0E2240",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_den_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2022/23",
-    "franchiseId": "nba_den"
-  },
-  {
-    "id": "classic_bos_2007_08",
-    "name": "Boston Celtics — 2007/08",
-    "abbreviation": "BOS",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Boston",
-    "primaryColor": "#007A33",
-    "secondaryColor": "#BA9653",
-    "badgeAsset": "/assets/emblems/classic_bos_2007_08.png",
-    "defaultKit": {
-      "shirt": "#007A33",
-      "shorts": "#BA9653",
-      "socks": "#007A33",
-      "trim": "#BA9653",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#BA9653",
-      "shorts": "#007A33",
-      "socks": "#BA9653",
-      "trim": "#007A33",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#007A33",
-      "socks": "#222222",
-      "trim": "#007A33",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_bos_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2007/08",
-    "franchiseId": "nba_bos"
-  },
-  {
-    "id": "classic_dal_2010_11",
-    "name": "Dallas Mavericks — 2010/11",
-    "abbreviation": "DAL",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Dallas",
-    "primaryColor": "#00538C",
-    "secondaryColor": "#002B5E",
-    "badgeAsset": "/assets/emblems/classic_dal_2010_11.png",
-    "defaultKit": {
-      "shirt": "#00538C",
-      "shorts": "#002B5E",
-      "socks": "#00538C",
-      "trim": "#002B5E",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#002B5E",
-      "shorts": "#00538C",
-      "socks": "#002B5E",
-      "trim": "#00538C",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#00538C",
-      "socks": "#222222",
-      "trim": "#00538C",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_dal_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2010/11",
-    "franchiseId": "nba_dal"
-  },
-  {
-    "id": "classic_lal_1986_87",
-    "name": "Los Angeles Lakers — 1986/87",
-    "abbreviation": "LAL",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Los Angeles",
-    "primaryColor": "#552583",
-    "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/classic_lal_1986_87.png",
-    "defaultKit": {
-      "shirt": "#552583",
-      "shorts": "#FDB927",
-      "socks": "#552583",
-      "trim": "#FDB927",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#FDB927",
-      "shorts": "#552583",
-      "socks": "#FDB927",
-      "trim": "#552583",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#552583",
-      "socks": "#222222",
-      "trim": "#552583",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_lal_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1986/87",
-    "franchiseId": "nba_lal"
-  },
-  {
-    "id": "classic_hou_1994_95",
-    "name": "Houston Rockets — 1994/95",
-    "abbreviation": "HOU",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Houston",
-    "primaryColor": "#CE1141",
-    "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/classic_hou_1994_95.png",
-    "defaultKit": {
-      "shirt": "#CE1141",
-      "shorts": "#000000",
-      "socks": "#CE1141",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#CE1141",
-      "socks": "#000000",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#CE1141",
-      "socks": "#222222",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_hou_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1994/95",
-    "franchiseId": "nba_hou"
-  },
-  {
-    "id": "classic_hou_1993_94",
-    "name": "Houston Rockets — 1993/94",
-    "abbreviation": "HOU",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Houston",
-    "primaryColor": "#CE1141",
-    "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/classic_hou_1993_94.png",
-    "defaultKit": {
-      "shirt": "#CE1141",
-      "shorts": "#000000",
-      "socks": "#CE1141",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#CE1141",
-      "socks": "#000000",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#CE1141",
-      "socks": "#222222",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_hou_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1993/94",
-    "franchiseId": "nba_hou"
-  },
-  {
-    "id": "classic_hou_2006_07",
-    "name": "Houston Rockets — 2006/07",
-    "abbreviation": "HOU",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Houston",
-    "primaryColor": "#CE1141",
-    "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/classic_hou_2006_07.png",
-    "defaultKit": {
-      "shirt": "#CE1141",
-      "shorts": "#000000",
-      "socks": "#CE1141",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#CE1141",
-      "socks": "#000000",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#CE1141",
-      "socks": "#222222",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_hou_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2006/07",
-    "franchiseId": "nba_hou"
-  },
-  {
-    "id": "classic_phx_1992_93",
-    "name": "Phoenix Suns — 1992/93",
-    "abbreviation": "PHX",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Phoenix",
-    "primaryColor": "#1D1160",
-    "secondaryColor": "#E56020",
-    "badgeAsset": "/assets/emblems/classic_phx_1992_93.png",
-    "defaultKit": {
-      "shirt": "#1D1160",
-      "shorts": "#E56020",
-      "socks": "#1D1160",
-      "trim": "#E56020",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#E56020",
-      "shorts": "#1D1160",
-      "socks": "#E56020",
-      "trim": "#1D1160",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#1D1160",
-      "socks": "#222222",
-      "trim": "#1D1160",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_phx_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1992/93",
-    "franchiseId": "nba_phx"
-  },
-  {
-    "id": "classic_ind_1999_00",
-    "name": "Indiana Pacers — 1999/00",
-    "abbreviation": "IND",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Indiana",
-    "primaryColor": "#002D62",
-    "secondaryColor": "#FDBB30",
-    "badgeAsset": "/assets/emblems/classic_ind_1999_00.png",
-    "defaultKit": {
-      "shirt": "#002D62",
-      "shorts": "#FDBB30",
-      "socks": "#002D62",
-      "trim": "#FDBB30",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#FDBB30",
-      "shorts": "#002D62",
-      "socks": "#FDBB30",
-      "trim": "#002D62",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#002D62",
-      "socks": "#222222",
-      "trim": "#002D62",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_ind_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "1999/00",
-    "franchiseId": "nba_ind"
-  },
-  {
-    "id": "classic_tor_2000_01",
-    "name": "Toronto Raptors — 2000/01",
-    "abbreviation": "TOR",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Toronto",
-    "primaryColor": "#CE1141",
-    "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/classic_tor_2000_01.png",
-    "defaultKit": {
-      "shirt": "#CE1141",
-      "shorts": "#000000",
-      "socks": "#CE1141",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#CE1141",
-      "socks": "#000000",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#CE1141",
-      "socks": "#222222",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_tor_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2000/01",
-    "franchiseId": "nba_tor"
-  },
-  {
-    "id": "classic_uta_1997_98",
-    "name": "Utah Jazz — 1997/98",
-    "abbreviation": "UTA",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Utah",
-    "primaryColor": "#002B5C",
-    "secondaryColor": "#00471B",
-    "badgeAsset": "/assets/emblems/classic_uta_1997_98.png",
-    "defaultKit": {
-      "shirt": "#002B5C",
-      "shorts": "#00471B",
-      "socks": "#002B5C",
-      "trim": "#00471B",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#00471B",
-      "shorts": "#002B5C",
-      "socks": "#00471B",
-      "trim": "#002B5C",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#002B5C",
-      "socks": "#222222",
-      "trim": "#002B5C",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_uta_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1997/98",
-    "franchiseId": "nba_uta"
-  },
-  {
-    "id": "classic_phi_2000_01",
-    "name": "Philadelphia 76ers — 2000/01",
-    "abbreviation": "PHI",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Philadelphia",
-    "primaryColor": "#006BB6",
-    "secondaryColor": "#ED174C",
-    "badgeAsset": "/assets/emblems/classic_phi_2000_01.png",
-    "defaultKit": {
-      "shirt": "#006BB6",
-      "shorts": "#ED174C",
-      "socks": "#006BB6",
-      "trim": "#ED174C",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#ED174C",
-      "shorts": "#006BB6",
-      "socks": "#ED174C",
-      "trim": "#006BB6",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#006BB6",
-      "socks": "#222222",
-      "trim": "#006BB6",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_phi_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2000/01",
-    "franchiseId": "nba_phi"
-  },
-  {
-    "id": "classic_det_1988_89",
-    "name": "Detroit Pistons — 1988/89",
-    "abbreviation": "DET",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Detroit",
-    "primaryColor": "#C8102E",
-    "secondaryColor": "#1D42BA",
-    "badgeAsset": "/assets/emblems/classic_det_1988_89.png",
-    "defaultKit": {
-      "shirt": "#C8102E",
-      "shorts": "#1D42BA",
-      "socks": "#C8102E",
-      "trim": "#1D42BA",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#1D42BA",
-      "shorts": "#C8102E",
-      "socks": "#1D42BA",
-      "trim": "#C8102E",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#C8102E",
-      "socks": "#222222",
-      "trim": "#C8102E",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_det_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "1988/89",
-    "franchiseId": "nba_det"
-  },
-  {
-    "id": "classic_nyk_1993_94",
-    "name": "New York Knicks — 1993/94",
-    "abbreviation": "NYK",
-    "teamType": "HISTORIC_TEAM",
-    "city": "New York",
-    "primaryColor": "#006BB6",
-    "secondaryColor": "#F58426",
-    "badgeAsset": "/assets/emblems/classic_nyk_1993_94.png",
-    "defaultKit": {
-      "shirt": "#006BB6",
-      "shorts": "#F58426",
-      "socks": "#006BB6",
-      "trim": "#F58426",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#F58426",
-      "shorts": "#006BB6",
-      "socks": "#F58426",
-      "trim": "#006BB6",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#006BB6",
-      "socks": "#222222",
-      "trim": "#006BB6",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_nyk_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "1993/94",
-    "franchiseId": "nba_nyk"
-  },
-  {
-    "id": "classic_sas_1998_99",
-    "name": "San Antonio Spurs — 1998/99",
-    "abbreviation": "SAS",
-    "teamType": "HISTORIC_TEAM",
-    "city": "San Antonio",
-    "primaryColor": "#C4CED4",
-    "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/classic_sas_1998_99.png",
-    "defaultKit": {
-      "shirt": "#C4CED4",
-      "shorts": "#000000",
-      "socks": "#C4CED4",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#C4CED4",
-      "socks": "#000000",
-      "trim": "#C4CED4",
-      "numberColor": "#111111"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#C4CED4",
-      "socks": "#222222",
-      "trim": "#C4CED4",
-      "numberColor": "#111111"
-    },
-    "defaultStadiumId": "nba_sas_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1998/99",
-    "franchiseId": "nba_sas"
-  },
-  {
-    "id": "classic_mil_2020_21",
-    "name": "Milwaukee Bucks — 2020/21",
-    "abbreviation": "MIL",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Milwaukee",
-    "primaryColor": "#00471B",
-    "secondaryColor": "#EEE1C6",
-    "badgeAsset": "/assets/emblems/classic_mil_2020_21.png",
-    "defaultKit": {
-      "shirt": "#00471B",
-      "shorts": "#EEE1C6",
-      "socks": "#00471B",
-      "trim": "#EEE1C6",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#EEE1C6",
-      "shorts": "#00471B",
-      "socks": "#EEE1C6",
-      "trim": "#00471B",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#00471B",
-      "socks": "#222222",
-      "trim": "#00471B",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_mil_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2020/21",
-    "franchiseId": "nba_mil"
-  },
-  {
-    "id": "classic_atl_1990_91",
-    "name": "Atlanta Hawks — 1990/91",
-    "abbreviation": "ATL",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Atlanta",
-    "primaryColor": "#E03A3E",
-    "secondaryColor": "#C1D32F",
-    "badgeAsset": "/assets/emblems/classic_atl_1990_91.png",
-    "defaultKit": {
-      "shirt": "#E03A3E",
-      "shorts": "#C1D32F",
-      "socks": "#E03A3E",
-      "trim": "#C1D32F",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#C1D32F",
-      "shorts": "#E03A3E",
-      "socks": "#C1D32F",
-      "trim": "#E03A3E",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#E03A3E",
-      "socks": "#222222",
-      "trim": "#E03A3E",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_atl_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "1990/91",
-    "franchiseId": "nba_atl"
-  },
-  {
-    "id": "classic_phx_2004_05",
-    "name": "Phoenix Suns — 2004/05",
-    "abbreviation": "PHX",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Phoenix",
-    "primaryColor": "#1D1160",
-    "secondaryColor": "#E56020",
-    "badgeAsset": "/assets/emblems/classic_phx_2004_05.png",
-    "defaultKit": {
-      "shirt": "#1D1160",
-      "shorts": "#E56020",
-      "socks": "#1D1160",
-      "trim": "#E56020",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#E56020",
-      "shorts": "#1D1160",
-      "socks": "#E56020",
-      "trim": "#1D1160",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#1D1160",
-      "socks": "#222222",
-      "trim": "#1D1160",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_phx_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2004/05",
-    "franchiseId": "nba_phx"
-  },
-  {
-    "id": "classic_phi_1982_83",
-    "name": "Philadelphia 76ers — 1982/83",
-    "abbreviation": "PHI",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Philadelphia",
-    "primaryColor": "#006BB6",
-    "secondaryColor": "#ED174C",
-    "badgeAsset": "/assets/emblems/classic_phi_1982_83.png",
-    "defaultKit": {
-      "shirt": "#006BB6",
-      "shorts": "#ED174C",
-      "socks": "#006BB6",
-      "trim": "#ED174C",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#ED174C",
-      "shorts": "#006BB6",
-      "socks": "#ED174C",
-      "trim": "#006BB6",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#006BB6",
-      "socks": "#222222",
-      "trim": "#006BB6",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_phi_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "1982/83",
-    "franchiseId": "nba_phi"
-  },
-  {
-    "id": "classic_bos_1964_65",
-    "name": "Boston Celtics — 1964/65",
-    "abbreviation": "BOS",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Boston",
-    "primaryColor": "#007A33",
-    "secondaryColor": "#BA9653",
-    "badgeAsset": "/assets/emblems/classic_bos_1964_65.png",
-    "defaultKit": {
-      "shirt": "#007A33",
-      "shorts": "#BA9653",
-      "socks": "#007A33",
-      "trim": "#BA9653",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#BA9653",
-      "shorts": "#007A33",
-      "socks": "#BA9653",
-      "trim": "#007A33",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#007A33",
-      "socks": "#222222",
-      "trim": "#007A33",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_bos_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "1964/65",
-    "franchiseId": "nba_bos"
-  },
-  {
-    "id": "classic_lal_1971_72",
-    "name": "Los Angeles Lakers — 1971/72",
-    "abbreviation": "LAL",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Los Angeles",
-    "primaryColor": "#552583",
-    "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/classic_lal_1971_72.png",
-    "defaultKit": {
-      "shirt": "#552583",
-      "shorts": "#FDB927",
-      "socks": "#552583",
-      "trim": "#FDB927",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#FDB927",
-      "shorts": "#552583",
-      "socks": "#FDB927",
-      "trim": "#552583",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#552583",
-      "socks": "#222222",
-      "trim": "#552583",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_lal_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1971/72",
-    "franchiseId": "nba_lal"
-  },
-  {
-    "id": "classic_okc_1995_96",
-    "name": "Seattle SuperSonics — 1995/96",
-    "abbreviation": "SEA",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Seattle",
-    "primaryColor": "#00653A",
-    "secondaryColor": "#FFC200",
-    "badgeAsset": "/assets/emblems/classic_okc_1995_96.png",
-    "defaultKit": {
-      "shirt": "#00653A",
-      "shorts": "#FFC200",
-      "socks": "#00653A",
-      "trim": "#FFC200",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#FFC200",
-      "shorts": "#00653A",
-      "socks": "#FFC200",
-      "trim": "#00653A",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#00653A",
-      "socks": "#222222",
-      "trim": "#00653A",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_okc_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1995/96",
-    "franchiseId": "nba_okc"
-  },
-  {
-    "id": "classic_cin_1963_64",
-    "name": "Cincinnati Royals — 1963/64",
-    "abbreviation": "SAC",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Sacramento",
-    "primaryColor": "#5A2D81",
-    "secondaryColor": "#63727A",
-    "badgeAsset": "/assets/emblems/classic_cin_1963_64.png",
-    "defaultKit": {
-      "shirt": "#5A2D81",
-      "shorts": "#63727A",
-      "socks": "#5A2D81",
-      "trim": "#63727A",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#63727A",
-      "shorts": "#5A2D81",
-      "socks": "#63727A",
-      "trim": "#5A2D81",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#5A2D81",
-      "socks": "#222222",
-      "trim": "#5A2D81",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_sac_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1963/64",
-    "franchiseId": "nba_sac"
-  },
-  {
-    "id": "classic_was_2016_17",
-    "name": "Washington Wizards — 2016/17",
-    "abbreviation": "WAS",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Washington",
-    "primaryColor": "#002B5C",
-    "secondaryColor": "#E31837",
-    "badgeAsset": "/assets/emblems/classic_was_2016_17.png",
-    "defaultKit": {
-      "shirt": "#002B5C",
-      "shorts": "#E31837",
-      "socks": "#002B5C",
-      "trim": "#E31837",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#E31837",
-      "shorts": "#002B5C",
-      "socks": "#E31837",
-      "trim": "#002B5C",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#002B5C",
-      "socks": "#222222",
-      "trim": "#002B5C",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_was_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2016/17",
-    "franchiseId": "nba_was"
-  },
-  {
-    "id": "classic_orl_1994_95",
-    "name": "Orlando Magic — 1994/95",
-    "abbreviation": "ORL",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Orlando",
-    "primaryColor": "#0077C0",
-    "secondaryColor": "#C4CED4",
-    "badgeAsset": "/assets/emblems/classic_orl_1994_95.png",
-    "defaultKit": {
-      "shirt": "#0077C0",
-      "shorts": "#C4CED4",
-      "socks": "#0077C0",
-      "trim": "#C4CED4",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#C4CED4",
-      "shorts": "#0077C0",
-      "socks": "#C4CED4",
-      "trim": "#0077C0",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#0077C0",
-      "socks": "#222222",
-      "trim": "#0077C0",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_orl_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "1994/95",
-    "franchiseId": "nba_orl"
-  },
-  {
-    "id": "classic_cle_2015_16",
-    "name": "Cleveland Cavaliers — 2015/16",
-    "abbreviation": "CLE",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Cleveland",
-    "primaryColor": "#860038",
-    "secondaryColor": "#FDBB30",
-    "badgeAsset": "/assets/emblems/classic_cle_2015_16.png",
-    "defaultKit": {
-      "shirt": "#860038",
-      "shorts": "#FDBB30",
-      "socks": "#860038",
-      "trim": "#FDBB30",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#FDBB30",
-      "shorts": "#860038",
-      "socks": "#FDBB30",
-      "trim": "#860038",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#860038",
-      "socks": "#222222",
-      "trim": "#860038",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_cle_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2015/16",
-    "franchiseId": "nba_cle"
-  },
-  {
-    "id": "classic_det_1996_97",
-    "name": "Detroit Pistons — 1996/97",
-    "abbreviation": "DET",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Detroit",
-    "primaryColor": "#C8102E",
-    "secondaryColor": "#1D42BA",
-    "badgeAsset": "/assets/emblems/classic_det_1996_97.png",
-    "defaultKit": {
-      "shirt": "#C8102E",
-      "shorts": "#1D42BA",
-      "socks": "#C8102E",
-      "trim": "#1D42BA",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#1D42BA",
-      "shorts": "#C8102E",
-      "socks": "#1D42BA",
-      "trim": "#C8102E",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#C8102E",
-      "socks": "#222222",
-      "trim": "#C8102E",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_det_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "1996/97",
-    "franchiseId": "nba_det"
-  },
-  {
-    "id": "classic_sac_2001_02",
-    "name": "Sacramento Kings — 2001/02",
-    "abbreviation": "SAC",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Sacramento",
-    "primaryColor": "#5A2D81",
-    "secondaryColor": "#63727A",
-    "badgeAsset": "/assets/emblems/classic_sac_2001_02.png",
-    "defaultKit": {
-      "shirt": "#5A2D81",
-      "shorts": "#63727A",
-      "socks": "#5A2D81",
-      "trim": "#63727A",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#63727A",
-      "shorts": "#5A2D81",
-      "socks": "#63727A",
-      "trim": "#5A2D81",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#5A2D81",
-      "socks": "#222222",
-      "trim": "#5A2D81",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_sac_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2001/02",
-    "franchiseId": "nba_sac"
-  },
-  {
-    "id": "classic_por_1999_00",
-    "name": "Portland Trail Blazers — 1999/00",
-    "abbreviation": "POR",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Portland",
-    "primaryColor": "#E03A3E",
-    "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/classic_por_1999_00.png",
-    "defaultKit": {
-      "shirt": "#E03A3E",
-      "shorts": "#000000",
-      "socks": "#E03A3E",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#E03A3E",
-      "socks": "#000000",
-      "trim": "#E03A3E",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#E03A3E",
-      "socks": "#222222",
-      "trim": "#E03A3E",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_por_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1999/00",
-    "franchiseId": "nba_por"
-  },
-  {
-    "id": "classic_bkn_2000_01",
-    "name": "New Jersey Nets — 2000/01",
-    "abbreviation": "NJN",
-    "teamType": "HISTORIC_TEAM",
-    "city": "New Jersey",
-    "primaryColor": "#002A60",
-    "secondaryColor": "#D21033",
-    "badgeAsset": "/assets/emblems/classic_bkn_2000_01.png",
-    "defaultKit": {
-      "shirt": "#002A60",
-      "shorts": "#D21033",
-      "socks": "#002A60",
-      "trim": "#D21033",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#D21033",
-      "shorts": "#002A60",
-      "socks": "#D21033",
-      "trim": "#002A60",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#002A60",
-      "socks": "#222222",
-      "trim": "#002A60",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_bkn_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2000/01",
-    "franchiseId": "nba_bkn"
-  },
-  {
-    "id": "classic_cha_1992_93",
-    "name": "Charlotte Hornets — 1992/93",
-    "abbreviation": "CHA",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Charlotte",
-    "primaryColor": "#00788C",
-    "secondaryColor": "#1D1160",
-    "badgeAsset": "/assets/emblems/classic_cha_1992_93.png",
-    "defaultKit": {
-      "shirt": "#00788C",
-      "shorts": "#1D1160",
-      "socks": "#00788C",
-      "trim": "#1D1160",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#1D1160",
-      "shorts": "#00788C",
-      "socks": "#1D1160",
-      "trim": "#00788C",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#00788C",
-      "socks": "#222222",
-      "trim": "#00788C",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_cha_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "1992/93",
-    "franchiseId": "nba_cha"
-  },
-  {
-    "id": "classic_hou_2018_19",
-    "name": "Houston Rockets — 2018/19",
-    "abbreviation": "HOU",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Houston",
-    "primaryColor": "#CE1141",
-    "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/classic_hou_2018_19.png",
-    "defaultKit": {
-      "shirt": "#CE1141",
-      "shorts": "#000000",
-      "socks": "#CE1141",
-      "trim": "#000000",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#000000",
-      "shorts": "#CE1141",
-      "socks": "#000000",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#CE1141",
-      "socks": "#222222",
-      "trim": "#CE1141",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_hou_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2018/19",
-    "franchiseId": "nba_hou"
-  },
-  {
-    "id": "classic_okc_2011_12",
-    "name": "Oklahoma City Thunder — 2011/12",
-    "abbreviation": "OKC",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Oklahoma City",
-    "primaryColor": "#007AC1",
-    "secondaryColor": "#EF3B24",
-    "badgeAsset": "/assets/emblems/classic_okc_2011_12.png",
-    "defaultKit": {
-      "shirt": "#007AC1",
-      "shorts": "#EF3B24",
-      "socks": "#007AC1",
-      "trim": "#EF3B24",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#EF3B24",
-      "shorts": "#007AC1",
-      "socks": "#EF3B24",
-      "trim": "#007AC1",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#007AC1",
-      "socks": "#222222",
-      "trim": "#007AC1",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_okc_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2011/12",
-    "franchiseId": "nba_okc"
-  },
-  {
-    "id": "classic_uta_1976_77",
-    "name": "New Orleans Jazz — 1976/77",
-    "abbreviation": "NOJ",
-    "teamType": "HISTORIC_TEAM",
-    "city": "New Orleans",
-    "primaryColor": "#002B5C",
-    "secondaryColor": "#E31837",
-    "badgeAsset": "/assets/emblems/classic_uta_1976_77.png",
-    "defaultKit": {
-      "shirt": "#002B5C",
-      "shorts": "#E31837",
-      "socks": "#002B5C",
-      "trim": "#E31837",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#E31837",
-      "shorts": "#002B5C",
-      "socks": "#E31837",
-      "trim": "#002B5C",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#002B5C",
-      "socks": "#222222",
-      "trim": "#002B5C",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_uta_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "1976/77",
-    "franchiseId": "nba_uta"
-  },
-  {
-    "id": "classic_lac_2013_14",
-    "name": "Los Angeles Clippers — 2013/14",
-    "abbreviation": "LAC",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Los Angeles",
-    "primaryColor": "#C8102E",
-    "secondaryColor": "#1D428A",
-    "badgeAsset": "/assets/emblems/classic_lac_2013_14.png",
-    "defaultKit": {
-      "shirt": "#C8102E",
-      "shorts": "#1D428A",
-      "socks": "#C8102E",
-      "trim": "#1D428A",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#1D428A",
-      "shorts": "#C8102E",
-      "socks": "#1D428A",
-      "trim": "#C8102E",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#C8102E",
-      "socks": "#222222",
-      "trim": "#C8102E",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_lac_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2013/14",
-    "franchiseId": "nba_lac"
-  },
-  {
-    "id": "classic_lal_2009_10",
-    "name": "Los Angeles Lakers — 2009/10",
-    "abbreviation": "LAL",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Los Angeles",
-    "primaryColor": "#552583",
-    "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/classic_lal_2009_10.png",
-    "defaultKit": {
-      "shirt": "#552583",
-      "shorts": "#FDB927",
-      "socks": "#552583",
-      "trim": "#FDB927",
-      "numberColor": "#111111"
-    },
-    "awayKit": {
-      "shirt": "#FDB927",
-      "shorts": "#552583",
-      "socks": "#FDB927",
-      "trim": "#552583",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#552583",
-      "socks": "#222222",
-      "trim": "#552583",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_lal_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "WEST",
-    "league": "WEST",
-    "historicSeason": "2009/10",
-    "franchiseId": "nba_lal"
-  },
-  {
-    "id": "classic_nyk_2011_12",
-    "name": "New York Knicks — 2011/12",
-    "abbreviation": "NYK",
-    "teamType": "HISTORIC_TEAM",
-    "city": "New York",
-    "primaryColor": "#006BB6",
-    "secondaryColor": "#F58426",
-    "badgeAsset": "/assets/emblems/classic_nyk_2011_12.png",
-    "defaultKit": {
-      "shirt": "#006BB6",
-      "shorts": "#F58426",
-      "socks": "#006BB6",
-      "trim": "#F58426",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#F58426",
-      "shorts": "#006BB6",
-      "socks": "#F58426",
-      "trim": "#006BB6",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#006BB6",
-      "socks": "#222222",
-      "trim": "#006BB6",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_nyk_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2011/12",
-    "franchiseId": "nba_nyk"
-  },
-  {
-    "id": "classic_was_2007_08",
-    "name": "Washington Wizards — 2007/08",
-    "abbreviation": "WAS",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Washington",
-    "primaryColor": "#002B5C",
-    "secondaryColor": "#E31837",
-    "badgeAsset": "/assets/emblems/classic_was_2007_08.png",
-    "defaultKit": {
-      "shirt": "#002B5C",
-      "shorts": "#E31837",
-      "socks": "#002B5C",
-      "trim": "#E31837",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#E31837",
-      "shorts": "#002B5C",
-      "socks": "#E31837",
-      "trim": "#002B5C",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#002B5C",
-      "socks": "#222222",
-      "trim": "#002B5C",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_was_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2007/08",
-    "franchiseId": "nba_was"
-  },
-  {
-    "id": "classic_det_2003_04",
-    "name": "Detroit Pistons — 2003/04",
-    "abbreviation": "DET",
-    "teamType": "HISTORIC_TEAM",
-    "city": "Detroit",
-    "primaryColor": "#C8102E",
-    "secondaryColor": "#1D42BA",
-    "badgeAsset": "/assets/emblems/classic_det_2003_04.png",
-    "defaultKit": {
-      "shirt": "#C8102E",
-      "shorts": "#1D42BA",
-      "socks": "#C8102E",
-      "trim": "#1D42BA",
-      "numberColor": "#FFFFFF"
-    },
-    "awayKit": {
-      "shirt": "#1D42BA",
-      "shorts": "#C8102E",
-      "socks": "#1D42BA",
-      "trim": "#C8102E",
-      "numberColor": "#FFFFFF"
-    },
-    "goalkeeperKit": {
-      "shirt": "#222222",
-      "shorts": "#C8102E",
-      "socks": "#222222",
-      "trim": "#C8102E",
-      "numberColor": "#FFFFFF"
-    },
-    "defaultStadiumId": "nba_det_arena",
-    "defaultFormation": "BASKETBALL_5",
-    "conference": "EAST",
-    "league": "EAST",
-    "historicSeason": "2003/04",
-    "franchiseId": "nba_det"
   },
   {
     "id": "classic_lal_1953_54",
@@ -2749,6 +1232,80 @@
     "conference": "WEST",
     "league": "WEST",
     "historicSeason": "1953/54",
+    "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_lal_2000_01",
+    "name": "Los Angeles Lakers — 2000/01",
+    "abbreviation": "LAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2000/01",
+    "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_lal_2009_10",
+    "name": "Los Angeles Lakers — 2009/10",
+    "abbreviation": "LAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2009/10",
     "franchiseId": "nba_lal"
   },
   {
@@ -2789,6 +1346,191 @@
     "franchiseId": "nba_lal"
   },
   {
+    "id": "classic_sas_2013_14",
+    "name": "San Antonio Spurs — 2013/14",
+    "abbreviation": "SAS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "San Antonio",
+    "primaryColor": "#C4CED4",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_sas.png",
+    "defaultKit": {
+      "shirt": "#C4CED4",
+      "shorts": "#000000",
+      "socks": "#C4CED4",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#C4CED4",
+      "socks": "#000000",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C4CED4",
+      "socks": "#222222",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "defaultStadiumId": "nba_sas_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2013/14",
+    "franchiseId": "nba_sas"
+  },
+  {
+    "id": "classic_mia_2012_13",
+    "name": "Miami Heat — 2012/13",
+    "abbreviation": "MIA",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Miami",
+    "primaryColor": "#98002E",
+    "secondaryColor": "#F9A01B",
+    "badgeAsset": "/assets/emblems/nba_mia.svg",
+    "defaultKit": {
+      "shirt": "#98002E",
+      "shorts": "#F9A01B",
+      "socks": "#98002E",
+      "trim": "#F9A01B",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#F9A01B",
+      "shorts": "#98002E",
+      "socks": "#F9A01B",
+      "trim": "#98002E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#98002E",
+      "socks": "#222222",
+      "trim": "#98002E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_mia_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2012/13",
+    "franchiseId": "nba_mia"
+  },
+  {
+    "id": "classic_den_2022_23",
+    "name": "Denver Nuggets — 2022/23",
+    "abbreviation": "DEN",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Denver",
+    "primaryColor": "#0E2240",
+    "secondaryColor": "#FEC524",
+    "badgeAsset": "/assets/emblems/nba_den.svg",
+    "defaultKit": {
+      "shirt": "#0E2240",
+      "shorts": "#FEC524",
+      "socks": "#0E2240",
+      "trim": "#FEC524",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FEC524",
+      "shorts": "#0E2240",
+      "socks": "#FEC524",
+      "trim": "#0E2240",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#0E2240",
+      "socks": "#222222",
+      "trim": "#0E2240",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_den_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2022/23",
+    "franchiseId": "nba_den"
+  },
+  {
+    "id": "classic_bos_2007_08",
+    "name": "Boston Celtics — 2007/08",
+    "abbreviation": "BOS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Boston",
+    "primaryColor": "#007A33",
+    "secondaryColor": "#BA9653",
+    "badgeAsset": "/assets/emblems/nba_bos.svg",
+    "defaultKit": {
+      "shirt": "#007A33",
+      "shorts": "#BA9653",
+      "socks": "#007A33",
+      "trim": "#BA9653",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#BA9653",
+      "shorts": "#007A33",
+      "socks": "#BA9653",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007A33",
+      "socks": "#222222",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bos_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2007/08",
+    "franchiseId": "nba_bos"
+  },
+  {
+    "id": "classic_dal_2010_11",
+    "name": "Dallas Mavericks — 2010/11",
+    "abbreviation": "DAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Dallas",
+    "primaryColor": "#00538C",
+    "secondaryColor": "#002B5E",
+    "badgeAsset": "/assets/emblems/nba_dal.svg",
+    "defaultKit": {
+      "shirt": "#00538C",
+      "shorts": "#002B5E",
+      "socks": "#00538C",
+      "trim": "#002B5E",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#002B5E",
+      "shorts": "#00538C",
+      "socks": "#002B5E",
+      "trim": "#00538C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#00538C",
+      "socks": "#222222",
+      "trim": "#00538C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_dal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2010/11",
+    "franchiseId": "nba_dal"
+  },
+  {
     "id": "classic_chi_2010_11",
     "name": "Chicago Bulls — 2010/11",
     "abbreviation": "CHI",
@@ -2824,5 +1566,1337 @@
     "league": "EAST",
     "historicSeason": "2010/11",
     "franchiseId": "nba_chi"
+  },
+  {
+    "id": "classic_lal_1979_80",
+    "name": "Los Angeles Lakers — 1979/80",
+    "abbreviation": "LAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/classic_lal_1979_80.png",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1979/80",
+    "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_lal_1986_87",
+    "name": "Los Angeles Lakers — 1986/87",
+    "abbreviation": "LAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1986/87",
+    "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_hou_1994_95",
+    "name": "Houston Rockets — 1994/95",
+    "abbreviation": "HOU",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Houston",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_hou_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1994/95",
+    "franchiseId": "nba_hou"
+  },
+  {
+    "id": "classic_hou_1993_94",
+    "name": "Houston Rockets — 1993/94",
+    "abbreviation": "HOU",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Houston",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_hou_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1993/94",
+    "franchiseId": "nba_hou"
+  },
+  {
+    "id": "classic_hou_2006_07",
+    "name": "Houston Rockets — 2006/07",
+    "abbreviation": "HOU",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Houston",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_hou_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2006/07",
+    "franchiseId": "nba_hou"
+  },
+  {
+    "id": "classic_phx_1992_93",
+    "name": "Phoenix Suns — 1992/93",
+    "abbreviation": "PHX",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Phoenix",
+    "primaryColor": "#1D1160",
+    "secondaryColor": "#E56020",
+    "badgeAsset": "/assets/emblems/nba_phx.svg",
+    "defaultKit": {
+      "shirt": "#1D1160",
+      "shorts": "#E56020",
+      "socks": "#1D1160",
+      "trim": "#E56020",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E56020",
+      "shorts": "#1D1160",
+      "socks": "#E56020",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#1D1160",
+      "socks": "#222222",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phx_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1992/93",
+    "franchiseId": "nba_phx"
+  },
+  {
+    "id": "classic_ind_1999_00",
+    "name": "Indiana Pacers — 1999/00",
+    "abbreviation": "IND",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Indiana",
+    "primaryColor": "#002D62",
+    "secondaryColor": "#FDBB30",
+    "badgeAsset": "/assets/emblems/nba_ind.svg",
+    "defaultKit": {
+      "shirt": "#002D62",
+      "shorts": "#FDBB30",
+      "socks": "#002D62",
+      "trim": "#FDBB30",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDBB30",
+      "shorts": "#002D62",
+      "socks": "#FDBB30",
+      "trim": "#002D62",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002D62",
+      "socks": "#222222",
+      "trim": "#002D62",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_ind_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1999/00",
+    "franchiseId": "nba_ind"
+  },
+  {
+    "id": "classic_tor_2000_01",
+    "name": "Toronto Raptors — 2000/01",
+    "abbreviation": "TOR",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Toronto",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_tor.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_tor_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2000/01",
+    "franchiseId": "nba_tor"
+  },
+  {
+    "id": "classic_uta_1997_98",
+    "name": "Utah Jazz — 1997/98",
+    "abbreviation": "UTA",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Utah",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#00471B",
+    "badgeAsset": "/assets/emblems/nba_uta.svg",
+    "defaultKit": {
+      "shirt": "#002B5C",
+      "shorts": "#00471B",
+      "socks": "#002B5C",
+      "trim": "#00471B",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#00471B",
+      "shorts": "#002B5C",
+      "socks": "#00471B",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_uta_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1997/98",
+    "franchiseId": "nba_uta"
+  },
+  {
+    "id": "classic_phi_2000_01",
+    "name": "Philadelphia 76ers — 2000/01",
+    "abbreviation": "PHI",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Philadelphia",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#ED174C",
+    "badgeAsset": "/assets/emblems/nba_phi.svg",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#ED174C",
+      "socks": "#006BB6",
+      "trim": "#ED174C",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#ED174C",
+      "shorts": "#006BB6",
+      "socks": "#ED174C",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phi_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2000/01",
+    "franchiseId": "nba_phi"
+  },
+  {
+    "id": "classic_det_1988_89",
+    "name": "Detroit Pistons — 1988/89",
+    "abbreviation": "DET",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Detroit",
+    "primaryColor": "#C8102E",
+    "secondaryColor": "#1D42BA",
+    "badgeAsset": "/assets/emblems/nba_det.svg",
+    "defaultKit": {
+      "shirt": "#C8102E",
+      "shorts": "#1D42BA",
+      "socks": "#C8102E",
+      "trim": "#1D42BA",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D42BA",
+      "shorts": "#C8102E",
+      "socks": "#1D42BA",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_det_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1988/89",
+    "franchiseId": "nba_det"
+  },
+  {
+    "id": "classic_nyk_1993_94",
+    "name": "New York Knicks — 1993/94",
+    "abbreviation": "NYK",
+    "teamType": "HISTORIC_TEAM",
+    "city": "New York",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#F58426",
+    "badgeAsset": "/assets/emblems/nba_nyk.svg",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#F58426",
+      "socks": "#006BB6",
+      "trim": "#F58426",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#F58426",
+      "shorts": "#006BB6",
+      "socks": "#F58426",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_nyk_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1993/94",
+    "franchiseId": "nba_nyk"
+  },
+  {
+    "id": "classic_nyk_2011_12",
+    "name": "New York Knicks — 2011/12",
+    "abbreviation": "NYK",
+    "teamType": "HISTORIC_TEAM",
+    "city": "New York",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#F58426",
+    "badgeAsset": "/assets/emblems/nba_nyk.svg",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#F58426",
+      "socks": "#006BB6",
+      "trim": "#F58426",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#F58426",
+      "shorts": "#006BB6",
+      "socks": "#F58426",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_nyk_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2011/12",
+    "franchiseId": "nba_nyk"
+  },
+  {
+    "id": "classic_sas_1998_99",
+    "name": "San Antonio Spurs — 1998/99",
+    "abbreviation": "SAS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "San Antonio",
+    "primaryColor": "#C4CED4",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_sas.png",
+    "defaultKit": {
+      "shirt": "#C4CED4",
+      "shorts": "#000000",
+      "socks": "#C4CED4",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#C4CED4",
+      "socks": "#000000",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C4CED4",
+      "socks": "#222222",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "defaultStadiumId": "nba_sas_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1998/99",
+    "franchiseId": "nba_sas"
+  },
+  {
+    "id": "classic_mil_2020_21",
+    "name": "Milwaukee Bucks — 2020/21",
+    "abbreviation": "MIL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Milwaukee",
+    "primaryColor": "#00471B",
+    "secondaryColor": "#EEE1C6",
+    "badgeAsset": "/assets/emblems/nba_mil.svg",
+    "defaultKit": {
+      "shirt": "#00471B",
+      "shorts": "#EEE1C6",
+      "socks": "#00471B",
+      "trim": "#EEE1C6",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#EEE1C6",
+      "shorts": "#00471B",
+      "socks": "#EEE1C6",
+      "trim": "#00471B",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#00471B",
+      "socks": "#222222",
+      "trim": "#00471B",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_mil_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2020/21",
+    "franchiseId": "nba_mil"
+  },
+  {
+    "id": "classic_atl_1990_91",
+    "name": "Atlanta Hawks — 1990/91",
+    "abbreviation": "ATL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Atlanta",
+    "primaryColor": "#E03A3E",
+    "secondaryColor": "#C1D32F",
+    "badgeAsset": "/assets/emblems/nba_atl.svg",
+    "defaultKit": {
+      "shirt": "#E03A3E",
+      "shorts": "#C1D32F",
+      "socks": "#E03A3E",
+      "trim": "#C1D32F",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#C1D32F",
+      "shorts": "#E03A3E",
+      "socks": "#C1D32F",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#E03A3E",
+      "socks": "#222222",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_atl_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1990/91",
+    "franchiseId": "nba_atl"
+  },
+  {
+    "id": "classic_phx_2004_05",
+    "name": "Phoenix Suns — 2004/05",
+    "abbreviation": "PHX",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Phoenix",
+    "primaryColor": "#1D1160",
+    "secondaryColor": "#E56020",
+    "badgeAsset": "/assets/emblems/nba_phx.svg",
+    "defaultKit": {
+      "shirt": "#1D1160",
+      "shorts": "#E56020",
+      "socks": "#1D1160",
+      "trim": "#E56020",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E56020",
+      "shorts": "#1D1160",
+      "socks": "#E56020",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#1D1160",
+      "socks": "#222222",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phx_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2004/05",
+    "franchiseId": "nba_phx"
+  },
+  {
+    "id": "classic_phi_1982_83",
+    "name": "Philadelphia 76ers — 1982/83",
+    "abbreviation": "PHI",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Philadelphia",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#ED174C",
+    "badgeAsset": "/assets/emblems/nba_phi.svg",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#ED174C",
+      "socks": "#006BB6",
+      "trim": "#ED174C",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#ED174C",
+      "shorts": "#006BB6",
+      "socks": "#ED174C",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_phi_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1982/83",
+    "franchiseId": "nba_phi"
+  },
+  {
+    "id": "classic_bos_1964_65",
+    "name": "Boston Celtics — 1964/65",
+    "abbreviation": "BOS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Boston",
+    "primaryColor": "#007A33",
+    "secondaryColor": "#BA9653",
+    "badgeAsset": "/assets/emblems/nba_bos.svg",
+    "defaultKit": {
+      "shirt": "#007A33",
+      "shorts": "#BA9653",
+      "socks": "#007A33",
+      "trim": "#BA9653",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#BA9653",
+      "shorts": "#007A33",
+      "socks": "#BA9653",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007A33",
+      "socks": "#222222",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bos_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1964/65",
+    "franchiseId": "nba_bos"
+  },
+  {
+    "id": "classic_lal_1971_72",
+    "name": "Los Angeles Lakers — 1971/72",
+    "abbreviation": "LAL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#552583",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "defaultKit": {
+      "shirt": "#552583",
+      "shorts": "#FDB927",
+      "socks": "#552583",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#552583",
+      "socks": "#FDB927",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#552583",
+      "socks": "#222222",
+      "trim": "#552583",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lal_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1971/72",
+    "franchiseId": "nba_lal"
+  },
+  {
+    "id": "classic_okc_1995_96",
+    "name": "Seattle SuperSonics — 1995/96",
+    "abbreviation": "SEA",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Seattle",
+    "primaryColor": "#00653A",
+    "secondaryColor": "#FFC200",
+    "badgeAsset": "/assets/emblems/nba_sea.svg",
+    "defaultKit": {
+      "shirt": "#00653A",
+      "shorts": "#FFC200",
+      "socks": "#00653A",
+      "trim": "#FFC200",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#FFC200",
+      "shorts": "#00653A",
+      "socks": "#FFC200",
+      "trim": "#00653A",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#00653A",
+      "socks": "#222222",
+      "trim": "#00653A",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_okc_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1995/96",
+    "franchiseId": "nba_okc"
+  },
+  {
+    "id": "classic_cin_1963_64",
+    "name": "Cincinnati Royals — 1963/64",
+    "abbreviation": "SAC",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Sacramento",
+    "primaryColor": "#5A2D81",
+    "secondaryColor": "#63727A",
+    "badgeAsset": "/assets/emblems/nba_sac.svg",
+    "defaultKit": {
+      "shirt": "#5A2D81",
+      "shorts": "#63727A",
+      "socks": "#5A2D81",
+      "trim": "#63727A",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#63727A",
+      "shorts": "#5A2D81",
+      "socks": "#63727A",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#5A2D81",
+      "socks": "#222222",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_sac_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1963/64",
+    "franchiseId": "nba_sac"
+  },
+  {
+    "id": "classic_was_2007_08",
+    "name": "Washington Wizards — 2007/08",
+    "abbreviation": "WAS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Washington",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#E31837",
+    "badgeAsset": "/assets/emblems/nba_was.svg",
+    "defaultKit": {
+      "shirt": "#002B5C",
+      "shorts": "#E31837",
+      "socks": "#002B5C",
+      "trim": "#E31837",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E31837",
+      "shorts": "#002B5C",
+      "socks": "#E31837",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_was_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2007/08",
+    "franchiseId": "nba_was"
+  },
+  {
+    "id": "classic_was_2016_17",
+    "name": "Washington Wizards — 2016/17",
+    "abbreviation": "WAS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Washington",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#E31837",
+    "badgeAsset": "/assets/emblems/nba_was.svg",
+    "defaultKit": {
+      "shirt": "#002B5C",
+      "shorts": "#E31837",
+      "socks": "#002B5C",
+      "trim": "#E31837",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E31837",
+      "shorts": "#002B5C",
+      "socks": "#E31837",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_was_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2016/17",
+    "franchiseId": "nba_was"
+  },
+  {
+    "id": "classic_orl_1994_95",
+    "name": "Orlando Magic — 1994/95",
+    "abbreviation": "ORL",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Orlando",
+    "primaryColor": "#0077C0",
+    "secondaryColor": "#C4CED4",
+    "badgeAsset": "/assets/emblems/nba_orl.svg",
+    "defaultKit": {
+      "shirt": "#0077C0",
+      "shorts": "#C4CED4",
+      "socks": "#0077C0",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#C4CED4",
+      "shorts": "#0077C0",
+      "socks": "#C4CED4",
+      "trim": "#0077C0",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#0077C0",
+      "socks": "#222222",
+      "trim": "#0077C0",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_orl_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1994/95",
+    "franchiseId": "nba_orl"
+  },
+  {
+    "id": "classic_cle_2015_16",
+    "name": "Cleveland Cavaliers — 2015/16",
+    "abbreviation": "CLE",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Cleveland",
+    "primaryColor": "#860038",
+    "secondaryColor": "#FDBB30",
+    "badgeAsset": "/assets/emblems/nba_cle.svg",
+    "defaultKit": {
+      "shirt": "#860038",
+      "shorts": "#FDBB30",
+      "socks": "#860038",
+      "trim": "#FDBB30",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDBB30",
+      "shorts": "#860038",
+      "socks": "#FDBB30",
+      "trim": "#860038",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#860038",
+      "socks": "#222222",
+      "trim": "#860038",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_cle_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2015/16",
+    "franchiseId": "nba_cle"
+  },
+  {
+    "id": "classic_det_1996_97",
+    "name": "Detroit Pistons — 1996/97",
+    "abbreviation": "DET",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Detroit",
+    "primaryColor": "#C8102E",
+    "secondaryColor": "#1D42BA",
+    "badgeAsset": "/assets/emblems/nba_det.svg",
+    "defaultKit": {
+      "shirt": "#C8102E",
+      "shorts": "#1D42BA",
+      "socks": "#C8102E",
+      "trim": "#1D42BA",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D42BA",
+      "shorts": "#C8102E",
+      "socks": "#1D42BA",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_det_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1996/97",
+    "franchiseId": "nba_det"
+  },
+  {
+    "id": "classic_det_2003_04",
+    "name": "Detroit Pistons — 2003/04",
+    "abbreviation": "DET",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Detroit",
+    "primaryColor": "#C8102E",
+    "secondaryColor": "#1D42BA",
+    "badgeAsset": "/assets/emblems/nba_det.svg",
+    "defaultKit": {
+      "shirt": "#C8102E",
+      "shorts": "#1D42BA",
+      "socks": "#C8102E",
+      "trim": "#1D42BA",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D42BA",
+      "shorts": "#C8102E",
+      "socks": "#1D42BA",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_det_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2003/04",
+    "franchiseId": "nba_det"
+  },
+  {
+    "id": "classic_sac_2001_02",
+    "name": "Sacramento Kings — 2001/02",
+    "abbreviation": "SAC",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Sacramento",
+    "primaryColor": "#5A2D81",
+    "secondaryColor": "#63727A",
+    "badgeAsset": "/assets/emblems/nba_sac.svg",
+    "defaultKit": {
+      "shirt": "#5A2D81",
+      "shorts": "#63727A",
+      "socks": "#5A2D81",
+      "trim": "#63727A",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#63727A",
+      "shorts": "#5A2D81",
+      "socks": "#63727A",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#5A2D81",
+      "socks": "#222222",
+      "trim": "#5A2D81",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_sac_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2001/02",
+    "franchiseId": "nba_sac"
+  },
+  {
+    "id": "classic_por_1999_00",
+    "name": "Portland Trail Blazers — 1999/00",
+    "abbreviation": "POR",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Portland",
+    "primaryColor": "#E03A3E",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_por.png",
+    "defaultKit": {
+      "shirt": "#E03A3E",
+      "shorts": "#000000",
+      "socks": "#E03A3E",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#E03A3E",
+      "socks": "#000000",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#E03A3E",
+      "socks": "#222222",
+      "trim": "#E03A3E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_por_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1999/00",
+    "franchiseId": "nba_por"
+  },
+  {
+    "id": "classic_bkn_2000_01",
+    "name": "New Jersey Nets — 2000/01",
+    "abbreviation": "NJN",
+    "teamType": "HISTORIC_TEAM",
+    "city": "New Jersey",
+    "primaryColor": "#002A60",
+    "secondaryColor": "#D21033",
+    "badgeAsset": "/assets/emblems/nba_bkn.svg",
+    "defaultKit": {
+      "shirt": "#002A60",
+      "shorts": "#D21033",
+      "socks": "#002A60",
+      "trim": "#D21033",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#D21033",
+      "shorts": "#002A60",
+      "socks": "#D21033",
+      "trim": "#002A60",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002A60",
+      "socks": "#222222",
+      "trim": "#002A60",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bkn_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "2000/01",
+    "franchiseId": "nba_bkn"
+  },
+  {
+    "id": "classic_cha_1992_93",
+    "name": "Charlotte Hornets — 1992/93",
+    "abbreviation": "CHA",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Charlotte",
+    "primaryColor": "#00788C",
+    "secondaryColor": "#1D1160",
+    "badgeAsset": "/assets/emblems/nba_cha.svg",
+    "defaultKit": {
+      "shirt": "#00788C",
+      "shorts": "#1D1160",
+      "socks": "#00788C",
+      "trim": "#1D1160",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D1160",
+      "shorts": "#00788C",
+      "socks": "#1D1160",
+      "trim": "#00788C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#00788C",
+      "socks": "#222222",
+      "trim": "#00788C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_cha_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1992/93",
+    "franchiseId": "nba_cha"
+  },
+  {
+    "id": "classic_hou_2018_19",
+    "name": "Houston Rockets — 2018/19",
+    "abbreviation": "HOU",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Houston",
+    "primaryColor": "#CE1141",
+    "secondaryColor": "#000000",
+    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "defaultKit": {
+      "shirt": "#CE1141",
+      "shorts": "#000000",
+      "socks": "#CE1141",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#000000",
+      "shorts": "#CE1141",
+      "socks": "#000000",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#CE1141",
+      "socks": "#222222",
+      "trim": "#CE1141",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_hou_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2018/19",
+    "franchiseId": "nba_hou"
+  },
+  {
+    "id": "classic_okc_2011_12",
+    "name": "Oklahoma City Thunder — 2011/12",
+    "abbreviation": "OKC",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Oklahoma City",
+    "primaryColor": "#007AC1",
+    "secondaryColor": "#EF3B24",
+    "badgeAsset": "/assets/emblems/nba_okc.svg",
+    "defaultKit": {
+      "shirt": "#007AC1",
+      "shorts": "#EF3B24",
+      "socks": "#007AC1",
+      "trim": "#EF3B24",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#EF3B24",
+      "shorts": "#007AC1",
+      "socks": "#EF3B24",
+      "trim": "#007AC1",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007AC1",
+      "socks": "#222222",
+      "trim": "#007AC1",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_okc_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2011/12",
+    "franchiseId": "nba_okc"
+  },
+  {
+    "id": "classic_uta_1976_77",
+    "name": "New Orleans Jazz — 1976/77",
+    "abbreviation": "NOJ",
+    "teamType": "HISTORIC_TEAM",
+    "city": "New Orleans",
+    "primaryColor": "#002B5C",
+    "secondaryColor": "#E31837",
+    "badgeAsset": "/assets/emblems/nba_uta.svg",
+    "defaultKit": {
+      "shirt": "#002B5C",
+      "shorts": "#E31837",
+      "socks": "#002B5C",
+      "trim": "#E31837",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#E31837",
+      "shorts": "#002B5C",
+      "socks": "#E31837",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#002B5C",
+      "socks": "#222222",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_uta_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1976/77",
+    "franchiseId": "nba_uta"
+  },
+  {
+    "id": "classic_lac_2013_14",
+    "name": "Los Angeles Clippers — 2013/14",
+    "abbreviation": "LAC",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Los Angeles",
+    "primaryColor": "#C8102E",
+    "secondaryColor": "#1D428A",
+    "badgeAsset": "/assets/emblems/nba_lac.svg",
+    "defaultKit": {
+      "shirt": "#C8102E",
+      "shorts": "#1D428A",
+      "socks": "#C8102E",
+      "trim": "#1D428A",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#1D428A",
+      "shorts": "#C8102E",
+      "socks": "#1D428A",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#C8102E",
+      "socks": "#222222",
+      "trim": "#C8102E",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_lac_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "2013/14",
+    "franchiseId": "nba_lac"
   }
 ]

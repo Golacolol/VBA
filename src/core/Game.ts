@@ -513,7 +513,7 @@ export class Game {
         }
         if (char === "start") this.beginPreMatch();
         if (char === "open-miteam") {
-          this.openMiTeamBuilder();
+          this.openMiTeamBuilder({ resumePack: true });
           return;
         }
         if (char === "back") {
@@ -1018,12 +1018,14 @@ export class Game {
     }
     if (id === "next") {
       this.practice = "none";
-      // Incomplete / empty MiTeam — resume the pack builder instead of an empty formation.
+      // Incomplete / empty User MiTeam — open PLAYER SELECT on the next sealed pack
+      // (TEAM SELECT still available to view the current partial roster).
       if (this.defaultClubId() === MITEAM_TEAM_ID) {
         ensureMiTeamSave(this.save);
+        applyMiTeamToDb(this.db, this.save);
         const mt = this.save.data.miteam;
         if (!mt || !xiComplete(mt.roster)) {
-          this.openMiTeamBuilder();
+          this.openMiTeamBuilder({ resumePack: true });
           return;
         }
       }
@@ -1337,7 +1339,7 @@ export class Game {
     };
   }
 
-  private openMiTeamBuilder(): void {
+  private openMiTeamBuilder(opts?: { resumePack?: boolean }): void {
     this.menu.hide();
     this.chars.hide();
     this.pyramid.hide();
@@ -1356,7 +1358,7 @@ export class Game {
     this.save.data.settings.defaultTeamId = MITEAM_TEAM_ID;
     this.db.userTeamId = MITEAM_TEAM_ID;
     this.save.save();
-    this.miteam.open(this.db, this.save);
+    this.miteam.open(this.db, this.save, opts);
     this.appState = AppState.CHARACTER_SELECT;
   }
 
@@ -1450,13 +1452,13 @@ export class Game {
   }
 
   private openCharacterSelect(teamId: string, options?: { quickMatch?: boolean }): void {
-    // Empty or incomplete MiTeam five — continue packing instead of the empty-squad panel.
+    // Empty or incomplete MiTeam five — resume the next pack in PLAYER SELECT.
     if (teamId === MITEAM_TEAM_ID) {
       ensureMiTeamSave(this.save);
       applyMiTeamToDb(this.db, this.save);
       const mt = this.save.data.miteam;
       if (!mt || !xiComplete(mt.roster)) {
-        this.openMiTeamBuilder();
+        this.openMiTeamBuilder({ resumePack: true });
         return;
       }
     }

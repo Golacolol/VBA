@@ -1,6 +1,6 @@
 {
   "season": "2026-27",
-  "generatedAt": "2026-11-03T20:47:34.882Z",
+  "generatedAt": "2026-11-06T17:00:28.969Z",
   "teams": [
     "nba_atl",
     "nba_bos",
@@ -34,5 +34,5 @@
     "nba_uta"
   ],
   "playerCount": 521,
-  "classicCount": 10
+  "classicCount": 50
 }

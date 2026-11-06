@@ -9,15 +9,15 @@
         "slot": "PG"
       },
       {
-        "playerId": "espn_2490149",
+        "playerId": "espn_4278039",
         "slot": "SG"
       },
       {
-        "playerId": "espn_4280151",
+        "playerId": "espn_2578185",
         "slot": "SF"
       },
       {
-        "playerId": "espn_4701230",
+        "playerId": "espn_5106262",
         "slot": "PF"
       },
       {
@@ -32,15 +32,15 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_4066354",
+        "playerId": "espn_4433188",
         "slot": "PG"
       },
       {
-        "playerId": "espn_3078576",
+        "playerId": "espn_5175647",
         "slot": "SG"
       },
       {
-        "playerId": "espn_4065648",
+        "playerId": "espn_3195",
         "slot": "SF"
       },
       {
@@ -48,7 +48,7 @@
         "slot": "PF"
       },
       {
-        "playerId": "espn_4397424",
+        "playerId": "espn_4277951",
         "slot": "C"
       }
     ]
@@ -59,23 +59,23 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_4278104",
+        "playerId": "espn_5105626",
         "slot": "PG"
       },
       {
-        "playerId": "espn_5175643",
+        "playerId": "espn_5101761",
         "slot": "SG"
       },
       {
-        "playerId": "espn_3064514",
+        "playerId": "espn_4712896",
         "slot": "SF"
       },
       {
-        "playerId": "espn_4712896",
+        "playerId": "espn_4870564",
         "slot": "PF"
       },
       {
-        "playerId": "espn_3150844",
+        "playerId": "espn_4432194",
         "slot": "C"
       }
     ]
@@ -86,15 +86,15 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_3032979",
+        "playerId": "espn_5060701",
         "slot": "PG"
       },
       {
-        "playerId": "espn_4395651",
+        "playerId": "espn_3135045",
         "slot": "SG"
       },
       {
-        "playerId": "espn_4433287",
+        "playerId": "espn_5176517",
         "slot": "SF"
       },
       {
@@ -102,7 +102,7 @@
         "slot": "PF"
       },
       {
-        "playerId": "espn_4396971",
+        "playerId": "espn_4701225",
         "slot": "C"
       }
     ]
@@ -117,7 +117,7 @@
         "slot": "PG"
       },
       {
-        "playerId": "espn_2595516",
+        "playerId": "espn_4871145",
         "slot": "SG"
       },
       {
@@ -125,7 +125,7 @@
         "slot": "SF"
       },
       {
-        "playerId": "espn_5095151",
+        "playerId": "espn_5105555",
         "slot": "PF"
       },
       {
@@ -148,15 +148,15 @@
         "slot": "SG"
       },
       {
-        "playerId": "espn_5177362",
+        "playerId": "espn_4066328",
         "slot": "SF"
       },
       {
-        "playerId": "espn_2995706",
+        "playerId": "espn_4431734",
         "slot": "PF"
       },
       {
-        "playerId": "espn_4432158",
+        "playerId": "espn_3934723",
         "slot": "C"
       }
     ]
@@ -198,11 +198,11 @@
         "slot": "PG"
       },
       {
-        "playerId": "espn_4396993",
+        "playerId": "espn_4431752",
         "slot": "SG"
       },
       {
-        "playerId": "espn_5106060",
+        "playerId": "espn_2580365",
         "slot": "SF"
       },
       {
@@ -210,7 +210,7 @@
         "slot": "PF"
       },
       {
-        "playerId": "espn_4017837",
+        "playerId": "espn_4065731",
         "slot": "C"
       }
     ]
@@ -221,15 +221,15 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_4278053",
+        "playerId": "espn_4837356",
         "slot": "PG"
       },
       {
-        "playerId": "espn_6475",
+        "playerId": "espn_5107157",
         "slot": "SG"
       },
       {
-        "playerId": "espn_3059319",
+        "playerId": "espn_3899664",
         "slot": "SF"
       },
       {
@@ -248,11 +248,11 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_4395725",
+        "playerId": "espn_5164559",
         "slot": "PG"
       },
       {
-        "playerId": "espn_4591725",
+        "playerId": "espn_5082206",
         "slot": "SG"
       },
       {
@@ -260,11 +260,11 @@
         "slot": "SF"
       },
       {
-        "playerId": "espn_3134907",
+        "playerId": "espn_4997526",
         "slot": "PF"
       },
       {
-        "playerId": "espn_3133628",
+        "playerId": "espn_4277922",
         "slot": "C"
       }
     ]
@@ -275,11 +275,11 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_3934672",
+        "playerId": "espn_4277869",
         "slot": "PG"
       },
       {
-        "playerId": "espn_3147657",
+        "playerId": "espn_4683730",
         "slot": "SG"
       },
       {
@@ -287,11 +287,11 @@
         "slot": "SF"
       },
       {
-        "playerId": "espn_5289900",
+        "playerId": "espn_5211983",
         "slot": "PF"
       },
       {
-        "playerId": "espn_3136195",
+        "playerId": "espn_6585",
         "slot": "C"
       }
     ]
@@ -302,7 +302,7 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_5239561",
+        "playerId": "espn_3133635",
         "slot": "PG"
       },
       {
@@ -318,7 +318,7 @@
         "slot": "PF"
       },
       {
-        "playerId": "espn_6478",
+        "playerId": "espn_4348700",
         "slot": "C"
       }
     ]
@@ -341,11 +341,11 @@
         "slot": "SF"
       },
       {
-        "playerId": "espn_1966",
+        "playerId": "espn_4870562",
         "slot": "PF"
       },
       {
-        "playerId": "espn_3059318",
+        "playerId": "espn_5105637",
         "slot": "C"
       }
     ]
@@ -356,23 +356,23 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_4395724",
+        "playerId": "espn_4702656",
         "slot": "PG"
       },
       {
-        "playerId": "espn_4397784",
+        "playerId": "espn_4432737",
         "slot": "SG"
       },
       {
-        "playerId": "espn_6450",
+        "playerId": "espn_4395625",
         "slot": "SF"
       },
       {
-        "playerId": "espn_4433134",
+        "playerId": "espn_2993874",
         "slot": "PF"
       },
       {
-        "playerId": "espn_3134908",
+        "playerId": "espn_4432586",
         "slot": "C"
       }
     ]
@@ -387,11 +387,11 @@
         "slot": "PG"
       },
       {
-        "playerId": "espn_5104155",
+        "playerId": "espn_4432187",
         "slot": "SG"
       },
       {
-        "playerId": "espn_6609",
+        "playerId": "espn_4432907",
         "slot": "SF"
       },
       {
@@ -418,15 +418,15 @@
         "slot": "SG"
       },
       {
-        "playerId": "espn_4278078",
+        "playerId": "espn_5148538",
         "slot": "SF"
       },
       {
-        "playerId": "espn_5041939",
+        "playerId": "espn_4593125",
         "slot": "PF"
       },
       {
-        "playerId": "espn_4683688",
+        "playerId": "espn_4701208",
         "slot": "C"
       }
     ]
@@ -441,15 +441,15 @@
         "slot": "PG"
       },
       {
-        "playerId": "espn_3978",
+        "playerId": "espn_4431767",
         "slot": "SG"
       },
       {
-        "playerId": "espn_4592427",
+        "playerId": "espn_4065813",
         "slot": "SF"
       },
       {
-        "playerId": "espn_3138196",
+        "playerId": "espn_4277848",
         "slot": "PF"
       },
       {
@@ -491,15 +491,15 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_2991230",
+        "playerId": "espn_4711272",
         "slot": "PG"
       },
       {
-        "playerId": "espn_4684740",
+        "playerId": "espn_3037789",
         "slot": "SG"
       },
       {
-        "playerId": "espn_5105553",
+        "playerId": "espn_4592857",
         "slot": "SF"
       },
       {
@@ -507,7 +507,7 @@
         "slot": "PF"
       },
       {
-        "playerId": "espn_4871144",
+        "playerId": "espn_2991235",
         "slot": "C"
       }
     ]
@@ -530,7 +530,7 @@
         "slot": "SF"
       },
       {
-        "playerId": "espn_3913176",
+        "playerId": "espn_4066648",
         "slot": "PF"
       },
       {
@@ -549,15 +549,15 @@
         "slot": "PG"
       },
       {
-        "playerId": "espn_3945274",
+        "playerId": "espn_5113969",
         "slot": "SG"
       },
       {
-        "playerId": "espn_4592691",
+        "playerId": "espn_4433599",
         "slot": "SF"
       },
       {
-        "playerId": "espn_4433137",
+        "playerId": "espn_3155535",
         "slot": "PF"
       },
       {
@@ -580,7 +580,7 @@
         "slot": "SG"
       },
       {
-        "playerId": "espn_2991070",
+        "playerId": "espn_4903027",
         "slot": "SF"
       },
       {
@@ -588,7 +588,7 @@
         "slot": "PF"
       },
       {
-        "playerId": "espn_4432810",
+        "playerId": "espn_5105817",
         "slot": "C"
       }
     ]
@@ -603,15 +603,15 @@
         "slot": "PG"
       },
       {
-        "playerId": "espn_4594268",
+        "playerId": "espn_4432816",
         "slot": "SG"
       },
       {
-        "playerId": "espn_4433247",
+        "playerId": "espn_5061585",
         "slot": "SF"
       },
       {
-        "playerId": "espn_4431671",
+        "playerId": "espn_5279133",
         "slot": "PF"
       },
       {
@@ -626,23 +626,23 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_4397688",
+        "playerId": "espn_4397136",
         "slot": "PG"
       },
       {
-        "playerId": "espn_3907497",
+        "playerId": "espn_5144091",
         "slot": "SG"
       },
       {
-        "playerId": "espn_4395628",
+        "playerId": "espn_4277813",
         "slot": "SF"
       },
       {
-        "playerId": "espn_4397136",
+        "playerId": "espn_4712862",
         "slot": "PF"
       },
       {
-        "playerId": "espn_4869780",
+        "playerId": "espn_3442",
         "slot": "C"
       }
     ]
@@ -653,15 +653,15 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_4278073",
+        "playerId": "espn_4684208",
         "slot": "PG"
       },
       {
-        "playerId": "espn_4593803",
+        "playerId": "espn_2991350",
         "slot": "SG"
       },
       {
-        "playerId": "espn_4684208",
+        "playerId": "espn_5105800",
         "slot": "SF"
       },
       {
@@ -669,7 +669,7 @@
         "slot": "PF"
       },
       {
-        "playerId": "espn_4433255",
+        "playerId": "espn_4222252",
         "slot": "C"
       }
     ]
@@ -680,7 +680,7 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_4278585",
+        "playerId": "espn_4280245",
         "slot": "PG"
       },
       {
@@ -692,11 +692,11 @@
         "slot": "SF"
       },
       {
-        "playerId": "espn_4431695",
+        "playerId": "espn_5105977",
         "slot": "PF"
       },
       {
-        "playerId": "espn_4701232",
+        "playerId": "espn_5203685",
         "slot": "C"
       }
     ]
@@ -711,7 +711,7 @@
         "slot": "PG"
       },
       {
-        "playerId": "espn_4914336",
+        "playerId": "espn_5081727",
         "slot": "SG"
       },
       {
@@ -723,7 +723,7 @@
         "slot": "PF"
       },
       {
-        "playerId": "espn_5105565",
+        "playerId": "espn_4592435",
         "slot": "C"
       }
     ]
@@ -738,19 +738,19 @@
         "slot": "PG"
       },
       {
-        "playerId": "espn_3064440",
+        "playerId": "espn_4702384",
         "slot": "SG"
       },
       {
-        "playerId": "espn_4065732",
+        "playerId": "espn_4395650",
         "slot": "SF"
       },
       {
-        "playerId": "espn_3155942",
+        "playerId": "espn_4431679",
         "slot": "PF"
       },
       {
-        "playerId": "espn_4898371",
+        "playerId": "espn_4433174",
         "slot": "C"
       }
     ]
@@ -788,23 +788,23 @@
     "formation": "BASKETBALL_5",
     "starters": [
       {
-        "playerId": "espn_4277961",
+        "playerId": "espn_4433268",
         "slot": "PG"
       },
       {
-        "playerId": "espn_4433627",
+        "playerId": "espn_4873138",
         "slot": "SG"
       },
       {
-        "playerId": "espn_5105839",
+        "playerId": "espn_4433618",
         "slot": "SF"
       },
       {
-        "playerId": "espn_4066336",
+        "playerId": "espn_4684793",
         "slot": "PF"
       },
       {
-        "playerId": "espn_4397077",
+        "playerId": "espn_4277919",
         "slot": "C"
       }
     ]
@@ -864,6 +864,33 @@
     ]
   },
   {
+    "id": "classic_bos_1980_81_lineup",
+    "teamId": "classic_bos_1980_81",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_bos_1980_81_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_bos_1980_81_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_bos_1980_81_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_bos_1980_81_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_bos_1980_81_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
     "id": "classic_bos_1985_86_lineup",
     "teamId": "classic_bos_1985_86",
     "formation": "BASKETBALL_5",
@@ -891,6 +918,33 @@
     ]
   },
   {
+    "id": "classic_lal_1953_54_lineup",
+    "teamId": "classic_lal_1953_54",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_lal_1953_54_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_lal_1953_54_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_lal_1953_54_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_lal_1953_54_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_lal_1953_54_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
     "id": "classic_lal_2000_01_lineup",
     "teamId": "classic_lal_2000_01",
     "formation": "BASKETBALL_5",
@@ -913,6 +967,60 @@
       },
       {
         "playerId": "classic_lal_2000_01_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_lal_2009_10_lineup",
+    "teamId": "classic_lal_2009_10",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_lal_2009_10_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_lal_2009_10_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_lal_2009_10_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_lal_2009_10_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_lal_2009_10_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_lal_2019_20_lineup",
+    "teamId": "classic_lal_2019_20",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_lal_2019_20_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_lal_2019_20_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_lal_2019_20_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_lal_2019_20_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_lal_2019_20_p05",
         "slot": "C"
       }
     ]
@@ -1048,6 +1156,60 @@
       },
       {
         "playerId": "classic_dal_2010_11_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_chi_2010_11_lineup",
+    "teamId": "classic_chi_2010_11",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_chi_2010_11_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_chi_2010_11_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_chi_2010_11_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_chi_2010_11_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_chi_2010_11_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_lal_1979_80_lineup",
+    "teamId": "classic_lal_1979_80",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_lal_1979_80_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_lal_1979_80_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_lal_1979_80_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_lal_1979_80_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_lal_1979_80_p05",
         "slot": "C"
       }
     ]
@@ -1350,6 +1512,33 @@
     ]
   },
   {
+    "id": "classic_nyk_2011_12_lineup",
+    "teamId": "classic_nyk_2011_12",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_nyk_2011_12_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_nyk_2011_12_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_nyk_2011_12_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_nyk_2011_12_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_nyk_2011_12_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
     "id": "classic_sas_1998_99_lineup",
     "teamId": "classic_sas_1998_99",
     "formation": "BASKETBALL_5",
@@ -1593,6 +1782,33 @@
     ]
   },
   {
+    "id": "classic_was_2007_08_lineup",
+    "teamId": "classic_was_2007_08",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_was_2007_08_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_was_2007_08_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_was_2007_08_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_was_2007_08_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_was_2007_08_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
     "id": "classic_was_2016_17_lineup",
     "teamId": "classic_was_2016_17",
     "formation": "BASKETBALL_5",
@@ -1696,6 +1912,33 @@
       },
       {
         "playerId": "classic_det_1996_97_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_det_2003_04_lineup",
+    "teamId": "classic_det_2003_04",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_det_2003_04_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_det_2003_04_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_det_2003_04_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_det_2003_04_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_det_2003_04_p05",
         "slot": "C"
       }
     ]
@@ -1912,195 +2155,6 @@
       },
       {
         "playerId": "classic_lac_2013_14_p05",
-        "slot": "C"
-      }
-    ]
-  },
-  {
-    "id": "classic_lal_2009_10_lineup",
-    "teamId": "classic_lal_2009_10",
-    "formation": "BASKETBALL_5",
-    "starters": [
-      {
-        "playerId": "classic_lal_2009_10_p01",
-        "slot": "PG"
-      },
-      {
-        "playerId": "classic_lal_2009_10_p02",
-        "slot": "SG"
-      },
-      {
-        "playerId": "classic_lal_2009_10_p03",
-        "slot": "SF"
-      },
-      {
-        "playerId": "classic_lal_2009_10_p04",
-        "slot": "PF"
-      },
-      {
-        "playerId": "classic_lal_2009_10_p05",
-        "slot": "C"
-      }
-    ]
-  },
-  {
-    "id": "classic_nyk_2011_12_lineup",
-    "teamId": "classic_nyk_2011_12",
-    "formation": "BASKETBALL_5",
-    "starters": [
-      {
-        "playerId": "classic_nyk_2011_12_p01",
-        "slot": "PG"
-      },
-      {
-        "playerId": "classic_nyk_2011_12_p02",
-        "slot": "SG"
-      },
-      {
-        "playerId": "classic_nyk_2011_12_p03",
-        "slot": "SF"
-      },
-      {
-        "playerId": "classic_nyk_2011_12_p04",
-        "slot": "PF"
-      },
-      {
-        "playerId": "classic_nyk_2011_12_p05",
-        "slot": "C"
-      }
-    ]
-  },
-  {
-    "id": "classic_was_2007_08_lineup",
-    "teamId": "classic_was_2007_08",
-    "formation": "BASKETBALL_5",
-    "starters": [
-      {
-        "playerId": "classic_was_2007_08_p01",
-        "slot": "PG"
-      },
-      {
-        "playerId": "classic_was_2007_08_p02",
-        "slot": "SG"
-      },
-      {
-        "playerId": "classic_was_2007_08_p03",
-        "slot": "SF"
-      },
-      {
-        "playerId": "classic_was_2007_08_p04",
-        "slot": "PF"
-      },
-      {
-        "playerId": "classic_was_2007_08_p05",
-        "slot": "C"
-      }
-    ]
-  },
-  {
-    "id": "classic_det_2003_04_lineup",
-    "teamId": "classic_det_2003_04",
-    "formation": "BASKETBALL_5",
-    "starters": [
-      {
-        "playerId": "classic_det_2003_04_p01",
-        "slot": "PG"
-      },
-      {
-        "playerId": "classic_det_2003_04_p02",
-        "slot": "SG"
-      },
-      {
-        "playerId": "classic_det_2003_04_p03",
-        "slot": "SF"
-      },
-      {
-        "playerId": "classic_det_2003_04_p04",
-        "slot": "PF"
-      },
-      {
-        "playerId": "classic_det_2003_04_p05",
-        "slot": "C"
-      }
-    ]
-  },
-  {
-    "id": "classic_lal_1953_54_lineup",
-    "teamId": "classic_lal_1953_54",
-    "formation": "BASKETBALL_5",
-    "starters": [
-      {
-        "playerId": "classic_lal_1953_54_p01",
-        "slot": "PG"
-      },
-      {
-        "playerId": "classic_lal_1953_54_p02",
-        "slot": "SG"
-      },
-      {
-        "playerId": "classic_lal_1953_54_p03",
-        "slot": "SF"
-      },
-      {
-        "playerId": "classic_lal_1953_54_p04",
-        "slot": "PF"
-      },
-      {
-        "playerId": "classic_lal_1953_54_p05",
-        "slot": "C"
-      }
-    ]
-  },
-  {
-    "id": "classic_lal_2019_20_lineup",
-    "teamId": "classic_lal_2019_20",
-    "formation": "BASKETBALL_5",
-    "starters": [
-      {
-        "playerId": "classic_lal_2019_20_p01",
-        "slot": "PG"
-      },
-      {
-        "playerId": "classic_lal_2019_20_p02",
-        "slot": "SG"
-      },
-      {
-        "playerId": "classic_lal_2019_20_p03",
-        "slot": "SF"
-      },
-      {
-        "playerId": "classic_lal_2019_20_p04",
-        "slot": "PF"
-      },
-      {
-        "playerId": "classic_lal_2019_20_p05",
-        "slot": "C"
-      }
-    ]
-  },
-  {
-    "id": "classic_chi_2010_11_lineup",
-    "teamId": "classic_chi_2010_11",
-    "formation": "BASKETBALL_5",
-    "starters": [
-      {
-        "playerId": "classic_chi_2010_11_p01",
-        "slot": "PG"
-      },
-      {
-        "playerId": "classic_chi_2010_11_p02",
-        "slot": "SG"
-      },
-      {
-        "playerId": "classic_chi_2010_11_p03",
-        "slot": "SF"
-      },
-      {
-        "playerId": "classic_chi_2010_11_p04",
-        "slot": "PF"
-      },
-      {
-        "playerId": "classic_chi_2010_11_p05",
         "slot": "C"
       }
     ]

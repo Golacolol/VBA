@@ -147,7 +147,11 @@ export class MiTeamBuilder {
     window.removeEventListener("keydown", this.onWindowKeyDown);
   }
 
-  open(db: GameDatabase, save: SaveManager): void {
+  /**
+   * @param opts.resumePack When true (Play Next Fixture / incomplete five), always land on
+   *   PLAYER SELECT with the next sealed pack. TEAM SELECT remains available to inspect the roster.
+   */
+  open(db: GameDatabase, save: SaveManager, opts?: { resumePack?: boolean }): void {
     this.db = db;
     this.save = save;
     ensureMiTeamSave(save);
@@ -158,7 +162,17 @@ export class MiTeamBuilder {
     this.selectedPlayerId = null;
     this.resetPack();
     this.packing = !!this.targetSlot;
-    if (!this.targetSlot && this.roster().length) {
+    const incomplete = !xiComplete(this.roster());
+    // Incomplete five (or explicit resume): stay on PLAYER SELECT with the next pack —
+    // never dump into TEAM SELECT where packing looks "finished".
+    if (opts?.resumePack || incomplete) {
+      if (this.targetSlot) {
+        this.packing = true;
+        this.controlMode = "PLAYER";
+        this.phase = "foil";
+        if (!this.candidate) this.drawCandidate();
+      }
+    } else if (!this.targetSlot && this.roster().length) {
       this.controlMode = "TEAM";
       this.selectedPlayerId = this.roster()[0]?.playerId ?? null;
     }
@@ -510,6 +524,11 @@ export class MiTeamBuilder {
     }
     if (act === "mode-player") {
       this.controlMode = "PLAYER";
+      // Incomplete five: resume the next sealed pack instead of a kept-card preview.
+      if (!xiComplete(this.roster()) && nextEmptySlot(this.roster())) {
+        this.beginPack();
+        return;
+      }
       if (!this.packing && !this.selectedPlayerId && this.roster()[0]) {
         this.selectedPlayerId = this.roster()[0]!.playerId;
       }
@@ -517,9 +536,13 @@ export class MiTeamBuilder {
       return;
     }
     if (act === "mode-team") {
+      // Allow inspecting the current partial roster; packing resumes via PLAYER SELECT.
       this.controlMode = "TEAM";
       this.packing = false;
       this.cardEditing = false;
+      if (!this.selectedPlayerId && this.roster()[0]) {
+        this.selectedPlayerId = this.roster()[0]!.playerId;
+      }
       this.render();
       return;
     }
