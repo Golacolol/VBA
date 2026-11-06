@@ -116,6 +116,8 @@ export class MiTeamBuilder {
   private packing = false;
   private profileView: ProfileStatsMode = "hex";
   private dragPlayerId: string | null = null;
+  /** Bumped on discard/reseal/reset so in-flight open promises cannot wedge a new foil. */
+  private packOpenGen = 0;
   onAction: ((act: MiTeamBuilderAction) => void) | null = null;
   private readonly onWindowKeyDown = (e: KeyboardEvent) => this.onKeyDown(e);
 
@@ -181,6 +183,7 @@ export class MiTeamBuilder {
   }
 
   private resetPack(): void {
+    this.packOpenGen += 1;
     this.targetSlot = nextEmptySlot(this.roster());
     this.candidate = null;
     this.cardFlipY = 0;
@@ -229,6 +232,7 @@ export class MiTeamBuilder {
     } else {
       this.targetSlot = next;
     }
+    this.packOpenGen += 1;
     this.packing = true;
     this.controlMode = "PLAYER";
     this.cardEditing = false;
@@ -345,6 +349,7 @@ export class MiTeamBuilder {
   /** Wrap the current pull again; Player Details fall back to the previous kept player. */
   private resealPack(): void {
     if (!this.packing || this.phase !== "revealed" || !this.targetSlot || !this.candidate) return;
+    this.packOpenGen += 1;
     this.phase = "foil";
     this.cardFlipY = 0;
     this.profileView = "hex";
@@ -633,6 +638,7 @@ export class MiTeamBuilder {
     if (this.phase !== "foil" || !this.targetSlot) return;
     if (!this.candidate) this.drawCandidate();
     if (!this.candidate) return;
+    const gen = ++this.packOpenGen;
     const tier = this.sealedTier();
     const candidate = this.candidate;
     const source = this.sourceTeamContext(candidate.player.id);
@@ -641,25 +647,32 @@ export class MiTeamBuilder {
     const layered = this.root.querySelector(".miteam-pack-layered");
     const under = this.root.querySelector<HTMLElement>(".miteam-pack-under");
     layered?.classList.add("is-opening");
-    void preloadMiTeamRevealAssets(candidate, source.team)
-      .then(() => waitForElementImages(under))
-      .then(() => {
-        if (this.phase !== "opening" || this.candidate !== candidate) return;
-        // Confetti shortly after the wrapper starts dissolving — above the foil.
-        const confettiHost =
-          (layered instanceof HTMLElement ? layered : null) ??
-          foilBtn.closest<HTMLElement>(".miteam-pack-layered");
-        playFoilOpen(foilBtn, () => {
-          if (this.phase !== "opening" || this.candidate !== candidate) return;
-          this.phase = "revealed";
-          // Keep the preloaded under-card — do not remount a differently sized card.
-          this.promotePackRevealInPlace();
-        });
-        window.setTimeout(() => {
-          if (this.phase !== "opening" || this.candidate !== candidate || !confettiHost) return;
-          burstConfetti(confettiHost, tier);
-        }, 140);
+
+    const stillThisOpen = () =>
+      gen === this.packOpenGen && this.phase === "opening" && this.candidate === candidate;
+
+    // Cap total wait — hung CDN portraits used to leave the foil disabled forever.
+    void Promise.race([
+      preloadMiTeamRevealAssets(candidate, source.team).then(() => waitForElementImages(under)),
+      new Promise<void>((resolve) => {
+        window.setTimeout(resolve, 700);
+      }),
+    ]).then(() => {
+      if (!stillThisOpen()) return;
+      const confettiHost =
+        (layered instanceof HTMLElement ? layered : null) ??
+        foilBtn.closest<HTMLElement>(".miteam-pack-layered");
+      playFoilOpen(foilBtn, () => {
+        if (!stillThisOpen()) return;
+        this.phase = "revealed";
+        // Keep the preloaded under-card — do not remount a differently sized card.
+        this.promotePackRevealInPlace();
       });
+      window.setTimeout(() => {
+        if (!stillThisOpen() || !confettiHost) return;
+        burstConfetti(confettiHost, tier);
+      }, 140);
+    });
   }
 
   /** Strip foil and enable the already-rendered card + KEEP/DISCARD row. */
@@ -706,6 +719,8 @@ export class MiTeamBuilder {
 
   private discard(): void {
     if (!this.targetSlot) return;
+    // Cancel any in-flight open (disabled foil + pending preload) before remounting.
+    this.packOpenGen += 1;
     const prevId = this.candidate?.player.id ?? null;
     const prevKey = this.candidate ? playerIdentityKey(this.candidate.player) : null;
     for (let i = 0; i < 8; i++) {

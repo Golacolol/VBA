@@ -14,6 +14,7 @@ import {
   teamBadgeHtml,
 } from "./Portrait";
 import { titleAttr } from "./infoOverlays";
+import { menuPlayerPngsEnabled } from "./menuPlayerPngs";
 import { profileStatsBlock, type ProfileStatsMode } from "./ProfileHex";
 
 export const EDIT_POSITIONS: PositionCode[] = ["PG", "SG", "SF", "PF", "C"];
@@ -101,6 +102,8 @@ export type PlayerCardRenderState = {
   profileSize?: number;
   /** Draft / compact pick faces — portrait + kit only (no hex / bars). */
   hideProfile?: boolean;
+  /** Pyramid draft: always allow headshot PNGs regardless of Display → Player PNGs. */
+  forcePortrait?: boolean;
   imagePaths: string[];
 };
 
@@ -214,9 +217,16 @@ function crestHtml(team: PlayerCardTeamContext): string {
   );
 }
 
-function photoHtml(sp: SquadPlayer, team: PlayerCardTeamContext): string {
-  const src = portraitAsset(sp.player);
+function photoHtml(
+  sp: SquadPlayer,
+  team: PlayerCardTeamContext,
+  opts?: { forcePortrait?: boolean },
+): string {
   const crestBlock = `<div class="player-card-photo has-crest"><div class="player-card-crest-host">${crestHtml(team)}</div></div>`;
+  // Display → Player PNGs off (default): club emblem on the sports card.
+  // Pyramid draft passes forcePortrait so its cards stay on headshots.
+  if (!opts?.forcePortrait && !menuPlayerPngsEnabled()) return crestBlock;
+  const src = portraitAsset(sp.player);
   if (src) {
     return `<div class="player-card-photo has-photo" data-crest-fallback="${escapeAttr(encodeURIComponent(crestBlock))}">
       <img class="player-card-portrait" alt="" src="${escapeAttr(src)}" onerror="const box=this.closest('.player-card-photo');const fb=box?.dataset.crestFallback;if(!box||!fb){this.remove();return;}box.outerHTML=decodeURIComponent(fb);"/>
@@ -362,7 +372,7 @@ function sportsCardHtml(sp: SquadPlayer, team: PlayerCardTeamContext, state: Pla
           <span class="player-card-pos-code">${escapeHtml(sp.player.primaryPosition)}</span>
           <span class="player-card-ovr-holo">${Math.round(sp.overall)}</span>
         </div>
-        ${photoHtml(sp, team)}
+        ${photoHtml(sp, team, { forcePortrait: state.forcePortrait })}
         ${
           state.hideProfile
             ? ""

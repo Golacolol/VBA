@@ -1714,6 +1714,7 @@ export class PyramidHub {
       flipY: this.draftInspectFlipY,
       profileView: this.draftInspectProfileView,
       profileSize: 148,
+      forcePortrait: true,
       imagePaths: [],
     });
     // Draft inspect is view-only — drop EDIT; remap card controls onto pyramid actions.
@@ -1781,6 +1782,7 @@ export class PyramidHub {
             ${kitMarkerHtml(sp.player, row.shirtNumber, {
               primaryColor: colors.primary,
               textColor: colors.text,
+              forcePortrait: true,
             })}
           </button>
         </div>`;
@@ -1804,6 +1806,7 @@ export class PyramidHub {
             primaryColor: colors.primary,
             textColor: colors.text,
             className: "kit-marker-bench",
+            forcePortrait: true,
           })}
         </button>`;
       })
@@ -1891,6 +1894,7 @@ export class PyramidHub {
       flipY: 0,
       profileView: "hex",
       hideProfile: true,
+      forcePortrait: true,
       imagePaths: [],
     })
       .replace(/<div class="player-card-shell-head">[\s\S]*?<\/div>/, "")

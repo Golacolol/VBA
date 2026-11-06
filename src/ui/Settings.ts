@@ -296,6 +296,8 @@ export class SettingsMenu {
           <label class="check"><input id="ball-ring" type="checkbox" ${settings.ballGoldRing ? "checked" : ""}/> Gold ring around the ball</label>
           <label class="check"><input id="formation-overlays" type="checkbox" ${settings.formationOverlays ? "checked" : ""}/> Info overlays</label>
           <p class="hint">When on, hover buttons and controls for help tips, and pitch or substitute counters for player names. Off by default.</p>
+          <label class="check"><input id="menu-player-pngs" type="checkbox" ${settings.showMenuPlayerPngs ? "checked" : ""}/> Player PNGs (MiTeam &amp; formation)</label>
+          <p class="hint">When on, MiTeam and Play Next Fixture show headshot PNGs on cards and counters. Off by default — club emblems on cards, jersey name and number on counters. Pyramid is unchanged. Remembered when turned on.</p>
           <label class="settings-range">Football size
             <input id="ball-scale" type="range" min="100" max="225" step="5" value="${Math.round(clampBallScalePercent(settings.ballScale))}" />
             <span class="settings-range-value" data-ball-scale>${Math.round(clampBallScalePercent(settings.ballScale))}%</span>
@@ -545,6 +547,8 @@ export class SettingsMenu {
     if (ballRing) out.ballGoldRing = ballRing.checked;
     const formationOverlays = root.querySelector("#formation-overlays") as HTMLInputElement | null;
     if (formationOverlays) out.formationOverlays = formationOverlays.checked;
+    const menuPlayerPngs = root.querySelector("#menu-player-pngs") as HTMLInputElement | null;
+    if (menuPlayerPngs) out.showMenuPlayerPngs = menuPlayerPngs.checked;
     const dbg = root.querySelector("#dbg") as HTMLInputElement | null;
     if (dbg) out.debug = dbg.checked;
     const aiTel = root.querySelector("#aiTel") as HTMLInputElement | null;

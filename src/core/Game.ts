@@ -31,6 +31,7 @@ import { Player } from "../football/players/Player";
 import { applyPhysicalToAppearance, deriveOverall } from "../football/players/PlayerStats";
 import { applyClubNameAppearance, applyTitleFont } from "../ui/TitleFonts";
 import { setInfoOverlaysEnabled } from "../ui/infoOverlays";
+import { setMenuPlayerPngsEnabled } from "../ui/menuPlayerPngs";
 import { MainMenu } from "../ui/MainMenu";
 import {
   CharacterSelect,
@@ -199,6 +200,7 @@ export class Game {
     applyTitleFont(this.save.data.settings.titleFont);
     applyClubNameAppearance(this.save.data.settings);
     this.applyInfoOverlaysSetting();
+    this.applyMenuPlayerPngsSetting();
     this.input.keyboard.setBindings(this.save.data.settings.keyBindings);
     this.audio.setVolume(this.save.data.settings.masterVolume);
     this.audio.setEnabled(this.save.data.settings.audioEnabled !== false);
@@ -600,8 +602,12 @@ export class Game {
         this.match.ballGoldRing = this.save.data.settings.ballGoldRing;
         this.match.showPassTargetHighlight = this.save.data.settings.showPassTargetHighlight;
         this.applyInfoOverlaysSetting();
+        this.applyMenuPlayerPngsSetting();
         if (!this.chars.root.hidden) this.chars.render();
         this.unitLines.update(this.scene, this.match, this.unitLineSettings());
+      } else {
+        this.applyInfoOverlaysSetting();
+        this.applyMenuPlayerPngsSetting();
       }
       if (this.settings.isEmbedded && this.menu.optionsSection) {
         this.menu.optionsSection = this.settings.section;
@@ -1458,6 +1464,7 @@ export class Game {
     this.miteam.hide();
     try {
       this.applyInfoOverlaysSetting();
+      this.applyMenuPlayerPngsSetting();
       this.charTeamId = teamId;
       if (teamId === MITEAM_TEAM_ID || this.save.data.miteam) {
         applyMiTeamToDb(this.db, this.save);
@@ -1973,10 +1980,15 @@ export class Game {
     this.chars.showOverlays = on;
   }
 
+  private applyMenuPlayerPngsSetting(): void {
+    setMenuPlayerPngsEnabled(this.save.data.settings.showMenuPlayerPngs === true);
+  }
+
   private openPauseFormation(): void {
     if (!this.match) return;
     const team = this.match.userTeam();
     this.applyInfoOverlaysSetting();
+    this.applyMenuPlayerPngsSetting();
     this.charTeamId = team.record.id;
     const active: FormationSide = team.side;
     this.chars.setContext("pause", { subsRemaining: this.match.subsRemaining(team.side) });

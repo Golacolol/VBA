@@ -3133,6 +3133,9 @@ select.formation-chip.formation-select option {
   min-height: 0;
   align-self: center;
   justify-self: center;
+  /* Detail bars must not paint into the kit row below. */
+  overflow: hidden;
+  box-sizing: border-box;
 }
 .player-card-front .profile-hex-svg,
 .player-card-front .profile-full-svg {
@@ -3140,6 +3143,31 @@ select.formation-chip.formation-select option {
   height: 100% !important;
   max-width: 100%;
   max-height: 100%;
+}
+/* List/details mode: shrink type + padding so six rows fit the hex footprint. */
+.player-card-front .profile-stats[data-mode="detail"] .profile-detail-bars {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: clamp(2px, 1.2cqh, 6px) clamp(3px, 1.6cqi, 6px);
+  gap: 0;
+  justify-content: space-evenly;
+  overflow: hidden;
+}
+.player-card-front .profile-stats[data-mode="detail"] .profile-detail-bars.char-stats div {
+  padding-bottom: clamp(2px, 0.9cqh, 4px);
+  font-size: clamp(7px, min(3.1cqi, 2.6cqh), 10px);
+  letter-spacing: 0.03em;
+  min-width: 0;
+}
+.player-card-front .profile-stats[data-mode="detail"] .profile-detail-bars.char-stats span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.player-card-front .profile-stats[data-mode="detail"] .profile-detail-bars.char-stats i {
+  height: 1.5px;
 }
 .player-card-flip-nav {
   display: flex;
@@ -4933,21 +4961,70 @@ td, th { border-bottom: 1px solid #234; padding: 6px; }
 .squad-chip .portrait-badge .ini { display: none; }
 /* Stack columns only on narrow phones — keep side-by-side on tablets+. */
 @media (max-width: 640px) {
-  .menu-shell { grid-template-columns: 1fr; gap: 16px; }
+  /* Page must scroll — Practice Court / Predictions / Database / Options sit below the fold. */
+  .menu-screen {
+    place-items: start center;
+    align-content: start;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 14px 12px 36px;
+    /* Hidden scrollbar — still scrollable. */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .menu-screen::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  .menu-shell {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: min(1120px, 96vw);
+    padding: 8px 4px 12px;
+  }
+  /* Embedded panels: hide the hero/first column; Back on the panel returns to dual menus. */
+  .menu-shell.panel-open {
+    grid-template-columns: 1fr;
+  }
+  .menu-shell.panel-open .menu-hero {
+    display: none;
+  }
   .menu-list.menu-embed.panel-league,
   .menu-list.menu-embed.panel-options,
   .menu-list.menu-embed.panel-database,
   .menu-list.menu-embed.panel-fixtures,
   .menu-list.menu-embed.panel-predictions {
-    height: min(var(--menu-panel-height), 58vh);
-    max-height: min(var(--menu-panel-height), 58vh);
+    height: auto;
+    max-height: none;
+    min-height: min(72vh, 560px);
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .menu-list.menu-embed.panel-league::-webkit-scrollbar,
+  .menu-list.menu-embed.panel-options::-webkit-scrollbar,
+  .menu-list.menu-embed.panel-database::-webkit-scrollbar,
+  .menu-list.menu-embed.panel-fixtures::-webkit-scrollbar,
+  .menu-list.menu-embed.panel-predictions::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
   }
   .menu-shell .menu-list:not(.menu-embed) {
     height: auto;
     max-height: none;
+    overflow: visible;
+    justify-content: flex-start;
+    gap: 2px;
   }
   .menu-hero { text-align: center; }
-  .menu-hero-stack { margin-inline: auto; }
+  .menu-hero-stack {
+    margin-inline: auto;
+    flex: 0 0 auto;
+    overflow: visible;
+  }
   .club-wrap {
     display: flex;
     justify-content: center;
@@ -4956,6 +5033,37 @@ td, th { border-bottom: 1px solid #234; padding: 6px; }
   .club-meta { text-align: left; }
   .menu-hero .sub { margin-left: auto; margin-right: auto; }
   .menu-fixture { justify-content: center; }
+  /* Gameplay / Lighting titles stay left — same as desktop — not centred with the hero. */
+  .menu-fixture.menu-fixture-labeled,
+  .menu-fixture.menu-fixture-labeled.gameplay-fixture,
+  .menu-fixture.menu-fixture-labeled.lighting-fixture {
+    justify-content: flex-start;
+    text-align: left;
+  }
+  .menu-fixture.menu-fixture-labeled .fixture-section-label,
+  .lighting-fixture .lighting-length-label {
+    text-align: left;
+  }
+  .lighting-main {
+    align-items: flex-start;
+  }
+}
+/* Short landscape / short desktop: keep the action list reachable. */
+@media (max-height: 720px) and (min-width: 641px) {
+  .menu-shell .menu-list:not(.menu-embed) {
+    overflow-y: auto;
+    max-height: min(var(--menu-panel-height), calc(100vh - 48px));
+    justify-content: flex-start;
+    gap: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .menu-shell .menu-list:not(.menu-embed)::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
 }
 table .portrait { width: 36px; height: 36px; margin: 0; }
 

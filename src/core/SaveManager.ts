@@ -79,6 +79,12 @@ export interface SavedSettings {
   ballGoldRing: boolean;
   /** Info overlays: help tooltips + formation pitch/bench name tips. Default off. */
   formationOverlays: boolean;
+  /**
+   * Player headshot PNGs on MiTeam / Play Next Fixture cards & counters.
+   * Default off (club emblem + jersey name/number). Pyramid is unaffected.
+   * When turned on, the choice is persisted for later sessions.
+   */
+  showMenuPlayerPngs: boolean;
   /** Ring under the intended pass receiver while aiming. Default off. */
   showPassTargetHighlight: boolean;
   /** Visual football size: 1 = default, up to ~2.25. */
@@ -193,6 +199,7 @@ export const DEFAULT_SETTINGS: SavedSettings = {
   awayAttLineColor: "#ff8a9a",
   ballGoldRing: false,
   formationOverlays: false,
+  showMenuPlayerPngs: false,
   showPassTargetHighlight: false,
   ballScale: 1,
   leagueProgression: false,
@@ -225,6 +232,8 @@ export class SaveManager {
       settings.clubNameGlowDiffusion = clampClubNameGlowDiffusion(settings.clubNameGlowDiffusion);
       settings.clubNameGlow = settings.clubNameGlow !== false;
       settings.clubNameInvertColors = settings.clubNameInvertColors === true;
+      settings.formationOverlays = settings.formationOverlays === true;
+      settings.showMenuPlayerPngs = settings.showMenuPlayerPngs === true;
       settings.cameraZoom = clampCameraZoomSetting(settings.cameraZoom);
       settings.ballScale = clampBallScaleSetting(settings.ballScale);
       settings.homeDefLineColor = clampHex(settings.homeDefLineColor, DEFAULT_SETTINGS.homeDefLineColor);

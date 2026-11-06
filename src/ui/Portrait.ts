@@ -1,5 +1,6 @@
 import { assetUrl } from "../core/assetUrl";
 import { resolvePlayerPortraitUrl, resolveTeamCrestUrl } from "../data/AssetPack";
+import { menuPlayerPngsEnabled } from "./menuPlayerPngs";
 
 export interface PortraitSource {
   id?: string;
@@ -29,6 +30,11 @@ export interface KitMarkerOptions {
    * Formation / roster use surname; match HUD uses initials (name lives beside the card).
    */
   badgeMode?: "surname" | "initials";
+  /**
+   * When true, always allow headshot PNGs (Pyramid).
+   * Otherwise respects Options → Display → Player PNGs (default off → jersey badge).
+   */
+  forcePortrait?: boolean;
 }
 
 /**
@@ -624,9 +630,11 @@ export function kitMarkerHtml(
   // Caption under PNG: number + surname only (no given-name initial).
   const captionLabel = kitCaptionSurname(player.displayName, player.name);
   // Trusted = explicit appearance path. Speculative convention paths only promote on load.
-  const trustedSrc = portraitAsset(player);
+  // Display → Player PNGs off (default): jersey name/number badge only — Pyramid opts in via forcePortrait.
+  const allowPng = options.forcePortrait === true || menuPlayerPngsEnabled();
+  const trustedSrc = allowPng ? portraitAsset(player) : null;
   const speculativeSrc =
-    !trustedSrc && player.id ? resolvePlayerPortraitUrl(player.id, null) : null;
+    allowPng && !trustedSrc && player.id ? resolvePlayerPortraitUrl(player.id, null) : null;
   const src = trustedSrc ?? speculativeSrc;
   const bench = (options.className ?? "").includes("kit-marker-bench");
   const roster = (options.className ?? "").includes("kit-marker-roster");
@@ -681,14 +689,17 @@ export function portraitHtml(
     textColor?: string;
     className?: string;
     badgeMode?: "surname" | "initials";
+    /** Pyramid: always allow headshots. */
+    forcePortrait?: boolean;
   },
 ): string {
-  if (options?.surnameOnly) {
+  if (options?.surnameOnly || (!options?.forcePortrait && !menuPlayerPngsEnabled())) {
     return kitMarkerHtml(player, shirtNumber, {
       primaryColor: color,
       textColor: options.textColor ?? "#ffffff",
       className: options.className,
       badgeMode: options.badgeMode,
+      forcePortrait: options?.forcePortrait,
     });
   }
   const src = portraitAsset(player);

@@ -69,6 +69,7 @@ import {
   playerCardFlipSideFromClientX,
 } from "./playerCardShared";
 import { setInfoOverlaysEnabled, titleAttr } from "./infoOverlays";
+import { menuPlayerPngsEnabled } from "./menuPlayerPngs";
 
 const EDIT_POSITIONS: PositionCode[] = ["PG", "SG", "SF", "PF", "C"];
 
@@ -1776,8 +1777,10 @@ export class CharacterSelect {
   }
 
   private playerCardPhotoHtml(sp: SquadPlayer): string {
-    const src = portraitAsset(sp.player);
     const crestBlock = `<div class="player-card-photo has-crest"><div class="player-card-crest-host">${this.playerCardCrestHtml(sp)}</div></div>`;
+    // Display → Player PNGs off (default): club emblem instead of headshot.
+    if (!menuPlayerPngsEnabled()) return crestBlock;
+    const src = portraitAsset(sp.player);
     if (src) {
       // Portrait only in the DOM — crest is swapped in only if the PNG fails to load.
       return `<div class="player-card-photo has-photo" data-crest-fallback="${escapeAttr(encodeURIComponent(crestBlock))}">

@@ -19,12 +19,22 @@ export const MITEAM_PURPLE_OVR = 95;
 /** Absolute apex — black/gold foil for the N highest overall cards. */
 export const MITEAM_BLACK_TOP_N = 3;
 
+/** Cap hung CDN / decode stalls so pack open cannot wedge on a single Image(). */
+const PRELOAD_IMAGE_TIMEOUT_MS = 800;
+
 function preloadImage(url: string | null | undefined): Promise<void> {
   const src = url?.trim();
   if (!src) return Promise.resolve();
   return new Promise((resolve) => {
     const img = new Image();
-    const done = () => resolve();
+    let settled = false;
+    const done = () => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timer);
+      resolve();
+    };
+    const timer = window.setTimeout(done, PRELOAD_IMAGE_TIMEOUT_MS);
     img.onload = done;
     img.onerror = done;
     img.src = assetUrl(src);
@@ -42,7 +52,7 @@ export function preloadMiTeamRevealAssets(
 }
 
 /** Wait until <img> nodes under `root` have loaded (or failed / timed out). */
-export function waitForElementImages(root: ParentNode | null, timeoutMs = 1400): Promise<void> {
+export function waitForElementImages(root: ParentNode | null, timeoutMs = 600): Promise<void> {
   if (!root) return Promise.resolve();
   const imgs = [...root.querySelectorAll("img")];
   if (!imgs.length) return Promise.resolve();
@@ -50,8 +60,14 @@ export function waitForElementImages(root: ParentNode | null, timeoutMs = 1400):
     imgs.map((img) => {
       if (img.complete) return Promise.resolve();
       return new Promise<void>((resolve) => {
-        img.addEventListener("load", () => resolve(), { once: true });
-        img.addEventListener("error", () => resolve(), { once: true });
+        let settled = false;
+        const done = () => {
+          if (settled) return;
+          settled = true;
+          resolve();
+        };
+        img.addEventListener("load", done, { once: true });
+        img.addEventListener("error", done, { once: true });
       });
     }),
   ).then(() => undefined);
@@ -213,10 +229,19 @@ export function burstConfetti(host: HTMLElement, tier: PackTier = "silver"): voi
 
 export function playFoilOpen(foil: HTMLElement, onDone: () => void): void {
   foil.classList.add("miteam-foil-opening");
+  let settled = false;
   const finish = () => {
-    foil.removeEventListener("animationend", finish);
+    if (settled) return;
+    settled = true;
+    foil.removeEventListener("animationend", onAnimEnd);
+    window.clearTimeout(timer);
     onDone();
   };
-  foil.addEventListener("animationend", finish);
-  window.setTimeout(finish, 700);
+  const onAnimEnd = (ev: AnimationEvent) => {
+    // Ignore bubbled end events from child holo/glare layers.
+    if (ev.target !== foil) return;
+    finish();
+  };
+  foil.addEventListener("animationend", onAnimEnd);
+  const timer = window.setTimeout(finish, 700);
 }

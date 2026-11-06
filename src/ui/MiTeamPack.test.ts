@@ -1,8 +1,10 @@
-import { describe, expect, it } from "vitest";
+/** @vitest-environment jsdom */
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   miteamFoilHtml,
   miteamFoilSerrationClip,
   packTierForOverall,
+  playFoilOpen,
   MITEAM_GOLD_OVR,
   MITEAM_DIAMOND_OVR,
   MITEAM_PURPLE_OVR,
@@ -72,5 +74,36 @@ describe("MiTeamPack tiers", () => {
     expect(clip).toContain("0.0% 100.0%");
     // Shallow notches — recessed well / card lip, not an opened pack.
     expect(clip).toContain("2.8%");
+  });
+});
+
+describe("playFoilOpen", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("calls onDone once even when animationend and timeout both fire", () => {
+    vi.useFakeTimers();
+    const foil = document.createElement("button");
+    const onDone = vi.fn();
+    playFoilOpen(foil, onDone);
+    expect(foil.classList.contains("miteam-foil-opening")).toBe(true);
+    foil.dispatchEvent(new Event("animationend", { bubbles: true }));
+    expect(onDone).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(700);
+    expect(onDone).toHaveBeenCalledTimes(1);
+  });
+
+  it("ignores bubbled animationend from child layers", () => {
+    vi.useFakeTimers();
+    const foil = document.createElement("button");
+    const child = document.createElement("span");
+    foil.appendChild(child);
+    const onDone = vi.fn();
+    playFoilOpen(foil, onDone);
+    child.dispatchEvent(new Event("animationend", { bubbles: true }));
+    expect(onDone).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(700);
+    expect(onDone).toHaveBeenCalledTimes(1);
   });
 });

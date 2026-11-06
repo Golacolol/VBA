@@ -1,5 +1,5 @@
 /** @vitest-environment jsdom */
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import {
   CharacterSelect,
   fitFormationTeamTitle,
@@ -17,8 +17,13 @@ import {
   kitMarkerHtml,
   kitSurnameFromName,
 } from "./Portrait";
+import { setMenuPlayerPngsEnabled } from "./menuPlayerPngs";
 import type { SquadPlayer } from "../core/Database";
 import type { PlayerRecord } from "../data/schema";
+
+afterEach(() => {
+  setMenuPlayerPngsEnabled(false);
+});
 
 function makePlayer(id: string, name: string, pos: string, number: number): SquadPlayer {
   const player: PlayerRecord = {
@@ -585,8 +590,11 @@ describe("character select", () => {
     expect(rows.every((r) => /^\d+$/.test(r.ovr))).toBe(true);
     expect(rows[0]?.ovr).toBe("74");
     expect(rows.map((r) => r.num)).toEqual(["1", "2", "3", "4", "5", "7", "11", "14", "12"]);
-    const benchNums = [...view.root.querySelectorAll(".bench-card .kit-marker-num")].map((el) => el.textContent);
-    expect(benchNums).toEqual(["7.", "11.", "14.", "12."]);
+    // Default Display → Player PNGs off: jersey badge numbers (no under-caption "7.").
+    const benchNums = [...view.root.querySelectorAll(".bench-card .portrait-badge-kit .num")].map(
+      (el) => el.textContent,
+    );
+    expect(benchNums).toEqual(["7", "11", "14", "12"]);
   });
 
   it("orders substitutes by position then shirt number", () => {
@@ -605,8 +613,10 @@ describe("character select", () => {
       starterSlots: ["PG", "SG", "SF"],
     });
     view.render();
-    const benchNums = [...view.root.querySelectorAll(".bench-card .kit-marker-num")].map((el) => el.textContent);
-    expect(benchNums).toEqual(["13.", "15.", "19.", "32."]);
+    const benchNums = [...view.root.querySelectorAll(".bench-card .portrait-badge-kit .num")].map(
+      (el) => el.textContent,
+    );
+    expect(benchNums).toEqual(["13", "15", "19", "32"]);
   });
 
   it("omits pitch/bench name tooltips unless info overlays are on", () => {
@@ -636,6 +646,7 @@ describe("character select", () => {
   });
 
   it("keeps substitute GK PNG markers (green badge stays hidden fallback)", () => {
+    setMenuPlayerPngsEnabled(true);
     const host = document.createElement("div");
     document.body.appendChild(host);
     const view = new CharacterSelect(host);
@@ -714,6 +725,7 @@ describe("character select", () => {
   });
 
   it("uses secondary colour for kit-marker text; PNG caption is number then name", () => {
+    setMenuPlayerPngsEnabled(true);
     const host = document.createElement("div");
     document.body.appendChild(host);
     const view = new CharacterSelect(host);
@@ -1047,6 +1059,7 @@ describe("kitMarkerHtml", () => {
   });
 
   it("uses number + surname under PNG and keeps badge text off the photo", () => {
+    setMenuPlayerPngsEnabled(true);
     const html = kitMarkerHtml(
       {
         name: "Edwin van der Sar",
@@ -1081,6 +1094,7 @@ describe("kitMarkerHtml", () => {
   });
 
   it("uses under-disc caption immediately for explicit portrait assets", () => {
+    setMenuPlayerPngsEnabled(true);
     const html = kitMarkerHtml(
       { id: "p9", name: "R. Hardie", appearance: { portraitAsset: "/portraits/hardie.png" } },
       9,
@@ -1092,6 +1106,7 @@ describe("kitMarkerHtml", () => {
   });
 
   it("sets Pyramid disc tint from the club primary on PNG portraits", () => {
+    setMenuPlayerPngsEnabled(true);
     const html = kitMarkerHtml(
       { id: "p9", name: "R. Hardie", appearance: { portraitAsset: "/portraits/hardie.png" } },
       9,
