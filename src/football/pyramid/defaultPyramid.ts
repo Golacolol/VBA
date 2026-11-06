@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 19;
+export const PYRAMID_SEED_VERSION = 20;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -157,11 +157,11 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_lal_1986_87_p03", // 38 James Worthy (90)
   "classic_bos_1985_86_p04", // 39 Kevin McHale (90)
   "classic_hou_2006_07_p02", // 40 Tracy McGrady (90)
-  "classic_bos_1964_65_p03", // 41 John Havlicek (91)
-  "classic_orl_1994_95_p01", // 42 Anfernee Hardaway (91)
-  "classic_hou_2018_19_p01", // 43 Chris Paul (91)
-  "classic_sac_2001_02_p04", // 44 Chris Webber (91)
-  "classic_gsw_2016_17_p04", // 45 Draymond Green (90) — peak two-way / dynasty anchor
+  "classic_gsw_2016_17_p04", // 41 Draymond Green (90) — four-time champion / dynasty anchor
+  "classic_bos_1964_65_p03", // 42 John Havlicek (91)
+  "classic_orl_1994_95_p01", // 43 Anfernee Hardaway (91)
+  "classic_hou_2018_19_p01", // 44 Chris Paul (91)
+  "classic_sac_2001_02_p04", // 45 Chris Webber (91)
   "classic_det_1996_97_p03", // 46 Grant Hill (91)
   "classic_hou_2018_19_p02", // 47 James Harden (90)
   "classic_cle_2015_16_p01", // 48 Kyrie Irving (91)
