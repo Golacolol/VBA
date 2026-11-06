@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 20;
+export const PYRAMID_SEED_VERSION = 21;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -186,25 +186,25 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "classic_lac_2013_14_p04", // 57 Blake Griffin (90) — edged from Top 50 by Rose MVP
   "classic_nyk_2011_12_p03", // 58 Carmelo Anthony (90) — edged from Top 50 by Mikan
   "classic_lal_2019_20_p04", // 59 Anthony Davis (90) — 2019/20 peak form
-  // Classic 89s (Beal dropped to 86 — not this band)
+  // Classic 89s (Wall dropped to 88; Beal at 86)
   "classic_atl_1990_91_p03", // 59 Dominique Wilkins (89)
-  "classic_was_2016_17_p01", // 60 John Wall (89)
-  "classic_gsw_2016_17_p02", // 61 Klay Thompson (89)
-  "classic_sas_2013_14_p02", // 62 Manu Ginobili (89)
-  "classic_bos_2007_08_p03", // 63 Paul Pierce (89)
-  "classic_mia_2012_13_p06", // 64 Ray Allen (89)
-  "classic_ind_1999_00_p02", // 65 Reggie Miller (89)
-  "classic_okc_2011_12_p01", // 66 Russell Westbrook (89)
+  "classic_gsw_2016_17_p02", // 60 Klay Thompson (89)
+  "classic_sas_2013_14_p02", // 61 Manu Ginobili (89)
+  "classic_bos_2007_08_p03", // 62 Paul Pierce (89)
+  "classic_mia_2012_13_p06", // 63 Ray Allen (89)
+  "classic_ind_1999_00_p02", // 64 Reggie Miller (89)
+  "classic_okc_2011_12_p01", // 65 Russell Westbrook (89)
   // 88 band
-  "classic_phx_2004_05_p05", // 67 Amar'e Stoudemire (88)
-  "classic_det_2003_04_p01", // 68 Chauncey Billups (88)
-  "classic_mia_2012_13_p05", // 69 Chris Bosh (88)
-  "classic_chi_1995_96_p04", // 70 Dennis Rodman (88)
-  "espn_3136193", // 71 Devin Booker (88)
-  "espn_3908809", // 72 Donovan Mitchell (88)
-  "classic_was_2007_08_p01", // 73 Gilbert Arenas (88)
-  "espn_4065648", // 74 Jayson Tatum (88)
-  "classic_cin_1963_64_p10", // 75 Jerry Lucas (88)
+  "classic_phx_2004_05_p05", // 66 Amar'e Stoudemire (88)
+  "classic_det_2003_04_p01", // 67 Chauncey Billups (88)
+  "classic_mia_2012_13_p05", // 68 Chris Bosh (88)
+  "classic_chi_1995_96_p04", // 69 Dennis Rodman (88)
+  "espn_3136193", // 70 Devin Booker (88)
+  "espn_3908809", // 71 Donovan Mitchell (88)
+  "classic_was_2007_08_p01", // 72 Gilbert Arenas (88)
+  "espn_4065648", // 73 Jayson Tatum (88)
+  "classic_cin_1963_64_p10", // 74 Jerry Lucas (88)
+  "classic_was_2016_17_p01", // 75 John Wall (88) — Wizards peak
   "classic_cle_2015_16_p04", // 76 Kevin Love (88)
   "classic_cha_1992_93_p04", // 77 Larry Johnson (88)
   "classic_lal_2009_10_p04", // 78 Pau Gasol (88)

@@ -238,7 +238,7 @@ export const CLASSIC_PEAK_OVR = {
   "Amar'e Stoudemire": 88,
   "Joe Johnson": 84,
   // 2016/17 Wizards
-  "John Wall": 89,
+  "John Wall": 88,
   "Bradley Beal": 86,
   "Otto Porter Jr.": 84,
   "Markieff Morris": 80,
