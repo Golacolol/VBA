@@ -15644,7 +15644,7 @@
     "appearance": {
       "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/4871144.png",
       "fullName": "Alperen Sengun",
-      "birthplace": "Giresun, Türkiye",
+      "birthplace": "Giresun, T\u00fcrkiye",
       "heightScale": 1
     },
     "finishing": 85,
@@ -26763,7 +26763,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Nate Archibald",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76054.png"
+      "portraitAsset": "/assets/portraits/classic/nate-archibald.png"
     },
     "finishing": 86,
     "midRange": 88,
@@ -26810,7 +26810,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Chris Ford",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76733.png"
+      "portraitAsset": null
     },
     "finishing": 80,
     "midRange": 82,
@@ -26857,7 +26857,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Cedric Maxwell",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77487.png"
+      "portraitAsset": null
     },
     "finishing": 85,
     "midRange": 85,
@@ -26951,7 +26951,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Robert Parish",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/305.png"
+      "portraitAsset": "/assets/portraits/classic/robert-parish.png"
     },
     "finishing": 89,
     "midRange": 85,
@@ -27045,7 +27045,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "M.L. Carr",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76351.png"
+      "portraitAsset": null
     },
     "finishing": 79,
     "midRange": 76,
@@ -27092,7 +27092,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Gerald Henderson",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76993.png"
+      "portraitAsset": null
     },
     "finishing": 76,
     "midRange": 79,
@@ -27139,7 +27139,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Rick Robey",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77984.png"
+      "portraitAsset": null
     },
     "finishing": 77,
     "midRange": 73,
@@ -27186,7 +27186,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Eric Fernsten",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76707.png"
+      "portraitAsset": null
     },
     "finishing": 72,
     "midRange": 69,
@@ -27233,7 +27233,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Terry Duerod",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76608.png"
+      "portraitAsset": null
     },
     "finishing": 71,
     "midRange": 74,
@@ -27280,7 +27280,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Wayne Kreklow",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77312.png"
+      "portraitAsset": null
     },
     "finishing": 71,
     "midRange": 72,
@@ -27327,7 +27327,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Charles Bradley",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76230.png"
+      "portraitAsset": null
     },
     "finishing": 69,
     "midRange": 72,
@@ -34038,7 +34038,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Norm Nixon",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77721.png"
+      "portraitAsset": null
     },
     "finishing": 87,
     "midRange": 87,
@@ -34085,7 +34085,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Jamaal Wilkes",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/78532.png"
+      "portraitAsset": null
     },
     "finishing": 88,
     "midRange": 86,
@@ -34132,7 +34132,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Jim Chones",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76392.png"
+      "portraitAsset": null
     },
     "finishing": 82,
     "midRange": 79,
@@ -34273,7 +34273,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Spencer Haywood",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76981.png"
+      "portraitAsset": null
     },
     "finishing": 83,
     "midRange": 82,
@@ -34320,7 +34320,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Mark Landsberger",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77334.png"
+      "portraitAsset": null
     },
     "finishing": 78,
     "midRange": 76,
@@ -34367,7 +34367,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Brad Holland",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77040.png"
+      "portraitAsset": null
     },
     "finishing": 77,
     "midRange": 77,
@@ -34414,7 +34414,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Jim Brewer",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76248.png"
+      "portraitAsset": null
     },
     "finishing": 77,
     "midRange": 75,
@@ -34461,7 +34461,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Don Ford",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76734.png"
+      "portraitAsset": null
     },
     "finishing": 74,
     "midRange": 74,
@@ -34508,7 +34508,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Butch Lee",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/77356.png"
+      "portraitAsset": null
     },
     "finishing": 72,
     "midRange": 73,
@@ -34555,7 +34555,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Marty Byrnes",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/76321.png"
+      "portraitAsset": null
     },
     "finishing": 73,
     "midRange": 72,

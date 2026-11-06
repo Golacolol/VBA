@@ -229,7 +229,7 @@ function photoHtml(
   const src = portraitAsset(sp.player);
   if (src) {
     return `<div class="player-card-photo has-photo" data-crest-fallback="${escapeAttr(encodeURIComponent(crestBlock))}">
-      <img class="player-card-portrait" alt="" src="${escapeAttr(src)}" onerror="const box=this.closest('.player-card-photo');const fb=box?.dataset.crestFallback;if(!box||!fb){this.remove();return;}box.outerHTML=decodeURIComponent(fb);"/>
+      <img class="player-card-portrait" alt="" src="${escapeAttr(src)}" referrerpolicy="no-referrer" onerror="const box=this.closest('.player-card-photo');const fb=box?.dataset.crestFallback;if(!box||!fb){this.remove();return;}box.outerHTML=decodeURIComponent(fb);"/>
     </div>`;
   }
   return crestBlock;

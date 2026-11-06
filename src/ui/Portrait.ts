@@ -688,11 +688,11 @@ export function kitMarkerHtml(
     "const m=this.closest('.kit-marker');if(!m)return;m.classList.remove('kit-marker-photo');this.style.display='none';const b=this.nextElementSibling;if(b)b.hidden=false;const c=m.querySelector('.kit-marker-caption');if(c)c.remove();";
 
   if (trustedSrc) {
-    return `<div class="${wrapClass} kit-marker-photo"><div class="portrait" ${discTint}><img alt="" src="${escapePortrait(trustedSrc)}" onerror="${onError}"/>${badgeHidden}</div>${caption}</div>`;
+    return `<div class="${wrapClass} kit-marker-photo"><div class="portrait" ${discTint}><img alt="" src="${escapePortrait(trustedSrc)}" referrerpolicy="no-referrer" onerror="${onError}"/>${badgeHidden}</div>${caption}</div>`;
   }
 
   // Speculative path: start as in-disc badge; promote to photo+under-caption only onload.
-  return `<div class="${wrapClass}"><div class="portrait" ${discTint}><img alt="" src="${escapePortrait(src)}" style="display:none" onload="${onLoad}" onerror="${onError}"/>${badge}</div>${caption}</div>`;
+  return `<div class="${wrapClass}"><div class="portrait" ${discTint}><img alt="" src="${escapePortrait(src)}" referrerpolicy="no-referrer" style="display:none" onload="${onLoad}" onerror="${onError}"/>${badge}</div>${caption}</div>`;
 }
 
 export function portraitHtml(
@@ -731,7 +731,7 @@ export function portraitHtml(
       : `<span class="num">${fb.number}</span><span class="sur" style="font-size:${surSize}px;letter-spacing:${tracking}em">${escapePortrait(surname)}</span>`;
   const badge = `<div class="portrait-badge" style="background:${fb.color};color:${escapePortrait(text)}">${badgeInner}</div>`;
   if (!src) return `<div class="portrait">${badge}</div>`;
-  return `<div class="portrait"><img alt="" src="${src}" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.hidden=false"/><div class="portrait-badge" hidden style="background:${fb.color};color:${escapePortrait(text)}">${badgeInner}</div></div>`;
+  return `<div class="portrait"><img alt="" src="${src}" referrerpolicy="no-referrer" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.hidden=false"/><div class="portrait-badge" hidden style="background:${fb.color};color:${escapePortrait(text)}">${badgeInner}</div></div>`;
 }
 
 function escapePortrait(s: string): string {

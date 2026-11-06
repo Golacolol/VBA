@@ -346,7 +346,7 @@ export class PyramidHub {
       ? teamBadgeHtml(team, { className: "pyramid-photo-crest", size: 44 })
       : `<div class="pyramid-photo-fallback" style="background:${tint};color:${escapeAttr(entry.textColor)}">?</div>`;
     return `<div class="pyramid-cell-photo has-photo" style="--pyramid-tint:${tint}">
-      <img class="pyramid-player-png" alt="" src="${escapeAttr(src)}" draggable="false" onerror="const el=this.closest('.pyramid-cell-photo');if(!el)return;el.classList.remove('has-photo');el.classList.add('is-empty','is-crest');this.remove();const fb=el.querySelector('.pyramid-photo-crest-slot');if(fb)fb.hidden=false;"/>
+      <img class="pyramid-player-png" alt="" src="${escapeAttr(src)}" referrerpolicy="no-referrer" draggable="false" onerror="const el=this.closest('.pyramid-cell-photo');if(!el)return;el.classList.remove('has-photo');el.classList.add('is-empty','is-crest');this.remove();const fb=el.querySelector('.pyramid-photo-crest-slot');if(fb)fb.hidden=false;"/>
       <div class="pyramid-photo-crest-slot" hidden>${crest}</div>
     </div>`;
   }

@@ -630,6 +630,8 @@ export const CLASSIC_LOCAL_PORTRAITS = {
   "Luke Walton": "/assets/portraits/classic/luke-walton.png",
   "Luther Head": "/assets/portraits/classic/luther-head.png",
   "Magic Johnson": "/assets/portraits/classic/magic-johnson.png",
+  "Nate Archibald": "/assets/portraits/classic/nate-archibald.png",
+  "Robert Parish": "/assets/portraits/classic/robert-parish.png",
   "Malik Rose": "/assets/portraits/classic/malik-rose.png",
   "Mark Aguirre": "/assets/portraits/classic/mark-aguirre.png",
   "Mark Madsen": "/assets/portraits/classic/mark-madsen.jpg",

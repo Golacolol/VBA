@@ -586,8 +586,17 @@ export class SettingsMenu {
     return out;
   }
 
+  /**
+   * Merge the Options session base (updated on every tab switch via snapshotSettings)
+   * with the active tab's fields. Without the base, toggling Display → Player PNGs then
+   * saving from another tab would drop the PNG flag and leave it stuck off in localStorage.
+   */
   read(): Partial<SavedSettings> {
-    return this.readVisible();
+    return {
+      ...(this.base ?? {}),
+      ...this.readVisible(),
+      keyBindings: { ...this.bindings },
+    };
   }
 
   hide(): void {

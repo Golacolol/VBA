@@ -110,7 +110,22 @@ export class GameDatabase {
 
   private applySave(save: SaveManager): void {
     for (const p of save.data.players as PlayerRecord[]) {
-      if (p?.id) this.players.set(p.id, { ...(this.players.get(p.id) ?? p), ...p });
+      if (!p?.id) continue;
+      const authored = this.players.get(p.id);
+      const merged: PlayerRecord = { ...(authored ?? p), ...p };
+      // Stale localStorage players can omit portraitAsset (e.g. new classic eras first
+      // loaded before headshots were wired), or still hold CDN silhouettes. Prefer the
+      // authored local PNG rather than wiping / keeping a weak remote URL.
+      const savePort = p.appearance?.portraitAsset?.trim() || null;
+      const authoredPort = authored?.appearance?.portraitAsset?.trim() || null;
+      if (authoredPort && shouldPreferAuthoredPortrait(authoredPort, savePort)) {
+        merged.appearance = {
+          ...(authored?.appearance ?? {}),
+          ...(p.appearance ?? {}),
+          portraitAsset: authoredPort,
+        };
+      }
+      this.players.set(p.id, merged);
     }
     for (const t of save.data.teams as TeamRecord[]) {
       if (!t?.id) continue;
@@ -443,4 +458,19 @@ export function isClassicMenuTeam(team: TeamRecord): boolean {
     team.teamType === "FANS_TEAM" ||
     !!team.fanTeam
   );
+}
+
+/** Local pack path (not a remote CDN URL). */
+function isLocalPortraitUrl(url: string): boolean {
+  return url.startsWith("/") && !url.startsWith("//");
+}
+
+/**
+ * Prefer authored portrait when the save has none, or when the save still points at a
+ * remote CDN card while authored data has a local asset (silhouettes / referrer blocks).
+ */
+export function shouldPreferAuthoredPortrait(authoredPort: string, savePort: string | null): boolean {
+  if (!savePort) return true;
+  if (isLocalPortraitUrl(authoredPort) && /^https?:\/\//i.test(savePort)) return true;
+  return false;
 }

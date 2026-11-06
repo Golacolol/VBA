@@ -544,6 +544,8 @@ export class Game {
         this.enterCasualFixtures();
         applyTitleFont(this.save.data.settings.titleFont);
         applyClubNameAppearance(this.save.data.settings);
+        this.applyInfoOverlaysSetting();
+        this.applyMenuPlayerPngsSetting();
         this.audio.setVolume(this.save.data.settings.masterVolume);
         this.audio.setEnabled(this.save.data.settings.audioEnabled !== false);
         if (this.match) {
@@ -608,6 +610,8 @@ export class Game {
       } else {
         this.applyInfoOverlaysSetting();
         this.applyMenuPlayerPngsSetting();
+        // Formation / MiTeam stay open under the menu — re-paint so PNG on/off takes effect now.
+        if (!this.chars.root.hidden) this.chars.render();
       }
       if (this.settings.isEmbedded && this.menu.optionsSection) {
         this.menu.optionsSection = this.settings.section;
