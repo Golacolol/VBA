@@ -26810,7 +26810,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Chris Ford",
-      "portraitAsset": null
+      "portraitAsset": "/assets/portraits/classic/chris-ford.jpg"
     },
     "finishing": 80,
     "midRange": 82,
@@ -26857,7 +26857,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Cedric Maxwell",
-      "portraitAsset": null
+      "portraitAsset": "/assets/portraits/classic/cedric-maxwell.jpg"
     },
     "finishing": 85,
     "midRange": 85,
@@ -27045,7 +27045,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "M.L. Carr",
-      "portraitAsset": null
+      "portraitAsset": "/assets/portraits/classic/m-l-carr.jpg"
     },
     "finishing": 79,
     "midRange": 76,
@@ -34038,7 +34038,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Norm Nixon",
-      "portraitAsset": null
+      "portraitAsset": "/assets/portraits/classic/norm-nixon.png"
     },
     "finishing": 87,
     "midRange": 87,
@@ -34085,7 +34085,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Jamaal Wilkes",
-      "portraitAsset": null
+      "portraitAsset": "/assets/portraits/classic/jamaal-wilkes.png"
     },
     "finishing": 88,
     "midRange": 86,
@@ -34132,7 +34132,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Jim Chones",
-      "portraitAsset": null
+      "portraitAsset": "/assets/portraits/classic/jim-chones.png"
     },
     "finishing": 82,
     "midRange": 79,
@@ -34226,7 +34226,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Michael Cooper",
-      "portraitAsset": "/assets/portraits/classic/michael-cooper.jpg"
+      "portraitAsset": "/assets/portraits/classic/michael-cooper.png"
     },
     "finishing": 75,
     "midRange": 76,
@@ -34273,7 +34273,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Spencer Haywood",
-      "portraitAsset": null
+      "portraitAsset": "/assets/portraits/classic/spencer-haywood.png"
     },
     "finishing": 83,
     "midRange": 82,
@@ -34743,7 +34743,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "A.C. Green",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/920.png"
+      "portraitAsset": "/assets/portraits/classic/ac-green.png"
     },
     "finishing": 81,
     "midRange": 80,
@@ -34837,7 +34837,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Michael Cooper",
-      "portraitAsset": "/assets/portraits/classic/michael-cooper.jpg"
+      "portraitAsset": "/assets/portraits/classic/michael-cooper.png"
     },
     "finishing": 77,
     "midRange": 77,
