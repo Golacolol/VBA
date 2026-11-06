@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 22;
+export const PYRAMID_SEED_VERSION = 23;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -166,7 +166,7 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_hou_2018_19_p02", // 47 James Harden (90)
   "classic_cle_2015_16_p01", // 48 Kyrie Irving (91)
   "classic_uta_1976_77_p02", // 49 Pete Maravich (91)
-  "classic_cha_1992_93_p05", // 50 Alonzo Mourning (90) — Blake Griffin → reserve for Rose
+  "classic_gsw_2016_17_p02", // 50 Klay Thompson (89) — dynasty sharpshooter; Mourning → reserve
 ];
 
 /**
@@ -187,9 +187,9 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "classic_lac_2013_14_p04", // 57 Blake Griffin (90)
   "classic_nyk_2011_12_p03", // 58 Carmelo Anthony (90)
   "classic_lal_2019_20_p04", // 59 Anthony Davis (90)
+  "classic_cha_1992_93_p05", // 60 Alonzo Mourning (90) — edged from Top 50 by Klay
   // Classic 89s (Wall dropped to 88; Beal at 86)
-  "classic_atl_1990_91_p03", // 60 Dominique Wilkins (89)
-  "classic_gsw_2016_17_p02", // 61 Klay Thompson (89)
+  "classic_atl_1990_91_p03", // 61 Dominique Wilkins (89)
   "classic_sas_2013_14_p02", // 62 Manu Ginobili (89)
   "classic_bos_2007_08_p03", // 63 Paul Pierce (89)
   "classic_mia_2012_13_p06", // 64 Ray Allen (89)

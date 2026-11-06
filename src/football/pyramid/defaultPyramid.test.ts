@@ -272,7 +272,7 @@ describe("defaultPyramid", () => {
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(22);
+    expect(defaultPyramidSave().seedVersion).toBe(23);
     expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
     expect(DEFAULT_PYRAMID_ORDER[10]).toBe("classic_hou_1994_95_p05"); // Olajuwon #11
     expect(DEFAULT_PYRAMID_ORDER[14]).toBe("classic_cin_1963_64_p01"); // Oscar #15
@@ -284,7 +284,10 @@ describe("defaultPyramid", () => {
     expect(DEFAULT_PYRAMID_ORDER[25]).toBe("classic_mia_2012_13_p02"); // Wade #26
     expect(DEFAULT_PYRAMID_ORDER[31]).toBe("classic_chi_2010_11_p01"); // Rose #32 (swapped w/ Baylor)
     expect(DEFAULT_PYRAMID_ORDER[32]).toBe("classic_lal_1971_72_p11"); // Baylor #33
-    expect(DEFAULT_PYRAMID_ORDER[49]).toBe("classic_cha_1992_93_p05"); // Mourning #50
+    expect(DEFAULT_PYRAMID_ORDER[49]).toBe("classic_gsw_2016_17_p02"); // Klay #50
+    expect(DEFAULT_PYRAMID_ORDER).not.toContain("classic_cha_1992_93_p05"); // Mourning → reserve
+    expect(DEFAULT_PYRAMID_POOL).toContain("classic_cha_1992_93_p05"); // Mourning → reserve
+    expect(DEFAULT_PYRAMID_POOL).not.toContain("classic_gsw_2016_17_p02"); // Klay elevated
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_lac_2013_14_p04"); // Blake → reserve
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p01"); // Billups
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p05"); // Ben Wallace
@@ -315,7 +318,7 @@ describe("defaultPyramid", () => {
     expect(stale.pool).toContain("classic_tor_2000_01_p02"); // Vince → reserve
     expect(stale.pool).toContain("classic_det_2003_04_p01"); // Billups
     expect(stale.pool).toContain("classic_lal_2019_20_p05"); // Dwight
-    expect(stale.seedVersion).toBe(22);
+    expect(stale.seedVersion).toBe(23);
     expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
     expect(stale.order[10]).toBe("classic_hou_1994_95_p05");
   });
