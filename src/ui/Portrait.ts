@@ -136,8 +136,19 @@ const SURNAME_PARTICLES = new Set([
   "san",
 ]);
 
+/**
+ * Particles that are also common Western given names. When they lead the name
+ * ("Ben Wallace", "Al Horford") they are the given name — not part of the surname.
+ * Mid-name uses stay particles ("Osama bin Laden" → BIN LADEN).
+ */
+const LEADING_GIVEN_PARTICLES = new Set(["ben", "al", "el", "la", "le"]);
+
 function isSurnameParticle(token: string): boolean {
   return SURNAME_PARTICLES.has(token.toLowerCase().replace(/['’]/g, ""));
+}
+
+function isLeadingGivenParticle(token: string): boolean {
+  return LEADING_GIVEN_PARTICLES.has(token.toLowerCase().replace(/['’]/g, ""));
 }
 
 /** Generational suffixes that must not become the kit surname (Jr, Sr, III, …). */
@@ -188,7 +199,11 @@ export function kitSurnameFromName(name: string): string {
   }
   // From the end: include the final word plus any preceding particles.
   let i = tokens.length - 1;
-  while (i > 0 && isSurnameParticle(tokens[i - 1]!)) i -= 1;
+  while (i > 0 && isSurnameParticle(tokens[i - 1]!)) {
+    // "Ben Wallace" / "Al Horford": leading token is the given name, not a particle.
+    if (i - 1 === 0 && isLeadingGivenParticle(tokens[0]!)) break;
+    i -= 1;
+  }
   return tokens.slice(i).join(" ").toUpperCase();
 }
 
@@ -357,14 +372,14 @@ function fitSurnameToWidth(
   }
   // Last resort: scaleX, then lock back into the fixed name band.
   if (textW() > maxW + 0.5 && textW() > 0) {
-    const scale = Math.max(0.4, maxW / textW());
+    const scale = Math.max(0.35, maxW / textW());
     el.style.transform = `scaleX(${scale.toFixed(3)})`;
     el.style.transformOrigin = "center center";
   }
-  // Keep shrink-wrap + letter-spacing margin so the surname centres over the number
-  // (width:100% would shift the band from the trailing-spacing compensation).
+  // Cap to the measured band — max-content + maxWidth:100% can still spill past a
+  // centred flex kit when the surname's intrinsic width exceeds the badge.
   el.style.width = "max-content";
-  el.style.maxWidth = "100%";
+  el.style.maxWidth = `${Math.max(8, Math.floor(maxW))}px`;
   el.style.overflow = "hidden";
 }
 
@@ -374,10 +389,10 @@ function surnameContentMaxW(el: HTMLElement, fallbackHost: HTMLElement | null, p
   const padL = parseFloat(cs.paddingLeft) || 0;
   const padR = parseFloat(cs.paddingRight) || 0;
   const padX = padL + padR > 0 ? padL + padR : padFallback * 2;
-  // Prefer the kit host — surname may be shrink-wrapped (`max-content`) so self width is too small.
+  // Host is authoritative. A shrink-wrapped surname's clientWidth is the glyph run —
+  // Math.max(self, host) would treat overflow as "already fits" and skip shrinking.
   const hostW = fallbackHost?.clientWidth || 0;
-  const selfW = el.clientWidth || 0;
-  const box = Math.max(selfW, hostW) || 88;
+  const box = hostW > 0 ? hostW : el.clientWidth || 88;
   return Math.max(28, box - padX);
 }
 
@@ -426,17 +441,15 @@ export function fitKitSurnameElements(root: ParentNode): void {
     const rosterSur = !!el.closest(".kit-marker-roster");
     const pyramidSur = !!el.closest(".pyramid-kit-badge");
     const benchCaption = !!el.closest(".kit-marker-bench");
-    // Formation top-left kit: measure against the square frame, not the shrink-wrapped .sur.
-    const rosterFrame = rosterSur
-      ? el.closest<HTMLElement>(".kit-marker-roster .portrait, .kit-marker-roster")
-      : null;
-    const widthHost = rosterFrame ?? host;
+    // Formation top-left kit: measure the jersey badge (name band), not the outer
+    // portrait chrome — using the frame over-estimates width and lets long names spill.
+    const widthHost = host;
     const markerW = marker?.clientWidth || widthHost?.clientWidth || 52;
     const numEl = caption?.querySelector<HTMLElement>(".kit-marker-num");
     const numW = numEl ? numEl.getBoundingClientRect().width + 6 : 0;
     const maxW = caption
       ? Math.max(36, Math.min(108, (caption.clientWidth || markerW || 112) - numW) - 4)
-      : surnameContentMaxW(el, widthHost, rosterSur ? 8 : 5);
+      : surnameContentMaxW(el, widthHost, rosterSur ? 6 : 5);
     if (maxW < 8) continue;
     const label = (el.textContent || "").trim();
     const len = label.replace(/[\s-]/g, "").length;
@@ -485,10 +498,12 @@ export function fitKitSurnameElements(root: ParentNode): void {
             : 7
           : rosterSur
             ? len >= 14
-              ? 7
+              ? 6
               : len >= 10
-                ? 9
-                : 14
+                ? 8
+                : len >= 8
+                  ? 10
+                  : 14
             : 11,
       trackingEm: caption ? Math.min(0.04, surnameLetterSpacingEm(label)) : surnameLetterSpacingEm(label),
       ceilingPx: pyramidSur

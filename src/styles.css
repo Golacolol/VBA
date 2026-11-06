@@ -2462,6 +2462,8 @@ select.formation-chip.formation-select option {
   align-items: center;
   justify-content: flex-start;
   gap: 2px;
+  /* Long surnames must never paint past the jersey face. */
+  overflow: hidden;
 }
 /* Kit-back style: surname arched above a large shirt number. */
 .team-roster-card .kit-marker-roster .portrait-badge-kit .num {

@@ -15595,7 +15595,7 @@
     "appearance": {
       "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/4871144.png",
       "fullName": "Alperen Sengun",
-      "birthplace": "Giresun, Türkiye",
+      "birthplace": "Giresun, T\u00fcrkiye",
       "heightScale": 1
     },
     "finishing": 85,
@@ -45033,7 +45033,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Lindsey Hunter",
-      "portraitAsset": "/assets/portraits/classic/lindsey-hunter.jpg"
+      "portraitAsset": "/assets/portraits/classic/lindsey-hunter.png"
     },
     "finishing": 80,
     "midRange": 83,
@@ -52751,7 +52751,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Lindsey Hunter",
-      "portraitAsset": "/assets/portraits/classic/lindsey-hunter.jpg"
+      "portraitAsset": "/assets/portraits/classic/lindsey-hunter.png"
     },
     "finishing": 83,
     "midRange": 84,

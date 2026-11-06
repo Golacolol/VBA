@@ -10,6 +10,7 @@ import {
   separatePitchMarkers,
 } from "./CharacterSelect";
 import {
+  fitKitSurnameElements,
   fitRosterHeadingElements,
   fitRosterNameElements,
   kitCaptionSurname,
@@ -926,6 +927,16 @@ describe("kitSurnameFromName", () => {
     expect(kitSurnameFromName("Hardie")).toBe("HARDIE");
   });
 
+  it("does not treat leading given names Ben/Al as surname particles", () => {
+    expect(kitSurnameFromName("Ben Wallace")).toBe("WALLACE");
+    expect(kitSurnameFromName("Ben Gordon")).toBe("GORDON");
+    expect(kitSurnameFromName("Ben Simmons")).toBe("SIMMONS");
+    expect(kitSurnameFromName("Al Horford")).toBe("HORFORD");
+    expect(kitCaptionSurname("Ben Wallace", "B. Wallace")).toBe("WALLACE");
+    // Mid-name patronymics still attach.
+    expect(kitSurnameFromName("Osama bin Laden")).toBe("BIN LADEN");
+  });
+
   it("ignores Jr / Sr / roman-numeral suffixes on kit surnames", () => {
     expect(kitSurnameFromName("Michael Porter Jr")).toBe("PORTER");
     expect(kitSurnameFromName("Michael Porter Jr.")).toBe("PORTER");
@@ -972,6 +983,36 @@ describe("kitSurnameFromName", () => {
     expect(parseFloat(h3.style.fontSize)).toBeLessThan(28);
     expect(parseFloat(h3.style.fontSize)).toBeGreaterThanOrEqual(13);
     expect(h3.style.whiteSpace).toBe("nowrap");
+    host.remove();
+  });
+
+  it("shrinks long surnames inside the formation kit panel", () => {
+    const host = document.createElement("div");
+    host.innerHTML = `
+      <div class="team-roster-card">
+        <div class="kit-marker kit-marker-roster">
+          <div class="portrait">
+            <div class="portrait-badge-kit" style="width:120px;--kit-name-band:28px">
+              <span class="sur" style="font-size:28px">GILGEOUS-ALEXANDER</span>
+              <span class="num" style="font-size:64px">2</span>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(host);
+    const badge = host.querySelector(".portrait-badge-kit") as HTMLElement;
+    const sur = host.querySelector(".sur") as HTMLElement;
+    Object.defineProperty(badge, "clientWidth", { configurable: true, get: () => 120 });
+    // Overflow until the fitter drops below ~14px (roster soft floor for mid names).
+    Object.defineProperty(sur, "scrollWidth", {
+      configurable: true,
+      get: () => (parseFloat(sur.style.fontSize || "28") > 12 ? 210 : 110),
+    });
+    Object.defineProperty(sur, "clientWidth", { configurable: true, get: () => 210 });
+    fitKitSurnameElements(host);
+    expect(parseFloat(sur.style.fontSize)).toBeLessThan(20);
+    expect(parseFloat(sur.style.maxWidth)).toBeLessThanOrEqual(120);
+    expect(sur.style.overflow).toBe("hidden");
     host.remove();
   });
 
