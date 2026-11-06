@@ -33098,7 +33098,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Brendan Haywood",
-      "portraitAsset": "/assets/portraits/classic/brendan-haywood.jpg"
+      "portraitAsset": "/assets/portraits/classic/brendan-haywood.png"
     },
     "finishing": 81,
     "midRange": 75,
@@ -33145,7 +33145,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "DeShawn Stevenson",
-      "portraitAsset": "/assets/portraits/classic/deshawn-stevenson.jpg"
+      "portraitAsset": "/assets/portraits/classic/deshawn-stevenson.png"
     },
     "finishing": 79,
     "midRange": 80,
@@ -37648,7 +37648,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Mark Jackson"
+      "fullName": "Mark Jackson",
+      "portraitAsset": "/assets/portraits/classic/mark-jackson.png"
     },
     "finishing": 78,
     "midRange": 80,
@@ -37834,7 +37835,8 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Rik Smits"
+      "fullName": "Rik Smits",
+      "portraitAsset": "/assets/portraits/classic/rik-smits.png"
     },
     "finishing": 83,
     "midRange": 80,
@@ -47419,7 +47421,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "DeShawn Stevenson",
-      "portraitAsset": "/assets/portraits/classic/deshawn-stevenson.jpg"
+      "portraitAsset": "/assets/portraits/classic/deshawn-stevenson.png"
     },
     "finishing": 79,
     "midRange": 79,
@@ -47513,7 +47515,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Antawn Jamison",
-      "portraitAsset": "/assets/portraits/classic/antawn-jamison.jpg"
+      "portraitAsset": "/assets/portraits/classic/antawn-jamison.png"
     },
     "finishing": 87,
     "midRange": 85,
@@ -47560,7 +47562,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Brendan Haywood",
-      "portraitAsset": "/assets/portraits/classic/brendan-haywood.jpg"
+      "portraitAsset": "/assets/portraits/classic/brendan-haywood.png"
     },
     "finishing": 81,
     "midRange": 76,
@@ -52813,50 +52815,53 @@
   },
   {
     "id": "classic_bkn_2000_01_p13",
-    "name": "E. Gill",
-    "displayName": "Eddie Gill",
-    "primaryPosition": "PG",
-    "secondaryPositions": [],
-    "age": 28,
-    "heightCm": 188,
-    "weightKg": 95,
+    "name": "K. Martin",
+    "displayName": "Kenyon Martin",
+    "primaryPosition": "PF",
+    "secondaryPositions": [
+      "C",
+      "SF"
+    ],
+    "age": 23,
+    "heightCm": 206,
+    "weightKg": 106,
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Eddie Gill",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/2109.png"
+      "fullName": "Kenyon Martin",
+      "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/1717.png"
     },
-    "finishing": 74,
-    "midRange": 73,
-    "threePoint": 74,
-    "freeThrow": 74,
-    "ballHandle": 78,
-    "passAccuracy": 79,
-    "perimeterD": 74,
-    "interiorD": 68,
-    "rebound": 66,
-    "steal": 76,
-    "block": 65,
-    "speed": 78,
-    "acceleration": 80,
-    "vertical": 73,
-    "strength": 69,
-    "stamina": 75,
-    "iq": 76,
-    "clutch": 76,
-    "pace": 78,
-    "passing": 79,
-    "longPassing": 79,
-    "vision": 76,
-    "control": 78,
-    "dribbling": 78,
-    "shooting": 74,
-    "shotPower": 76,
-    "longShots": 74,
-    "defending": 71,
-    "composure": 76,
-    "jumping": 73,
-    "overall": 74
+    "finishing": 85,
+    "midRange": 83,
+    "threePoint": 81,
+    "freeThrow": 82,
+    "ballHandle": 80,
+    "passAccuracy": 82,
+    "perimeterD": 81,
+    "interiorD": 86,
+    "rebound": 87,
+    "steal": 82,
+    "block": 85,
+    "speed": 81,
+    "acceleration": 83,
+    "vertical": 85,
+    "strength": 86,
+    "stamina": 84,
+    "iq": 83,
+    "clutch": 83,
+    "pace": 81,
+    "passing": 82,
+    "longPassing": 82,
+    "vision": 83,
+    "control": 80,
+    "dribbling": 80,
+    "shooting": 85,
+    "shotPower": 87,
+    "longShots": 81,
+    "defending": 84,
+    "composure": 83,
+    "jumping": 85,
+    "overall": 84
   },
   {
     "id": "classic_cha_1992_93_p01",
@@ -55832,7 +55837,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Antawn Jamison",
-      "portraitAsset": "/assets/portraits/classic/antawn-jamison.jpg"
+      "portraitAsset": "/assets/portraits/classic/antawn-jamison.png"
     },
     "finishing": 85,
     "midRange": 85,

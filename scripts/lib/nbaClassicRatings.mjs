@@ -346,6 +346,7 @@ export const CLASSIC_PEAK_OVR = {
   "Kerry Kittles": 80,
   "Kendall Gill": 80,
   "Keith Van Horn": 80,
+  "Kenyon Martin": 84,
   "Aaron Williams": 74,
   "Lucious Harris": 74,
   "Stephen Jackson": 80,

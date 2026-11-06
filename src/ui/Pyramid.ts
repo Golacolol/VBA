@@ -50,7 +50,6 @@ import {
   addDraftSeat,
   applyDraftPick,
   autoFillDraft,
-  chooseNeedsBasedPick,
   currentDraftPick,
   DRAFT_FILTERS,
   DRAFT_MAX_SEATS,
@@ -60,6 +59,7 @@ import {
   draftTotalPicks,
   isDraftFilterId,
   normalizeDraftSave,
+  rankNeedsBasedPicks,
   restartDraft,
   setDraftFilter,
   startDraft,
@@ -144,9 +144,21 @@ export class PyramidHub {
   private poolQuery = "";
   /** Open jersey-number picker (0–99), or null when closed. */
   private jerseyPick: number | null = null;
-  /** AI pick flash — card shown for ~2s then cleared. */
-  private draftAiReveal: { playerId: string; seatName: string; seatIndex: number } | null = null;
-  private draftAiRevealTimer: ReturnType<typeof setTimeout> | null = null;
+  /**
+   * AI pick theatre: 2s silver runners-up → 2s gold blink on the chosen card.
+   * `altIds` are the 2nd/3rd ranked choices for this pick.
+   */
+  private draftAiReveal: {
+    playerId: string;
+    altIds: string[];
+    seatName: string;
+    seatIndex: number;
+    phase: "considering" | "chosen";
+  } | null = null;
+  private draftAiRevealTimers: ReturnType<typeof setTimeout>[] = [];
+  /** Human pick confirmation — gold blink ~2s before the board advances. */
+  private draftUserReveal: { playerId: string } | null = null;
+  private draftUserRevealTimer: ReturnType<typeof setTimeout> | null = null;
   /** Inspect a drafted seat’s court + bench (null = draft board). */
   private draftInspectSeat: number | null = null;
   /** Highlighted player inside the formation inspect panel. */
@@ -161,7 +173,12 @@ export class PyramidHub {
   private suppressDraftInspectClick = false;
   onAction: ((act: PyramidAction) => void) | null = null;
 
-  private static readonly DRAFT_AI_REVEAL_MS = 3000;
+  /** AI: show top-3 contenders (silver on #2/#3). */
+  private static readonly DRAFT_AI_CONSIDER_MS = 2000;
+  /** AI: chosen card gold-blinks, then the pick is applied. */
+  private static readonly DRAFT_AI_CHOSEN_MS = 2000;
+  /** Human: gold blink after tapping a card. */
+  private static readonly DRAFT_USER_FLASH_MS = 2000;
 
   private readonly onWindowKeyDown = (e: KeyboardEvent) => this.onKeyDown(e);
 
@@ -198,7 +215,7 @@ export class PyramidHub {
 
   hide(): void {
     this.stopRingSpin();
-    this.clearDraftAiReveal();
+    this.clearDraftReveals();
     this.ringResizeObserver?.disconnect();
     this.ringResizeObserver = null;
     this.root.classList.remove("open");
@@ -227,6 +244,8 @@ export class PyramidHub {
 
   private readonly onWindowResize = (): void => {
     if (this.state().view === "ring") this.applyRingOrbitSize();
+    // Compact #51–#149 kits need a re-fit when the pool grid reflows.
+    requestAnimationFrame(() => fitKitSurnameElements(this.root));
   };
 
   private state(): PyramidSave {
@@ -786,7 +805,7 @@ export class PyramidHub {
 
   private setView(view: PyramidViewId): void {
     if (view === "draft") {
-      this.clearDraftAiReveal();
+      this.clearDraftReveals();
       const existing = this.state().draft ? normalizeDraftSave(this.state().draft) : restartDraft(null);
       // Empty boards always open in the lobby — Start is required (no auto AI).
       const empty = existing.seats.every((s) => s.roster.length === 0);
@@ -804,7 +823,7 @@ export class PyramidHub {
     else this.viewZoom = 1;
     if (view !== "jersey") this.jerseyPick = null;
     if (view !== "draft") {
-      this.clearDraftAiReveal();
+      this.clearDraftReveals();
       this.draftInspectSeat = null;
       this.draftInspectPlayerId = null;
       this.draftInspectMode = "team";
@@ -814,25 +833,41 @@ export class PyramidHub {
   }
 
   private clearDraftAiReveal(): void {
-    if (this.draftAiRevealTimer != null) {
-      clearTimeout(this.draftAiRevealTimer);
-      this.draftAiRevealTimer = null;
-    }
+    for (const t of this.draftAiRevealTimers) clearTimeout(t);
+    this.draftAiRevealTimers = [];
     this.draftAiReveal = null;
   }
 
+  private clearDraftUserReveal(): void {
+    if (this.draftUserRevealTimer != null) {
+      clearTimeout(this.draftUserRevealTimer);
+      this.draftUserRevealTimer = null;
+    }
+    this.draftUserReveal = null;
+  }
+
+  private clearDraftReveals(): void {
+    this.clearDraftAiReveal();
+    this.clearDraftUserReveal();
+  }
+
+  private draftRevealActive(): boolean {
+    return !!this.draftAiReveal || !!this.draftUserReveal;
+  }
+
   /**
-   * AI on the clock: keep the board up, gently flash the chosen card for 3s, then take it.
+   * AI on the clock: 2s silver runners-up (#2/#3) → 2s gold blink on the pick → apply.
    */
   private ensureDraftAiCatchUp(): void {
     if (this.state().view !== "draft") return;
-    if (this.draftAiReveal || this.draftInspectSeat != null) return;
+    if (this.draftRevealActive() || this.draftInspectSeat != null) return;
     const before = this.draftState();
     // Never run AI in the lobby — Start must flip status to "picking" first.
     if (before.status !== "picking") return;
     const ctx = currentDraftPick(before);
     if (!ctx || ctx.seat.kind === "human" || before.status === "done") return;
-    const best = chooseNeedsBasedPick(this.db, before, ctx);
+    const ranked = rankNeedsBasedPicks(this.db, before, ctx, 3);
+    const best = ranked[0];
     if (!best) {
       this.persistDraft({
         ...before,
@@ -842,25 +877,40 @@ export class PyramidHub {
       this.render();
       return;
     }
+    const altIds = ranked.slice(1, 3).map((sp) => sp.player.id);
     this.draftAiReveal = {
       playerId: best.player.id,
+      altIds,
       seatName: ctx.seat.name,
       seatIndex: ctx.seatIndex,
+      phase: "considering",
     };
     this.render();
     requestAnimationFrame(() => {
-      const el = this.root.querySelector<HTMLElement>(".pyramid-draft-card.is-ai-flash");
+      const el =
+        this.root.querySelector<HTMLElement>(".pyramid-draft-card.is-ai-flash") ??
+        this.root.querySelector<HTMLElement>(".pyramid-draft-card.is-ai-alt");
       el?.scrollIntoView?.({ behavior: "smooth", block: "nearest", inline: "nearest" });
     });
-    this.draftAiRevealTimer = setTimeout(() => {
-      this.draftAiRevealTimer = null;
+    const toChosen = setTimeout(() => {
+      if (!this.draftAiReveal || this.state().view !== "draft") return;
+      this.draftAiReveal = { ...this.draftAiReveal, phase: "chosen" };
+      this.render();
+      requestAnimationFrame(() => {
+        this.root
+          .querySelector<HTMLElement>(".pyramid-draft-card.is-ai-flash")
+          ?.scrollIntoView?.({ behavior: "smooth", block: "nearest", inline: "nearest" });
+      });
+    }, PyramidHub.DRAFT_AI_CONSIDER_MS);
+    const toApply = setTimeout(() => {
       const reveal = this.draftAiReveal;
-      this.draftAiReveal = null;
+      this.clearDraftReveals();
       if (this.state().view !== "draft" || !reveal) return;
       const next = applyDraftPick(this.draftState(), reveal.playerId, this.db);
       this.persistDraft(next);
       this.render();
-    }, PyramidHub.DRAFT_AI_REVEAL_MS);
+    }, PyramidHub.DRAFT_AI_CONSIDER_MS + PyramidHub.DRAFT_AI_CHOSEN_MS);
+    this.draftAiRevealTimers = [toChosen, toApply];
   }
 
   private resetDefault(): void {
@@ -1254,7 +1304,7 @@ export class PyramidHub {
       return;
     }
     if (act === "draft-restart") {
-      this.clearDraftAiReveal();
+      this.clearDraftReveals();
       this.draftInspectSeat = null;
       this.draftInspectPlayerId = null;
       this.draftInspectMode = "team";
@@ -1264,7 +1314,7 @@ export class PyramidHub {
       return;
     }
     if (act === "draft-start") {
-      this.clearDraftAiReveal();
+      this.clearDraftReveals();
       this.persistDraft(startDraft(this.draftState()));
       this.render();
       return;
@@ -1307,19 +1357,19 @@ export class PyramidHub {
       return;
     }
     if (act === "draft-autofill") {
-      this.clearDraftAiReveal();
+      this.clearDraftReveals();
       this.persistDraft(autoFillDraft(this.db, this.draftState()));
       this.render();
       return;
     }
     if (act === "draft-add-seat") {
-      this.clearDraftAiReveal();
+      this.clearDraftReveals();
       this.persistDraft(addDraftSeat(this.draftState()));
       this.render();
       return;
     }
     if (act === "draft-toggle-seat") {
-      if (this.draftAiReveal) return;
+      if (this.draftRevealActive()) return;
       e.stopPropagation();
       const idx = Number(t.closest<HTMLElement>("[data-seat-index]")?.getAttribute("data-seat-index"));
       if (!Number.isInteger(idx)) return;
@@ -1328,7 +1378,7 @@ export class PyramidHub {
       return;
     }
     if (act === "draft-filter") {
-      this.clearDraftAiReveal();
+      this.clearDraftReveals();
       const id = t.closest<HTMLElement>("[data-draft-filter]")?.getAttribute("data-draft-filter");
       if (!isDraftFilterId(id)) return;
       this.persistDraft(setDraftFilter(this.draftState(), id));
@@ -1336,7 +1386,7 @@ export class PyramidHub {
       return;
     }
     if (act === "draft-inspect") {
-      if (this.draftAiReveal) return;
+      if (this.draftRevealActive()) return;
       const idx = Number(t.closest<HTMLElement>("[data-seat-index]")?.getAttribute("data-seat-index"));
       if (!Number.isInteger(idx) || idx < 0) return;
       const seat = this.draftState().seats[idx];
@@ -1395,7 +1445,7 @@ export class PyramidHub {
       return;
     }
     if (act === "draft-pick") {
-      if (this.draftAiReveal || this.draftInspectSeat != null) return;
+      if (this.draftRevealActive() || this.draftInspectSeat != null) return;
       const playerId = t.closest<HTMLElement>("[data-player-id]")?.getAttribute("data-player-id");
       if (!playerId) return;
       const draft = this.draftState();
@@ -1403,7 +1453,14 @@ export class PyramidHub {
       if (!ctx || ctx.seat.kind !== "human") return;
       const next = applyDraftPick(draft, playerId, this.db);
       this.persistDraft(next);
+      this.draftUserReveal = { playerId };
       this.render();
+      this.draftUserRevealTimer = setTimeout(() => {
+        this.draftUserRevealTimer = null;
+        this.draftUserReveal = null;
+        if (this.state().view !== "draft") return;
+        this.render();
+      }, PyramidHub.DRAFT_USER_FLASH_MS);
     }
   }
 
@@ -1559,7 +1616,9 @@ export class PyramidHub {
         : draft.status === "done"
           ? "Draft complete"
           : "—";
-    const revealing = !!this.draftAiReveal;
+    const revealing = this.draftRevealActive();
+    const aiReveal = this.draftAiReveal;
+    const userReveal = this.draftUserReveal;
     const humanTurn = !!ctx && ctx.seat.kind === "human" && !revealing;
     const filters = DRAFT_FILTERS.map(
       (f) =>
@@ -1567,7 +1626,7 @@ export class PyramidHub {
     ).join("");
     const seats = draft.seats
       .map((seat, i) => {
-        const on = this.draftAiReveal != null ? this.draftAiReveal.seatIndex === i : ctx?.seatIndex === i;
+        const on = aiReveal != null ? aiReveal.seatIndex === i : !userReveal && ctx?.seatIndex === i;
         const slots = draftSlots()
           .map((slot) => {
             const row = seat.roster.find((r) => r.slot === slot);
@@ -1602,34 +1661,51 @@ export class PyramidHub {
           </article>`;
       })
       .join("");
-    // Human turn + AI flash show the capped BPA board. Lobby stays light (no card grid).
+    // Human turn + AI/user flash show the capped BPA board. Lobby stays light (no card grid).
     const showBoard = revealing || (humanTurn && !!ctx);
     const board = lobby
       ? `<div class="pyramid-draft-empty">Press <strong>Start</strong> to open the board and begin the snake draft.</div>`
       : showBoard
         ? (() => {
             let list = draftCandidates(this.db, draft);
-            const flashId = revealing ? this.draftAiReveal!.playerId : null;
-            // Needs-based AI may pick outside the top-OVR window — pin that card on the board.
-            if (flashId && !list.some((sp) => sp.player.id === flashId)) {
-              const sp = this.resolveDraftSquadPlayer(flashId);
+            const flashId = aiReveal?.playerId ?? userReveal?.playerId ?? null;
+            const altIds = aiReveal?.phase === "considering" ? aiReveal.altIds : [];
+            const pinIds = [flashId, ...altIds].filter(Boolean) as string[];
+            // Needs-based AI may pick outside the top-OVR window — pin those cards on the board.
+            for (const id of [...pinIds].reverse()) {
+              if (list.some((sp) => sp.player.id === id)) continue;
+              const sp = this.resolveDraftSquadPlayer(id);
               if (sp) list = [sp, ...list];
             }
             return (
-              list.map((sp) => this.draftCardHtml(sp, flashId, { pickable: !flashId })).join("") ||
-              `<div class="pyramid-draft-empty">No players left in this filter.</div>`
+              list
+                .map((sp) =>
+                  this.draftCardHtml(sp, {
+                    chosenId: flashId,
+                    altIds,
+                    phase: aiReveal?.phase ?? (userReveal ? "chosen" : null),
+                    userFlash: !!userReveal && userReveal.playerId === sp.player.id,
+                    pickable: !revealing,
+                  }),
+                )
+                .join("") || `<div class="pyramid-draft-empty">No players left in this filter.</div>`
             );
           })()
         : draft.status === "done"
           ? `<div class="pyramid-draft-empty">Draft complete — open a seat’s <strong>Formation</strong> to swap positions or view cards.</div>`
           : `<div class="pyramid-draft-empty">Waiting on ${escapeHtml(ctx?.seat.name ?? "AI")}…</div>`;
     const firstName = draft.seats[draft.firstSeat]?.name ?? "—";
-    const statusLine = revealing
-      ? `${escapeHtml(this.draftAiReveal!.seatName)} selects`
-      : onClock;
-    const startBtn = lobby
+    const statusLine = aiReveal
+      ? aiReveal.phase === "considering"
+        ? `${escapeHtml(aiReveal.seatName)} deciding…`
+        : `${escapeHtml(aiReveal.seatName)} selects`
+      : userReveal
+        ? "You selected"
+        : onClock;
+    // One primary control: Start in the lobby, Restart once the draft is underway.
+    const startOrRestart = lobby
       ? `<button type="button" class="pyramid-btn" data-pyramid="draft-start">Start</button>`
-      : "";
+      : `<button type="button" class="pyramid-btn" data-pyramid="draft-restart">Restart</button>`;
     return `
       <div class="pyramid-draft${revealing ? " is-ai-picking" : ""}${lobby ? " is-lobby" : ""}">
         <div class="pyramid-draft-toolbar">
@@ -1640,8 +1716,7 @@ export class PyramidHub {
           <div class="pyramid-draft-actions">
             <button type="button" class="pyramid-btn ghost" data-pyramid="draft-add-seat" ${draft.seats.length >= DRAFT_MAX_SEATS || revealing ? "disabled" : ""}>+ Seat</button>
             <button type="button" class="pyramid-btn ghost" data-pyramid="draft-autofill" ${revealing ? "disabled" : ""}>Auto-fill</button>
-            ${startBtn}
-            <button type="button" class="pyramid-btn${lobby ? " ghost" : ""}" data-pyramid="draft-restart">Restart</button>
+            ${startOrRestart}
           </div>
         </div>
         <div class="pyramid-draft-filters" role="group" aria-label="Draft pool">${filters}</div>
@@ -1903,13 +1978,44 @@ export class PyramidHub {
 
   private draftCardHtml(
     sp: SquadPlayer,
-    flashPlayerId: string | null = null,
-    opts?: { pickable?: boolean },
+    opts?: {
+      chosenId?: string | null;
+      altIds?: string[];
+      phase?: "considering" | "chosen" | null;
+      userFlash?: boolean;
+      pickable?: boolean;
+    },
   ): string {
-    const flashing = !!flashPlayerId && flashPlayerId === sp.player.id;
-    const pickable = opts?.pickable !== false && !flashing;
-    const hint = flashing ? " · AI pick" : pickable ? " · tap to draft" : "";
-    return `<button type="button" class="pyramid-draft-card${flashing ? " is-ai-flash" : ""}" data-pyramid="draft-pick" data-player-id="${escapeAttr(sp.player.id)}"${pickable ? "" : " disabled"}${titleAttr(`${sp.player.name} · ${sp.player.primaryPosition} · OVR ${Math.round(sp.overall)}${hint}`)}>
+    const id = sp.player.id;
+    const chosen = !!opts?.chosenId && opts.chosenId === id;
+    const alt = !!opts?.altIds?.includes(id);
+    const considering = opts?.phase === "considering";
+    const chosenPhase = opts?.phase === "chosen";
+    const userFlash = !!opts?.userFlash;
+    const goldFlash = userFlash || (chosen && chosenPhase);
+    const silverAlt = considering && alt;
+    const contender = considering && chosen;
+    const pickable = opts?.pickable !== false && !goldFlash && !silverAlt && !contender;
+    const classes = [
+      "pyramid-draft-card",
+      goldFlash ? (userFlash ? "is-user-flash" : "is-ai-flash") : "",
+      silverAlt ? "is-ai-alt" : "",
+      contender ? "is-ai-contender" : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
+    const hint = goldFlash
+      ? userFlash
+        ? " · your pick"
+        : " · AI pick"
+      : silverAlt
+        ? " · also considered"
+        : contender
+          ? " · deciding"
+          : pickable
+            ? " · tap to draft"
+            : "";
+    return `<button type="button" class="${classes}" data-pyramid="draft-pick" data-player-id="${escapeAttr(id)}"${pickable ? "" : " disabled"}${titleAttr(`${sp.player.name} · ${sp.player.primaryPosition} · OVR ${Math.round(sp.overall)}${hint}`)}>
       ${this.draftCardFaceHtml(sp)}
     </button>`;
   }

@@ -427,7 +427,43 @@ export function fitPlayerCardShirtNames(root: ParentNode): void {
   }
 }
 
+/** Scale Pyramid kit jersey numbers to the badge — compact #51–#149 cells especially. */
+function fitPyramidKitNumbers(root: ParentNode): void {
+  const badges = root.querySelectorAll<HTMLElement>(".pyramid-kit-badge .portrait-badge-kit");
+  for (const badge of badges) {
+    const numEl = badge.querySelector<HTMLElement>(".num");
+    if (!numEl) continue;
+    const compact = !!badge.closest(".pyramid-cell.is-compact");
+    const box = badge.clientWidth || 0;
+    if (box < 8) continue;
+    const digits = (numEl.textContent || "").trim().length;
+    // Leave room for the name band (~22–28% of height) + padding.
+    const maxH = Math.max(10, Math.floor((badge.clientHeight || box) * (compact ? 0.52 : 0.58)));
+    const maxW = Math.max(12, Math.floor(box * (digits >= 2 ? 0.92 : 0.72)));
+    let size = compact ? Math.min(18, Math.round(box * 0.42)) : Math.min(24, Math.round(box * 0.48));
+    const floor = compact ? 9 : 11;
+    numEl.style.fontSize = `${size}px`;
+    numEl.style.lineHeight = "0.85";
+    numEl.style.display = "block";
+    numEl.style.width = "max-content";
+    numEl.style.maxWidth = "none";
+    let guard = 0;
+    while (
+      guard < 40 &&
+      size > floor &&
+      (numEl.scrollWidth > maxW + 0.5 || numEl.scrollHeight > maxH + 0.5)
+    ) {
+      size -= 0.5;
+      numEl.style.fontSize = `${size}px`;
+      guard += 1;
+    }
+    numEl.style.width = "";
+    numEl.style.maxWidth = "100%";
+  }
+}
+
 export function fitKitSurnameElements(root: ParentNode): void {
+  fitPyramidKitNumbers(root);
   const nodes = root.querySelectorAll<HTMLElement>(
     ".portrait-badge-kit .sur, .kit-marker-caption .kit-marker-name, .pitch-name",
   );
@@ -455,7 +491,7 @@ export function fitKitSurnameElements(root: ParentNode): void {
     const len = label.replace(/[\s-]/g, "").length;
     const cssSize = parseFloat(getComputedStyle(el).fontSize) || 18;
     const base = pyramidSur
-      ? Math.max(cssSize, 9)
+      ? Math.min(cssSize || 9, kitNameBandCeilingPx(el.closest<HTMLElement>(".portrait-badge-kit"), 9))
       : rosterSur
         ? Math.max(cssSize, len >= 10 ? 22 : 28)
         : caption
@@ -653,8 +689,11 @@ export function kitMarkerHtml(
   const src = trustedSrc ?? speculativeSrc;
   const bench = (options.className ?? "").includes("kit-marker-bench");
   const roster = (options.className ?? "").includes("kit-marker-roster");
+  const pyramid = (options.className ?? "").includes("pyramid-kit-badge");
   // Roster square (no PNG): kit-back — smaller surname above a large number.
-  const surSize = surnameFitPx(surname, roster ? 32 : bench ? 15 : 17);
+  // Pyramid cells (esp. #51–#149 compact) start near the CSS band so inline styles
+  // do not blow past the kit before fitKitSurnameElements runs.
+  const surSize = surnameFitPx(surname, pyramid ? 9 : roster ? 32 : bench ? 15 : 17);
   const tracking = surnameLetterSpacingEm(surname);
   // Captions share type size with the number — keep tracking tight (no short-name spread).
   const captionTracking = Math.min(0.04, surnameLetterSpacingEm(captionLabel));

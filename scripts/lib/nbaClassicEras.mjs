@@ -1063,7 +1063,8 @@ export const CLASSIC_ERAS = [
       { name: "Sherman Douglas", number: 11, pos: "PG" },
       { name: "Evan Eschmeyer", number: 0, pos: "C" },
       { name: "Vladimir Stepania", number: 5, pos: "C" },
-      { name: "Eddie Gill", number: 4, pos: "PG" },
+      // Kenyon Martin (#1 pick / ROTY) over deep-bench Eddie Gill — Pyramid #144 form.
+      { name: "Kenyon Martin", number: 6, pos: "PF" },
     ],
   },
   {

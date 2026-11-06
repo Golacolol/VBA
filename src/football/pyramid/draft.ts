@@ -492,6 +492,37 @@ function seatSourceTeamCounts(seat: DraftSeat): Map<string, number> {
 }
 
 /**
+ * Rank AI / auto-fill candidates: strong overall, team variety, light jitter.
+ * Returns best-first (index 0 = pick; 1–2 = runners-up for the reveal UI).
+ */
+export function rankNeedsBasedPicks(
+  db: GameDatabase,
+  draft: DraftSave,
+  ctx: DraftPickContext,
+  limit = 3,
+): SquadPlayer[] {
+  const pool = draftCandidates(db, draft, DRAFT_AI_POOL_LIMIT);
+  if (!pool.length) return [];
+  const topBand = pool.slice(0, Math.min(14, pool.length));
+  const floorOvr = topBand[0]!.overall - 8;
+  const candidates = topBand.filter((sp) => sp.overall >= floorOvr);
+  const seatTeams = seatSourceTeamCounts(ctx.seat);
+  const globalTeams = sourceTeamCounts(draft.seats);
+  const scored = candidates.map((sp) => {
+    const teamId = sp.membership.teamId;
+    const seatN = seatTeams.get(teamId) ?? 0;
+    const globalN = globalTeams.get(teamId) ?? 0;
+    // Prefer elite OVR; penalize repeating the same source team on this seat / board.
+    const score = sp.overall - seatN * 5.5 - globalN * 1.75 + Math.random() * 4;
+    return { sp, score };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  const out = scored.slice(0, Math.max(1, limit)).map((row) => row.sp);
+  if (!out.length && pool[0]) out.push(pool[0]);
+  return out;
+}
+
+/**
  * AI / auto-fill: strong overall, with team variety (avoid stacking one franchise)
  * and light jitter so boards don't clone the same top card every seat.
  */
@@ -500,27 +531,7 @@ export function chooseNeedsBasedPick(
   draft: DraftSave,
   ctx: DraftPickContext,
 ): SquadPlayer | null {
-  const pool = draftCandidates(db, draft, DRAFT_AI_POOL_LIMIT);
-  if (!pool.length) return null;
-  const topBand = pool.slice(0, Math.min(14, pool.length));
-  const floorOvr = topBand[0]!.overall - 8;
-  const candidates = topBand.filter((sp) => sp.overall >= floorOvr);
-  const seatTeams = seatSourceTeamCounts(ctx.seat);
-  const globalTeams = sourceTeamCounts(draft.seats);
-  let best: SquadPlayer | null = null;
-  let bestScore = -Infinity;
-  for (const sp of candidates) {
-    const teamId = sp.membership.teamId;
-    const seatN = seatTeams.get(teamId) ?? 0;
-    const globalN = globalTeams.get(teamId) ?? 0;
-    // Prefer elite OVR; penalize repeating the same source team on this seat / board.
-    const score = sp.overall - seatN * 5.5 - globalN * 1.75 + Math.random() * 4;
-    if (score > bestScore) {
-      bestScore = score;
-      best = sp;
-    }
-  }
-  return best ?? pool[0] ?? null;
+  return rankNeedsBasedPicks(db, draft, ctx, 1)[0] ?? null;
 }
 
 /** One needs-based pick (AI seats only unless `forAnyone`). */

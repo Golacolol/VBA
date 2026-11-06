@@ -4,6 +4,7 @@ import {
   autoFillDraft,
   bestOpenSlotForPlayer,
   chooseNeedsBasedPick,
+  rankNeedsBasedPicks,
   createDraftSeat,
   currentDraftPick,
   defaultDraftSave,
@@ -254,6 +255,10 @@ describe("draft engine", () => {
     draft.firstSeat = 0;
     const ctx = currentDraftPick(draft)!;
     const top = draftCandidates(db, draft, 14);
+    const ranked = rankNeedsBasedPicks(db, draft, ctx, 3);
+    expect(ranked.length).toBeGreaterThanOrEqual(1);
+    expect(ranked.length).toBeLessThanOrEqual(3);
+    expect(new Set(ranked.map((sp) => sp.player.id)).size).toBe(ranked.length);
     const pick = chooseNeedsBasedPick(db, draft, ctx);
     expect(pick).toBeTruthy();
     expect(top.some((sp) => sp.player.id === pick!.player.id)).toBe(true);

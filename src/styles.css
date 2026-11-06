@@ -7459,13 +7459,16 @@ button.pred-side:hover {
   padding: 0;
 }
 .pyramid-cell.is-compact .pyramid-kit-badge .portrait-badge-kit {
-  --kit-name-band: 10px;
+  --kit-name-band: clamp(7px, 22cqw, 10px);
+  padding: 1px;
 }
 .pyramid-cell.is-compact .pyramid-kit-badge .portrait-badge-kit .num {
-  font-size: 18px;
+  font-size: clamp(10px, 38cqw, 18px);
+  max-width: 100%;
+  overflow: hidden;
 }
 .pyramid-cell.is-compact .pyramid-kit-badge .portrait-badge-kit .sur {
-  font-size: 9px;
+  font-size: clamp(6px, 18cqw, 9px);
 }
 .pyramid-kit-badge .kit-marker-caption {
   display: none !important;
@@ -8289,16 +8292,22 @@ button.pred-side:hover {
 .pyramid-draft-card {
   appearance: none;
   -webkit-appearance: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   background: rgba(8, 14, 22, 0.55);
-  padding: 6px;
+  padding: 4px;
   cursor: pointer;
   color: inherit;
   font: inherit;
   text-align: left;
   min-width: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  /* Border hugs the card — no scaled shell leaving a dead band under the kit. */
+  line-height: 0;
 }
 .pyramid-draft-card:hover,
 .pyramid-draft-card:focus-visible {
@@ -8307,10 +8316,12 @@ button.pred-side:hover {
 }
 .pyramid-draft-card .player-card-shell {
   pointer-events: none;
-  transform: scale(0.92);
-  transform-origin: top center;
+  transform: none;
   width: 100%;
   max-width: 100%;
+  margin: 0;
+  flex: 0 0 auto;
+  line-height: normal;
 }
 /* No hex on draft picks — use a square card so PNG sits on the kit without a dead band. */
 .pyramid-draft-card .player-card,
@@ -8362,21 +8373,53 @@ button.pred-side:hover {
 .pyramid-draft.is-ai-picking .pyramid-draft-board {
   pointer-events: none;
 }
-.pyramid-draft-card.is-ai-flash {
-  border-color: rgba(232, 168, 74, 0.95);
-  z-index: 2;
-  animation: pyramid-draft-ai-flash 3s ease-in-out;
-  box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+/* AI still deciding — soft ring on the eventual pick. */
+.pyramid-draft-card.is-ai-contender {
+  border-color: rgba(232, 168, 74, 0.45);
+  z-index: 1;
+  box-shadow: 0 0 0 1px rgba(232, 168, 74, 0.2);
 }
-@keyframes pyramid-draft-ai-flash {
+/* AI runners-up (#2 / #3) during the consider window. */
+.pyramid-draft-card.is-ai-alt {
+  border-color: rgba(196, 206, 216, 0.95);
+  z-index: 2;
+  box-shadow: 0 0 0 2px rgba(180, 190, 205, 0.55), 0 8px 22px rgba(0, 0, 0, 0.28);
+  animation: pyramid-draft-silver-pulse 2s ease-in-out;
+}
+@keyframes pyramid-draft-silver-pulse {
   0%,
   100% {
     filter: brightness(1);
-    box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.35), 0 8px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 2px rgba(180, 190, 205, 0.45), 0 6px 16px rgba(0, 0, 0, 0.25);
   }
   50% {
-    filter: brightness(1.22);
-    box-shadow: 0 0 0 3px rgba(232, 168, 74, 0.7), 0 12px 32px rgba(232, 168, 74, 0.22);
+    filter: brightness(1.12);
+    box-shadow: 0 0 0 3px rgba(210, 218, 228, 0.75), 0 10px 24px rgba(180, 190, 205, 0.2);
+  }
+}
+/* Chosen pick — gold blink (AI final 2s / human confirmation 2s). */
+.pyramid-draft-card.is-ai-flash,
+.pyramid-draft-card.is-user-flash {
+  border-color: rgba(232, 168, 74, 0.98);
+  z-index: 3;
+  animation: pyramid-draft-gold-blink 2s ease-in-out;
+  box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.45), 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+@keyframes pyramid-draft-gold-blink {
+  0%,
+  100% {
+    filter: brightness(1);
+    box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.4), 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  20%,
+  60% {
+    filter: brightness(1.28);
+    box-shadow: 0 0 0 3px rgba(255, 210, 110, 0.85), 0 12px 32px rgba(232, 168, 74, 0.28);
+  }
+  40%,
+  80% {
+    filter: brightness(1.05);
+    box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.5), 0 8px 22px rgba(0, 0, 0, 0.32);
   }
 }
 
