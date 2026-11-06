@@ -917,7 +917,7 @@
     "city": "Portland",
     "primaryColor": "#E03A3E",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_por.svg",
+    "badgeAsset": "/assets/emblems/nba_por.png",
     "defaultKit": {
       "shirt": "#E03A3E",
       "shorts": "#000000",
@@ -987,7 +987,7 @@
     "city": "San Antonio",
     "primaryColor": "#C4CED4",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_sas.svg",
+    "badgeAsset": "/assets/emblems/nba_sas.png",
     "defaultKit": {
       "shirt": "#C4CED4",
       "shorts": "#000000",
