@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { TeamRecord } from "../data/schema";
+import teamsJson from "../../public/data/teams.json";
 import {
   buildMenuTeamOptions,
   clubBaseName,
@@ -28,6 +29,16 @@ function team(partial: Partial<TeamRecord> & Pick<TeamRecord, "id" | "name">): T
 }
 
 describe("menuTeamSelect", () => {
+  it("includes 1979/80 Lakers and 1980/81 Celtics on franchise Era dials", () => {
+    const options = buildMenuTeamOptions(teamsJson as TeamRecord[]);
+    const lal = erasForClub(options, "nba_lal").map((o) => o.id);
+    const bos = erasForClub(options, "nba_bos").map((o) => o.id);
+    expect(lal).toContain("classic_lal_1979_80");
+    expect(bos).toContain("classic_bos_1980_81");
+    expect(findTeamOption(options, "classic_lal_1979_80")?.eraLabel).toBe("79-80");
+    expect(findTeamOption(options, "classic_bos_1980_81")?.eraLabel).toBe("80-81");
+  });
+
   it("strips era suffixes from classic display names", () => {
     expect(clubBaseName("Chicago Bulls — 1995/96")).toBe("Chicago Bulls");
     expect(clubBaseName("Lakers — 1986/87")).toBe("Lakers");
