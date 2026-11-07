@@ -31,6 +31,9 @@ export const CLASSIC_ERAS = [
     franchiseId: "nba_gsw",
     season: "2016/17",
     name: "Golden State Warriors — 2016/17",
+    historicLook: {
+      badgeAsset: "/assets/emblems/classic_gsw_2016_17.png",
+    },
     starters: [
       { name: "Stephen Curry", number: 30, pos: "PG" },
       { name: "Klay Thompson", number: 11, pos: "SG" },
@@ -388,6 +391,9 @@ export const CLASSIC_ERAS = [
     franchiseId: "nba_hou",
     season: "1994/95",
     name: "Houston Rockets — 1994/95",
+    historicLook: {
+      badgeAsset: "/assets/emblems/classic_hou_1994_95.png",
+    },
     starters: [
       { name: "Kenny Smith", number: 30, pos: "PG" },
       { name: "Clyde Drexler", number: 22, pos: "SG" },
@@ -688,6 +694,9 @@ export const CLASSIC_ERAS = [
     franchiseId: "nba_atl",
     season: "1990/91",
     name: "Atlanta Hawks — 1990/91",
+    historicLook: {
+      badgeAsset: "/assets/emblems/classic_atl_1990_91.png",
+    },
     starters: [
       { name: "Spud Webb", number: 4, pos: "PG" },
       { name: "Doc Rivers", number: 25, pos: "SG" },
@@ -809,7 +818,7 @@ export const CLASSIC_ERAS = [
       abbr: "SEA",
       primary: "#00653A",
       secondary: "#FFC200",
-      badgeAsset: "/assets/emblems/nba_sea.svg",
+      badgeAsset: "/assets/emblems/classic_okc_1995_96.png",
     },
     starters: [
       { name: "Gary Payton", number: 2, pos: "PG" },

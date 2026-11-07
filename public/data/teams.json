@@ -1094,7 +1094,7 @@
     "city": "San Francisco",
     "primaryColor": "#1D428A",
     "secondaryColor": "#FFC72C",
-    "badgeAsset": "/assets/emblems/nba_gsw.svg",
+    "badgeAsset": "/assets/emblems/classic_gsw_2016_17.png",
     "defaultKit": {
       "shirt": "#1D428A",
       "shorts": "#FFC72C",
@@ -1649,7 +1649,7 @@
     "city": "Houston",
     "primaryColor": "#CE1141",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "badgeAsset": "/assets/emblems/classic_hou_1994_95.png",
     "defaultKit": {
       "shirt": "#CE1141",
       "shorts": "#000000",
@@ -2130,7 +2130,7 @@
     "city": "Atlanta",
     "primaryColor": "#E03A3E",
     "secondaryColor": "#C1D32F",
-    "badgeAsset": "/assets/emblems/nba_atl.svg",
+    "badgeAsset": "/assets/emblems/classic_atl_1990_91.png",
     "defaultKit": {
       "shirt": "#E03A3E",
       "shorts": "#C1D32F",
@@ -2315,7 +2315,7 @@
     "city": "Seattle",
     "primaryColor": "#00653A",
     "secondaryColor": "#FFC200",
-    "badgeAsset": "/assets/emblems/nba_sea.svg",
+    "badgeAsset": "/assets/emblems/classic_okc_1995_96.png",
     "defaultKit": {
       "shirt": "#00653A",
       "shorts": "#FFC200",
