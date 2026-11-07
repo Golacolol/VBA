@@ -8170,8 +8170,11 @@ button.pred-side:hover {
 }
 .pyramid-draft-status {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 .pyramid-draft-onclock {
   font-family: "Oswald", "Arial Narrow", sans-serif;
@@ -8179,21 +8182,19 @@ button.pred-side:hover {
   font-weight: 700;
   letter-spacing: 0.04em;
   color: #e8a84a;
-}
-.pyramid-draft-first {
-  font-size: 11px;
-  opacity: 0.55;
-  letter-spacing: 0.06em;
+  flex: 0 0 auto;
 }
 .pyramid-draft-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  flex: 0 0 auto;
 }
 .pyramid-draft-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  align-items: center;
 }
 .pyramid-draft-filter {
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -8373,41 +8374,59 @@ button.pred-side:hover {
 .pyramid-draft.is-ai-picking .pyramid-draft-board {
   pointer-events: none;
 }
-/* AI consider window — eventual pick + runners-up share silver for 2s. */
+/* AI consider window — eventual pick + runners-up share diamond (icy cyan) for 2s. */
 .pyramid-draft-card.is-ai-alt {
-  border-color: rgba(196, 206, 216, 0.95);
+  border-color: rgba(103, 232, 249, 0.95);
   z-index: 2;
-  box-shadow: 0 0 0 2px rgba(180, 190, 205, 0.5), 0 8px 20px rgba(0, 0, 0, 0.26);
-  animation: pyramid-draft-silver-pulse 2s ease-in-out;
+  box-shadow:
+    0 0 0 2px rgba(165, 243, 252, 0.55),
+    0 0 18px rgba(103, 232, 249, 0.28),
+    0 8px 20px rgba(0, 0, 0, 0.26);
+  animation: pyramid-draft-diamond-pulse 2s ease-in-out;
 }
-@keyframes pyramid-draft-silver-pulse {
+@keyframes pyramid-draft-diamond-pulse {
   0%,
   100% {
     filter: brightness(1);
-    box-shadow: 0 0 0 2px rgba(180, 190, 205, 0.4), 0 6px 16px rgba(0, 0, 0, 0.24);
-  }
-  50% {
-    filter: brightness(1.06);
-    box-shadow: 0 0 0 2px rgba(210, 218, 228, 0.65), 0 8px 20px rgba(180, 190, 205, 0.16);
-  }
-}
-/* Chosen pick — soft gold pulse (AI final 2s / human confirmation 2s). */
-.pyramid-draft-card.is-ai-flash,
-.pyramid-draft-card.is-user-flash {
-  border-color: rgba(232, 168, 74, 0.9);
-  z-index: 3;
-  animation: pyramid-draft-gold-blink 2s ease-in-out;
-  box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.35), 0 8px 22px rgba(0, 0, 0, 0.3);
-}
-@keyframes pyramid-draft-gold-blink {
-  0%,
-  100% {
-    filter: brightness(1);
-    box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.32), 0 8px 18px rgba(0, 0, 0, 0.28);
+    box-shadow:
+      0 0 0 2px rgba(125, 211, 252, 0.45),
+      0 0 14px rgba(103, 232, 249, 0.2),
+      0 6px 16px rgba(0, 0, 0, 0.24);
   }
   50% {
     filter: brightness(1.1);
-    box-shadow: 0 0 0 2px rgba(232, 168, 74, 0.55), 0 10px 24px rgba(232, 168, 74, 0.16);
+    box-shadow:
+      0 0 0 2px rgba(224, 242, 254, 0.85),
+      0 0 22px rgba(165, 243, 252, 0.45),
+      0 8px 20px rgba(103, 232, 249, 0.2);
+  }
+}
+/* Chosen pick — purple pulse (AI final 2s / human confirmation 2s). */
+.pyramid-draft-card.is-ai-flash,
+.pyramid-draft-card.is-user-flash {
+  border-color: rgba(168, 85, 247, 0.95);
+  z-index: 3;
+  animation: pyramid-draft-purple-blink 2s ease-in-out;
+  box-shadow:
+    0 0 0 2px rgba(196, 160, 255, 0.45),
+    0 0 18px rgba(139, 92, 246, 0.35),
+    0 8px 22px rgba(0, 0, 0, 0.3);
+}
+@keyframes pyramid-draft-purple-blink {
+  0%,
+  100% {
+    filter: brightness(1);
+    box-shadow:
+      0 0 0 2px rgba(168, 85, 247, 0.4),
+      0 0 14px rgba(139, 92, 246, 0.25),
+      0 8px 18px rgba(0, 0, 0, 0.28);
+  }
+  50% {
+    filter: brightness(1.12);
+    box-shadow:
+      0 0 0 2px rgba(216, 180, 254, 0.75),
+      0 0 24px rgba(168, 85, 247, 0.5),
+      0 10px 24px rgba(139, 92, 246, 0.28);
   }
 }
 

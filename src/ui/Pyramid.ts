@@ -145,7 +145,7 @@ export class PyramidHub {
   /** Open jersey-number picker (0–99), or null when closed. */
   private jerseyPick: number | null = null;
   /**
-   * AI pick theatre: 2s silver runners-up → 2s gold blink on the chosen card.
+   * AI pick theatre: 2s diamond runners-up → 2s purple blink on the chosen card.
    * `altIds` are the 2nd/3rd ranked choices for this pick.
    */
   private draftAiReveal: {
@@ -156,7 +156,7 @@ export class PyramidHub {
     phase: "considering" | "chosen";
   } | null = null;
   private draftAiRevealTimers: ReturnType<typeof setTimeout>[] = [];
-  /** Human pick confirmation — gold blink ~2s before the board advances. */
+  /** Human pick confirmation — purple blink ~2s before the board advances. */
   private draftUserReveal: { playerId: string } | null = null;
   private draftUserRevealTimer: ReturnType<typeof setTimeout> | null = null;
   /** Inspect a drafted seat’s court + bench (null = draft board). */
@@ -173,11 +173,11 @@ export class PyramidHub {
   private suppressDraftInspectClick = false;
   onAction: ((act: PyramidAction) => void) | null = null;
 
-  /** AI: show top-3 contenders (silver on #2/#3). */
+  /** AI: show top-3 contenders (diamond on #2/#3). */
   private static readonly DRAFT_AI_CONSIDER_MS = 2000;
-  /** AI: chosen card gold-blinks, then the pick is applied. */
+  /** AI: chosen card purple-blinks, then the pick is applied. */
   private static readonly DRAFT_AI_CHOSEN_MS = 2000;
-  /** Human: gold blink after tapping a card. */
+  /** Human: purple blink after tapping a card. */
   private static readonly DRAFT_USER_FLASH_MS = 2000;
 
   private readonly onWindowKeyDown = (e: KeyboardEvent) => this.onKeyDown(e);
@@ -856,7 +856,7 @@ export class PyramidHub {
   }
 
   /**
-   * AI on the clock: 2s silver runners-up (#2/#3) → 2s gold blink on the pick → apply.
+   * AI on the clock: 2s diamond runners-up (#2/#3) → 2s purple blink on the pick → apply.
    */
   private ensureDraftAiCatchUp(): void {
     if (this.state().view !== "draft") return;
@@ -1682,12 +1682,7 @@ export class PyramidHub {
               const sp = this.resolveDraftSquadPlayer(id);
               if (sp) list = [sp, ...list];
             }
-            // User pick confirmation: bring the chosen card to the front of the board to blink.
-            if (userReveal?.playerId) {
-              const uid = userReveal.playerId;
-              const hit = list.find((sp) => sp.player.id === uid);
-              if (hit) list = [hit, ...list.filter((sp) => sp.player.id !== uid)];
-            }
+            // User picks stay in board order — flash in place (do not move to front).
             return (
               list
                 .map((sp) =>
@@ -1705,7 +1700,6 @@ export class PyramidHub {
         : draft.status === "done"
           ? `<div class="pyramid-draft-empty">Draft complete — open a seat’s <strong>Formation</strong> to swap positions or view cards.</div>`
           : `<div class="pyramid-draft-empty">Waiting on ${escapeHtml(ctx?.seat.name ?? "AI")}…</div>`;
-    const firstName = draft.seats[draft.firstSeat]?.name ?? "—";
     const statusLine = aiReveal
       ? aiReveal.phase === "considering"
         ? `${escapeHtml(aiReveal.seatName)} deciding…`
@@ -1722,7 +1716,7 @@ export class PyramidHub {
         <div class="pyramid-draft-toolbar">
           <div class="pyramid-draft-status">
             <span class="pyramid-draft-onclock">${statusLine}</span>
-            <span class="pyramid-draft-first">First pick: ${escapeHtml(firstName)}</span>
+            <div class="pyramid-draft-filters" role="group" aria-label="Draft pool">${filters}</div>
           </div>
           <div class="pyramid-draft-actions">
             <button type="button" class="pyramid-btn ghost" data-pyramid="draft-add-seat" ${draft.seats.length >= DRAFT_MAX_SEATS || revealing ? "disabled" : ""}>+ Seat</button>
@@ -1730,7 +1724,6 @@ export class PyramidHub {
             ${startOrRestart}
           </div>
         </div>
-        <div class="pyramid-draft-filters" role="group" aria-label="Draft pool">${filters}</div>
         <div class="pyramid-draft-seats">${seats}</div>
         <div class="pyramid-draft-board" role="list">${board}</div>
       </div>
@@ -2003,22 +1996,22 @@ export class PyramidHub {
     const considering = opts?.phase === "considering";
     const chosenPhase = opts?.phase === "chosen";
     const userFlash = !!opts?.userFlash;
-    const goldFlash = userFlash || (chosen && chosenPhase);
-    // Consider window: eventual pick + runners-up all wear silver, then the pick flips gold.
-    const silverPool = considering && (chosen || alt);
-    const pickable = opts?.pickable !== false && !goldFlash && !silverPool;
+    const pickFlash = userFlash || (chosen && chosenPhase);
+    // Consider window: eventual pick + runners-up wear diamond, then the pick flips purple.
+    const diamondPool = considering && (chosen || alt);
+    const pickable = opts?.pickable !== false && !pickFlash && !diamondPool;
     const classes = [
       "pyramid-draft-card",
-      goldFlash ? (userFlash ? "is-user-flash" : "is-ai-flash") : "",
-      silverPool ? "is-ai-alt" : "",
+      pickFlash ? (userFlash ? "is-user-flash" : "is-ai-flash") : "",
+      diamondPool ? "is-ai-alt" : "",
     ]
       .filter(Boolean)
       .join(" ");
-    const hint = goldFlash
+    const hint = pickFlash
       ? userFlash
         ? " · your pick"
         : " · AI pick"
-      : silverPool
+      : diamondPool
         ? " · deciding"
         : pickable
           ? " · tap to draft"
