@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 25;
+export const PYRAMID_SEED_VERSION = 26;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -153,19 +153,19 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_nyk_1993_94_p05", // 34 Patrick Ewing (90)
   "classic_bos_1985_86_p04", // 35 Kevin McHale (90)
   "classic_lal_1986_87_p03", // 36 James Worthy (90)
-  "classic_hou_1994_95_p02", // 37 Clyde Drexler (90)
-  "classic_hou_2006_07_p02", // 38 Tracy McGrady (90)
-  "classic_gsw_2016_17_p04", // 39 Draymond Green (90) — four-time champion / dynasty anchor
+  "classic_gsw_2016_17_p04", // 37 Draymond Green (90) — four-time champion / dynasty anchor
+  "classic_hou_1994_95_p02", // 38 Clyde Drexler (90)
+  "classic_hou_2006_07_p02", // 39 Tracy McGrady (90)
   "classic_phx_2004_05_p01", // 40 Steve Nash (91)
   "classic_okc_1995_96_p01", // 41 Gary Payton (90)
   "classic_bos_1964_65_p03", // 42 John Havlicek (91)
   "classic_orl_1994_95_p01", // 43 Anfernee Hardaway (91)
-  "classic_hou_2018_19_p01", // 44 Chris Paul (91)
-  "classic_sac_2001_02_p04", // 45 Chris Webber (91)
-  "classic_det_1996_97_p03", // 46 Grant Hill (91)
-  "classic_hou_2018_19_p02", // 47 James Harden (90)
-  "classic_cle_2015_16_p01", // 48 Kyrie Irving (91)
-  "classic_mia_2012_13_p06", // 49 Ray Allen (89) — swapped with Maravich (→ #64)
+  "classic_mia_2012_13_p06", // 44 Ray Allen (89)
+  "classic_hou_2018_19_p01", // 45 Chris Paul (91)
+  "classic_sac_2001_02_p04", // 46 Chris Webber (91)
+  "classic_det_1996_97_p03", // 47 Grant Hill (91)
+  "classic_hou_2018_19_p02", // 48 James Harden (90)
+  "classic_cle_2015_16_p01", // 49 Kyrie Irving (91)
   "classic_gsw_2016_17_p02", // 50 Klay Thompson (89) — dynasty sharpshooter; Mourning → reserve
 ];
 
