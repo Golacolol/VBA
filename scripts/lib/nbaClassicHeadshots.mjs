@@ -616,7 +616,6 @@ export const CLASSIC_LOCAL_PORTRAITS = {
   "John Salley": "/assets/portraits/classic/john-salley.png",
   "John Starks": "/assets/portraits/classic/john-starks.png",
   "John Thompson": "/assets/portraits/classic/john-thompson.jpg",
-  "Jordan Nwora": "/assets/portraits/classic/jordan-nwora.jpg",
   "Jud Buechler": "/assets/portraits/classic/jud-buechler.png",
   "Julius Erving": "/assets/portraits/classic/julius-erving.png",
   "Jumaine Jones": "/assets/portraits/classic/jumaine-jones.png",

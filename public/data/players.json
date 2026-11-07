@@ -15644,7 +15644,7 @@
     "appearance": {
       "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/4871144.png",
       "fullName": "Alperen Sengun",
-      "birthplace": "Giresun, Türkiye",
+      "birthplace": "Giresun, T\u00fcrkiye",
       "heightScale": 1
     },
     "finishing": 85,
@@ -43037,8 +43037,7 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "fullName": "Jordan Nwora",
-      "portraitAsset": "/assets/portraits/classic/jordan-nwora.jpg"
+      "fullName": "Jordan Nwora"
     },
     "finishing": 76,
     "midRange": 76,
