@@ -31,7 +31,7 @@ const FORMATIONS: Record<FormationName, FormationSlot[]> = {
     /** Wings eased slightly out and down from the elbows. */
     { id: "SG", role: "MID", x: 0.24, z: 0.4 },
     { id: "SF", role: "FWD", x: 0.24, z: -0.4 },
-    { id: "PF", role: "DEF", x: 0.6, z: 0.16 },
+    { id: "PF", role: "DEF", x: 0.56, z: 0.22 },
     /** Left of centre — nudged slightly up toward the rim. */
     { id: "C", role: "DEF", x: 0.76, z: -0.12 },
   ],
