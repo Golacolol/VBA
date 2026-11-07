@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 26;
+export const PYRAMID_SEED_VERSION = 28;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -145,8 +145,8 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_mia_2012_13_p02", // 26 Dwyane Wade (92)
   "classic_uta_1997_98_p04", // 27 Karl Malone (92)
   "classic_sas_1998_99_p05", // 28 David Robinson (92)
-  "classic_uta_1997_98_p01", // 29 John Stockton (91)
-  "classic_chi_1995_96_p03", // 30 Scottie Pippen (93)
+  "classic_chi_1995_96_p03", // 29 Scottie Pippen (93)
+  "classic_uta_1997_98_p01", // 30 John Stockton (91)
   "classic_sas_2013_14_p03", // 31 Kawhi Leonard (92)
   "classic_chi_2010_11_p01", // 32 Derrick Rose (92) — swapped with Baylor
   "classic_lal_1971_72_p11", // 33 Elgin Baylor (92)
@@ -256,12 +256,12 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "espn_4432573", // 121 Paolo Banchero (85)
   "classic_por_1999_00_p04", // 122 Rasheed Wallace (85)
   "espn_4431678", // 123 Tyrese Maxey (85)
-  // 84 classics + currents
-  "classic_was_2007_08_p04", // 124 Antawn Jamison (84)
-  "classic_was_2007_08_p03", // 125 Caron Butler (84)
-  "espn_4277905", // 126 Trae Young (86) — swapped with Lillard
-  "espn_4396907", // 127 Darius Garland (84)
-  "espn_3078576", // 128 Derrick White (84)
+  // 84 classics — recent era fills (Nets / Celts / Lakers)
+  "classic_bkn_2000_01_p13", // 124 Kenyon Martin (84)
+  "classic_bos_1980_81_p01", // 125 Nate Archibald (88)
+  "classic_lal_1979_80_p03", // 126 Jamaal Wilkes (86)
+  "classic_bos_1980_81_p03", // 127 Cedric Maxwell (84)
+  "classic_lal_1979_80_p02", // 128 Norm Nixon (84)
   "classic_sac_2001_02_p02", // 129 Doug Christie (84)
   "espn_4566434", // 130 Franz Wagner (84)
   "classic_lal_2000_01_p04", // 131 Horace Grant (84)
@@ -277,7 +277,7 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "espn_4433134", // 141 Scottie Barnes (84)
   "classic_okc_2011_12_p04", // 142 Serge Ibaka (84)
   "espn_4871144", // 143 Alperen Sengun (84)
-  "classic_bkn_2000_01_p13", // 144 Kenyon Martin (84) — Nets 2000/01; replaces Heinsohn
+  "espn_4277905", // 144 Trae Young (86) — edged from #126 classic fill
   "classic_chi_1995_96_p06", // 145 Toni Kukoc (84)
   "classic_sac_2001_02_p05", // 146 Vlade Divac (84)
   "espn_4395628", // 147 Zion Williamson (84)

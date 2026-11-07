@@ -53,7 +53,7 @@ describe("defaultPyramid", () => {
     expect(DEFAULT_PYRAMID_ORDER).toContain("classic_hou_2018_19_p02"); // Harden peak → Top 50
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_was_2016_17_p01"); // John Wall → reserve
     expect(DEFAULT_PYRAMID_ORDER).not.toContain("classic_was_2016_17_p01");
-    // Classics reclaim mid-reserve seats; Lillard holds #112, Trae sits later at #126.
+    // Classics reclaim mid-reserve seats; Lillard holds #112, Trae sits later at #144.
     const sabonis = DEFAULT_PYRAMID_POOL.indexOf("classic_por_1999_00_p05");
     const trae = DEFAULT_PYRAMID_POOL.indexOf("espn_4277905");
     const beal = DEFAULT_PYRAMID_POOL.indexOf("classic_was_2016_17_p02");
@@ -64,7 +64,7 @@ describe("defaultPyramid", () => {
     expect(lillard).toBe(112 - 51);
     expect(beal).toBeLessThan(fox);
     expect(fox).toBeLessThan(trae);
-    expect(trae).toBe(126 - 51);
+    expect(trae).toBe(144 - 51);
     // One form per person — Magic Shaq / 00–01 Kobe stay out (09/10 Kobe is the seed).
     expect(DEFAULT_PYRAMID_ORDER.concat(DEFAULT_PYRAMID_POOL)).not.toContain("classic_orl_1994_95_p05");
     expect(DEFAULT_PYRAMID_ORDER.concat(DEFAULT_PYRAMID_POOL)).not.toContain("classic_lal_2000_01_p02");
@@ -272,7 +272,7 @@ describe("defaultPyramid", () => {
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(26);
+    expect(defaultPyramidSave().seedVersion).toBe(28);
     expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
     expect(DEFAULT_PYRAMID_ORDER[10]).toBe("classic_hou_1994_95_p05"); // Olajuwon #11
     expect(DEFAULT_PYRAMID_ORDER[14]).toBe("classic_cin_1963_64_p01"); // Oscar #15
@@ -301,8 +301,10 @@ describe("defaultPyramid", () => {
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p01"); // Billups
     expect(DEFAULT_PYRAMID_POOL).toContain("classic_det_2003_04_p05"); // Ben Wallace
     expect(DEFAULT_PYRAMID_POOL[112 - 51]).toBe("espn_6606"); // Lillard #112
-    expect(DEFAULT_PYRAMID_POOL[126 - 51]).toBe("espn_4277905"); // Trae #126
-    expect(DEFAULT_PYRAMID_POOL[144 - 51]).toBe("classic_bkn_2000_01_p13"); // Kenyon #144
+    expect(DEFAULT_PYRAMID_POOL[124 - 51]).toBe("classic_bkn_2000_01_p13"); // Kenyon #124
+    expect(DEFAULT_PYRAMID_POOL[125 - 51]).toBe("classic_bos_1980_81_p01"); // Archibald
+    expect(DEFAULT_PYRAMID_POOL[126 - 51]).toBe("classic_lal_1979_80_p03"); // Wilkes
+    expect(DEFAULT_PYRAMID_POOL[144 - 51]).toBe("espn_4277905"); // Trae #144
     expect(DEFAULT_PYRAMID_POOL).not.toContain("classic_bos_1964_65_p04"); // Heinsohn replaced
   });
 
@@ -327,7 +329,7 @@ describe("defaultPyramid", () => {
     expect(stale.pool).toContain("classic_tor_2000_01_p02"); // Vince → reserve
     expect(stale.pool).toContain("classic_det_2003_04_p01"); // Billups
     expect(stale.pool).toContain("classic_lal_2019_20_p05"); // Dwight
-    expect(stale.seedVersion).toBe(26);
+    expect(stale.seedVersion).toBe(28);
     expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
     expect(stale.order[10]).toBe("classic_hou_1994_95_p05");
   });

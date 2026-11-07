@@ -10,6 +10,16 @@
 export const POSITION_OVERRIDES = {
   "Draymond Green": "C",
   "Victor Wembanyama": "C",
+  "Luka Doncic": "PG",
+  "Austin Reaves": "SG",
+  "Quentin Grimes": "SF",
+  "Ziaire Williams": "PF",
+  "Walker Kessler": "C",
+  "Tyrese Maxey": "PG",
+  "VJ Edgecombe": "SG",
+  "Jaylen Brown": "SF",
+  "LeBron James": "PF",
+  "Joel Embiid": "C",
 };
 
 /**
@@ -31,6 +41,22 @@ export const PREFERRED_STARTERS = {
     SF: "Devin Vassell",
     PF: "Harrison Barnes",
     C: "Victor Wembanyama",
+  },
+  // 2026/27 — Doncic / Reaves / Kessler anchors; Bronny is a bench two-way.
+  nba_lal: {
+    PG: "Luka Doncic",
+    SG: "Austin Reaves",
+    SF: "Quentin Grimes",
+    PF: "Ziaire Williams",
+    C: "Walker Kessler",
+  },
+  // 2026/27 — Maxey + Edgecombe + Brown + LeBron + Embiid.
+  nba_phi: {
+    PG: "Tyrese Maxey",
+    SG: "VJ Edgecombe",
+    SF: "Jaylen Brown",
+    PF: "LeBron James",
+    C: "Joel Embiid",
   },
 };
 
