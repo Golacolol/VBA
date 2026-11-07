@@ -28169,7 +28169,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "George Mikan",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/600012.png"
+      "portraitAsset": "/assets/portraits/classic/george-mikan.png"
     },
     "finishing": 93,
     "midRange": 90,
@@ -50429,7 +50429,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Chauncey Billups",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/1497.png"
+      "portraitAsset": "/assets/portraits/classic/chauncey-billups.png"
     },
     "finishing": 86,
     "midRange": 89,

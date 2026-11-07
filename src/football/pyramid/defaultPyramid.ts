@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 23;
+export const PYRAMID_SEED_VERSION = 24;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -165,7 +165,7 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_det_1996_97_p03", // 46 Grant Hill (91)
   "classic_hou_2018_19_p02", // 47 James Harden (90)
   "classic_cle_2015_16_p01", // 48 Kyrie Irving (91)
-  "classic_uta_1976_77_p02", // 49 Pete Maravich (91)
+  "classic_mia_2012_13_p06", // 49 Ray Allen (89) — swapped with Maravich (→ #64)
   "classic_gsw_2016_17_p02", // 50 Klay Thompson (89) — dynasty sharpshooter; Mourning → reserve
 ];
 
@@ -192,7 +192,7 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "classic_atl_1990_91_p03", // 61 Dominique Wilkins (89)
   "classic_sas_2013_14_p02", // 62 Manu Ginobili (89)
   "classic_bos_2007_08_p03", // 63 Paul Pierce (89)
-  "classic_mia_2012_13_p06", // 64 Ray Allen (89)
+  "classic_uta_1976_77_p02", // 64 Pete Maravich (91) — swapped with Ray Allen (→ #49)
   "classic_ind_1999_00_p02", // 65 Reggie Miller (89)
   "classic_okc_2011_12_p01", // 66 Russell Westbrook (89)
   // 88 band
