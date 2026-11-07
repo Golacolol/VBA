@@ -28,11 +28,12 @@ const FORMATIONS: Record<FormationName, FormationSlot[]> = {
   /** Half-court attack toward the top (high x). Spots eased off the rim for the photo court. */
   BASKETBALL_5: [
     { id: "PG", role: "MID", x: 0.12, z: 0 },
-    { id: "SG", role: "MID", x: 0.28, z: 0.34 },
-    { id: "SF", role: "FWD", x: 0.28, z: -0.34 },
+    /** Wings eased slightly out and down from the elbows. */
+    { id: "SG", role: "MID", x: 0.24, z: 0.4 },
+    { id: "SF", role: "FWD", x: 0.24, z: -0.4 },
     { id: "PF", role: "DEF", x: 0.6, z: 0.16 },
-    /** Left of centre — milder offset than PF’s 0.16; eased slightly down from the rim. */
-    { id: "C", role: "DEF", x: 0.72, z: -0.12 },
+    /** Left of centre — nudged slightly up toward the rim. */
+    { id: "C", role: "DEF", x: 0.76, z: -0.12 },
   ],
   "4-2-3-1": [
     { id: "GK", role: "GK", x: 0.07, z: 0 },
