@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 28;
+export const PYRAMID_SEED_VERSION = 29;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -248,12 +248,12 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   // 85 band
   "espn_4066261", // 114 Bam Adebayo (85)
   "espn_4433255", // 115 Chet Holmgren (85)
-  "espn_4066259", // 116 De'Aaron Fox (85)
+  "classic_chi_2010_11_p05", // 116 Joakim Noah (88)
   "classic_bos_1985_86_p01", // 117 Dennis Johnson (85)
   "espn_3155942", // 118 Domantas Sabonis (85)
-  "espn_4432158", // 119 Evan Mobley (85)
+  "classic_chi_2010_11_p03", // 119 Luol Deng (86)
   "espn_6430", // 120 Jimmy Butler III (85)
-  "espn_4432573", // 121 Paolo Banchero (85)
+  "classic_was_2007_08_p04", // 121 Antawn Jamison (84)
   "classic_por_1999_00_p04", // 122 Rasheed Wallace (85)
   "espn_4431678", // 123 Tyrese Maxey (85)
   // 84 classics — recent era fills (Nets / Celts / Lakers)
@@ -263,7 +263,7 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "classic_bos_1980_81_p03", // 127 Cedric Maxwell (84)
   "classic_lal_1979_80_p02", // 128 Norm Nixon (84)
   "classic_sac_2001_02_p02", // 129 Doug Christie (84)
-  "espn_4566434", // 130 Franz Wagner (84)
+  "classic_was_2007_08_p03", // 130 Caron Butler (84)
   "classic_lal_2000_01_p04", // 131 Horace Grant (84)
   "espn_4277961", // 132 Jaren Jackson Jr. (84)
   "classic_uta_1997_98_p02", // 133 Jeff Hornacek (84)
@@ -274,9 +274,9 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "espn_4251", // 138 Paul George (84)
   "classic_det_2003_04_p02", // 139 Richard Hamilton (84)
   "espn_3032976", // 140 Rudy Gobert (84)
-  "espn_4433134", // 141 Scottie Barnes (84)
+  "classic_ind_1999_00_p05", // 141 Rik Smits (82)
   "classic_okc_2011_12_p04", // 142 Serge Ibaka (84)
-  "espn_4871144", // 143 Alperen Sengun (84)
+  "classic_lal_1979_80_p07", // 143 Spencer Haywood (82)
   "espn_4277905", // 144 Trae Young (86) — edged from #126 classic fill
   "classic_chi_1995_96_p06", // 145 Toni Kukoc (84)
   "classic_sac_2001_02_p05", // 146 Vlade Divac (84)
