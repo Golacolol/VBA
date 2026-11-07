@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { TeamRecord } from "../data/schema";
 import teamsJson from "../../public/data/teams.json";
+import { DRAFT_TEAM_ID, MITEAM_TEAM_ID } from "../core/SaveManager";
 import {
   buildMenuTeamOptions,
   clubBaseName,
@@ -124,5 +125,34 @@ describe("menuTeamSelect", () => {
       "classic_bulls_1995_96",
     ]);
     expect(erasForClub(options, "nba_chi")[0]!.eraLabel).toBe("Current");
+  });
+
+  it("lists MiTeam and Draft under the User group", () => {
+    const options = buildMenuTeamOptions([
+      team({
+        id: MITEAM_TEAM_ID,
+        name: "MiTeam",
+        teamType: "CUSTOM_TEAM",
+        custom: true,
+        historicSeason: "2025/26",
+      }),
+      team({
+        id: DRAFT_TEAM_ID,
+        name: "Draft",
+        teamType: "CUSTOM_TEAM",
+        custom: true,
+        historicSeason: "Draft",
+      }),
+      team({ id: "nba_bos", name: "Boston Celtics", conference: "EAST", league: "EAST", teamType: "CURRENT_TEAM" }),
+    ]);
+    expect(findTeamOption(options, DRAFT_TEAM_ID)).toMatchObject({
+      label: "Draft",
+      group: "USER",
+      eraLabel: "Draft",
+    });
+    expect(findTeamOption(options, MITEAM_TEAM_ID)?.group).toBe("USER");
+    expect(uniqueClubsInGroup(options, "USER").map((o) => o.id).sort()).toEqual(
+      [DRAFT_TEAM_ID, MITEAM_TEAM_ID].sort(),
+    );
   });
 });

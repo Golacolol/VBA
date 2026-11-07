@@ -12,6 +12,7 @@ import { applyOverride, deriveOverall, resolveAttributes } from "../football/pla
 import type { SaveManager } from "./SaveManager";
 import { DEFAULT_TEAM_ID } from "../football/constants";
 import { applyMiTeamToDb } from "../football/miteam/MiTeam";
+import { applyDraftTeamToDb } from "../football/pyramid/DraftTeam";
 import { nextFixtureForTeam, todayIso } from "../data/leagueSchedule";
 import { applyTacticsToLineup, type TeamTacticsSave } from "../football/teams/TeamTactics";
 import { loadAssetPackManifest, resolvePlayerPortraitUrl } from "../data/AssetPack";
@@ -169,6 +170,7 @@ export class GameDatabase {
     }
     this.applyTeamTactics(save.data.teamTactics ?? {});
     applyMiTeamToDb(this, save);
+    applyDraftTeamToDb(this, save);
   }
 
   /** Overlay persisted formation / play-style / USER tactics onto authored lineups. */

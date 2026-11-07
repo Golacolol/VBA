@@ -107,6 +107,8 @@ export interface SaveData {
   teamTactics: Record<string, TeamTacticsSave>;
   /** One MiTeam pack-built club per browser (null = none). */
   miteam: MiTeamSave | null;
+  /** Completed Pyramid Draft seat saved as a User club (null = none). */
+  draftTeam: MiTeamSave | null;
   /** Editable Top 50 all-time ranking (Pyramid / Ring hub). */
   pyramid: PyramidSave | null;
 }
@@ -289,6 +291,7 @@ export class SaveManager {
             ? (parsed.teamTactics as Record<string, TeamTacticsSave>)
             : {},
         miteam: normalizeMiTeamSave(parsed.miteam),
+        draftTeam: normalizeDraftTeamSave(parsed.draftTeam),
         pyramid: normalizePyramidSave(parsed.pyramid),
       };
     } catch {
@@ -318,6 +321,7 @@ export class SaveManager {
       predictions: blankPredictions(),
       teamTactics: {},
       miteam: null,
+      draftTeam: null,
       pyramid: null,
     };
   }
@@ -333,6 +337,14 @@ export const MITEAM_LINEUP_ID = "miteam_user_lineup";
 export const MITEAM_FORMATION = "BASKETBALL_5";
 export const MITEAM_BENCH_SLOTS = 8;
 
+/** User club saved from a completed Pyramid Draft seat. */
+export const DRAFT_TEAM_ID = "draft_user";
+export const DRAFT_DEFAULT_CLUB_NAME = "Draft";
+export const DRAFT_DEFAULT_BADGE = "/vortex-logo.svg";
+export const DRAFT_DEFAULT_PRIMARY = "#1B2430";
+export const DRAFT_DEFAULT_SECONDARY = "#E8A84A";
+export const DRAFT_LINEUP_ID = "draft_user_lineup";
+
 function normalizeHexColor(value: unknown, fallback: string | null = null): string | null {
   if (typeof value !== "string") return fallback;
   const v = value.trim();
@@ -340,11 +352,23 @@ function normalizeHexColor(value: unknown, fallback: string | null = null): stri
 }
 
 function normalizeMiTeamSave(raw: unknown): MiTeamSave | null {
+  return normalizeUserClubSave(raw, MITEAM_TEAM_ID, MITEAM_DEFAULT_CLUB_NAME);
+}
+
+function normalizeDraftTeamSave(raw: unknown): MiTeamSave | null {
+  return normalizeUserClubSave(raw, DRAFT_TEAM_ID, DRAFT_DEFAULT_CLUB_NAME);
+}
+
+function normalizeUserClubSave(
+  raw: unknown,
+  fallbackTeamId: string,
+  fallbackClubName: string,
+): MiTeamSave | null {
   if (!raw || typeof raw !== "object") return null;
   const o = raw as Partial<MiTeamSave>;
   if (typeof o.teamId !== "string" || !o.teamId) return null;
   const clubName =
-    typeof o.clubName === "string" && o.clubName.trim() ? o.clubName.trim() : MITEAM_DEFAULT_CLUB_NAME;
+    typeof o.clubName === "string" && o.clubName.trim() ? o.clubName.trim() : fallbackClubName;
   const badgeAsset =
     typeof o.badgeAsset === "string" && o.badgeAsset.trim() ? o.badgeAsset.trim() : null;
   const roster = Array.isArray(o.roster)
@@ -366,7 +390,7 @@ function normalizeMiTeamSave(raw: unknown): MiTeamSave | null {
         }))
     : [];
   return {
-    teamId: o.teamId,
+    teamId: o.teamId || fallbackTeamId,
     clubName,
     badgeAsset,
     primaryColor: normalizeHexColor(o.primaryColor, null),

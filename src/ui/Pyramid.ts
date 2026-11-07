@@ -70,7 +70,8 @@ import {
 } from "../football/pyramid/draft";
 import { standingsFor } from "../football/league/Standings";
 import { getFormation } from "../football/teams/Formation";
-import { MITEAM_FORMATION } from "../core/SaveManager";
+import { DRAFT_DEFAULT_BADGE, MITEAM_FORMATION } from "../core/SaveManager";
+import { saveDraftSeatAsUserTeam } from "../football/pyramid/DraftTeam";
 import { formationToPitchPercent, separatePitchMarkers } from "./CharacterSelect";
 import { contrastingKitText } from "./kitContrast";
 import {
@@ -99,7 +100,7 @@ function escapeAttr(s: string): string {
   return escapeHtml(s).replace(/"/g, "&quot;");
 }
 
-export type PyramidAction = "back";
+export type PyramidAction = "back" | "draft-start-team";
 
 type PyramidEntry = {
   playerId: string;
@@ -1352,8 +1353,17 @@ export class PyramidHub {
       this.render();
       return;
     }
-    if (act === "draft-start-team" || act === "draft-simulate") {
-      // Layout parity with Formation — no match flow yet.
+    if (act === "draft-start-team") {
+      if (this.draftInspectSeat == null) return;
+      const seat = this.draftState().seats[this.draftInspectSeat];
+      if (!seat || seat.roster.length < DRAFT_ROSTER_SIZE) return;
+      const saved = saveDraftSeatAsUserTeam(this.save, this.db, seat);
+      if (!saved) return;
+      this.onAction?.("draft-start-team");
+      return;
+    }
+    if (act === "draft-simulate") {
+      // Match sim from draft formation — not wired yet.
       return;
     }
     if (act === "draft-autofill") {
@@ -1741,18 +1751,13 @@ export class PyramidHub {
         return `<button type="button" class="pyramid-draft-inspect-tab${i === seatIndex ? " on" : ""}" data-pyramid="draft-inspect" data-seat-index="${i}">${escapeHtml(s.name)}</button>`;
       })
       .join("");
+    const canSaveTeam = seat.roster.length >= DRAFT_ROSTER_SIZE;
     return `
       <div class="pyramid-draft pyramid-draft-inspect-view">
         <div class="char-panel char-panel-team pyramid-draft-formation-panel">
           <div class="team-select-head">
             <div class="pyramid-draft-inspect-heading">
-              <div class="pyramid-draft-inspect-title">
-                <h3>${escapeHtml(seat.name)}</h3>
-                <span>${seat.roster.length}/${DRAFT_ROSTER_SIZE} · ${seat.kind === "human" ? "YOU" : "AI"}</span>
-              </div>
-            </div>
-            <div class="formation-toolbar" role="toolbar" aria-label="Draft formation">
-              <span class="formation-chip formation-chip-static on" aria-label="Formation">BASKETBALL 5</span>
+              <h3 class="pyramid-draft-inspect-name">${escapeHtml(seat.name)}</h3>
             </div>
             <div class="pyramid-draft-inspect-tabs" role="tablist">${tabs}</div>
           </div>
@@ -1764,8 +1769,10 @@ export class PyramidHub {
           <div class="char-nav">
             <button type="button" class="char-nav-step" data-pyramid="draft-nav-prev" aria-label="Previous">‹</button>
             <button type="button" data-pyramid="draft-inspect-back">BACK</button>
-            <button type="button" data-pyramid="draft-start-team"${titleAttr("Coming soon")}>START AS TEAM</button>
-            <button type="button" data-pyramid="draft-simulate"${titleAttr("Coming soon")}>SIMULATE</button>
+            <button type="button" data-pyramid="draft-start-team" ${canSaveTeam ? "" : "disabled"}${titleAttr(
+              canSaveTeam ? "Save this draft seat as your User Draft team" : "Finish the 13-man roster first",
+            )}>START AS TEAM</button>
+            <button type="button" data-pyramid="draft-simulate" disabled${titleAttr("Coming soon")}>SIMULATE</button>
             <button type="button" class="char-nav-step" data-pyramid="draft-nav-next" aria-label="Next">›</button>
           </div>
         </div>
@@ -1927,6 +1934,17 @@ export class PyramidHub {
             </div>
           </div>`
         : `<div class="team-pitch team-pitch-court" aria-label="${escapeAttr(seat.name)} formation">
+            ${teamBadgeHtml(
+              {
+                id: "draft_vortex",
+                name: "VORTEX",
+                abbreviation: "VTX",
+                badgeAsset: DRAFT_DEFAULT_BADGE,
+                primaryColor: "#1B2430",
+                secondaryColor: "#E8A84A",
+              },
+              { className: "team-pitch-crest", size: 160 },
+            )}
             <div class="team-pitch-markings court-markings" aria-hidden="true"></div>
             ${starters}
           </div>`;

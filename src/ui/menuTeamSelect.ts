@@ -1,5 +1,5 @@
 import type { Conference, TeamRecord } from "../data/schema";
-import { MITEAM_TEAM_ID } from "../core/SaveManager";
+import { DRAFT_TEAM_ID, MITEAM_TEAM_ID } from "../core/SaveManager";
 import { conferenceForTeam } from "../football/league/Standings";
 
 export type MenuTeamGroup = "USER" | Conference | "CLASSIC";
@@ -85,7 +85,11 @@ function isClassicTeam(team: TeamRecord): boolean {
 }
 
 function isUserTeam(team: TeamRecord): boolean {
-  return team.id === MITEAM_TEAM_ID || (team.teamType === "CUSTOM_TEAM" && team.custom === true);
+  return (
+    team.id === MITEAM_TEAM_ID ||
+    team.id === DRAFT_TEAM_ID ||
+    (team.teamType === "CUSTOM_TEAM" && team.custom === true)
+  );
 }
 
 function isSelectableClub(team: TeamRecord): boolean {
@@ -134,10 +138,12 @@ export function buildMenuTeamOptions(teams: TeamRecord[]): MenuTeamOption[] {
       clubKey,
       eraLabel: historic
         ? formatEraRoll(eraRaw) || formatEraRoll(team.name) || "Classic"
-        : group === "USER"
-          ? formatEraRoll(eraRaw) || "25-26"
-          : "Current",
-      eraSort: historic ? eraRaw || team.name : "9999/99",
+        : team.id === DRAFT_TEAM_ID
+          ? "Draft"
+          : group === "USER"
+            ? formatEraRoll(eraRaw) || "25-26"
+            : "Current",
+      eraSort: historic ? eraRaw || team.name : team.id === DRAFT_TEAM_ID ? "0000" : "9999/99",
     });
   }
   return options.sort((a, b) => {

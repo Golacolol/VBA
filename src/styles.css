@@ -8463,40 +8463,37 @@ button.pred-side:hover {
 }
 .pyramid-draft-formation-panel .team-select-head {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 10px 14px;
   margin-bottom: 10px;
   flex: 0 0 auto;
+  min-width: 0;
 }
 .pyramid-draft-inspect-heading {
   display: flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
+  flex: 0 1 auto;
 }
-.pyramid-draft-inspect-title {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.pyramid-draft-inspect-title h3 {
+.pyramid-draft-inspect-name {
   margin: 0;
   font-size: 18px;
   letter-spacing: 0.06em;
   color: #f3f6fb;
-}
-.pyramid-draft-inspect-title span {
-  font-size: 11px;
-  opacity: 0.55;
-  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .pyramid-draft-inspect-tabs {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-left: auto;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  min-width: 0;
 }
 .pyramid-draft-inspect-tab {
   border: 1px solid rgba(255, 255, 255, 0.16);
