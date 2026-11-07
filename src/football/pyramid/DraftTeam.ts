@@ -1,6 +1,7 @@
 /**
  * Persist a completed Pyramid Draft seat as a User club (alongside MiTeam).
- * The Draft shell always sits in Team Select; incomplete rosters route into Pyramid Draft.
+ * The Draft shell always sits in Team Select. Incomplete rosters open Pyramid Draft
+ * from Play Next Fixture; a completed seat uses the normal Formation panel.
  */
 import type { LineupRecord, TeamMembership, TeamRecord } from "../../data/schema";
 import type { GameDatabase } from "../../core/Database";

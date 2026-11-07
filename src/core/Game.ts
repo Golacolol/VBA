@@ -741,10 +741,8 @@ export class Game {
     this.applyMenuEnvironment();
     this.paintMainMenu();
     this.resetMenuIdleTimer();
-    // Choosing Draft before a seat is saved opens Pyramid Draft to complete one.
-    if (teamId === DRAFT_TEAM_ID && !draftTeamComplete(this.save)) {
-      this.openPyramidHub("draft");
-    }
+    // Draft stays on the menu dial — incomplete seats open Pyramid Draft only from
+    // Play Next Fixture; a completed seat uses Formation like any other club.
   }
 
   private setMenuOpposition(teamId: string): void {
@@ -1025,7 +1023,6 @@ export class Game {
     if (id === "sim") {
       this.practice = "none";
       this.leagueFixtureId = null;
-      if (this.defaultClubId() === DRAFT_TEAM_ID && this.openDraftIfIncomplete()) return;
       if (this.tryLaunchQueuedMiTeamFixture()) return;
       this.startSimulator();
       return;
@@ -1033,6 +1030,7 @@ export class Game {
     if (id === "next") {
       this.practice = "none";
       // Incomplete Draft User club — finish a seat in Pyramid Draft first.
+      // (Team Select only dials Draft; Play Next Fixture is the gate.)
       if (this.defaultClubId() === DRAFT_TEAM_ID && this.openDraftIfIncomplete()) return;
       // Incomplete / empty User MiTeam — open PLAYER SELECT on the next sealed pack
       // (TEAM SELECT still available to view the current partial roster).
@@ -1409,7 +1407,7 @@ export class Game {
     }
   }
 
-  /** Incomplete Draft User club → Pyramid Draft to finish a seat. */
+  /** Play Next Fixture only: incomplete Draft User club → Pyramid Draft. */
   private openDraftIfIncomplete(): boolean {
     applyDraftTeamToDb(this.db, this.save);
     if (draftTeamComplete(this.save)) return false;

@@ -145,6 +145,8 @@ export class PyramidHub {
   private poolQuery = "";
   /** Open jersey-number picker (0–99), or null when closed. */
   private jerseyPick: number | null = null;
+  /** Search within the open jersey picker (any DB player, not only historical wearers). */
+  private jerseyPickQuery = "";
   /**
    * AI pick theatre: 2s diamond runners-up → 2s purple blink on the chosen card.
    * `altIds` are the 2nd/3rd ranked choices for this pick.
@@ -477,6 +479,7 @@ export class PyramidHub {
     else {
       this.stopRingSpin();
       if (view === "pyramid") this.bindPoolSearch();
+      if (view === "jersey" && this.jerseyPick != null) this.bindJerseySearch();
       if (view === "draft") this.ensureDraftAiCatchUp();
       if (view === "bracket") this.bindBracketScoreInputs();
     }
@@ -822,7 +825,10 @@ export class PyramidHub {
     }
     if (view === "ring") this.viewZoom = RING_DEFAULT_ZOOM;
     else this.viewZoom = 1;
-    if (view !== "jersey") this.jerseyPick = null;
+    if (view !== "jersey") {
+      this.jerseyPick = null;
+      this.jerseyPickQuery = "";
+    }
     if (view !== "draft") {
       this.clearDraftReveals();
       this.draftInspectSeat = null;
@@ -1276,11 +1282,13 @@ export class PyramidHub {
       const n = Number(t.closest<HTMLElement>("[data-jersey]")?.getAttribute("data-jersey"));
       if (!Number.isInteger(n) || n < 0 || n > 99) return;
       this.jerseyPick = n;
+      this.jerseyPickQuery = "";
       this.render();
       return;
     }
     if (act === "jersey-close") {
       this.jerseyPick = null;
+      this.jerseyPickQuery = "";
       this.render();
       return;
     }
@@ -1288,18 +1296,16 @@ export class PyramidHub {
       const n = Number(t.closest<HTMLElement>("[data-jersey]")?.getAttribute("data-jersey"));
       const playerId = t.closest<HTMLElement>("[data-player-id]")?.getAttribute("data-player-id");
       if (!Number.isInteger(n) || n < 0 || n > 99 || !playerId) return;
-      const byNum = this.jerseyCandidatesByNumber();
+      // Any database player can feature on any number (e.g. Kenyon Martin / PF on #4).
+      if (!this.db.players.has(playerId)) return;
       const jerseyChoice: Record<string, string> = { ...(this.state().jerseyChoice ?? {}) };
-      // One grid seat per pick — drop this player from other numbers they do not wear.
+      // One grid seat per player — clear this id from every other number.
       for (const [key, id] of Object.entries(jerseyChoice)) {
-        if (id !== playerId) continue;
-        const other = Number(key);
-        if (other === n) continue;
-        const wears = (byNum.get(other) ?? []).some((c) => c.playerId === playerId);
-        if (!wears) delete jerseyChoice[key];
+        if (id === playerId && key !== String(n)) delete jerseyChoice[key];
       }
       jerseyChoice[String(n)] = playerId;
       this.jerseyPick = null;
+      this.jerseyPickQuery = "";
       this.persist({ jerseyChoice });
       this.render();
       return;
@@ -1520,11 +1526,8 @@ export class PyramidHub {
     return byNum;
   }
 
-  /** Drop jersey picks that do not actually wear that number (stale / wrong saves). */
-  private sanitizeJerseyChoice(
-    choice: Record<string, string> | undefined,
-    byNum: Map<number, (PyramidEntry & { overall: number })[]>,
-  ): Record<string, string> {
+  /** Drop jersey picks whose player id no longer exists (any number is allowed). */
+  private sanitizeJerseyChoice(choice: Record<string, string> | undefined): Record<string, string> {
     if (!choice) return {};
     const next: Record<string, string> = {};
     let changed = false;
@@ -1534,8 +1537,7 @@ export class PyramidHub {
         changed = true;
         continue;
       }
-      const list = byNum.get(n) ?? [];
-      if (!list.some((c) => c.playerId === playerId)) {
+      if (!this.db.players.has(playerId)) {
         changed = true;
         continue;
       }
@@ -1545,19 +1547,122 @@ export class PyramidHub {
     return next;
   }
 
+  /** Build a jersey cell/picker entry for any database player under shirt `n`. */
+  private jerseyEntryForPlayer(
+    playerId: string,
+    n: number,
+  ): (PyramidEntry & { overall: number }) | null {
+    if (!this.db.players.has(playerId)) return null;
+    const order = this.state().order;
+    const pool = this.state().pool;
+    const orderIdx = order.indexOf(playerId);
+    const poolIdx = pool.indexOf(playerId);
+    const index = orderIdx >= 0 ? orderIdx : poolIdx >= 0 ? PYRAMID_SIZE + poolIdx : -1;
+    const entry = this.entryFor(playerId, Math.max(0, index));
+    entry.shirtNumber = n;
+    entry.rank = orderIdx >= 0 ? orderIdx + 1 : poolIdx >= 0 ? PYRAMID_SIZE + poolIdx + 1 : 0;
+    entry.index = index;
+    const overall = Number(this.db.players.get(playerId)?.overall ?? 0);
+    return { ...entry, overall };
+  }
+
   /**
-   * Jersey 0–99 grid — every database player, grouped by shirt number.
-   * Cell shows chosen (or highest-rated) wearer; click opens a replacement picker.
+   * Picker options for jersey `n`: historical wearers first, then any search hits
+   * from the full database (so PF Kenyon Martin can feature on #4, etc.).
+   */
+  private jerseyPickerCandidates(
+    n: number,
+    wearers: (PyramidEntry & { overall: number })[],
+  ): (PyramidEntry & { overall: number })[] {
+    const needle = this.jerseyPickQuery.trim().toLowerCase();
+    const wearerIds = new Set(wearers.map((c) => c.playerId));
+    const face = wearers.map((c) => ({ ...c, shirtNumber: n }));
+    if (!needle) return face;
+    const hits: (PyramidEntry & { overall: number })[] = [];
+    const seen = new Set<string>();
+    for (const w of face) {
+      if (!`${w.name}`.toLowerCase().includes(needle)) continue;
+      hits.push(w);
+      seen.add(w.playerId);
+    }
+    for (const player of this.db.players.values()) {
+      if (seen.has(player.id) || wearerIds.has(player.id)) continue;
+      const label = `${player.displayName || ""} ${player.name || ""}`.toLowerCase();
+      if (!label.includes(needle)) continue;
+      const entry = this.jerseyEntryForPlayer(player.id, n);
+      if (!entry) continue;
+      hits.push(entry);
+      seen.add(player.id);
+      if (hits.length >= 80) break;
+    }
+    hits.sort((a, b) => b.overall - a.overall || a.name.localeCompare(b.name));
+    return hits;
+  }
+
+  private bindJerseySearch(): void {
+    const input = this.root.querySelector<HTMLInputElement>("[data-jersey-search]");
+    if (!input) return;
+    input.addEventListener("input", () => {
+      this.jerseyPickQuery = input.value;
+      if (this.jerseyPick == null) return;
+      const host = this.root.querySelector("[data-jersey-picker-grid]");
+      if (!host) return;
+      const byNum = this.jerseyCandidatesByNumber();
+      const list = this.jerseyPickerCandidates(this.jerseyPick, byNum.get(this.jerseyPick) ?? []);
+      host.innerHTML = this.jerseyPickerOptionsHtml(this.jerseyPick, list);
+      const caret = input.selectionStart ?? input.value.length;
+      input.focus();
+      try {
+        input.setSelectionRange(caret, caret);
+      } catch {
+        /* ignore */
+      }
+    });
+    requestAnimationFrame(() => input.focus());
+  }
+
+  private jerseyPickerOptionsHtml(
+    n: number,
+    list: (PyramidEntry & { overall: number })[],
+  ): string {
+    const choice = this.state().jerseyChoice?.[String(n)];
+    if (!list.length) {
+      const q = this.jerseyPickQuery.trim();
+      return `<div class="pyramid-jersey-picker-empty">${
+        q ? `No players match “${escapeHtml(q)}”` : `No players wear #${n} — search any name`
+      }</div>`;
+    }
+    return list
+      .map((entry) => {
+        const selected = entry.playerId === choice || (!choice && entry === list[0]);
+        const ovr = entry.overall > 0 ? `OVR ${entry.overall}` : "";
+        const kitEntry = { ...entry, shirtNumber: n };
+        return `
+            <button type="button" class="pyramid-jersey-option${selected ? " is-on" : ""}" data-pyramid="jersey-pick" data-jersey="${n}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(entry.name)}>
+              <div class="pyramid-jersey-option-kit">${this.kitBadgeHtml(kitEntry)}</div>
+              ${this.portraitHtml(entry)}
+              <span class="pyramid-jersey-option-name">${escapeHtml(entry.name)}</span>
+              ${ovr ? `<span class="pyramid-jersey-option-ovr">${ovr}</span>` : ""}
+            </button>`;
+      })
+      .join("");
+  }
+
+  /**
+   * Jersey 0–99 grid — default faces are historical wearers; any player can be
+   * assigned to any number via the picker search.
    */
   private jerseyHtml(): string {
     const byNum = this.jerseyCandidatesByNumber();
-    const choice = this.sanitizeJerseyChoice(this.state().jerseyChoice, byNum);
+    const choice = this.sanitizeJerseyChoice(this.state().jerseyChoice);
     const cells: string[] = [];
     for (let n = 0; n < 100; n++) {
       const list = byNum.get(n) ?? [];
       const chosenId = choice[String(n)];
-      // Only honour a saved pick if that player actually wears this number.
-      const entry = (chosenId && list.find((c) => c.playerId === chosenId)) || list[0];
+      const entry =
+        (chosenId && list.find((c) => c.playerId === chosenId)) ||
+        (chosenId ? this.jerseyEntryForPlayer(chosenId, n) : null) ||
+        list[0];
       if (entry) {
         const kitEntry = { ...entry, shirtNumber: n };
         cells.push(`
@@ -1574,34 +1679,21 @@ export class PyramidHub {
           </button>`);
       }
     }
+    const pickN = this.jerseyPick;
+    const pickerList =
+      pickN != null ? this.jerseyPickerCandidates(pickN, byNum.get(pickN) ?? []) : [];
     return `
       <div class="pyramid-jersey">
         <div class="pyramid-jersey-toolbar">
-          <span class="pyramid-jersey-hint">Tap a number to pick the player · sorted by rating</span>
+          <span class="pyramid-jersey-hint">Tap a number · search any player for that jersey</span>
         </div>
         <div class="pyramid-jersey-grid" role="list">${cells.join("")}</div>
-        ${this.jerseyPick != null ? this.jerseyPickerHtml(this.jerseyPick, byNum.get(this.jerseyPick) ?? []) : ""}
+        ${pickN != null ? this.jerseyPickerHtml(pickN, pickerList) : ""}
       </div>
     `;
   }
 
   private jerseyPickerHtml(n: number, list: (PyramidEntry & { overall: number })[]): string {
-    const choice = this.state().jerseyChoice?.[String(n)];
-    const options = list.length
-      ? list
-          .map((entry) => {
-            const selected = entry.playerId === choice || (!choice && entry === list[0]);
-            const ovr = entry.overall > 0 ? `OVR ${entry.overall}` : "";
-            return `
-            <button type="button" class="pyramid-jersey-option${selected ? " is-on" : ""}" data-pyramid="jersey-pick" data-jersey="${n}" data-player-id="${escapeAttr(entry.playerId)}"${titleAttr(entry.name)}>
-              <div class="pyramid-jersey-option-kit">${this.kitBadgeHtml(entry)}</div>
-              ${this.portraitHtml(entry)}
-              <span class="pyramid-jersey-option-name">${escapeHtml(entry.name)}</span>
-              ${ovr ? `<span class="pyramid-jersey-option-ovr">${ovr}</span>` : ""}
-            </button>`;
-          })
-          .join("")
-      : `<div class="pyramid-jersey-picker-empty">No players wear #${n}</div>`;
     return `
       <div class="pyramid-jersey-picker" role="dialog" aria-label="Pick jersey ${n}">
         <div class="pyramid-jersey-picker-card">
@@ -1609,7 +1701,8 @@ export class PyramidHub {
             <h3>Jersey ${n}</h3>
             <button type="button" class="pyramid-btn ghost" data-pyramid="jersey-close">Close</button>
           </header>
-          <div class="pyramid-jersey-picker-grid">${options}</div>
+          <input data-jersey-search type="search" class="pyramid-jersey-search" placeholder="Search any player…" value="${escapeAttr(this.jerseyPickQuery)}" aria-label="Search players for jersey ${n}" />
+          <div class="pyramid-jersey-picker-grid" data-jersey-picker-grid>${this.jerseyPickerOptionsHtml(n, list)}</div>
         </div>
       </div>
     `;
@@ -2071,6 +2164,7 @@ export class PyramidHub {
       e.preventDefault();
       if (this.jerseyPick != null) {
         this.jerseyPick = null;
+        this.jerseyPickQuery = "";
         this.render();
         return;
       }

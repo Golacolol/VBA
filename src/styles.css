@@ -8010,6 +8010,21 @@ button.pred-side:hover {
   font-weight: 700;
   letter-spacing: 0.04em;
 }
+.pyramid-jersey-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.28);
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+}
+.pyramid-jersey-search:focus {
+  outline: none;
+  border-color: rgba(232, 168, 74, 0.65);
+}
 .pyramid-jersey-picker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));

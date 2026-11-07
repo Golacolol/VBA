@@ -98,7 +98,25 @@ describe("PyramidHub", () => {
     expect(filled?.querySelector(".pyramid-cell-photo")).toBeTruthy();
     filled?.click();
     expect(hub.root.querySelector(".pyramid-jersey-picker")).toBeTruthy();
+    expect(hub.root.querySelector("[data-jersey-search]")).toBeTruthy();
     hub.root.querySelector<HTMLElement>('[data-pyramid="jersey-close"]')?.click();
+    expect(hub.root.querySelector(".pyramid-jersey-picker")).toBeNull();
+
+    // Any player can feature on any number via search (Kenyon wears #6; place him on #4).
+    hub.root.querySelector<HTMLElement>('.pyramid-jersey-cell[data-jersey="4"]')?.click();
+    const search4 = hub.root.querySelector<HTMLInputElement>("[data-jersey-search]");
+    expect(search4).toBeTruthy();
+    if (search4) {
+      search4.value = "Kenyon";
+      search4.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    hub.root
+      .querySelector<HTMLElement>('[data-pyramid="jersey-pick"][data-player-id="classic_bkn_2000_01_p04"]')
+      ?.click();
+    expect(save.data.pyramid?.jerseyChoice?.["4"]).toBe("classic_bkn_2000_01_p04");
+    expect(
+      hub.root.querySelector('.pyramid-jersey-cell[data-jersey="4"]')?.getAttribute("data-player-id"),
+    ).toBe("classic_bkn_2000_01_p04");
     expect(hub.root.querySelector(".pyramid-jersey-picker")).toBeNull();
 
     hub.root.querySelector<HTMLElement>('[data-pyramid="view"][data-view="draft"]')?.click();
