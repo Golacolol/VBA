@@ -84,6 +84,7 @@ import {
   teamBadgeHtml,
 } from "./Portrait";
 import {
+  applyPlayerCardFlip,
   nextPlayerCardFlipY,
   playerCardFlipSideFromClientX,
   playerCardShellHtml,
@@ -1353,11 +1354,14 @@ export class PyramidHub {
       return;
     }
     if (act === "draft-card-face") {
+      // Keep the card mounted so --card-flip-y can animate (same as CharacterSelect / MiTeam).
+      e.preventDefault();
+      e.stopPropagation();
       const card = t.closest<HTMLElement>(".player-card");
-      if (!card) return;
+      if (!card || !this.root.contains(card)) return;
       const side = playerCardFlipSideFromClientX(card, e.clientX);
       this.draftInspectFlipY = nextPlayerCardFlipY(this.draftInspectFlipY, side);
-      this.render();
+      applyPlayerCardFlip(card, this.draftInspectFlipY);
       return;
     }
     if (act === "draft-profile-toggle") {
