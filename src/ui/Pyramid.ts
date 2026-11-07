@@ -90,7 +90,7 @@ import {
   playerCardShellHtml,
   type PlayerCardTeamContext,
 } from "./playerCardShared";
-import { nextProfileStatsMode, type ProfileStatsMode } from "./ProfileHex";
+import { nextProfileStatsMode, profileStatsBlock, type ProfileStatsMode } from "./ProfileHex";
 import { titleAttr } from "./infoOverlays";
 
 function escapeHtml(s: string): string {
@@ -2009,6 +2009,12 @@ export class PyramidHub {
     const rosterCard = selected
       ? (() => {
           const colors = this.draftKitColors(selected.sp);
+          // Same compact hex under the PNG as CharacterSelect / MiTeam formation.
+          const hex = profileStatsBlock(selected.sp.attrs, {
+            compact: true,
+            mode: this.draftInspectProfileView,
+            size: 140,
+          }).replaceAll('data-char="profile-toggle"', 'data-pyramid="draft-profile-toggle"');
           return `<div class="team-roster-card">
             ${portraitHtml(selected.sp.player, selected.row.shirtNumber, colors.primary, {
               surnameOnly: true,
@@ -2017,6 +2023,7 @@ export class PyramidHub {
             })}
             <h3>${selected.row.shirtNumber}. ${escapeHtml(kitInitialSurnameLabel(selected.sp.player.displayName, selected.sp.player.name))}</h3>
             <div class="char-meta">${escapeHtml(String(selected.sp.player.primaryPosition))} · OVR ${Math.round(selected.sp.overall)}</div>
+            ${hex}
           </div>`;
         })()
       : `<div class="team-roster-card"><div class="char-meta">No players</div></div>`;
