@@ -1993,14 +1993,13 @@ export class PyramidHub {
     const chosenPhase = opts?.phase === "chosen";
     const userFlash = !!opts?.userFlash;
     const goldFlash = userFlash || (chosen && chosenPhase);
-    const silverAlt = considering && alt;
-    const contender = considering && chosen;
-    const pickable = opts?.pickable !== false && !goldFlash && !silverAlt && !contender;
+    // Consider window: eventual pick + runners-up all wear silver, then the pick flips gold.
+    const silverPool = considering && (chosen || alt);
+    const pickable = opts?.pickable !== false && !goldFlash && !silverPool;
     const classes = [
       "pyramid-draft-card",
       goldFlash ? (userFlash ? "is-user-flash" : "is-ai-flash") : "",
-      silverAlt ? "is-ai-alt" : "",
-      contender ? "is-ai-contender" : "",
+      silverPool ? "is-ai-alt" : "",
     ]
       .filter(Boolean)
       .join(" ");
@@ -2008,13 +2007,11 @@ export class PyramidHub {
       ? userFlash
         ? " · your pick"
         : " · AI pick"
-      : silverAlt
-        ? " · also considered"
-        : contender
-          ? " · deciding"
-          : pickable
-            ? " · tap to draft"
-            : "";
+      : silverPool
+        ? " · deciding"
+        : pickable
+          ? " · tap to draft"
+          : "";
     return `<button type="button" class="${classes}" data-pyramid="draft-pick" data-player-id="${escapeAttr(id)}"${pickable ? "" : " disabled"}${titleAttr(`${sp.player.name} · ${sp.player.primaryPosition} · OVR ${Math.round(sp.overall)}${hint}`)}>
       ${this.draftCardFaceHtml(sp)}
     </button>`;
