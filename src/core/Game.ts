@@ -49,8 +49,12 @@ import {
   randomMiTeamFixture,
   xiComplete,
 } from "../football/miteam/MiTeam";
-import { applyDraftTeamToDb, ensureDraftUserTeam } from "../football/pyramid/DraftTeam";
-import { DRAFT_TEAM_ID, MITEAM_TEAM_ID } from "./SaveManager";
+import {
+  applyDraftTeamToDb,
+  draftFamilyTeamComplete,
+  ensureDraftUserTeam,
+} from "../football/pyramid/DraftTeam";
+import { DRAFT_TEAM_ID, isDraftFamilyTeamId, MITEAM_TEAM_ID } from "./SaveManager";
 import { PauseMenu } from "../ui/PauseMenu";
 import { SettingsMenu } from "../ui/Settings";
 import { TeamEditor } from "../ui/TeamEditor";
@@ -674,6 +678,9 @@ export class Game {
     this.pause.hide();
     this.scenes.mode = GameMode.FOOTBALL;
     this.appState = AppState.MAIN_MENU;
+    // Refresh Draft User + CPU Era seats (and MiTeam) before dials / fixtures resolve.
+    applyDraftTeamToDb(this.db, this.save);
+    applyMiTeamToDb(this.db, this.save);
     this.buildMenuWorld();
     this.db.userTeamId = this.defaultClubId();
     applyTitleFont(this.save.data.settings.titleFont);
@@ -1026,9 +1033,9 @@ export class Game {
     }
     if (id === "next") {
       this.practice = "none";
-      // Incomplete Draft User club — finish a seat in Pyramid Draft first.
+      // Incomplete Draft User / CPU seat — finish in Pyramid Draft first.
       // (Team Select only dials Draft; Play Next Fixture is the gate.)
-      if (this.defaultClubId() === DRAFT_TEAM_ID && this.openDraftIfIncomplete()) return;
+      if (isDraftFamilyTeamId(this.defaultClubId()) && this.openDraftIfIncomplete()) return;
       // Incomplete / empty User MiTeam — open PLAYER SELECT on the next sealed pack
       // (TEAM SELECT still available to view the current partial roster).
       if (this.defaultClubId() === MITEAM_TEAM_ID) {
@@ -1404,10 +1411,18 @@ export class Game {
     }
   }
 
-  /** Play Next Fixture only: incomplete Draft User club → Pyramid Draft. */
+  /** Play Next Fixture only: incomplete Draft User / CPU seat → Pyramid Draft. */
   private openDraftIfIncomplete(): boolean {
-    // Promote a finished Pyramid seat if the user never pressed START AS TEAM.
-    if (ensureDraftUserTeam(this.save, this.db)) return false;
+    const clubId = this.defaultClubId();
+    if (!isDraftFamilyTeamId(clubId)) return false;
+    // Promote a finished Pyramid human seat if the user never pressed START AS TEAM.
+    if (clubId === DRAFT_TEAM_ID) {
+      if (ensureDraftUserTeam(this.save, this.db)) return false;
+      this.openPyramidHub("draft");
+      return true;
+    }
+    applyDraftTeamToDb(this.db, this.save);
+    if (draftFamilyTeamComplete(this.db, clubId)) return false;
     this.openPyramidHub("draft");
     return true;
   }
@@ -1480,10 +1495,20 @@ export class Game {
   }
 
   private openCharacterSelect(teamId: string, options?: { quickMatch?: boolean }): void {
-    // Incomplete Draft User club — finish a seat in Pyramid Draft first.
-    if (teamId === DRAFT_TEAM_ID && !ensureDraftUserTeam(this.save, this.db)) {
-      this.openPyramidHub("draft");
-      return;
+    // Incomplete Draft User / CPU seat — finish a seat in Pyramid Draft first.
+    if (isDraftFamilyTeamId(teamId)) {
+      if (teamId === DRAFT_TEAM_ID) {
+        if (!ensureDraftUserTeam(this.save, this.db)) {
+          this.openPyramidHub("draft");
+          return;
+        }
+      } else {
+        applyDraftTeamToDb(this.db, this.save);
+        if (!draftFamilyTeamComplete(this.db, teamId)) {
+          this.openPyramidHub("draft");
+          return;
+        }
+      }
     }
     // Empty or incomplete MiTeam five — resume the next pack in PLAYER SELECT.
     if (teamId === MITEAM_TEAM_ID) {

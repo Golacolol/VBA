@@ -1,17 +1,21 @@
 /**
- * Persist a completed Pyramid Draft seat as a User club (alongside MiTeam).
- * The Draft shell always sits in Team Select. Incomplete rosters open Pyramid Draft
- * from Play Next Fixture; a completed seat uses the normal Formation panel.
+ * Persist Pyramid Draft seats as User-group clubs for Team Select.
+ * The Draft shell always sits on the Team dial; Era rolls User first, then CPU seats.
+ * Incomplete User seats open Pyramid Draft from Play Next Fixture; completed seats
+ * use the normal Formation panel.
  */
 import type { LineupRecord, TeamMembership, TeamRecord } from "../../data/schema";
 import type { GameDatabase } from "../../core/Database";
 import {
+  DRAFT_CPU_ID_PREFIX,
   DRAFT_DEFAULT_BADGE,
   DRAFT_DEFAULT_CLUB_NAME,
   DRAFT_DEFAULT_PRIMARY,
   DRAFT_DEFAULT_SECONDARY,
   DRAFT_LINEUP_ID,
   DRAFT_TEAM_ID,
+  draftCpuTeamId,
+  isDraftFamilyTeamId,
   MITEAM_FORMATION,
   type MiTeamRosterSlot,
   type MiTeamSave,
@@ -19,7 +23,13 @@ import {
 } from "../../core/SaveManager";
 import { DEFAULT_TEAM_ID } from "../constants";
 import { miteamFillOrder, miteamXiSlots } from "../miteam/MiTeam";
-import { DRAFT_ROSTER_SIZE, type DraftSave, type DraftSeat } from "./draft";
+import {
+  DRAFT_ROSTER_SIZE,
+  defaultDraftSave,
+  normalizeDraftSave,
+  type DraftSave,
+  type DraftSeat,
+} from "./draft";
 
 /** Prefer a full human seat; otherwise any full seat once the board is done. */
 export function completedDraftSeat(draft: DraftSave | null | undefined): DraftSeat | null {
@@ -49,17 +59,30 @@ export function ensureDraftUserTeam(save: SaveManager, db: GameDatabase): boolea
   return !!saveDraftSeatAsUserTeam(save, db, seat);
 }
 
+/** Seats driving the Draft Era dial (lobby defaults if Pyramid Draft not opened yet). */
+export function draftSeatsForMenu(save: SaveManager): DraftSeat[] {
+  const raw = save.data.pyramid?.draft;
+  if (raw) return normalizeDraftSave(raw).seats;
+  return defaultDraftSave().seats;
+}
+
+export function teamIdForDraftSeat(seat: DraftSeat, seatIndex: number): string {
+  return seat.kind === "human" ? DRAFT_TEAM_ID : draftCpuTeamId(seatIndex);
+}
+
 export function draftTeamShell(
   clubName: string,
   badgeAsset?: string | null,
+  opts?: { id?: string; historicSeason?: string },
 ): TeamRecord {
   const name = clubName.trim() || DRAFT_DEFAULT_CLUB_NAME;
   const crest = badgeAsset?.trim() || DRAFT_DEFAULT_BADGE;
   const primary = DRAFT_DEFAULT_PRIMARY;
   const secondary = DRAFT_DEFAULT_SECONDARY;
+  const id = opts?.id ?? DRAFT_TEAM_ID;
   return {
-    id: DRAFT_TEAM_ID,
-    name,
+    id,
+    name: DRAFT_DEFAULT_CLUB_NAME,
     abbreviation: abbreviate(name),
     teamType: "CUSTOM_TEAM",
     custom: true,
@@ -67,6 +90,7 @@ export function draftTeamShell(
     primaryColor: primary,
     secondaryColor: secondary,
     badgeAsset: crest,
+    franchiseId: DRAFT_TEAM_ID,
     defaultKit: {
       shirt: primary,
       shorts: secondary,
@@ -90,7 +114,7 @@ export function draftTeamShell(
     },
     defaultStadiumId: "vortex_arena",
     defaultFormation: MITEAM_FORMATION,
-    historicSeason: "Draft",
+    historicSeason: opts?.historicSeason ?? "User",
   };
 }
 
@@ -104,30 +128,30 @@ export function draftTeamComplete(save: SaveManager): boolean {
   return (save.data.draftTeam?.roster.length ?? 0) >= DRAFT_ROSTER_SIZE;
 }
 
-export function removeDraftTeamFromDb(db: GameDatabase): void {
-  db.teams.delete(DRAFT_TEAM_ID);
-  db.memberships = db.memberships.filter((m) => m.teamId !== DRAFT_TEAM_ID);
-  db.lineups = db.lineups.filter((l) => l.teamId !== DRAFT_TEAM_ID);
-  if (db.userTeamId === DRAFT_TEAM_ID) db.userTeamId = DEFAULT_TEAM_ID;
+export function draftFamilyTeamComplete(db: GameDatabase, teamId: string): boolean {
+  if (!isDraftFamilyTeamId(teamId)) return false;
+  return db.getSquad(teamId).length >= DRAFT_ROSTER_SIZE;
 }
 
-/**
- * Always register the Draft User club in the DB so it appears on the Team dial.
- * Memberships / lineup only fill when a completed seat has been saved.
- */
-export function applyDraftTeamToDb(db: GameDatabase, save: SaveManager): void {
-  const dt = save.data.draftTeam;
-  const shell = draftTeamShell(
-    dt?.clubName ?? DRAFT_DEFAULT_CLUB_NAME,
-    dt?.badgeAsset ?? DRAFT_DEFAULT_BADGE,
+function clearDraftFamilyFromDb(db: GameDatabase): void {
+  const drop = new Set(
+    [...db.teams.keys()].filter((id) => isDraftFamilyTeamId(id)),
   );
-  db.teams.set(DRAFT_TEAM_ID, shell);
+  for (const id of drop) db.teams.delete(id);
+  db.memberships = db.memberships.filter((m) => !drop.has(m.teamId));
+  db.lineups = db.lineups.filter((l) => !drop.has(l.teamId));
+  if (drop.has(db.userTeamId)) db.userTeamId = DEFAULT_TEAM_ID;
+}
 
+function applySeatRosterToDb(
+  db: GameDatabase,
+  teamId: string,
+  roster: readonly MiTeamRosterSlot[],
+): void {
   const memberships: TeamMembership[] = [];
   const starters: LineupRecord["starters"] = [];
   const xiSlots = new Set(miteamXiSlots(MITEAM_FORMATION));
   const usedShirts = new Set<number>();
-  const roster = draftTeamComplete(save) ? dt!.roster : [];
 
   for (const row of roster) {
     if (!db.players.has(row.playerId)) continue;
@@ -137,22 +161,72 @@ export function applyDraftTeamToDb(db: GameDatabase, save: SaveManager): void {
     const isXi = xiSlots.has(row.slot);
     memberships.push({
       playerId: row.playerId,
-      teamId: DRAFT_TEAM_ID,
+      teamId,
       shirtNumber: shirt,
       squadRole: isXi ? "FIRST_TEAM" : "BENCH",
     });
     if (isXi) starters.push({ playerId: row.playerId, slot: row.slot });
   }
 
-  db.memberships = db.memberships.filter((m) => m.teamId !== DRAFT_TEAM_ID).concat(memberships);
+  db.memberships = db.memberships.filter((m) => m.teamId !== teamId).concat(memberships);
   db.lineups = db.lineups
-    .filter((l) => l.teamId !== DRAFT_TEAM_ID)
+    .filter((l) => l.teamId !== teamId)
     .concat({
-      id: DRAFT_LINEUP_ID,
-      teamId: DRAFT_TEAM_ID,
+      id: teamId === DRAFT_TEAM_ID ? DRAFT_LINEUP_ID : `${teamId}_lineup`,
+      teamId,
       formation: MITEAM_FORMATION,
       starters,
     });
+}
+
+/**
+ * Register Draft + CPU seats on the Team / Era dials.
+ * Memberships fill for completed seats (User from draftTeam, CPUs from Pyramid seats).
+ */
+export function applyDraftTeamToDb(db: GameDatabase, save: SaveManager): void {
+  clearDraftFamilyFromDb(db);
+  const seats = draftSeatsForMenu(save);
+  const dt = save.data.draftTeam;
+
+  for (let i = 0; i < seats.length; i++) {
+    const seat = seats[i]!;
+    const teamId = teamIdForDraftSeat(seat, i);
+    const era =
+      seat.kind === "human"
+        ? "User"
+        : seat.name.trim() || `CPU ${i + 1}`;
+    const shell = draftTeamShell(
+      DRAFT_DEFAULT_CLUB_NAME,
+      dt?.badgeAsset ?? DRAFT_DEFAULT_BADGE,
+      { id: teamId, historicSeason: era },
+    );
+    if (teamId === DRAFT_TEAM_ID && dt?.clubName?.trim()) {
+      shell.abbreviation = abbreviate(dt.clubName);
+    }
+    db.teams.set(teamId, shell);
+
+    let roster: MiTeamRosterSlot[] = [];
+    if (teamId === DRAFT_TEAM_ID && draftTeamComplete(save)) {
+      roster = dt!.roster;
+    } else if (seat.roster.length >= DRAFT_ROSTER_SIZE) {
+      roster = seat.roster.map((r) => ({
+        playerId: r.playerId,
+        slot: r.slot,
+        shirtNumber: r.shirtNumber,
+        sourceTeamId: r.sourceTeamId ?? null,
+      }));
+    }
+    applySeatRosterToDb(db, teamId, roster);
+  }
+
+  // Ensure User shell exists even if seats somehow empty.
+  if (!db.teams.has(DRAFT_TEAM_ID)) {
+    db.teams.set(
+      DRAFT_TEAM_ID,
+      draftTeamShell(dt?.clubName ?? DRAFT_DEFAULT_CLUB_NAME, dt?.badgeAsset ?? DRAFT_DEFAULT_BADGE),
+    );
+    applySeatRosterToDb(db, DRAFT_TEAM_ID, draftTeamComplete(save) ? dt!.roster : []);
+  }
 }
 
 /** Snapshot a completed draft seat into the User "Draft" club. */
@@ -189,3 +263,5 @@ export function saveDraftSeatAsUserTeam(
   applyDraftTeamToDb(db, save);
   return next;
 }
+
+export { DRAFT_CPU_ID_PREFIX, draftCpuTeamId, isDraftFamilyTeamId };

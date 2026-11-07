@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { TeamRecord } from "../data/schema";
 import teamsJson from "../../public/data/teams.json";
-import { DRAFT_TEAM_ID, MITEAM_TEAM_ID } from "../core/SaveManager";
+import { DRAFT_TEAM_ID, draftCpuTeamId, MITEAM_TEAM_ID } from "../core/SaveManager";
 import {
   buildMenuTeamOptions,
   clubBaseName,
@@ -141,18 +141,71 @@ describe("menuTeamSelect", () => {
         name: "Draft",
         teamType: "CUSTOM_TEAM",
         custom: true,
-        historicSeason: "Draft",
+        historicSeason: "User",
+        franchiseId: DRAFT_TEAM_ID,
       }),
       team({ id: "nba_bos", name: "Boston Celtics", conference: "EAST", league: "EAST", teamType: "CURRENT_TEAM" }),
     ]);
     expect(findTeamOption(options, DRAFT_TEAM_ID)).toMatchObject({
       label: "Draft",
       group: "USER",
-      eraLabel: "Draft",
+      eraLabel: "User",
     });
     expect(findTeamOption(options, MITEAM_TEAM_ID)?.group).toBe("USER");
     expect(uniqueClubsInGroup(options, "USER").map((o) => o.id).sort()).toEqual(
       [DRAFT_TEAM_ID, MITEAM_TEAM_ID].sort(),
     );
+  });
+
+  it("rolls Draft Era as User then CPU seats on one Team dial entry", () => {
+    const cpu2 = draftCpuTeamId(1);
+    const cpu3 = draftCpuTeamId(2);
+    const options = buildMenuTeamOptions([
+      team({
+        id: DRAFT_TEAM_ID,
+        name: "Draft",
+        teamType: "CUSTOM_TEAM",
+        custom: true,
+        historicSeason: "User",
+        franchiseId: DRAFT_TEAM_ID,
+      }),
+      team({
+        id: cpu2,
+        name: "Draft",
+        teamType: "CUSTOM_TEAM",
+        custom: true,
+        historicSeason: "CPU 2",
+        franchiseId: DRAFT_TEAM_ID,
+      }),
+      team({
+        id: cpu3,
+        name: "Draft",
+        teamType: "CUSTOM_TEAM",
+        custom: true,
+        historicSeason: "CPU 3",
+        franchiseId: DRAFT_TEAM_ID,
+      }),
+      team({
+        id: MITEAM_TEAM_ID,
+        name: "MiTeam",
+        teamType: "CUSTOM_TEAM",
+        custom: true,
+        historicSeason: "2025/26",
+      }),
+    ]);
+    expect(uniqueClubsInGroup(options, "USER").map((o) => o.label).sort()).toEqual(["Draft", "MiTeam"]);
+    expect(erasForClub(options, DRAFT_TEAM_ID).map((o) => o.eraLabel)).toEqual([
+      "User",
+      "CPU 2",
+      "CPU 3",
+    ]);
+    expect(erasForClub(options, DRAFT_TEAM_ID).map((o) => o.id)).toEqual([
+      DRAFT_TEAM_ID,
+      cpu2,
+      cpu3,
+    ]);
+    const vsUser = oppositionRollOptions(options, DRAFT_TEAM_ID).map((o) => o.id);
+    expect(vsUser).toEqual(expect.arrayContaining([cpu2, cpu3, MITEAM_TEAM_ID]));
+    expect(vsUser).not.toContain(DRAFT_TEAM_ID);
   });
 });

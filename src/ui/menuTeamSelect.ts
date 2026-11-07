@@ -1,5 +1,10 @@
 import type { Conference, TeamRecord } from "../data/schema";
-import { DRAFT_TEAM_ID, MITEAM_TEAM_ID } from "../core/SaveManager";
+import {
+  DRAFT_CPU_ID_PREFIX,
+  DRAFT_TEAM_ID,
+  isDraftFamilyTeamId,
+  MITEAM_TEAM_ID,
+} from "../core/SaveManager";
 import { conferenceForTeam } from "../football/league/Standings";
 
 export type MenuTeamGroup = "USER" | Conference | "CLASSIC";
@@ -87,7 +92,7 @@ function isClassicTeam(team: TeamRecord): boolean {
 function isUserTeam(team: TeamRecord): boolean {
   return (
     team.id === MITEAM_TEAM_ID ||
-    team.id === DRAFT_TEAM_ID ||
+    isDraftFamilyTeamId(team.id) ||
     (team.teamType === "CUSTOM_TEAM" && team.custom === true)
   );
 }
@@ -107,6 +112,8 @@ function groupFor(team: TeamRecord): MenuTeamGroup {
 
 /** Franchise key so Current + Classic seasons share one Era dial. */
 function clubKeyFor(team: TeamRecord): string {
+  // Draft User + CPU seats share one Team dial entry; Era rolls User → CPU…
+  if (isDraftFamilyTeamId(team.id)) return DRAFT_TEAM_ID;
   if (isUserTeam(team)) return team.id;
   const franchise = team.franchiseId?.trim();
   if (franchise) return franchise;
@@ -131,19 +138,30 @@ export function buildMenuTeamOptions(teams: TeamRecord[]): MenuTeamOption[] {
         : classicClubIdentity(team).label;
     const historic = isClassicTeam(team) && !isUserTeam(team);
     const eraRaw = historic || group === "USER" ? eraFromTeam(team) : "";
+    const draftFamily = isDraftFamilyTeamId(team.id);
+    const draftCpu = team.id.startsWith(DRAFT_CPU_ID_PREFIX);
+    const cpuNum = draftCpu ? Number(team.id.slice(DRAFT_CPU_ID_PREFIX.length)) || 0 : 0;
     options.push({
       id: team.id,
-      label: base,
+      label: draftFamily ? "Draft" : base,
       group,
       clubKey,
-      eraLabel: historic
-        ? formatEraRoll(eraRaw) || formatEraRoll(team.name) || "Classic"
-        : team.id === DRAFT_TEAM_ID
-          ? "Draft"
+      eraLabel: draftFamily
+        ? team.id === DRAFT_TEAM_ID
+          ? "User"
+          : (team.historicSeason?.trim() || eraRaw || `CPU ${cpuNum}`)
+        : historic
+          ? formatEraRoll(eraRaw) || formatEraRoll(team.name) || "Classic"
           : group === "USER"
             ? formatEraRoll(eraRaw) || "25-26"
             : "Current",
-      eraSort: historic ? eraRaw || team.name : team.id === DRAFT_TEAM_ID ? "0000" : "9999/99",
+      eraSort: draftFamily
+        ? team.id === DRAFT_TEAM_ID
+          ? "0_user"
+          : `1_cpu_${String(cpuNum).padStart(2, "0")}`
+        : historic
+          ? eraRaw || team.name
+          : "9999/99",
     });
   }
   return options.sort((a, b) => {
@@ -173,10 +191,13 @@ export function uniqueClubsInGroup(options: MenuTeamOption[], group: MenuTeamGro
 }
 
 export function erasForClub(options: MenuTeamOption[], clubKey: string): MenuTeamOption[] {
+  const list = options.filter((o) => o.clubKey === clubKey);
+  // Draft: User first, then CPU seats in seat order.
+  if (clubKey === DRAFT_TEAM_ID) {
+    return list.sort((a, b) => a.eraSort.localeCompare(b.eraSort));
+  }
   // Newest / Current first so Era dials default to the live squad.
-  return options
-    .filter((o) => o.clubKey === clubKey)
-    .sort((a, b) => b.eraSort.localeCompare(a.eraSort));
+  return list.sort((a, b) => b.eraSort.localeCompare(a.eraSort));
 }
 
 export function findTeamOption(options: MenuTeamOption[], teamId: string): MenuTeamOption | undefined {
@@ -202,7 +223,14 @@ export function oppositionRollOptions(
   const userKey = user?.clubKey ?? userTeamId;
   const seen = new Set<string>();
   return options.filter((o) => {
-    if (o.id === userTeamId || o.clubKey === userKey) return false;
+    if (o.id === userTeamId) return false;
+    // Draft User ↔ Draft CPU share a clubKey but are distinct opposition sides.
+    if (userKey === DRAFT_TEAM_ID && o.clubKey === DRAFT_TEAM_ID) {
+      if (seen.has(o.id)) return false;
+      seen.add(o.id);
+      return true;
+    }
+    if (o.clubKey === userKey) return false;
     if (seen.has(o.id)) return false;
     seen.add(o.id);
     return true;

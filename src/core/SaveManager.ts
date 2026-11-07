@@ -339,12 +339,22 @@ export const MITEAM_BENCH_SLOTS = 8;
 
 /** User club saved from a completed Pyramid Draft seat. */
 export const DRAFT_TEAM_ID = "draft_user";
+/** CPU draft seats share this prefix; Era dial groups them under {@link DRAFT_TEAM_ID}. */
+export const DRAFT_CPU_ID_PREFIX = "draft_cpu_";
 export const DRAFT_DEFAULT_CLUB_NAME = "Draft";
 /** Same main mark as MiTeam court (`/vba-logo.png`). */
 export const DRAFT_DEFAULT_BADGE = MITEAM_DEFAULT_BADGE;
 export const DRAFT_DEFAULT_PRIMARY = "#1B2430";
 export const DRAFT_DEFAULT_SECONDARY = "#E8A84A";
 export const DRAFT_LINEUP_ID = "draft_user_lineup";
+
+export function draftCpuTeamId(seatIndex: number): string {
+  return `${DRAFT_CPU_ID_PREFIX}${seatIndex + 1}`;
+}
+
+export function isDraftFamilyTeamId(id: string): boolean {
+  return id === DRAFT_TEAM_ID || id.startsWith(DRAFT_CPU_ID_PREFIX);
+}
 
 function normalizeHexColor(value: unknown, fallback: string | null = null): string | null {
   if (typeof value !== "string") return fallback;
