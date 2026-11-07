@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 29;
+export const PYRAMID_SEED_VERSION = 30;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -257,7 +257,7 @@ export const DEFAULT_PYRAMID_POOL: readonly string[] = [
   "classic_por_1999_00_p04", // 122 Rasheed Wallace (85)
   "espn_4431678", // 123 Tyrese Maxey (85)
   // 84 classics — recent era fills (Nets / Celts / Lakers)
-  "classic_bkn_2000_01_p13", // 124 Kenyon Martin (84)
+  "classic_bkn_2000_01_p04", // 124 Kenyon Martin (84) — starter PF on Nets 2000/01
   "classic_bos_1980_81_p01", // 125 Nate Archibald (88)
   "classic_lal_1979_80_p03", // 126 Jamaal Wilkes (86)
   "classic_bos_1980_81_p03", // 127 Cedric Maxwell (84)

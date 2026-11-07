@@ -112,6 +112,16 @@ export class GameDatabase {
     for (const p of save.data.players as PlayerRecord[]) {
       if (!p?.id) continue;
       const authored = this.players.get(p.id);
+      // Classic seed identity wins when a save still holds a replaced player
+      // (e.g. Eddie Gill → Kenyon Martin on the same classic_* id).
+      if (
+        authored &&
+        String(authored.id).startsWith("classic_") &&
+        (authored.displayName || "") !== (p.displayName || "")
+      ) {
+        this.players.set(p.id, { ...authored });
+        continue;
+      }
       const merged: PlayerRecord = { ...(authored ?? p), ...p };
       // Stale localStorage players can omit portraitAsset (e.g. new classic eras first
       // loaded before headshots were wired), or still hold CDN silhouettes. Prefer the
@@ -135,6 +145,8 @@ export class GameDatabase {
     if (save.data.memberships.length) {
       for (const raw of save.data.memberships as TeamMembership[]) {
         if (!raw?.playerId || !raw?.teamId) continue;
+        // Keep seeded classic era rosters (ids reshuffle / names replace across refreshes).
+        if (String(raw.teamId).startsWith("classic_")) continue;
         const i = this.memberships.findIndex((m) => m.teamId === raw.teamId && m.playerId === raw.playerId);
         if (i >= 0) this.memberships[i] = { ...this.memberships[i], ...raw };
         else this.memberships.push(raw);
@@ -163,6 +175,8 @@ export class GameDatabase {
   applyTeamTactics(tacticsByTeam: Record<string, TeamTacticsSave>): void {
     for (const [teamId, tactics] of Object.entries(tacticsByTeam)) {
       if (!tactics?.starters?.length || !this.teams.has(teamId)) continue;
+      // Classic era starters are authored; stale saves can hide seed replacements.
+      if (String(teamId).startsWith("classic_")) continue;
       const lineup = this.lineups.find((l) => l.teamId === teamId);
       if (!lineup) continue;
       applyTacticsToLineup(lineup, tactics);

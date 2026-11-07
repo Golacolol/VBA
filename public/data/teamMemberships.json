@@ -7653,14 +7653,14 @@
   {
     "playerId": "classic_bkn_2000_01_p03",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 13,
+    "shirtNumber": 44,
     "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
     "playerId": "classic_bkn_2000_01_p04",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 44,
+    "shirtNumber": 6,
     "squadRole": "FIRST_TEAM",
     "captain": false
   },
@@ -7674,56 +7674,56 @@
   {
     "playerId": "classic_bkn_2000_01_p06",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 12,
+    "shirtNumber": 13,
     "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "classic_bkn_2000_01_p07",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 1,
+    "shirtNumber": 12,
     "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "classic_bkn_2000_01_p08",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 20,
+    "shirtNumber": 1,
     "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "classic_bkn_2000_01_p09",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 16,
+    "shirtNumber": 20,
     "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "classic_bkn_2000_01_p10",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 11,
+    "shirtNumber": 16,
     "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "classic_bkn_2000_01_p11",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 0,
+    "shirtNumber": 11,
     "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "classic_bkn_2000_01_p12",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 5,
+    "shirtNumber": 0,
     "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "classic_bkn_2000_01_p13",
     "teamId": "classic_bkn_2000_01",
-    "shirtNumber": 6,
+    "shirtNumber": 5,
     "squadRole": "BENCH",
     "captain": false
   },

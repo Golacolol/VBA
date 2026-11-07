@@ -1051,11 +1051,13 @@ export const CLASSIC_ERAS = [
     starters: [
       { name: "Stephon Marbury", number: 3, pos: "PG" },
       { name: "Kerry Kittles", number: 30, pos: "SG" },
-      { name: "Kendall Gill", number: 13, pos: "SF" },
-      { name: "Keith Van Horn", number: 44, pos: "PF" },
+      { name: "Keith Van Horn", number: 44, pos: "SF" },
+      // #1 pick / ROTY — starter PF (was buried as last bench / Eddie Gill slot).
+      { name: "Kenyon Martin", number: 6, pos: "PF" },
       { name: "Aaron Williams", number: 34, pos: "C" },
     ],
     bench: [
+      { name: "Kendall Gill", number: 13, pos: "SF" },
       { name: "Lucious Harris", number: 12, pos: "SG" },
       { name: "Stephen Jackson", number: 1, pos: "SF" },
       { name: "Johnny Newman", number: 20, pos: "SF" },
@@ -1063,8 +1065,6 @@ export const CLASSIC_ERAS = [
       { name: "Sherman Douglas", number: 11, pos: "PG" },
       { name: "Evan Eschmeyer", number: 0, pos: "C" },
       { name: "Vladimir Stepania", number: 5, pos: "C" },
-      // Kenyon Martin (#1 pick / ROTY) over deep-bench Eddie Gill — Pyramid #144 form.
-      { name: "Kenyon Martin", number: 6, pos: "PF" },
     ],
   },
   {

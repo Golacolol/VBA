@@ -477,10 +477,11 @@ async function main() {
         const attrs = classicAttrs(p.pos, p.name, r, isStarter ? "starter" : "bench");
         const local = localPortraitForName(p.name);
         const nbaId = nbaIdForName(p.name);
+        // Prefer name/local over prior id — classic roster reshuffles reuse pNN slots.
         const portrait =
-          prevPortraitById.get(playerId) ||
           local ||
           prevPortraitByName.get(p.name) ||
+          prevPortraitById.get(playerId) ||
           (nbaId != null ? nbaHeadshotUrl(nbaId) : null);
         players.push({
           id: playerId,
