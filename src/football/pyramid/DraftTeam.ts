@@ -21,12 +21,15 @@ import { DEFAULT_TEAM_ID } from "../constants";
 import { miteamFillOrder, miteamXiSlots } from "../miteam/MiTeam";
 import { DRAFT_ROSTER_SIZE, type DraftSave, type DraftSeat } from "./draft";
 
-/** Prefer the human seat; otherwise any completed 13-man seat. */
+/** Prefer a full human seat; otherwise any full seat once the board is done. */
 export function completedDraftSeat(draft: DraftSave | null | undefined): DraftSeat | null {
   if (!draft?.seats?.length) return null;
   const full = draft.seats.filter((s) => s.roster.length >= DRAFT_ROSTER_SIZE);
   if (!full.length) return null;
-  return full.find((s) => s.kind === "human") ?? full[0] ?? null;
+  const human = full.find((s) => s.kind === "human");
+  if (human) return human;
+  if (draft.status !== "done") return null;
+  return full[0] ?? null;
 }
 
 /**
