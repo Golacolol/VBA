@@ -23678,7 +23678,7 @@
     "preferredHand": "R",
     "preferredFoot": "R",
     "appearance": {
-      "portraitAsset": "https://a.espncdn.com/i/headshots/nba/players/full/3155942.png",
+      "portraitAsset": "/assets/portraits/classic/domantas-sabonis.png",
       "fullName": "Domantas Sabonis",
       "birthplace": "Kaunas, Lithuania",
       "heightScale": 1
@@ -51840,7 +51840,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Arvydas Sabonis",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/717.png"
+      "portraitAsset": "/assets/portraits/classic/arvydas-sabonis.png"
     },
     "finishing": 87,
     "midRange": 83,
@@ -55459,7 +55459,7 @@
     "preferredFoot": "R",
     "appearance": {
       "fullName": "Blake Griffin",
-      "portraitAsset": "https://cdn.nba.com/headshots/nba/latest/1040x760/201933.png"
+      "portraitAsset": "/assets/portraits/classic/blake-griffin.png"
     },
     "finishing": 91,
     "midRange": 89,

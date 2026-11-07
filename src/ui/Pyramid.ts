@@ -359,7 +359,6 @@ export class PyramidHub {
     if (team) {
       return `<div class="pyramid-cell-photo is-empty is-crest" style="--pyramid-tint:${tint}">${teamBadgeHtml(team, {
         className: "pyramid-photo-crest",
-        size: 44,
       })}</div>`;
     }
     return `<div class="pyramid-cell-photo is-empty" style="--pyramid-tint:${tint}"><div class="pyramid-photo-fallback" style="background:${tint};color:${escapeAttr(entry.textColor)}">?</div></div>`;
@@ -371,8 +370,9 @@ export class PyramidHub {
     if (!src) return this.teamCrestFallbackHtml(entry, tint);
     const mem = this.membershipForEntry(entry.playerId);
     const team = mem ? this.db.teams.get(mem.teamId) : null;
+    // No fixed px size — CSS sizes the crest inside the disc so #51–149 stay unstretched.
     const crest = team
-      ? teamBadgeHtml(team, { className: "pyramid-photo-crest", size: 44 })
+      ? teamBadgeHtml(team, { className: "pyramid-photo-crest" })
       : `<div class="pyramid-photo-fallback" style="background:${tint};color:${escapeAttr(entry.textColor)}">?</div>`;
     return `<div class="pyramid-cell-photo has-photo" style="--pyramid-tint:${tint}">
       <img class="pyramid-player-png" alt="" src="${escapeAttr(src)}" referrerpolicy="no-referrer" draggable="false" onerror="const el=this.closest('.pyramid-cell-photo');if(!el)return;el.classList.remove('has-photo');el.classList.add('is-empty','is-crest');this.remove();const fb=el.querySelector('.pyramid-photo-crest-slot');if(fb)fb.hidden=false;"/>
@@ -411,51 +411,54 @@ export class PyramidHub {
             <h2>PYRAMID<span class="pyramid-goat" aria-hidden="true">🐐</span></h2>
           </div>
           <div class="pyramid-head-actions">
-            ${
-              view === "pyramid"
-                ? `<div class="pyramid-view-toggle pyramid-layout-toggle" role="group" aria-label="Pyramid layout">
-              <button type="button" class="pyramid-view-btn${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps"${titleAttr("1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>GOAT</button>
-              <button type="button" class="pyramid-view-btn${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds"${titleAttr("1 · 3 · 5 · 7 · 9 · 11 · 14")}>Pyramid</button>
-              <button type="button" class="pyramid-view-btn${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib"${titleAttr("1 · 2 · 3 · 5 · 8 · 13 · 18")}>Cap</button>
-              <button type="button" class="pyramid-view-btn${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions"${titleAttr(
-                this.positionsApexInTopTeam && layout === "positions"
-                  ? "POS A · primary positions · click again: #1 alone on top"
-                  : "POS A · best squads by primary position · click again: fold #1 into top five",
-              )}>POS A</button>
-              <button type="button" class="pyramid-view-btn${layout === "positionsB" ? " on" : ""}" data-pyramid="layout" data-layout="positionsB"${titleAttr(
-                this.positionsApexInTopTeam && layout === "positionsB"
-                  ? "POS B · secondary / flex · click again: #1 alone on top"
-                  : "POS B · secondary or adjacent flex (PF→SF/C, PG→SG) · click again: fold #1 into top five",
-              )}>POS B</button>
-              <button type="button" class="pyramid-view-btn${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list"${titleAttr("Rank order · centred wrap · #1 top centre then #2…")}>List</button>
-            </div>`
-                : view === "bracket"
+            <div class="pyramid-head-tools">
+              <div class="pyramid-view-toggle pyramid-layout-toggle" role="group" aria-label="Pyramid layout">
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps" aria-label="GOAT"${titleAttr("GOAT · 1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>🐐</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds" aria-label="Pyramid"${titleAttr("Pyramid · 1 · 3 · 5 · 7 · 9 · 11 · 14")}>⟁</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib" aria-label="Cap"${titleAttr("Cap · 1 · 2 · 3 · 5 · 8 · 13 · 18")}>🧢</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions" aria-label="POS 1"${titleAttr(
+                  this.positionsApexInTopTeam && layout === "positions"
+                    ? "POS 1 · primary · click again: #1 alone on top"
+                    : "POS 1 · primary positions · click again: fold #1 into top five",
+                )}>&#x29CA;</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "positionsB" ? " on" : ""}" data-pyramid="layout" data-layout="positionsB" aria-label="POS 2"${titleAttr(
+                  this.positionsApexInTopTeam && layout === "positionsB"
+                    ? "POS 2 · flex · click again: #1 alone on top"
+                    : "POS 2 · secondary / flex · click again: fold #1 into top five",
+                )}>&#x29CB;</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list" aria-label="List"${titleAttr("List · rank order wrap")}>🦙</button>
+              </div>
+              <div class="pyramid-zoom" role="group" aria-label="Zoom">
+                <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-out" aria-label="Zoom out"${titleAttr("Zoom out")}>−</button>
+                <button type="button" class="pyramid-btn ghost is-symbol" data-pyramid="zoom-reset" aria-label="Reset zoom"${titleAttr("Reset zoom")}>🔍</button>
+                <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-in" aria-label="Zoom in"${titleAttr("Zoom in")}>+</button>
+              </div>
+            </div>
+            <div class="pyramid-head-nav">
+              ${
+                view === "bracket"
                   ? (() => {
                       const region = this.bracketState().region;
                       return `<div class="pyramid-view-toggle pyramid-layout-toggle" role="group" aria-label="Bracket region">
-              <button type="button" class="pyramid-view-btn${region === "full" ? " on" : ""}" data-pyramid="bracket-region" data-region="full"${titleAttr("Full playoff bracket")}>Full</button>
-              <button type="button" class="pyramid-view-btn${region === "east" ? " on" : ""}" data-pyramid="bracket-region" data-region="east"${titleAttr("Eastern Conference")}>East</button>
-              <button type="button" class="pyramid-view-btn${region === "west" ? " on" : ""}" data-pyramid="bracket-region" data-region="west"${titleAttr("Western Conference")}>West</button>
-            </div>`;
+                <button type="button" class="pyramid-view-btn${region === "full" ? " on" : ""}" data-pyramid="bracket-region" data-region="full"${titleAttr("Full playoff bracket")}>Full</button>
+                <button type="button" class="pyramid-view-btn${region === "east" ? " on" : ""}" data-pyramid="bracket-region" data-region="east"${titleAttr("Eastern Conference")}>East</button>
+                <button type="button" class="pyramid-view-btn${region === "west" ? " on" : ""}" data-pyramid="bracket-region" data-region="west"${titleAttr("Western Conference")}>West</button>
+              </div>`;
                     })()
                   : ""
-            }
-            <div class="pyramid-zoom" role="group" aria-label="Zoom">
-              <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-out" aria-label="Zoom out">−</button>
-              <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-reset" aria-label="Reset zoom">Zoom</button>
-              <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-in" aria-label="Zoom in">+</button>
+              }
+              <div class="pyramid-view-toggle" role="group" aria-label="Pyramid view">
+                <button type="button" class="pyramid-view-btn${view === "pyramid" ? " on" : ""}" data-pyramid="view" data-view="pyramid">Pyramid</button>
+                <button type="button" class="pyramid-view-btn${view === "ring" ? " on" : ""}" data-pyramid="view" data-view="ring">Ring</button>
+                <button type="button" class="pyramid-view-btn${view === "jersey" ? " on" : ""}" data-pyramid="view" data-view="jersey">Jersey</button>
+                <button type="button" class="pyramid-view-btn${view === "draft" ? " on" : ""}" data-pyramid="view" data-view="draft">Draft</button>
+                <button type="button" class="pyramid-view-btn${view === "bracket" ? " on" : ""}" data-pyramid="view" data-view="bracket">Bracket</button>
+              </div>
+              <button type="button" class="pyramid-btn ghost" data-pyramid="reset"${titleAttr(
+                view === "bracket" ? "Clear bracket picks" : "Restore default Top 50",
+              )}>Reset</button>
+              <button type="button" class="pyramid-btn" data-pyramid="back">Back</button>
             </div>
-            <div class="pyramid-view-toggle" role="group" aria-label="Pyramid view">
-              <button type="button" class="pyramid-view-btn${view === "pyramid" ? " on" : ""}" data-pyramid="view" data-view="pyramid">Pyramid</button>
-              <button type="button" class="pyramid-view-btn${view === "ring" ? " on" : ""}" data-pyramid="view" data-view="ring">Ring</button>
-              <button type="button" class="pyramid-view-btn${view === "jersey" ? " on" : ""}" data-pyramid="view" data-view="jersey">Jersey</button>
-              <button type="button" class="pyramid-view-btn${view === "draft" ? " on" : ""}" data-pyramid="view" data-view="draft">Draft</button>
-              <button type="button" class="pyramid-view-btn${view === "bracket" ? " on" : ""}" data-pyramid="view" data-view="bracket">Bracket</button>
-            </div>
-            <button type="button" class="pyramid-btn ghost" data-pyramid="reset"${titleAttr(
-              view === "bracket" ? "Clear bracket picks" : "Restore default Top 50",
-            )}>Reset</button>
-            <button type="button" class="pyramid-btn" data-pyramid="back">Back</button>
           </div>
         </header>
         <div class="pyramid-body" data-pyramid-scroll>

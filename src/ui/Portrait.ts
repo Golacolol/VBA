@@ -38,14 +38,27 @@ export interface KitMarkerOptions {
 }
 
 /**
+ * Bump when classic portrait PNGs are replaced in place (same path). Without this,
+ * browsers / Pages keep serving the previous bytes after a second file swap.
+ */
+export const PORTRAIT_CACHE_REV = "20261107d";
+
+/**
  * Known portrait URL only (explicit appearance path).
  * Do not speculative-resolve convention `/assets/players/{id}.png` here — missing files
  * would flash number/name under the formation disc until img.onerror.
  */
 export function portraitAsset(player: PortraitSource | undefined): string | null {
   const explicit = player?.appearance?.portraitAsset;
-  if (explicit && typeof explicit === "string" && explicit.trim()) return assetUrl(explicit.trim());
-  return null;
+  if (!(explicit && typeof explicit === "string" && explicit.trim())) return null;
+  const url = assetUrl(explicit.trim());
+  if (!url || /^(?:https?:|data:|blob:)/i.test(url)) return url;
+  // Classic pack art — cache-bust so in-place PNG replacements show up reliably.
+  if (url.includes("/portraits/") || url.includes("portraits/")) {
+    const sep = url.includes("?") ? "&" : "?";
+    return `${url}${sep}v=${PORTRAIT_CACHE_REV}`;
+  }
+  return url;
 }
 
 /** Team crest / emblem URL from TeamRecord.badgeAsset (asset pack or explicit). */

@@ -6977,10 +6977,14 @@ button.pred-side:hover {
 .pyramid-head {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px 18px;
   flex: 0 0 auto;
+}
+.pyramid-head-copy {
+  flex: 1 1 auto;
+  min-width: min(220px, 100%);
 }
 .pyramid-eyebrow {
   margin: 0;
@@ -7008,9 +7012,29 @@ button.pred-side:hover {
 }
 .pyramid-head-actions {
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex: 0 1 auto;
+  max-width: 100%;
+}
+.pyramid-head-tools {
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
+  /* Keep GOAT→List + zoom on their own row above Pyramid/Ring/… */
+  width: 100%;
+  order: 0;
+}
+.pyramid-head-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  order: 1;
 }
 .pyramid-view-toggle {
   display: inline-flex;
@@ -7105,6 +7129,15 @@ button.pred-side:hover {
   padding: 8px 8px;
   font-size: 11px;
   letter-spacing: 0.06em;
+}
+.pyramid-view-btn.is-symbol,
+.pyramid-btn.is-symbol {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 1;
+  min-width: 34px;
+  padding: 7px 9px;
 }
 /* POS A/B — label under the full card (outside the bordered cell). */
 .pyramid-cell-seat {
@@ -7264,9 +7297,9 @@ button.pred-side:hover {
   pointer-events: none;
 }
 .pyramid-cell-photo {
-  /* Explicit square — Firefox won't resolve %-sized children against aspect-ratio alone. */
-  width: min(72px, 58%);
-  height: min(72px, 58%);
+  /* Same cqw axis for both sides — % width/% height of a tall cell made #51–149 crests oval. */
+  width: min(72px, 58cqw);
+  height: min(72px, 58cqw);
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
@@ -7279,9 +7312,10 @@ button.pred-side:hover {
   background:
     radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--pyramid-tint, #3ec6ff) 42%, #1a2436) 0%, #0a1018 72%);
 }
-.pyramid-cell.is-compact .pyramid-cell-photo {
-  width: min(64px, 56%);
-  height: min(64px, 56%);
+.pyramid-cell.is-compact .pyramid-cell-photo,
+.pyramid-pool-cell .pyramid-cell-photo {
+  width: min(64px, 56cqw);
+  height: min(64px, 56cqw);
 }
 /* Keep photo discs a positioning context for the absolute head crop below. */
 .kit-marker.kit-marker-photo:not(.kit-marker-roster) .portrait {
@@ -7321,6 +7355,9 @@ button.pred-side:hover {
   font-size: 22px;
   font-weight: 800;
 }
+.pyramid-cell-photo.has-photo .pyramid-photo-crest-slot[hidden] {
+  display: none !important;
+}
 .pyramid-cell-photo.is-crest {
   display: grid;
   place-content: center;
@@ -7331,28 +7368,43 @@ button.pred-side:hover {
 .pyramid-cell-photo.is-crest .pyramid-photo-crest-slot {
   display: grid;
   place-content: center;
+  /* Square inset from the disc diameter only (avoid %-of-height stretch). */
   width: 72%;
-  height: 72%;
+  height: auto;
+  max-width: 72%;
+  aspect-ratio: 1;
 }
 .pyramid-cell-photo.is-crest .pyramid-photo-crest-slot[hidden] {
-  display: none;
+  display: none !important;
 }
 .pyramid-cell-photo.is-crest .team-badge,
 .pyramid-cell-photo.is-crest .pyramid-photo-crest {
   width: 100% !important;
   height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
   border-radius: 50%;
   overflow: hidden;
+  box-shadow: none;
 }
 .pyramid-cell-photo.is-crest .team-badge img,
 .pyramid-cell-photo.is-crest .pyramid-photo-crest img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: center;
   display: block;
   margin: 0;
+  padding: 6%;
+  box-sizing: border-box;
   -webkit-mask-image: none;
   mask-image: none;
+}
+/* Compact / #51–149 discs — keep crests circular and unstretched. */
+.pyramid-cell.is-compact .pyramid-cell-photo.is-crest .team-badge img,
+.pyramid-pool-cell .pyramid-cell-photo.is-crest .team-badge img {
+  padding: 8%;
+  object-fit: contain;
 }
 .pyramid-cell-kit-row {
   display: flex;

@@ -482,11 +482,28 @@ function isLocalPortraitUrl(url: string): boolean {
 }
 
 /**
- * Prefer authored portrait when the save has none, or when the save still points at a
- * remote CDN card while authored data has a local asset (silhouettes / referrer blocks).
+ * Prefer authored portrait when the save has none, still points at a remote CDN card,
+ * or holds a stale prior local path after a second seed replace.
+ * Preserve in-game custom picks (`/images/…`, data URLs).
  */
 export function shouldPreferAuthoredPortrait(authoredPort: string, savePort: string | null): boolean {
   if (!savePort) return true;
-  if (isLocalPortraitUrl(authoredPort) && /^https?:\/\//i.test(savePort)) return true;
+  if (!isLocalPortraitUrl(authoredPort)) return false;
+  // User-uploaded / Character Select custom art wins over seed.
+  if (savePort.startsWith("data:") || savePort.startsWith("blob:")) return false;
+  if (isLocalPortraitUrl(savePort) && (savePort.startsWith("/images/") || savePort.includes("/images/"))) {
+    return false;
+  }
+  // Seed local beats CDN silhouettes and referrer-blocked remotes.
+  if (/^https?:\/\//i.test(savePort)) return true;
+  // Second replace often changes the filename while localStorage still holds the first path.
+  if (isLocalPortraitUrl(savePort) && normalizePortraitPath(savePort) !== normalizePortraitPath(authoredPort)) {
+    return true;
+  }
   return false;
+}
+
+/** Strip query/hash so `foo.png?v=2` compares equal to `foo.png`. */
+function normalizePortraitPath(url: string): string {
+  return url.split(/[?#]/, 2)[0]!;
 }

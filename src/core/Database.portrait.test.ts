@@ -15,11 +15,47 @@ describe("shouldPreferAuthoredPortrait", () => {
     ).toBe(true);
   });
 
+  it("prefers a second authored local path over a stale first local save path", () => {
+    expect(
+      shouldPreferAuthoredPortrait(
+        "/assets/portraits/classic/blake-griffin.png",
+        "/assets/portraits/classic/blake-griffin-old.png",
+      ),
+    ).toBe(true);
+  });
+
+  it("treats query-only cache bumps as the same local portrait", () => {
+    expect(
+      shouldPreferAuthoredPortrait(
+        "/assets/portraits/classic/blake-griffin.png?v=2",
+        "/assets/portraits/classic/blake-griffin.png",
+      ),
+    ).toBe(false);
+  });
+
   it("does not override a matching local save portrait", () => {
     expect(
       shouldPreferAuthoredPortrait(
         "/assets/portraits/classic/magic-johnson.png",
         "/assets/portraits/classic/magic-johnson.png",
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps Character Select /images custom picks", () => {
+    expect(
+      shouldPreferAuthoredPortrait(
+        "/assets/portraits/classic/magic-johnson.png",
+        "/images/l13.png",
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps data-URL uploads over seed art", () => {
+    expect(
+      shouldPreferAuthoredPortrait(
+        "/assets/portraits/classic/magic-johnson.png",
+        "data:image/png;base64,abc",
       ),
     ).toBe(false);
   });

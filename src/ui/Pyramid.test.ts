@@ -186,18 +186,20 @@ describe("PyramidHub", () => {
     expect(hub.root.querySelector(".pyramid-tiers.is-positions")).toBeTruthy();
     const solo = [...hub.root.querySelectorAll(".pyramid-tiers.is-positions .pyramid-tier")];
     expect(solo.map((el) => el.querySelectorAll(".pyramid-cell").length)).toEqual([1, 5, 10, 10, 10, 14]);
-    expect(hub.root.querySelector('[data-layout="positions"]')?.textContent).toBe("POS A");
-    expect(hub.root.querySelector('[data-layout="positionsB"]')?.textContent).toBe("POS B");
+    expect(hub.root.querySelector('[data-layout="positions"]')?.getAttribute("aria-label")).toBe("POS 1");
+    expect(hub.root.querySelector('[data-layout="positionsB"]')?.getAttribute("aria-label")).toBe("POS 2");
+    expect(hub.root.querySelector('[data-layout="positions"]')?.textContent).toBe("\u29CA");
+    expect(hub.root.querySelector('[data-layout="positionsB"]')?.textContent).toBe("\u29CB");
 
-    // Re-click POS A folds #1 into the top five and reshuffles team rows.
+    // Re-click POS 1 folds #1 into the top five and reshuffles team rows.
     hub.root.querySelector<HTMLElement>('[data-pyramid="layout"][data-layout="positions"]')?.click();
-    expect(hub.root.querySelector('[data-layout="positions"]')?.textContent).toBe("POS A");
+    expect(hub.root.querySelector('[data-layout="positions"]')?.getAttribute("aria-label")).toBe("POS 1");
     const folded = [...hub.root.querySelectorAll(".pyramid-tiers.is-positions .pyramid-tier")];
     expect(folded.map((el) => el.querySelectorAll(".pyramid-cell").length)).toEqual([5, 10, 10, 10, 15]);
     expect(folded[0]?.querySelector(".pyramid-cell-rank")?.textContent).toBeTruthy();
 
     hub.root.querySelector<HTMLElement>('[data-pyramid="layout"][data-layout="positions"]')?.click();
-    expect(hub.root.querySelector('[data-layout="positions"]')?.textContent).toBe("POS A");
+    expect(hub.root.querySelector('[data-layout="positions"]')?.getAttribute("aria-label")).toBe("POS 1");
     expect(
       [...hub.root.querySelectorAll(".pyramid-tiers.is-positions .pyramid-tier")].map(
         (el) => el.querySelectorAll(".pyramid-cell").length,
