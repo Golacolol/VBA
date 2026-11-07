@@ -1461,8 +1461,8 @@ export class PyramidHub {
       const draft = this.draftState();
       const ctx = currentDraftPick(draft);
       if (!ctx || ctx.seat.kind !== "human") return;
-      const next = applyDraftPick(draft, playerId, this.db);
-      this.persistDraft(next);
+      // Flash in place first (same board order). Apply the pick after purple blink —
+      // applying immediately removed the card from candidates and re-pinned it left.
       this.draftUserReveal = { playerId };
       this.render();
       requestAnimationFrame(() => {
@@ -1472,8 +1472,11 @@ export class PyramidHub {
       });
       this.draftUserRevealTimer = setTimeout(() => {
         this.draftUserRevealTimer = null;
+        const pickedId = this.draftUserReveal?.playerId ?? playerId;
         this.draftUserReveal = null;
         if (this.state().view !== "draft") return;
+        const next = applyDraftPick(this.draftState(), pickedId, this.db);
+        this.persistDraft(next);
         this.render();
       }, PyramidHub.DRAFT_USER_FLASH_MS);
     }
@@ -1685,14 +1688,16 @@ export class PyramidHub {
             let list = draftCandidates(this.db, draft);
             const flashId = aiReveal?.playerId ?? userReveal?.playerId ?? null;
             const altIds = aiReveal?.phase === "considering" ? aiReveal.altIds : [];
-            const pinIds = [flashId, ...altIds].filter(Boolean) as string[];
-            // Needs-based AI may pick outside the top-OVR window — pin those cards on the board.
-            for (const id of [...pinIds].reverse()) {
-              if (list.some((sp) => sp.player.id === id)) continue;
-              const sp = this.resolveDraftSquadPlayer(id);
-              if (sp) list = [sp, ...list];
+            // Only pin missing AI cards (needs-based picks outside the top-OVR window).
+            // Never re-order for a human flash — that card stays in candidate order.
+            if (aiReveal) {
+              const pinIds = [flashId, ...altIds].filter(Boolean) as string[];
+              for (const id of [...pinIds].reverse()) {
+                if (list.some((sp) => sp.player.id === id)) continue;
+                const sp = this.resolveDraftSquadPlayer(id);
+                if (sp) list = [sp, ...list];
+              }
             }
-            // User picks stay in board order — flash in place (do not move to front).
             return (
               list
                 .map((sp) =>

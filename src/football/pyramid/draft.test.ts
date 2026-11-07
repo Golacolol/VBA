@@ -106,6 +106,18 @@ describe("draft engine", () => {
         "C",
       ),
     ).toBe("BENCH_1");
+    // Bench already full + one starter hole — must force the hole (never stall).
+    const almostFull = [
+      { playerId: "a", slot: "PG", shirtNumber: 1 },
+      { playerId: "b", slot: "SG", shirtNumber: 2 },
+      { playerId: "c", slot: "SF", shirtNumber: 3 },
+      { playerId: "d", slot: "PF", shirtNumber: 4 },
+      ...["BENCH_1", "BENCH_2", "BENCH_3", "BENCH_4", "BENCH_5", "BENCH_6", "BENCH_7", "BENCH_8"].map(
+        (slot, i) => ({ playerId: `b${i}`, slot, shirtNumber: i + 6 }),
+      ),
+    ];
+    expect(almostFull).toHaveLength(12);
+    expect(bestOpenSlotForPlayer(almostFull, "PG")).toBe("C");
     // After starting five, next wave is BENCH_1…5.
     const startersFull = ["PG", "SG", "SF", "PF", "C"].map((slot, i) => ({
       playerId: `s${i}`,
@@ -280,21 +292,25 @@ describe("draft engine", () => {
 
   it("auto-fill completes every seat to 13", async () => {
     const db = await GameDatabase.load(new SaveManager());
-    const draft = defaultDraftSave(3);
-    draft.filter = "all";
-    draft.firstSeat = 0;
-    expect(draft.status).toBe("ready");
-    const filled = autoFillDraft(db, draft);
-    expect(filled.status).toBe("done");
-    expect(filled.pickIndex).toBe(draftTotalPicks(3));
-    for (const seat of filled.seats) {
-      expect(seat.roster.length).toBe(DRAFT_ROSTER_SIZE);
-      const slots = new Set(seat.roster.map((r) => r.slot));
-      expect(slots.has("C")).toBe(true);
-      expect(slots.has("PG")).toBe(true);
-      expect(slots.has("BENCH_1")).toBe(true);
-      expect(slots.has("BENCH_5")).toBe(true);
-      expect(slots.has("BENCH_8")).toBe(true);
+    // Needs-based ranking uses Math.random — run enough boards to catch the
+    // "bench filled before starters → stuck at 12" stall that failed CI.
+    for (let n = 0; n < 24; n++) {
+      const draft = defaultDraftSave(3);
+      draft.filter = "all";
+      draft.firstSeat = 0;
+      expect(draft.status).toBe("ready");
+      const filled = autoFillDraft(db, draft);
+      expect(filled.status).toBe("done");
+      expect(filled.pickIndex).toBe(draftTotalPicks(3));
+      for (const seat of filled.seats) {
+        expect(seat.roster.length).toBe(DRAFT_ROSTER_SIZE);
+        const slots = new Set(seat.roster.map((r) => r.slot));
+        expect(slots.has("C")).toBe(true);
+        expect(slots.has("PG")).toBe(true);
+        expect(slots.has("BENCH_1")).toBe(true);
+        expect(slots.has("BENCH_5")).toBe(true);
+        expect(slots.has("BENCH_8")).toBe(true);
+      }
     }
   });
 

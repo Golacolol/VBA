@@ -420,10 +420,12 @@ export function bestOpenSlotForPlayer(
     };
     const fits = empty.filter((s) => positionFitsMiTeamSlot(s, pos));
     if (fits.length) return [...fits].sort(byLineDistance)[0]!;
-    // No starter-band fit (e.g. C with only SG open) — park on the bench.
-    // Never force a Center into SG/SF just to fill a starter hole.
+    // No starter-band fit (e.g. C with only SG open) — park on the bench while
+    // space remains. If the bench is already full, force the nearest open
+    // starter so autofill/AI never stall short of 13 (CI flake: 12 vs 13).
     const benchOpen = [...DRAFT_SUB5, ...DRAFT_REST_BENCH].filter((s) => !filled.has(s));
-    return benchOpen[0] ?? null;
+    if (benchOpen.length) return benchOpen[0]!;
+    return [...empty].sort(byLineDistance)[0] ?? empty[0] ?? null;
   }
 
   // Bench waves — any open hole in the wave (order BENCH_1…).
@@ -595,13 +597,21 @@ export function autoFillDraft(db: GameDatabase, draft: DraftSave): DraftSave {
     if (!ctx) {
       return { ...next, pickIndex: total, status: "done" };
     }
-    const pick = chooseNeedsBasedPick(db, next, ctx);
-    if (!pick) {
+    const ranked = rankNeedsBasedPicks(db, next, ctx, 8);
+    if (!ranked.length) {
+      // Pool exhausted — still mark done so the lobby can recover.
       return { ...next, pickIndex: total, status: "done" };
     }
-    const applied = applyDraftPick(next, pick.player.id, db);
-    if (applied.pickIndex === next.pickIndex) {
-      return { ...applied, pickIndex: total, status: "done" };
+    let applied: DraftSave | null = null;
+    for (const pick of ranked) {
+      const tryApply = applyDraftPick(next, pick.player.id, db);
+      if (tryApply.pickIndex !== next.pickIndex) {
+        applied = tryApply;
+        break;
+      }
+    }
+    if (!applied) {
+      return { ...next, pickIndex: total, status: "done" };
     }
     next = applied;
   }
