@@ -272,7 +272,7 @@ describe("defaultPyramid", () => {
     expect(save.pool).toHaveLength(PYRAMID_POOL_SIZE);
     expect(defaultPyramidSave().view).toBe("pyramid");
     expect(defaultPyramidSave().pool).toHaveLength(PYRAMID_POOL_SIZE);
-    expect(defaultPyramidSave().seedVersion).toBe(24);
+    expect(defaultPyramidSave().seedVersion).toBe(25);
     expect(DEFAULT_PYRAMID_ORDER[9]).toBe("classic_gsw_2016_17_p01"); // Curry #10
     expect(DEFAULT_PYRAMID_ORDER[10]).toBe("classic_hou_1994_95_p05"); // Olajuwon #11
     expect(DEFAULT_PYRAMID_ORDER[14]).toBe("classic_cin_1963_64_p01"); // Oscar #15
@@ -284,6 +284,10 @@ describe("defaultPyramid", () => {
     expect(DEFAULT_PYRAMID_ORDER[25]).toBe("classic_mia_2012_13_p02"); // Wade #26
     expect(DEFAULT_PYRAMID_ORDER[31]).toBe("classic_chi_2010_11_p01"); // Rose #32 (swapped w/ Baylor)
     expect(DEFAULT_PYRAMID_ORDER[32]).toBe("classic_lal_1971_72_p11"); // Baylor #33
+    expect(DEFAULT_PYRAMID_ORDER[34]).toBe("classic_bos_1985_86_p04"); // McHale #35
+    expect(DEFAULT_PYRAMID_ORDER[35]).toBe("classic_lal_1986_87_p03"); // Worthy #36
+    expect(DEFAULT_PYRAMID_ORDER[39]).toBe("classic_phx_2004_05_p01"); // Nash #40
+    expect(DEFAULT_PYRAMID_ORDER[40]).toBe("classic_okc_1995_96_p01"); // Payton #41
     expect(DEFAULT_PYRAMID_ORDER[48]).toBe("classic_mia_2012_13_p06"); // Ray Allen #49
     expect(DEFAULT_PYRAMID_ORDER[49]).toBe("classic_gsw_2016_17_p02"); // Klay #50
     expect(DEFAULT_PYRAMID_POOL[64 - 51]).toBe("classic_uta_1976_77_p02"); // Maravich #64
@@ -322,7 +326,7 @@ describe("defaultPyramid", () => {
     expect(stale.pool).toContain("classic_tor_2000_01_p02"); // Vince → reserve
     expect(stale.pool).toContain("classic_det_2003_04_p01"); // Billups
     expect(stale.pool).toContain("classic_lal_2019_20_p05"); // Dwight
-    expect(stale.seedVersion).toBe(24);
+    expect(stale.seedVersion).toBe(25);
     expect(stale.order[9]).toBe("classic_gsw_2016_17_p01");
     expect(stale.order[10]).toBe("classic_hou_1994_95_p05");
   });

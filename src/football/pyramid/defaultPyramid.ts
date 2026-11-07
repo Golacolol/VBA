@@ -85,7 +85,7 @@ export function pyramidTierScalesFor(counts: readonly number[]): number[] {
 export type PyramidViewId = "pyramid" | "ring" | "jersey" | "draft" | "bracket";
 
 /** Bump when curated Top 50 / reserve seed changes so saved pyramids refresh. */
-export const PYRAMID_SEED_VERSION = 24;
+export const PYRAMID_SEED_VERSION = 25;
 
 export type PyramidSave = {
   size: typeof PYRAMID_SIZE;
@@ -151,13 +151,13 @@ export const DEFAULT_PYRAMID_ORDER: readonly string[] = [
   "classic_chi_2010_11_p01", // 32 Derrick Rose (92) — swapped with Baylor
   "classic_lal_1971_72_p11", // 33 Elgin Baylor (92)
   "classic_nyk_1993_94_p05", // 34 Patrick Ewing (90)
-  "classic_okc_1995_96_p01", // 35 Gary Payton (90)
-  "classic_phx_2004_05_p01", // 36 Steve Nash (91)
+  "classic_bos_1985_86_p04", // 35 Kevin McHale (90)
+  "classic_lal_1986_87_p03", // 36 James Worthy (90)
   "classic_hou_1994_95_p02", // 37 Clyde Drexler (90)
-  "classic_lal_1986_87_p03", // 38 James Worthy (90)
-  "classic_bos_1985_86_p04", // 39 Kevin McHale (90)
-  "classic_hou_2006_07_p02", // 40 Tracy McGrady (90)
-  "classic_gsw_2016_17_p04", // 41 Draymond Green (90) — four-time champion / dynasty anchor
+  "classic_hou_2006_07_p02", // 38 Tracy McGrady (90)
+  "classic_gsw_2016_17_p04", // 39 Draymond Green (90) — four-time champion / dynasty anchor
+  "classic_phx_2004_05_p01", // 40 Steve Nash (91)
+  "classic_okc_1995_96_p01", // 41 Gary Payton (90)
   "classic_bos_1964_65_p03", // 42 John Havlicek (91)
   "classic_orl_1994_95_p01", // 43 Anfernee Hardaway (91)
   "classic_hou_2018_19_p01", // 44 Chris Paul (91)
