@@ -1455,6 +1455,11 @@ export class PyramidHub {
       this.persistDraft(next);
       this.draftUserReveal = { playerId };
       this.render();
+      requestAnimationFrame(() => {
+        this.root
+          .querySelector<HTMLElement>(".pyramid-draft-card.is-user-flash")
+          ?.scrollIntoView?.({ behavior: "smooth", block: "nearest", inline: "nearest" });
+      });
       this.draftUserRevealTimer = setTimeout(() => {
         this.draftUserRevealTimer = null;
         this.draftUserReveal = null;
@@ -1676,6 +1681,12 @@ export class PyramidHub {
               if (list.some((sp) => sp.player.id === id)) continue;
               const sp = this.resolveDraftSquadPlayer(id);
               if (sp) list = [sp, ...list];
+            }
+            // User pick confirmation: bring the chosen card to the front of the board to blink.
+            if (userReveal?.playerId) {
+              const uid = userReveal.playerId;
+              const hit = list.find((sp) => sp.player.id === uid);
+              if (hit) list = [hit, ...list.filter((sp) => sp.player.id !== uid)];
             }
             return (
               list
