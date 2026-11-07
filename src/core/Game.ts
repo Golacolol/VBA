@@ -49,10 +49,7 @@ import {
   randomMiTeamFixture,
   xiComplete,
 } from "../football/miteam/MiTeam";
-import {
-  applyDraftTeamToDb,
-  draftTeamComplete,
-} from "../football/pyramid/DraftTeam";
+import { applyDraftTeamToDb, ensureDraftUserTeam } from "../football/pyramid/DraftTeam";
 import { DRAFT_TEAM_ID, MITEAM_TEAM_ID } from "./SaveManager";
 import { PauseMenu } from "../ui/PauseMenu";
 import { SettingsMenu } from "../ui/Settings";
@@ -1409,8 +1406,8 @@ export class Game {
 
   /** Play Next Fixture only: incomplete Draft User club → Pyramid Draft. */
   private openDraftIfIncomplete(): boolean {
-    applyDraftTeamToDb(this.db, this.save);
-    if (draftTeamComplete(this.save)) return false;
+    // Promote a finished Pyramid seat if the user never pressed START AS TEAM.
+    if (ensureDraftUserTeam(this.save, this.db)) return false;
     this.openPyramidHub("draft");
     return true;
   }
@@ -1484,12 +1481,9 @@ export class Game {
 
   private openCharacterSelect(teamId: string, options?: { quickMatch?: boolean }): void {
     // Incomplete Draft User club — finish a seat in Pyramid Draft first.
-    if (teamId === DRAFT_TEAM_ID) {
-      applyDraftTeamToDb(this.db, this.save);
-      if (!draftTeamComplete(this.save)) {
-        this.openPyramidHub("draft");
-        return;
-      }
+    if (teamId === DRAFT_TEAM_ID && !ensureDraftUserTeam(this.save, this.db)) {
+      this.openPyramidHub("draft");
+      return;
     }
     // Empty or incomplete MiTeam five — resume the next pack in PLAYER SELECT.
     if (teamId === MITEAM_TEAM_ID) {

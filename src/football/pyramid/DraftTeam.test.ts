@@ -2,8 +2,13 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { GameDatabase } from "../../core/Database";
 import type { PlayerRecord, TeamRecord } from "../../data/schema";
 import { DRAFT_TEAM_ID, SaveManager } from "../../core/SaveManager";
-import { applyDraftTeamToDb, draftTeamComplete, saveDraftSeatAsUserTeam } from "./DraftTeam";
-import { DRAFT_ROSTER_SIZE, createDraftSeat, draftSlots } from "./draft";
+import {
+  applyDraftTeamToDb,
+  draftTeamComplete,
+  ensureDraftUserTeam,
+  saveDraftSeatAsUserTeam,
+} from "./DraftTeam";
+import { DRAFT_ROSTER_SIZE, createDraftSeat, draftSlots, defaultDraftSave } from "./draft";
 
 const memory = new Map<string, string>();
 Object.defineProperty(globalThis, "localStorage", {
@@ -103,5 +108,30 @@ describe("DraftTeam", () => {
     expect(draftTeamComplete(save)).toBe(true);
     expect(db.getSquad(DRAFT_TEAM_ID)).toHaveLength(DRAFT_ROSTER_SIZE);
     expect(db.lineups.find((l) => l.teamId === DRAFT_TEAM_ID)?.starters).toHaveLength(5);
+  });
+
+  it("promotes a finished Pyramid human seat so Play Next skips the draft board", () => {
+    save.data.draftTeam = null;
+    const draft = defaultDraftSave(2);
+    draft.status = "done";
+    draft.pickIndex = DRAFT_ROSTER_SIZE * 2;
+    draft.seats[0]!.kind = "human";
+    draft.seats[0]!.roster = draftSlots().map((slot, i) => ({
+      playerId: `p${i + 1}`,
+      slot,
+      shirtNumber: i + 1,
+      sourceTeamId: null,
+    }));
+    save.data.pyramid = {
+      size: 50,
+      order: [],
+      pool: [],
+      view: "draft",
+      seedVersion: 1,
+      draft,
+    };
+    expect(ensureDraftUserTeam(save, db)).toBe(true);
+    expect(draftTeamComplete(save)).toBe(true);
+    expect(db.getSquad(DRAFT_TEAM_ID)).toHaveLength(DRAFT_ROSTER_SIZE);
   });
 });

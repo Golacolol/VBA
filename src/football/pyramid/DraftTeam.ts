@@ -19,7 +19,32 @@ import {
 } from "../../core/SaveManager";
 import { DEFAULT_TEAM_ID } from "../constants";
 import { miteamFillOrder, miteamXiSlots } from "../miteam/MiTeam";
-import { DRAFT_ROSTER_SIZE, type DraftSeat } from "./draft";
+import { DRAFT_ROSTER_SIZE, type DraftSave, type DraftSeat } from "./draft";
+
+/** Prefer the human seat; otherwise any completed 13-man seat. */
+export function completedDraftSeat(draft: DraftSave | null | undefined): DraftSeat | null {
+  if (!draft?.seats?.length) return null;
+  const full = draft.seats.filter((s) => s.roster.length >= DRAFT_ROSTER_SIZE);
+  if (!full.length) return null;
+  return full.find((s) => s.kind === "human") ?? full[0] ?? null;
+}
+
+/**
+ * True when the User Draft club is playable — either already saved, or a finished
+ * Pyramid Draft seat can be promoted (no need to press START AS TEAM first).
+ */
+export function ensureDraftUserTeam(save: SaveManager, db: GameDatabase): boolean {
+  if (draftTeamComplete(save)) {
+    applyDraftTeamToDb(db, save);
+    return true;
+  }
+  const seat = completedDraftSeat(save.data.pyramid?.draft);
+  if (!seat) {
+    applyDraftTeamToDb(db, save);
+    return false;
+  }
+  return !!saveDraftSeatAsUserTeam(save, db, seat);
+}
 
 export function draftTeamShell(
   clubName: string,

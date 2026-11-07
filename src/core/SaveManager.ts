@@ -340,7 +340,8 @@ export const MITEAM_BENCH_SLOTS = 8;
 /** User club saved from a completed Pyramid Draft seat. */
 export const DRAFT_TEAM_ID = "draft_user";
 export const DRAFT_DEFAULT_CLUB_NAME = "Draft";
-export const DRAFT_DEFAULT_BADGE = "/vortex-logo.svg";
+/** Same main mark as MiTeam court (`/vba-logo.png`). */
+export const DRAFT_DEFAULT_BADGE = MITEAM_DEFAULT_BADGE;
 export const DRAFT_DEFAULT_PRIMARY = "#1B2430";
 export const DRAFT_DEFAULT_SECONDARY = "#E8A84A";
 export const DRAFT_LINEUP_ID = "draft_user_lineup";
@@ -356,7 +357,11 @@ function normalizeMiTeamSave(raw: unknown): MiTeamSave | null {
 }
 
 function normalizeDraftTeamSave(raw: unknown): MiTeamSave | null {
-  return normalizeUserClubSave(raw, DRAFT_TEAM_ID, DRAFT_DEFAULT_CLUB_NAME);
+  const next = normalizeUserClubSave(raw, DRAFT_TEAM_ID, DRAFT_DEFAULT_CLUB_NAME);
+  if (!next) return null;
+  // Legacy Draft crest was vortex-logo.svg; use the same main mark as MiTeam.
+  if (next.badgeAsset === "/vortex-logo.svg") next.badgeAsset = DRAFT_DEFAULT_BADGE;
+  return next;
 }
 
 function normalizeUserClubSave(

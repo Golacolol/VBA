@@ -70,8 +70,8 @@ import {
 } from "../football/pyramid/draft";
 import { standingsFor } from "../football/league/Standings";
 import { getFormation } from "../football/teams/Formation";
-import { DRAFT_DEFAULT_BADGE, MITEAM_FORMATION } from "../core/SaveManager";
-import { saveDraftSeatAsUserTeam } from "../football/pyramid/DraftTeam";
+import { DRAFT_DEFAULT_BADGE, DRAFT_TEAM_ID, MITEAM_FORMATION } from "../core/SaveManager";
+import { completedDraftSeat, saveDraftSeatAsUserTeam } from "../football/pyramid/DraftTeam";
 import { formationToPitchPercent, separatePitchMarkers } from "./CharacterSelect";
 import { contrastingKitText } from "./kitContrast";
 import {
@@ -292,7 +292,13 @@ export class PyramidHub {
   }
 
   private persistDraft(draft: DraftSave): void {
-    this.persist({ draft: normalizeDraftSave(draft) });
+    const next = normalizeDraftSave(draft);
+    this.persist({ draft: next });
+    // Keep the User Draft club in sync once a seat is full (Play Next → Formation).
+    if (next.status === "done" || completedDraftSeat(next)) {
+      const seat = completedDraftSeat(next);
+      if (seat) saveDraftSeatAsUserTeam(this.save, this.db, seat);
+    }
   }
 
   /** Prefer the membership for this classic era id (e.g. Kobe 09/10 → #24, not 00/01 #8). */
@@ -2031,21 +2037,22 @@ export class PyramidHub {
               ${this.draftInspectPlayerCardHtml(selected.sp)}
             </div>
           </div>`
-        : `<div class="team-pitch team-pitch-court" aria-label="${escapeAttr(seat.name)} formation">
-            ${teamBadgeHtml(
-              {
-                id: "draft_vortex",
-                name: "VORTEX",
-                abbreviation: "VTX",
-                badgeAsset: DRAFT_DEFAULT_BADGE,
-                primaryColor: "#1B2430",
-                secondaryColor: "#E8A84A",
-              },
-              { className: "team-pitch-crest", size: 160 },
-            )}
+        : (() => {
+            // Same main court mark as MiTeam (`/vba-logo.png`), not the old vortex SVG.
+            const crestTeam = this.db.teams.get(DRAFT_TEAM_ID) ?? {
+              id: DRAFT_TEAM_ID,
+              name: "Draft",
+              abbreviation: "DFT",
+              badgeAsset: DRAFT_DEFAULT_BADGE,
+              primaryColor: "#1B2430",
+              secondaryColor: "#E8A84A",
+            };
+            return `<div class="team-pitch team-pitch-court" aria-label="${escapeAttr(seat.name)} formation">
+            ${teamBadgeHtml(crestTeam, { className: "team-pitch-crest", size: 160 })}
             <div class="team-pitch-markings court-markings" aria-hidden="true"></div>
             ${starters}
           </div>`;
+          })();
 
     return `
       <div class="team-select-body">
