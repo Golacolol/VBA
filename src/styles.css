@@ -6995,9 +6995,9 @@ button.pred-side:hover {
 .pyramid-head h2 {
   margin: 4px 0 0;
   font-family: var(--title-font, "Righteous", Impact, sans-serif);
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: clamp(40px, 6.5vw, 72px);
   letter-spacing: 0.06em;
-  line-height: 0.95;
+  line-height: 0.92;
 }
 .pyramid-goat {
   display: inline-block;
@@ -7018,23 +7018,45 @@ button.pred-side:hover {
   flex: 0 1 auto;
   max-width: 100%;
 }
-.pyramid-head-tools {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  /* Keep GOAT→List + zoom on their own row above Pyramid/Ring/… */
-  width: 100%;
-  order: 0;
-}
 .pyramid-head-nav {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  order: 1;
+}
+.pyramid-view-pyramid {
+  display: inline-flex;
+  align-items: stretch;
+  position: relative;
+}
+.pyramid-view-pyramid.is-open {
+  /* Layout flyout sits flush against the Pyramid tab. */
+  box-shadow: inset 0 0 0 1px rgba(62, 198, 255, 0.22);
+  border-radius: 8px 0 0 8px;
+  margin-inline-end: -1px;
+}
+.pyramid-layout-flyout {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: min(100vw - 48px, 320px);
+  border-right: 1px solid rgba(62, 198, 255, 0.28);
+  background: rgba(62, 198, 255, 0.08);
+  animation: pyramid-layout-flyout-in 160ms ease-out;
+}
+@keyframes pyramid-layout-flyout-in {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.pyramid-layout-flyout .pyramid-view-btn {
+  border-radius: 0;
 }
 .pyramid-view-toggle {
   display: inline-flex;
@@ -8514,68 +8536,42 @@ button.pred-side:hover {
   box-sizing: border-box;
   overflow: auto;
 }
-/* Match CharacterSelect formation panel footprint — don't stretch edge-to-edge. */
+/* Same footprint as CharacterSelect formation — inherit its responsive triad / narrow stack. */
 .pyramid-draft-formation-panel.char-panel-team {
-  width: min(1380px, 96%);
-  min-width: min(1100px, 96%);
-  max-width: min(1470px, 98%);
-  height: min(86vh, 920px);
-  max-height: min(86vh, 920px);
+  width: min(1380px, 98vw);
+  min-width: min(1380px, 98vw);
+  max-width: min(1470px, 98vw);
+  height: min(92vh, 980px);
+  max-height: min(92vh, 980px);
   margin: 0 auto;
   background: linear-gradient(180deg, rgba(8, 18, 28, 0.96), rgba(4, 10, 16, 0.98));
   border-color: rgba(232, 168, 74, 0.45);
-  padding: 12px 14px 14px;
   box-sizing: border-box;
   flex: 0 1 auto;
 }
-.pyramid-draft-formation-panel .team-select-head {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 10px 14px;
-  margin-bottom: 10px;
-  flex: 0 0 auto;
-  min-width: 0;
+/* Desktop only — let ≤760px `.char-panel-team .team-select-head` stack via shared grid. */
+@media (min-width: 761px) {
+  .pyramid-draft-formation-panel .team-select-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    margin-bottom: 10px;
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+  .pyramid-draft-formation-panel .formation-toolbar {
+    margin-left: auto;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    min-width: 0;
+  }
 }
-.pyramid-draft-inspect-heading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  flex: 0 1 auto;
+.pyramid-draft-seat-wrap {
+  max-width: min(100%, 220px);
 }
-.pyramid-draft-inspect-name {
-  margin: 0;
-  font-size: 18px;
-  letter-spacing: 0.06em;
-  color: #f3f6fb;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.pyramid-draft-inspect-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-left: auto;
-  flex: 1 1 auto;
-  justify-content: flex-end;
-  min-width: 0;
-}
-.pyramid-draft-inspect-tab {
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(243, 246, 251, 0.78);
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-}
-.pyramid-draft-inspect-tab.on {
-  border-color: rgba(232, 168, 74, 0.65);
-  background: rgba(232, 168, 74, 0.14);
-  color: #f3f6fb;
+.pyramid-draft-seat-wrap select.formation-select {
+  max-width: 100%;
 }
 .pyramid-draft-lineup-hint {
   opacity: 0.55;
@@ -8610,13 +8606,24 @@ button.pred-side:hover {
   width: min(100%, 420px);
   margin: 0 auto;
 }
-@media (max-width: 1100px) {
+@media (max-width: 1180px) {
   .pyramid-draft-formation-panel.char-panel-team {
-    width: 100%;
+    min-width: min(98vw, 1180px);
+    max-width: 98vw;
+  }
+}
+@media (max-width: 760px) {
+  .pyramid-draft-formation-panel.char-panel-team {
     min-width: 0;
-    max-width: 100%;
-    height: min(82vh, 860px);
-    max-height: min(82vh, 860px);
+    width: min(100vw - 12px, 98vw);
+    max-width: 98vw;
+    height: auto;
+    max-height: min(96vh, 980px);
+  }
+  .pyramid-draft-seat-wrap {
+    max-width: none;
+    flex: 1 1 auto;
+    width: 100%;
   }
 }
 

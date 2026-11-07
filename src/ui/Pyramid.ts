@@ -192,6 +192,7 @@ export class PyramidHub {
     parent.appendChild(this.root);
     this.hide();
     this.root.addEventListener("click", (e) => this.onClick(e));
+    this.root.addEventListener("change", (e) => this.onChange(e));
     this.root.addEventListener("pointerdown", (e) => this.onPointerDown(e));
     this.root.addEventListener("pointermove", (e) => this.onPointerMove(e));
     this.root.addEventListener("pointerup", (e) => this.onPointerUp(e));
@@ -411,29 +412,6 @@ export class PyramidHub {
             <h2>PYRAMID<span class="pyramid-goat" aria-hidden="true">🐐</span></h2>
           </div>
           <div class="pyramid-head-actions">
-            <div class="pyramid-head-tools">
-              <div class="pyramid-view-toggle pyramid-layout-toggle" role="group" aria-label="Pyramid layout">
-                <button type="button" class="pyramid-view-btn is-symbol${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps" aria-label="GOAT"${titleAttr("GOAT · 1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>🐐</button>
-                <button type="button" class="pyramid-view-btn is-symbol${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds" aria-label="Pyramid"${titleAttr("Pyramid · 1 · 3 · 5 · 7 · 9 · 11 · 14")}>⟁</button>
-                <button type="button" class="pyramid-view-btn is-symbol${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib" aria-label="Cap"${titleAttr("Cap · 1 · 2 · 3 · 5 · 8 · 13 · 18")}>🧢</button>
-                <button type="button" class="pyramid-view-btn is-symbol${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions" aria-label="POS 1"${titleAttr(
-                  this.positionsApexInTopTeam && layout === "positions"
-                    ? "POS 1 · primary · click again: #1 alone on top"
-                    : "POS 1 · primary positions · click again: fold #1 into top five",
-                )}>&#x29CA;</button>
-                <button type="button" class="pyramid-view-btn is-symbol${layout === "positionsB" ? " on" : ""}" data-pyramid="layout" data-layout="positionsB" aria-label="POS 2"${titleAttr(
-                  this.positionsApexInTopTeam && layout === "positionsB"
-                    ? "POS 2 · flex · click again: #1 alone on top"
-                    : "POS 2 · secondary / flex · click again: fold #1 into top five",
-                )}>&#x29CB;</button>
-                <button type="button" class="pyramid-view-btn is-symbol${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list" aria-label="List"${titleAttr("List · rank order wrap")}>🦙</button>
-              </div>
-              <div class="pyramid-zoom" role="group" aria-label="Zoom">
-                <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-out" aria-label="Zoom out"${titleAttr("Zoom out")}>−</button>
-                <button type="button" class="pyramid-btn ghost is-symbol" data-pyramid="zoom-reset" aria-label="Reset zoom"${titleAttr("Reset zoom")}>🔍</button>
-                <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-in" aria-label="Zoom in"${titleAttr("Zoom in")}>+</button>
-              </div>
-            </div>
             <div class="pyramid-head-nav">
               ${
                 view === "bracket"
@@ -448,11 +426,38 @@ export class PyramidHub {
                   : ""
               }
               <div class="pyramid-view-toggle" role="group" aria-label="Pyramid view">
-                <button type="button" class="pyramid-view-btn${view === "pyramid" ? " on" : ""}" data-pyramid="view" data-view="pyramid">Pyramid</button>
+                <div class="pyramid-view-pyramid${view === "pyramid" ? " is-open" : ""}">
+                  ${
+                    view === "pyramid"
+                      ? `<div class="pyramid-layout-flyout" role="group" aria-label="Pyramid layout">
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "steps" ? " on" : ""}" data-pyramid="layout" data-layout="steps" aria-label="GOAT"${titleAttr("GOAT · 1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 14")}>🐐</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "odds" ? " on" : ""}" data-pyramid="layout" data-layout="odds" aria-label="Pyramid"${titleAttr("Pyramid · 1 · 3 · 5 · 7 · 9 · 11 · 14")}>⟁</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "fib" ? " on" : ""}" data-pyramid="layout" data-layout="fib" aria-label="Cap"${titleAttr("Cap · 1 · 2 · 3 · 5 · 8 · 13 · 18")}>🧢</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "positions" ? " on" : ""}" data-pyramid="layout" data-layout="positions" aria-label="POS 1"${titleAttr(
+                        this.positionsApexInTopTeam && layout === "positions"
+                          ? "POS 1 · primary · click again: #1 alone on top"
+                          : "POS 1 · primary positions · click again: fold #1 into top five",
+                      )}>&#x29CA;</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "positionsB" ? " on" : ""}" data-pyramid="layout" data-layout="positionsB" aria-label="POS 2"${titleAttr(
+                        this.positionsApexInTopTeam && layout === "positionsB"
+                          ? "POS 2 · flex · click again: #1 alone on top"
+                          : "POS 2 · secondary / flex · click again: fold #1 into top five",
+                      )}>&#x29CB;</button>
+                <button type="button" class="pyramid-view-btn is-symbol${layout === "list" ? " on" : ""}" data-pyramid="layout" data-layout="list" aria-label="List"${titleAttr("List · rank order wrap")}>🦙</button>
+              </div>`
+                      : ""
+                  }
+                  <button type="button" class="pyramid-view-btn${view === "pyramid" ? " on" : ""}" data-pyramid="view" data-view="pyramid">Pyramid</button>
+                </div>
                 <button type="button" class="pyramid-view-btn${view === "ring" ? " on" : ""}" data-pyramid="view" data-view="ring">Ring</button>
                 <button type="button" class="pyramid-view-btn${view === "jersey" ? " on" : ""}" data-pyramid="view" data-view="jersey">Jersey</button>
                 <button type="button" class="pyramid-view-btn${view === "draft" ? " on" : ""}" data-pyramid="view" data-view="draft">Draft</button>
                 <button type="button" class="pyramid-view-btn${view === "bracket" ? " on" : ""}" data-pyramid="view" data-view="bracket">Bracket</button>
+              </div>
+              <div class="pyramid-zoom" role="group" aria-label="Zoom">
+                <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-out" aria-label="Zoom out"${titleAttr("Zoom out")}>−</button>
+                <button type="button" class="pyramid-btn ghost is-symbol" data-pyramid="zoom-reset" aria-label="Reset zoom"${titleAttr("Reset zoom")}>🔍</button>
+                <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-in" aria-label="Zoom in"${titleAttr("Zoom in")}>+</button>
               </div>
               <button type="button" class="pyramid-btn ghost" data-pyramid="reset"${titleAttr(
                 view === "bracket" ? "Clear bracket picks" : "Restore default Top 50",
@@ -1186,6 +1191,22 @@ export class PyramidHub {
     this.renderKeepingScroll();
   }
 
+  private onChange(e: Event): void {
+    const t = e.target as HTMLElement | null;
+    if (!t) return;
+    const act = t.closest<HTMLElement>("[data-pyramid]")?.getAttribute("data-pyramid");
+    if (act === "draft-inspect-seat" && t instanceof HTMLSelectElement) {
+      const idx = Number(t.value);
+      if (!Number.isInteger(idx) || idx < 0) return;
+      const seat = this.draftState().seats[idx];
+      if (!seat || seat.roster.length < DRAFT_ROSTER_SIZE) return;
+      this.draftInspectSeat = idx;
+      this.draftInspectPlayerId = seat.roster[0]?.playerId ?? null;
+      this.draftInspectFlipY = 0;
+      this.render();
+    }
+  }
+
   private onClick(e: MouseEvent): void {
     const t = e.target as HTMLElement | null;
     if (!t) return;
@@ -1855,22 +1876,40 @@ export class PyramidHub {
   private draftInspectHtml(draft: DraftSave, seatIndex: number): string {
     const seat = draft.seats[seatIndex]!;
     const playerMode = this.draftInspectMode === "player";
-    const tabs = draft.seats
-      .filter((s) => s.roster.length >= DRAFT_ROSTER_SIZE)
-      .map((s) => {
-        const i = draft.seats.indexOf(s);
-        return `<button type="button" class="pyramid-draft-inspect-tab${i === seatIndex ? " on" : ""}" data-pyramid="draft-inspect" data-seat-index="${i}">${escapeHtml(s.name)}</button>`;
-      })
+    const seatOptions = draft.seats
+      .map((s, i) => ({ s, i }))
+      .filter(({ s }) => s.roster.length >= DRAFT_ROSTER_SIZE)
+      .map(
+        ({ s, i }) =>
+          `<option value="${i}" ${i === seatIndex ? "selected" : ""}>${escapeHtml(s.name)}${
+            s.kind === "human" ? " (YOU)" : ""
+          }</option>`,
+      )
       .join("");
     const canSaveTeam = seat.roster.length >= DRAFT_ROSTER_SIZE;
+    const crestTeam = this.db.teams.get(DRAFT_TEAM_ID) ?? {
+      id: DRAFT_TEAM_ID,
+      name: "Draft",
+      abbreviation: "DFT",
+      badgeAsset: DRAFT_DEFAULT_BADGE,
+      primaryColor: "#1B2430",
+      secondaryColor: "#E8A84A",
+    };
+    const titleBadge = teamBadgeHtml(crestTeam, { className: "char-team-crest", size: 44 });
     return `
       <div class="pyramid-draft pyramid-draft-inspect-view">
         <div class="char-panel char-panel-team pyramid-draft-formation-panel">
           <div class="team-select-head">
-            <div class="pyramid-draft-inspect-heading">
-              <h3 class="pyramid-draft-inspect-name">${escapeHtml(seat.name)}</h3>
+            <div class="char-team-title">${titleBadge}<div class="eyebrow">${escapeHtml(seat.name)}</div></div>
+            <div class="formation-toolbar" role="toolbar" aria-label="Draft formation controls">
+              <label class="formation-select-wrap pyramid-draft-seat-wrap">
+                <span class="visually-hidden">Draft team</span>
+                <select class="formation-chip formation-select on" data-pyramid="draft-inspect-seat" aria-label="Draft team">
+                  ${seatOptions}
+                </select>
+              </label>
+              <span class="formation-chip formation-chip-static on" aria-label="Formation">BASKETBALL 5</span>
             </div>
-            <div class="pyramid-draft-inspect-tabs" role="tablist">${tabs}</div>
           </div>
           ${this.draftFormationPanelHtml(seat)}
           <div class="char-modes">

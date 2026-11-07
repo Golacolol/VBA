@@ -129,35 +129,35 @@
     "playerId": "espn_4433188",
     "teamId": "nba_bos",
     "shirtNumber": 99,
-    "squadRole": "FIRST_TEAM",
-    "captain": true
+    "squadRole": "BENCH",
+    "captain": false
   },
   {
     "playerId": "espn_3195",
     "teamId": "nba_bos",
     "shirtNumber": 45,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "espn_4277951",
     "teamId": "nba_bos",
     "shirtNumber": 52,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "espn_4251",
     "teamId": "nba_bos",
     "shirtNumber": 13,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "espn_5175647",
     "teamId": "nba_bos",
     "shirtNumber": 28,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
@@ -171,7 +171,7 @@
     "playerId": "espn_4065804",
     "teamId": "nba_bos",
     "shirtNumber": 30,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
@@ -185,14 +185,14 @@
     "playerId": "espn_4066354",
     "teamId": "nba_bos",
     "shirtNumber": 11,
-    "squadRole": "BENCH",
-    "captain": false
+    "squadRole": "FIRST_TEAM",
+    "captain": true
   },
   {
     "playerId": "espn_4397424",
     "teamId": "nba_bos",
     "shirtNumber": 88,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
@@ -213,7 +213,7 @@
     "playerId": "espn_4065648",
     "teamId": "nba_bos",
     "shirtNumber": 0,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
@@ -227,7 +227,7 @@
     "playerId": "espn_3078576",
     "teamId": "nba_bos",
     "shirtNumber": 9,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
@@ -1207,15 +1207,15 @@
     "playerId": "espn_4683730",
     "teamId": "nba_nyk",
     "shirtNumber": 14,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "espn_4277869",
     "teamId": "nba_nyk",
     "shirtNumber": 5,
-    "squadRole": "FIRST_TEAM",
-    "captain": true
+    "squadRole": "BENCH",
+    "captain": false
   },
   {
     "playerId": "espn_3934719",
@@ -1228,15 +1228,15 @@
     "playerId": "espn_3147657",
     "teamId": "nba_nyk",
     "shirtNumber": 25,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
     "playerId": "espn_3934672",
     "teamId": "nba_nyk",
     "shirtNumber": 11,
-    "squadRole": "BENCH",
-    "captain": false
+    "squadRole": "FIRST_TEAM",
+    "captain": true
   },
   {
     "playerId": "espn_2528426",
@@ -1249,7 +1249,7 @@
     "playerId": "espn_5211983",
     "teamId": "nba_nyk",
     "shirtNumber": 4,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
@@ -1263,14 +1263,14 @@
     "playerId": "espn_6585",
     "teamId": "nba_nyk",
     "shirtNumber": 0,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "espn_3062679",
     "teamId": "nba_nyk",
     "shirtNumber": 3,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
@@ -1312,7 +1312,7 @@
     "playerId": "espn_3136195",
     "teamId": "nba_nyk",
     "shirtNumber": 32,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
@@ -2796,21 +2796,21 @@
     "playerId": "espn_4397136",
     "teamId": "nba_nop",
     "shirtNumber": 41,
-    "squadRole": "FIRST_TEAM",
-    "captain": true
+    "squadRole": "BENCH",
+    "captain": false
   },
   {
     "playerId": "espn_4712862",
     "teamId": "nba_nop",
     "shirtNumber": 8,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
     "playerId": "espn_5144091",
     "teamId": "nba_nop",
     "shirtNumber": 0,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
@@ -2831,7 +2831,7 @@
     "playerId": "espn_3442",
     "teamId": "nba_nop",
     "shirtNumber": 6,
-    "squadRole": "FIRST_TEAM",
+    "squadRole": "BENCH",
     "captain": false
   },
   {
@@ -2859,7 +2859,7 @@
     "playerId": "espn_5061589",
     "teamId": "nba_nop",
     "shirtNumber": 21,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
@@ -2873,8 +2873,8 @@
     "playerId": "espn_3907497",
     "teamId": "nba_nop",
     "shirtNumber": 5,
-    "squadRole": "BENCH",
-    "captain": false
+    "squadRole": "FIRST_TEAM",
+    "captain": true
   },
   {
     "playerId": "espn_4703115",
@@ -2887,7 +2887,7 @@
     "playerId": "espn_4277956",
     "teamId": "nba_nop",
     "shirtNumber": 3,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {
@@ -2915,7 +2915,7 @@
     "playerId": "espn_4395628",
     "teamId": "nba_nop",
     "shirtNumber": 1,
-    "squadRole": "BENCH",
+    "squadRole": "FIRST_TEAM",
     "captain": false
   },
   {

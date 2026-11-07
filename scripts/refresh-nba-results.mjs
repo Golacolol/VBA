@@ -2,9 +2,14 @@
  * Sync ESPN NBA scoreboard into public/data/fixtures.json —
  * completed scores + upcoming schedule (replaces fake seed stubs).
  *
+ * Prefer a full-season CSV seed first (pairings do not change mid-season):
+ *   node scripts/seed-nba-season-fixtures.mjs --season 2026-27
+ * Then use this script to refresh recent scores / near-term tip-offs.
+ *
  * Usage:
  *   node scripts/refresh-nba-results.mjs [--from YYYYMMDD] [--to YYYYMMDD]
  *   node scripts/refresh-nba-results.mjs --schedule   # tip-offs / slate only
+ *   node scripts/refresh-nba-results.mjs --prune-other-seasons  # drop fixtures outside --from/--to
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -403,7 +408,19 @@ async function main() {
   // Drop all remaining fake seed stubs — ESPN slate is authoritative.
   const before = fixtures.length;
   fixtures = fixtures.filter((f) => !String(f.id).startsWith("nba_fix_"));
-  const pruned = before - fixtures.length;
+  let pruned = before - fixtures.length;
+
+  // Optional: keep only the active window so prior-season leftovers cannot return.
+  if (process.argv.includes("--prune-other-seasons")) {
+    const keepFrom = `${from.slice(0, 4)}-${from.slice(4, 6)}-${from.slice(6, 8)}`;
+    // Allow tip-offs that spill one calendar day past --to (UK vs ET).
+    const toDate = new Date(Date.UTC(Number(to.slice(0, 4)), Number(to.slice(4, 6)) - 1, Number(to.slice(6, 8))));
+    toDate.setUTCDate(toDate.getUTCDate() + 1);
+    const keepTo = toDate.toISOString().slice(0, 10);
+    const beforeSeason = fixtures.length;
+    fixtures = fixtures.filter((f) => f.date >= keepFrom && f.date <= keepTo);
+    pruned += beforeSeason - fixtures.length;
+  }
 
   // Collapse UK/ET date-shift duplicates (same pairing + score within 36h).
   const deduped = [];
