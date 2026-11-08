@@ -72,7 +72,11 @@ import { standingsFor } from "../football/league/Standings";
 import { getFormation } from "../football/teams/Formation";
 import { DRAFT_DEFAULT_BADGE, DRAFT_TEAM_ID, MITEAM_FORMATION } from "../core/SaveManager";
 import { completedDraftSeat, saveDraftSeatAsUserTeam } from "../football/pyramid/DraftTeam";
-import { formationToPitchPercent, separatePitchMarkers } from "./CharacterSelect";
+import {
+  fitFormationHeaderChips,
+  formationToPitchPercent,
+  separatePitchMarkers,
+} from "./CharacterSelect";
 import { contrastingKitText } from "./kitContrast";
 import {
   fitKitSurnameElements,
@@ -404,6 +408,28 @@ export class PyramidHub {
     const st = this.state();
     const view = st.view;
     const layout = this.pyramidDisplay;
+    const draft = view === "draft" ? this.draftState() : null;
+    const inspectingDraft =
+      draft != null && this.draftInspectSeat != null && !!draft.seats[this.draftInspectSeat];
+
+    // Draft Formation opens as the main Formation panel — no Pyramid chrome.
+    if (inspectingDraft) {
+      this.root.innerHTML = `
+        <div class="pyramid-shell pyramid-shell-draft-inspect">
+          <div class="pyramid-body is-draft-inspect" data-pyramid-scroll>
+            ${this.draftInspectHtml(draft!, this.draftInspectSeat!)}
+          </div>
+        </div>
+      `;
+      this.stopRingSpin();
+      this.bindRingResizeObserver(false);
+      requestAnimationFrame(() => {
+        fitKitSurnameElements(this.root);
+        fitFormationHeaderChips(this.root);
+      });
+      return;
+    }
+
     this.root.innerHTML = `
       <div class="pyramid-shell">
         <header class="pyramid-head">
@@ -1750,9 +1776,7 @@ export class PyramidHub {
    */
   private draftHtml(): string {
     const draft = this.draftState();
-    if (this.draftInspectSeat != null && draft.seats[this.draftInspectSeat]) {
-      return this.draftInspectHtml(draft, this.draftInspectSeat);
-    }
+    // Inspect renders from `render()` without Pyramid chrome — never nest here.
     const lobby = draft.status === "ready";
     const ctx = currentDraftPick(draft);
     const total = draftTotalPicks(draft.seats.length);
@@ -1899,18 +1923,17 @@ export class PyramidHub {
     };
     const titleBadge = teamBadgeHtml(crestTeam, { className: "char-team-crest", size: 44 });
     return `
-      <div class="pyramid-draft pyramid-draft-inspect-view">
+      <div class="pyramid-draft-inspect-view">
         <div class="char-panel char-panel-team pyramid-draft-formation-panel">
           <div class="team-select-head">
             <div class="char-team-title">${titleBadge}<div class="eyebrow">${escapeHtml(seat.name)}</div></div>
             <div class="formation-toolbar" role="toolbar" aria-label="Draft formation controls">
               <label class="formation-select-wrap pyramid-draft-seat-wrap">
                 <span class="visually-hidden">Draft team</span>
-                <select class="formation-chip formation-select on" data-pyramid="draft-inspect-seat" aria-label="Draft team">
+                <select class="formation-chip formation-select on" data-pyramid="draft-inspect-seat" aria-label="Draft team"${titleAttr("Switch draft team")}>
                   ${seatOptions}
                 </select>
               </label>
-              <span class="formation-chip formation-chip-static on" aria-label="Formation">BASKETBALL 5</span>
             </div>
           </div>
           ${this.draftFormationPanelHtml(seat)}
