@@ -463,6 +463,9 @@ export const CLASSIC_ERAS = [
     franchiseId: "nba_phx",
     season: "1992/93",
     name: "Phoenix Suns — 1992/93",
+    historicLook: {
+      badgeAsset: "/assets/emblems/classic_phx_1992_93.png",
+    },
     starters: [
       { name: "Kevin Johnson", number: 7, pos: "PG" },
       { name: "Dan Majerle", number: 9, pos: "SG" },
