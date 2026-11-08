@@ -459,10 +459,12 @@ export class PyramidHub {
                 <button type="button" class="pyramid-btn ghost is-symbol" data-pyramid="zoom-reset" aria-label="Reset zoom"${titleAttr("Reset zoom")}>🔍</button>
                 <button type="button" class="pyramid-btn ghost" data-pyramid="zoom-in" aria-label="Zoom in"${titleAttr("Zoom in")}>+</button>
               </div>
-              <button type="button" class="pyramid-btn ghost" data-pyramid="reset"${titleAttr(
-                view === "bracket" ? "Clear bracket picks" : "Restore default Top 50",
-              )}>Reset</button>
-              <button type="button" class="pyramid-btn" data-pyramid="back">Back</button>
+              <div class="pyramid-nav" role="group" aria-label="Reset and back">
+                <button type="button" class="pyramid-btn ghost is-symbol" data-pyramid="reset" aria-label="Reset"${titleAttr(
+                  view === "bracket" ? "Clear bracket picks" : "Restore default Top 50",
+                )}>↻</button>
+                <button type="button" class="pyramid-btn ghost is-symbol" data-pyramid="back" aria-label="Back"${titleAttr("Back")}>↩</button>
+              </div>
             </div>
           </div>
         </header>

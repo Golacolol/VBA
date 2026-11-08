@@ -7114,7 +7114,8 @@ button.pred-side:hover {
   height: 0;
   display: none;
 }
-.pyramid-zoom {
+.pyramid-zoom,
+.pyramid-nav {
   display: inline-flex;
   align-items: center;
   gap: 2px;
@@ -7122,7 +7123,8 @@ button.pred-side:hover {
   border-radius: 8px;
   overflow: hidden;
 }
-.pyramid-zoom .pyramid-btn {
+.pyramid-zoom .pyramid-btn,
+.pyramid-nav .pyramid-btn {
   border: 0;
   border-radius: 0;
   min-width: 34px;
@@ -7131,7 +7133,8 @@ button.pred-side:hover {
   line-height: 1;
   background: rgba(255, 255, 255, 0.04);
 }
-.pyramid-zoom .pyramid-btn:hover {
+.pyramid-zoom .pyramid-btn:hover,
+.pyramid-nav .pyramid-btn:hover {
   background: rgba(62, 198, 255, 0.18);
 }
 .pyramid-tiers {
