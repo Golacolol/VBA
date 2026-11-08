@@ -179,6 +179,11 @@ export class PyramidHub {
   private draftLineupDragSlot: string | null = null;
   /** Ignore the click that follows an HTML5 drop so it does not reverse the swap. */
   private suppressDraftInspectClick = false;
+  /** Draft Formation chalk board (same behaviour as CharacterSelect). */
+  private draftChalkMode = false;
+  private draftChalkStrokes: { x: number; y: number }[][] = [];
+  private draftChalkDraft: { x: number; y: number }[] | null = null;
+  private draftChalkPointerId: number | null = null;
   onAction: ((act: PyramidAction) => void) | null = null;
 
   /** AI: show top-3 contenders (diamond on #2/#3). */
@@ -214,6 +219,93 @@ export class PyramidHub {
         )
         .forEach((el) => el.classList.remove("is-drag-over", "is-dragging", "drag-over", "dragging"));
     });
+    this.root.addEventListener("contextmenu", (e) => this.onContextMenu(e));
+  }
+
+  private clearDraftChalk(): void {
+    this.draftChalkStrokes = [];
+    this.draftChalkDraft = null;
+    this.draftChalkPointerId = null;
+    this.paintDraftChalkCanvas();
+  }
+
+  private resetDraftChalkSession(): void {
+    this.draftChalkMode = false;
+    this.clearDraftChalk();
+  }
+
+  private toggleDraftChalkMode(): void {
+    this.draftChalkMode = !this.draftChalkMode;
+    if (!this.draftChalkMode) {
+      this.draftChalkDraft = null;
+      this.draftChalkPointerId = null;
+    }
+    this.render();
+  }
+
+  private chalkPointFromEvent(pitchEl: HTMLElement, e: PointerEvent): { x: number; y: number } | null {
+    const rect = pitchEl.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return null;
+    return {
+      x: Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width)),
+      y: Math.min(1, Math.max(0, (e.clientY - rect.top) / rect.height)),
+    };
+  }
+
+  private paintDraftChalkCanvas(): void {
+    const canvas = this.root.querySelector<HTMLCanvasElement>(".team-pitch-chalk");
+    const pitch = this.root.querySelector<HTMLElement>(".pyramid-draft-formation-panel .team-pitch");
+    if (!canvas || !pitch) return;
+    const rect = pitch.getBoundingClientRect();
+    const w = Math.max(1, Math.round(rect.width));
+    const h = Math.max(1, Math.round(rect.height));
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w;
+      canvas.height = h;
+    }
+    const getCtx = canvas.getContext?.bind(canvas);
+    if (!getCtx) return;
+    let ctx: CanvasRenderingContext2D | null = null;
+    try {
+      ctx = getCtx("2d");
+    } catch {
+      return;
+    }
+    if (!ctx || typeof ctx.beginPath !== "function") return;
+    ctx.clearRect(0, 0, w, h);
+    const strokes = this.draftChalkDraft
+      ? [...this.draftChalkStrokes, this.draftChalkDraft]
+      : this.draftChalkStrokes;
+    for (const stroke of strokes) {
+      if (stroke.length < 2) continue;
+      ctx.beginPath();
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "rgba(245, 248, 242, 0.82)";
+      ctx.lineWidth = Math.max(6, Math.min(w, h) * 0.018);
+      ctx.shadowColor = "rgba(255, 255, 255, 0.35)";
+      ctx.shadowBlur = 1.2;
+      ctx.moveTo(stroke[0]!.x * w, stroke[0]!.y * h);
+      for (let i = 1; i < stroke.length; i++) {
+        ctx.lineTo(stroke[i]!.x * w, stroke[i]!.y * h);
+      }
+      ctx.stroke();
+      ctx.strokeStyle = "rgba(220, 228, 216, 0.35)";
+      ctx.lineWidth = Math.max(10, Math.min(w, h) * 0.028);
+      ctx.shadowBlur = 0;
+      ctx.stroke();
+    }
+  }
+
+  private onContextMenu(e: MouseEvent): void {
+    const chalkBtn = (e.target as HTMLElement | null)?.closest?.<HTMLElement>(
+      "[data-pyramid='draft-chalk']",
+    );
+    if (chalkBtn && this.root.contains(chalkBtn)) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.clearDraftChalk();
+    }
   }
 
   show(): void {
@@ -412,6 +504,8 @@ export class PyramidHub {
     const inspectingDraft =
       draft != null && this.draftInspectSeat != null && !!draft.seats[this.draftInspectSeat];
 
+    this.root.classList.toggle("is-draft-inspect", inspectingDraft);
+
     // Draft Formation opens as the main Formation panel — no Pyramid chrome.
     if (inspectingDraft) {
       this.root.innerHTML = `
@@ -426,6 +520,7 @@ export class PyramidHub {
       requestAnimationFrame(() => {
         fitKitSurnameElements(this.root);
         fitFormationHeaderChips(this.root);
+        this.paintDraftChalkCanvas();
       });
       return;
     }
@@ -1231,6 +1326,7 @@ export class PyramidHub {
       this.draftInspectSeat = idx;
       this.draftInspectPlayerId = seat.roster[0]?.playerId ?? null;
       this.draftInspectFlipY = 0;
+      this.resetDraftChalkSession();
       this.render();
     }
   }
@@ -1473,7 +1569,13 @@ export class PyramidHub {
       this.draftInspectPlayerId = seat.roster[0]?.playerId ?? null;
       this.draftInspectMode = "team";
       this.draftInspectFlipY = 0;
+      this.resetDraftChalkSession();
       this.render();
+      return;
+    }
+    if (act === "draft-chalk") {
+      e.preventDefault();
+      this.toggleDraftChalkMode();
       return;
     }
     if (act === "draft-inspect-back") {
@@ -1481,44 +1583,19 @@ export class PyramidHub {
       this.draftInspectPlayerId = null;
       this.draftInspectMode = "team";
       this.draftInspectFlipY = 0;
+      this.resetDraftChalkSession();
       this.render();
       return;
     }
     if (act === "draft-inspect-pick") {
       const playerId = t.closest<HTMLElement>("[data-player-id]")?.getAttribute("data-player-id");
       if (!playerId || this.draftInspectSeat == null) return;
+      // Match main Formation: click only selects. Rearrange via drag-and-drop (any seat).
       if (this.suppressDraftInspectClick) {
         this.suppressDraftInspectClick = false;
-        this.draftInspectPlayerId = playerId;
-        this.draftInspectFlipY = 0;
-        this.render();
-        return;
-      }
-      const draft = this.draftState();
-      const seat = draft.seats[this.draftInspectSeat];
-      if (!seat) return;
-      // PLAYER SELECT: tapping a player only focuses their card (no lineup swap).
-      if (this.draftInspectMode === "player") {
-        this.draftInspectPlayerId = playerId;
-        this.draftInspectFlipY = 0;
-        this.render();
-        return;
-      }
-      const toSlot =
-        t.closest<HTMLElement>("[data-slot]")?.getAttribute("data-slot") ??
-        seat.roster.find((r) => r.playerId === playerId)?.slot ??
-        null;
-      const fromSlot =
-        this.draftInspectPlayerId && this.draftInspectPlayerId !== playerId
-          ? seat.roster.find((r) => r.playerId === this.draftInspectPlayerId)?.slot ?? null
-          : null;
-      if (fromSlot && toSlot && fromSlot !== toSlot) {
-        this.applyDraftInspectSwap(fromSlot, toSlot);
-        this.draftInspectPlayerId = playerId;
-        this.render();
-        return;
       }
       this.draftInspectPlayerId = playerId;
+      this.draftInspectFlipY = 0;
       this.render();
       return;
     }
@@ -1928,6 +2005,7 @@ export class PyramidHub {
           <div class="team-select-head">
             <div class="char-team-title">${titleBadge}<div class="eyebrow">${escapeHtml(seat.name)}</div></div>
             <div class="formation-toolbar" role="toolbar" aria-label="Draft formation controls">
+              <button type="button" class="formation-chip chalk-chip${this.draftChalkMode ? " on" : ""}" data-pyramid="draft-chalk" aria-pressed="${this.draftChalkMode ? "true" : "false"}"${titleAttr("Chalk board — draw on the court · right-click to clear")}>CHALK</button>
               <label class="formation-select-wrap pyramid-draft-seat-wrap">
                 <span class="visually-hidden">Draft team</span>
                 <select class="formation-chip formation-select on" data-pyramid="draft-inspect-seat" aria-label="Draft team"${titleAttr("Switch draft team")}>
@@ -2125,9 +2203,10 @@ export class PyramidHub {
               primaryColor: "#1B2430",
               secondaryColor: "#E8A84A",
             };
-            return `<div class="team-pitch team-pitch-court" aria-label="${escapeAttr(seat.name)} formation">
+            return `<div class="team-pitch team-pitch-court${this.draftChalkMode ? " chalking" : ""}" aria-label="${escapeAttr(seat.name)} formation">
             ${teamBadgeHtml(crestTeam, { className: "team-pitch-crest", size: 160 })}
             <div class="team-pitch-markings court-markings" aria-hidden="true"></div>
+            <canvas class="team-pitch-chalk" aria-hidden="true"></canvas>
             ${starters}
           </div>`;
           })();
@@ -2258,6 +2337,22 @@ export class PyramidHub {
   }
 
   private onPointerDown(e: PointerEvent): void {
+    if (this.draftInspectSeat != null && this.draftChalkMode && e.button === 0) {
+      const pitchEl = (e.target as HTMLElement | null)?.closest?.<HTMLElement>(
+        ".pyramid-draft-formation-panel .team-pitch",
+      );
+      if (pitchEl && this.root.contains(pitchEl)) {
+        e.preventDefault();
+        e.stopPropagation();
+        const pt = this.chalkPointFromEvent(pitchEl, e);
+        if (!pt) return;
+        this.draftChalkPointerId = e.pointerId;
+        this.draftChalkDraft = [pt];
+        pitchEl.setPointerCapture(e.pointerId);
+        this.paintDraftChalkCanvas();
+        return;
+      }
+    }
     if (this.state().view !== "ring") return;
     const t = e.target as HTMLElement | null;
     if (!t?.closest?.("[data-pyramid='ring-stage'], .pyramid-ring-viewport")) return;
@@ -2269,6 +2364,23 @@ export class PyramidHub {
   }
 
   private onPointerMove(e: PointerEvent): void {
+    if (
+      this.draftInspectSeat != null &&
+      this.draftChalkMode &&
+      this.draftChalkDraft &&
+      e.pointerId === this.draftChalkPointerId
+    ) {
+      const pitchEl = this.root.querySelector<HTMLElement>(".pyramid-draft-formation-panel .team-pitch");
+      if (!pitchEl) return;
+      e.preventDefault();
+      const pt = this.chalkPointFromEvent(pitchEl, e);
+      if (!pt) return;
+      const last = this.draftChalkDraft[this.draftChalkDraft.length - 1]!;
+      if (Math.hypot(pt.x - last.x, pt.y - last.y) < 0.004) return;
+      this.draftChalkDraft.push(pt);
+      this.paintDraftChalkCanvas();
+      return;
+    }
     if (!this.ringDragging) return;
     const dx = e.clientX - this.ringLastX;
     this.ringLastX = e.clientX;
@@ -2277,6 +2389,21 @@ export class PyramidHub {
   }
 
   private onPointerUp(e: PointerEvent): void {
+    if (this.draftInspectSeat != null && this.draftChalkMode && e.pointerId === this.draftChalkPointerId) {
+      const pitchEl = this.root.querySelector<HTMLElement>(".pyramid-draft-formation-panel .team-pitch");
+      try {
+        pitchEl?.releasePointerCapture(e.pointerId);
+      } catch {
+        /* already released */
+      }
+      if (this.draftChalkDraft && this.draftChalkDraft.length >= 2) {
+        this.draftChalkStrokes.push(this.draftChalkDraft);
+      }
+      this.draftChalkDraft = null;
+      this.draftChalkPointerId = null;
+      this.paintDraftChalkCanvas();
+      return;
+    }
     if (!this.ringDragging) return;
     this.ringDragging = false;
     try {

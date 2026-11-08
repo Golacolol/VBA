@@ -6964,6 +6964,13 @@ button.pred-side:hover {
 .pyramid-hub.open {
   display: flex;
 }
+/* Draft Formation — same centered full-bleed host as `.char-select` (no hub padding overrun). */
+.pyramid-hub.is-draft-inspect {
+  padding: 0;
+  place-items: center;
+  align-items: center;
+  justify-content: center;
+}
 .pyramid-shell {
   width: 100%;
   max-width: none;
@@ -8530,26 +8537,40 @@ button.pred-side:hover {
   border-color: rgba(232, 168, 74, 0.55);
 }
 .pyramid-shell-draft-inspect {
-  padding: 10px 12px 16px;
+  padding: 0;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
 }
 .pyramid-shell-draft-inspect .pyramid-body.is-draft-inspect {
   border: 0;
   border-radius: 0;
   background: transparent;
   padding: 0;
-  overflow: auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
 }
 .pyramid-draft-inspect-view {
   width: 100%;
+  height: 100%;
   max-width: none;
   margin: 0;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   box-sizing: border-box;
-  overflow: auto;
+  overflow: hidden;
 }
-/* Same footprint as CharacterSelect formation — inherit its responsive triad / narrow stack. */
+/* Match `.char-panel-team` footprint — size to host, never force 98vw past hub padding. */
 .pyramid-draft-formation-panel.char-panel-team {
   width: min(1380px, 98vw);
   min-width: min(1380px, 98vw);
@@ -8561,8 +8582,8 @@ button.pred-side:hover {
   border-color: rgba(232, 168, 74, 0.45);
   box-sizing: border-box;
   flex: 0 1 auto;
+  overflow: hidden;
 }
-/* Keep the same crest + name | toolbar grid as main Formation (no wrap-to-own-line). */
 .pyramid-draft-formation-panel .formation-toolbar {
   justify-content: flex-end;
   min-width: 0;
@@ -8572,13 +8593,6 @@ button.pred-side:hover {
 }
 .pyramid-draft-seat-wrap select.formation-select {
   max-width: 100%;
-}
-.pyramid-draft-lineup-hint {
-  opacity: 0.55;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: none;
-  cursor: default;
 }
 .pyramid-draft-formation-panel .pitch-token.dragging,
 .pyramid-draft-formation-panel .bench-card.dragging,
