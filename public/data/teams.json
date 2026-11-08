@@ -1057,7 +1057,7 @@
     "city": "Chicago",
     "primaryColor": "#CE1141",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_chi.svg",
+    "badgeAsset": "/assets/emblems/classic_chi_1995_96.png",
     "defaultKit": {
       "shirt": "#CE1141",
       "shorts": "#000000",
@@ -1168,7 +1168,7 @@
     "city": "Boston",
     "primaryColor": "#007A33",
     "secondaryColor": "#BA9653",
-    "badgeAsset": "/assets/emblems/nba_bos.svg",
+    "badgeAsset": "/assets/emblems/classic_bos_1985_86.png",
     "defaultKit": {
       "shirt": "#007A33",
       "shorts": "#BA9653",
@@ -1205,7 +1205,7 @@
     "city": "Minneapolis",
     "primaryColor": "#4B90CD",
     "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "badgeAsset": "/assets/emblems/classic_lal_1953_54.png",
     "defaultKit": {
       "shirt": "#4B90CD",
       "shorts": "#FDB927",
@@ -1242,7 +1242,7 @@
     "city": "Los Angeles",
     "primaryColor": "#552583",
     "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "badgeAsset": "/assets/emblems/classic_lal_2000_01.png",
     "defaultKit": {
       "shirt": "#552583",
       "shorts": "#FDB927",
@@ -1279,7 +1279,7 @@
     "city": "Los Angeles",
     "primaryColor": "#552583",
     "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "badgeAsset": "/assets/emblems/classic_lal_2009_10.png",
     "defaultKit": {
       "shirt": "#552583",
       "shorts": "#FDB927",
@@ -1316,7 +1316,7 @@
     "city": "Los Angeles",
     "primaryColor": "#552583",
     "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "badgeAsset": "/assets/emblems/classic_lal_2019_20.png",
     "defaultKit": {
       "shirt": "#552583",
       "shorts": "#FDB927",
@@ -1353,7 +1353,7 @@
     "city": "San Antonio",
     "primaryColor": "#C4CED4",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_sas.png",
+    "badgeAsset": "/assets/emblems/classic_sas_2013_14.png",
     "defaultKit": {
       "shirt": "#C4CED4",
       "shorts": "#000000",
@@ -1390,7 +1390,7 @@
     "city": "Miami",
     "primaryColor": "#98002E",
     "secondaryColor": "#F9A01B",
-    "badgeAsset": "/assets/emblems/nba_mia.svg",
+    "badgeAsset": "/assets/emblems/classic_mia_2012_13.png",
     "defaultKit": {
       "shirt": "#98002E",
       "shorts": "#F9A01B",
@@ -1427,7 +1427,7 @@
     "city": "Denver",
     "primaryColor": "#0E2240",
     "secondaryColor": "#FEC524",
-    "badgeAsset": "/assets/emblems/nba_den.svg",
+    "badgeAsset": "/assets/emblems/classic_den_2022_23.png",
     "defaultKit": {
       "shirt": "#0E2240",
       "shorts": "#FEC524",
@@ -1464,7 +1464,7 @@
     "city": "Boston",
     "primaryColor": "#007A33",
     "secondaryColor": "#BA9653",
-    "badgeAsset": "/assets/emblems/nba_bos.svg",
+    "badgeAsset": "/assets/emblems/classic_bos_2007_08.png",
     "defaultKit": {
       "shirt": "#007A33",
       "shorts": "#BA9653",
@@ -1501,7 +1501,7 @@
     "city": "Dallas",
     "primaryColor": "#00538C",
     "secondaryColor": "#002B5E",
-    "badgeAsset": "/assets/emblems/nba_dal.svg",
+    "badgeAsset": "/assets/emblems/classic_dal_2010_11.png",
     "defaultKit": {
       "shirt": "#00538C",
       "shorts": "#002B5E",
@@ -1538,7 +1538,7 @@
     "city": "Chicago",
     "primaryColor": "#CE1141",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_chi.svg",
+    "badgeAsset": "/assets/emblems/classic_chi_2010_11.png",
     "defaultKit": {
       "shirt": "#CE1141",
       "shorts": "#000000",
@@ -1612,7 +1612,7 @@
     "city": "Los Angeles",
     "primaryColor": "#552583",
     "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "badgeAsset": "/assets/emblems/classic_lal_1986_87.png",
     "defaultKit": {
       "shirt": "#552583",
       "shorts": "#FDB927",
@@ -1686,7 +1686,7 @@
     "city": "Houston",
     "primaryColor": "#CE1141",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "badgeAsset": "/assets/emblems/classic_hou_1993_94.png",
     "defaultKit": {
       "shirt": "#CE1141",
       "shorts": "#000000",
@@ -1723,7 +1723,7 @@
     "city": "Houston",
     "primaryColor": "#CE1141",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "badgeAsset": "/assets/emblems/classic_hou_2006_07.png",
     "defaultKit": {
       "shirt": "#CE1141",
       "shorts": "#000000",
@@ -1797,7 +1797,7 @@
     "city": "Indiana",
     "primaryColor": "#002D62",
     "secondaryColor": "#FDBB30",
-    "badgeAsset": "/assets/emblems/nba_ind.svg",
+    "badgeAsset": "/assets/emblems/classic_ind_1999_00.png",
     "defaultKit": {
       "shirt": "#002D62",
       "shorts": "#FDBB30",
@@ -1834,7 +1834,7 @@
     "city": "Toronto",
     "primaryColor": "#CE1141",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_tor.svg",
+    "badgeAsset": "/assets/emblems/classic_tor_2000_01.png",
     "defaultKit": {
       "shirt": "#CE1141",
       "shorts": "#000000",
@@ -1871,7 +1871,7 @@
     "city": "Utah",
     "primaryColor": "#002B5C",
     "secondaryColor": "#00471B",
-    "badgeAsset": "/assets/emblems/nba_uta.svg",
+    "badgeAsset": "/assets/emblems/classic_uta_1997_98.png",
     "defaultKit": {
       "shirt": "#002B5C",
       "shorts": "#00471B",
@@ -1908,7 +1908,7 @@
     "city": "Philadelphia",
     "primaryColor": "#006BB6",
     "secondaryColor": "#ED174C",
-    "badgeAsset": "/assets/emblems/nba_phi.svg",
+    "badgeAsset": "/assets/emblems/classic_phi_2000_01.png",
     "defaultKit": {
       "shirt": "#006BB6",
       "shorts": "#ED174C",
@@ -1945,7 +1945,7 @@
     "city": "Detroit",
     "primaryColor": "#C8102E",
     "secondaryColor": "#1D42BA",
-    "badgeAsset": "/assets/emblems/nba_det.svg",
+    "badgeAsset": "/assets/emblems/classic_det_1988_89.png",
     "defaultKit": {
       "shirt": "#C8102E",
       "shorts": "#1D42BA",
@@ -1982,7 +1982,7 @@
     "city": "New York",
     "primaryColor": "#006BB6",
     "secondaryColor": "#F58426",
-    "badgeAsset": "/assets/emblems/nba_nyk.svg",
+    "badgeAsset": "/assets/emblems/classic_nyk_1993_94.png",
     "defaultKit": {
       "shirt": "#006BB6",
       "shorts": "#F58426",
@@ -2019,7 +2019,7 @@
     "city": "New York",
     "primaryColor": "#006BB6",
     "secondaryColor": "#F58426",
-    "badgeAsset": "/assets/emblems/nba_nyk.svg",
+    "badgeAsset": "/assets/emblems/classic_nyk_2011_12.png",
     "defaultKit": {
       "shirt": "#006BB6",
       "shorts": "#F58426",
@@ -2056,7 +2056,7 @@
     "city": "San Antonio",
     "primaryColor": "#C4CED4",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_sas.png",
+    "badgeAsset": "/assets/emblems/classic_sas_1998_99.png",
     "defaultKit": {
       "shirt": "#C4CED4",
       "shorts": "#000000",
@@ -2093,7 +2093,7 @@
     "city": "Milwaukee",
     "primaryColor": "#00471B",
     "secondaryColor": "#EEE1C6",
-    "badgeAsset": "/assets/emblems/nba_mil.svg",
+    "badgeAsset": "/assets/emblems/classic_mil_2020_21.png",
     "defaultKit": {
       "shirt": "#00471B",
       "shorts": "#EEE1C6",
@@ -2167,7 +2167,7 @@
     "city": "Phoenix",
     "primaryColor": "#1D1160",
     "secondaryColor": "#E56020",
-    "badgeAsset": "/assets/emblems/nba_phx.svg",
+    "badgeAsset": "/assets/emblems/classic_phx_2004_05.png",
     "defaultKit": {
       "shirt": "#1D1160",
       "shorts": "#E56020",
@@ -2204,7 +2204,7 @@
     "city": "Philadelphia",
     "primaryColor": "#006BB6",
     "secondaryColor": "#ED174C",
-    "badgeAsset": "/assets/emblems/nba_phi.svg",
+    "badgeAsset": "/assets/emblems/classic_phi_1982_83.png",
     "defaultKit": {
       "shirt": "#006BB6",
       "shorts": "#ED174C",
@@ -2241,7 +2241,7 @@
     "city": "Boston",
     "primaryColor": "#007A33",
     "secondaryColor": "#BA9653",
-    "badgeAsset": "/assets/emblems/nba_bos.svg",
+    "badgeAsset": "/assets/emblems/classic_bos_1964_65.png",
     "defaultKit": {
       "shirt": "#007A33",
       "shorts": "#BA9653",
@@ -2278,7 +2278,7 @@
     "city": "Los Angeles",
     "primaryColor": "#552583",
     "secondaryColor": "#FDB927",
-    "badgeAsset": "/assets/emblems/nba_lal.svg",
+    "badgeAsset": "/assets/emblems/classic_lal_1971_72.png",
     "defaultKit": {
       "shirt": "#552583",
       "shorts": "#FDB927",
@@ -2352,7 +2352,7 @@
     "city": "Sacramento",
     "primaryColor": "#5A2D81",
     "secondaryColor": "#63727A",
-    "badgeAsset": "/assets/emblems/nba_sac.svg",
+    "badgeAsset": "/assets/emblems/classic_cin_1963_64.png",
     "defaultKit": {
       "shirt": "#5A2D81",
       "shorts": "#63727A",
@@ -2389,7 +2389,7 @@
     "city": "Washington",
     "primaryColor": "#002B5C",
     "secondaryColor": "#E31837",
-    "badgeAsset": "/assets/emblems/nba_was.svg",
+    "badgeAsset": "/assets/emblems/classic_was_2007_08.png",
     "defaultKit": {
       "shirt": "#002B5C",
       "shorts": "#E31837",
@@ -2426,7 +2426,7 @@
     "city": "Washington",
     "primaryColor": "#002B5C",
     "secondaryColor": "#E31837",
-    "badgeAsset": "/assets/emblems/nba_was.svg",
+    "badgeAsset": "/assets/emblems/classic_was_2016_17.png",
     "defaultKit": {
       "shirt": "#002B5C",
       "shorts": "#E31837",
@@ -2463,7 +2463,7 @@
     "city": "Orlando",
     "primaryColor": "#0077C0",
     "secondaryColor": "#C4CED4",
-    "badgeAsset": "/assets/emblems/nba_orl.svg",
+    "badgeAsset": "/assets/emblems/classic_orl_1994_95.png",
     "defaultKit": {
       "shirt": "#0077C0",
       "shorts": "#C4CED4",
@@ -2500,7 +2500,7 @@
     "city": "Cleveland",
     "primaryColor": "#860038",
     "secondaryColor": "#FDBB30",
-    "badgeAsset": "/assets/emblems/nba_cle.svg",
+    "badgeAsset": "/assets/emblems/classic_cle_2015_16.png",
     "defaultKit": {
       "shirt": "#860038",
       "shorts": "#FDBB30",
@@ -2537,7 +2537,7 @@
     "city": "Detroit",
     "primaryColor": "#C8102E",
     "secondaryColor": "#1D42BA",
-    "badgeAsset": "/assets/emblems/nba_det.svg",
+    "badgeAsset": "/assets/emblems/classic_det_1996_97.png",
     "defaultKit": {
       "shirt": "#C8102E",
       "shorts": "#1D42BA",
@@ -2574,7 +2574,7 @@
     "city": "Detroit",
     "primaryColor": "#C8102E",
     "secondaryColor": "#1D42BA",
-    "badgeAsset": "/assets/emblems/nba_det.svg",
+    "badgeAsset": "/assets/emblems/classic_det_2003_04.png",
     "defaultKit": {
       "shirt": "#C8102E",
       "shorts": "#1D42BA",
@@ -2611,7 +2611,7 @@
     "city": "Sacramento",
     "primaryColor": "#5A2D81",
     "secondaryColor": "#63727A",
-    "badgeAsset": "/assets/emblems/nba_sac.svg",
+    "badgeAsset": "/assets/emblems/classic_sac_2001_02.png",
     "defaultKit": {
       "shirt": "#5A2D81",
       "shorts": "#63727A",
@@ -2648,7 +2648,7 @@
     "city": "Portland",
     "primaryColor": "#E03A3E",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_por.png",
+    "badgeAsset": "/assets/emblems/classic_por_1999_00.png",
     "defaultKit": {
       "shirt": "#E03A3E",
       "shorts": "#000000",
@@ -2685,7 +2685,7 @@
     "city": "New Jersey",
     "primaryColor": "#002A60",
     "secondaryColor": "#D21033",
-    "badgeAsset": "/assets/emblems/nba_bkn.svg",
+    "badgeAsset": "/assets/emblems/classic_bkn_2000_01.png",
     "defaultKit": {
       "shirt": "#002A60",
       "shorts": "#D21033",
@@ -2722,7 +2722,7 @@
     "city": "Charlotte",
     "primaryColor": "#00788C",
     "secondaryColor": "#1D1160",
-    "badgeAsset": "/assets/emblems/nba_cha.svg",
+    "badgeAsset": "/assets/emblems/classic_cha_1992_93.png",
     "defaultKit": {
       "shirt": "#00788C",
       "shorts": "#1D1160",
@@ -2759,7 +2759,7 @@
     "city": "Houston",
     "primaryColor": "#CE1141",
     "secondaryColor": "#000000",
-    "badgeAsset": "/assets/emblems/nba_hou.svg",
+    "badgeAsset": "/assets/emblems/classic_hou_2018_19.png",
     "defaultKit": {
       "shirt": "#CE1141",
       "shorts": "#000000",
@@ -2796,7 +2796,7 @@
     "city": "Oklahoma City",
     "primaryColor": "#007AC1",
     "secondaryColor": "#EF3B24",
-    "badgeAsset": "/assets/emblems/nba_okc.svg",
+    "badgeAsset": "/assets/emblems/classic_okc_2011_12.png",
     "defaultKit": {
       "shirt": "#007AC1",
       "shorts": "#EF3B24",
@@ -2833,7 +2833,7 @@
     "city": "New Orleans",
     "primaryColor": "#002B5C",
     "secondaryColor": "#E31837",
-    "badgeAsset": "/assets/emblems/nba_uta.svg",
+    "badgeAsset": "/assets/emblems/classic_uta_1976_77.png",
     "defaultKit": {
       "shirt": "#002B5C",
       "shorts": "#E31837",
@@ -2870,7 +2870,7 @@
     "city": "Los Angeles",
     "primaryColor": "#C8102E",
     "secondaryColor": "#1D428A",
-    "badgeAsset": "/assets/emblems/nba_lac.svg",
+    "badgeAsset": "/assets/emblems/classic_lac_2013_14.png",
     "defaultKit": {
       "shirt": "#C8102E",
       "shorts": "#1D428A",
@@ -2898,5 +2898,227 @@
     "league": "WEST",
     "historicSeason": "2013/14",
     "franchiseId": "nba_lac"
+  },
+  {
+    "id": "classic_bos_1973_74",
+    "name": "Boston Celtics — 1973/74",
+    "abbreviation": "BOS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Boston",
+    "primaryColor": "#007A33",
+    "secondaryColor": "#BA9653",
+    "badgeAsset": "/assets/emblems/classic_bos_1973_74.png",
+    "defaultKit": {
+      "shirt": "#007A33",
+      "shorts": "#BA9653",
+      "socks": "#007A33",
+      "trim": "#BA9653",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#BA9653",
+      "shorts": "#007A33",
+      "socks": "#BA9653",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#007A33",
+      "socks": "#222222",
+      "trim": "#007A33",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_bos_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1973/74",
+    "franchiseId": "nba_bos"
+  },
+  {
+    "id": "classic_nyk_1972_73",
+    "name": "New York Knicks — 1972/73",
+    "abbreviation": "NYK",
+    "teamType": "HISTORIC_TEAM",
+    "city": "New York",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#F58426",
+    "badgeAsset": "/assets/emblems/classic_nyk_1972_73.png",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#F58426",
+      "socks": "#006BB6",
+      "trim": "#F58426",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#F58426",
+      "shorts": "#006BB6",
+      "socks": "#F58426",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_nyk_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1972/73",
+    "franchiseId": "nba_nyk"
+  },
+  {
+    "id": "classic_was_1977_78",
+    "name": "Washington Bullets — 1977/78",
+    "abbreviation": "WSB",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Washington",
+    "primaryColor": "#E31837",
+    "secondaryColor": "#002B5C",
+    "badgeAsset": "/assets/emblems/classic_was_1977_78.png",
+    "defaultKit": {
+      "shirt": "#E31837",
+      "shorts": "#002B5C",
+      "socks": "#E31837",
+      "trim": "#002B5C",
+      "numberColor": "#FFFFFF"
+    },
+    "awayKit": {
+      "shirt": "#002B5C",
+      "shorts": "#E31837",
+      "socks": "#002B5C",
+      "trim": "#E31837",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#E31837",
+      "socks": "#222222",
+      "trim": "#E31837",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_was_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "EAST",
+    "league": "EAST",
+    "historicSeason": "1977/78",
+    "franchiseId": "nba_was"
+  },
+  {
+    "id": "classic_gsw_1974_75",
+    "name": "Golden State Warriors — 1974/75",
+    "abbreviation": "GSW",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Oakland",
+    "primaryColor": "#006BB6",
+    "secondaryColor": "#FDB927",
+    "badgeAsset": "/assets/emblems/classic_gsw_1974_75.png",
+    "defaultKit": {
+      "shirt": "#006BB6",
+      "shorts": "#FDB927",
+      "socks": "#006BB6",
+      "trim": "#FDB927",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FDB927",
+      "shorts": "#006BB6",
+      "socks": "#FDB927",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#006BB6",
+      "socks": "#222222",
+      "trim": "#006BB6",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_gsw_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1974/75",
+    "franchiseId": "nba_gsw"
+  },
+  {
+    "id": "classic_sas_1981_82",
+    "name": "San Antonio Spurs — 1981/82",
+    "abbreviation": "SAS",
+    "teamType": "HISTORIC_TEAM",
+    "city": "San Antonio",
+    "primaryColor": "#000000",
+    "secondaryColor": "#C4CED4",
+    "badgeAsset": "/assets/emblems/classic_sas_1981_82.png",
+    "defaultKit": {
+      "shirt": "#000000",
+      "shorts": "#C4CED4",
+      "socks": "#000000",
+      "trim": "#C4CED4",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#C4CED4",
+      "shorts": "#000000",
+      "socks": "#C4CED4",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#000000",
+      "socks": "#222222",
+      "trim": "#000000",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_sas_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1981/82",
+    "franchiseId": "nba_sas"
+  },
+  {
+    "id": "classic_den_1984_85",
+    "name": "Denver Nuggets — 1984/85",
+    "abbreviation": "DEN",
+    "teamType": "HISTORIC_TEAM",
+    "city": "Denver",
+    "primaryColor": "#0E2240",
+    "secondaryColor": "#FEC524",
+    "badgeAsset": "/assets/emblems/classic_den_1984_85.png",
+    "defaultKit": {
+      "shirt": "#0E2240",
+      "shorts": "#FEC524",
+      "socks": "#0E2240",
+      "trim": "#FEC524",
+      "numberColor": "#111111"
+    },
+    "awayKit": {
+      "shirt": "#FEC524",
+      "shorts": "#0E2240",
+      "socks": "#FEC524",
+      "trim": "#0E2240",
+      "numberColor": "#FFFFFF"
+    },
+    "goalkeeperKit": {
+      "shirt": "#222222",
+      "shorts": "#0E2240",
+      "socks": "#222222",
+      "trim": "#0E2240",
+      "numberColor": "#FFFFFF"
+    },
+    "defaultStadiumId": "nba_den_arena",
+    "defaultFormation": "BASKETBALL_5",
+    "conference": "WEST",
+    "league": "WEST",
+    "historicSeason": "1984/85",
+    "franchiseId": "nba_den"
   }
 ]

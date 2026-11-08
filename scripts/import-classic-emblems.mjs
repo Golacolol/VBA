@@ -57,6 +57,8 @@ const SPORTLOGOS_BY_ERA = {
   classic_uta_1976_77: { id: 255, slug: "New-Orleans-Jazz-Logos" },
   classic_cin_1963_64: { id: 247, slug: "Cincinnati-Royals-Logos" },
   classic_cha_1992_93: { id: 256, slug: "Charlotte-Hornets-Logos" },
+  // Wizards franchise page only has 1998+ primaries — Bullets live on their own page.
+  classic_was_1977_78: { id: 587, slug: "Washington-Bullets-Logos" },
 };
 
 const pageCache = new Map();

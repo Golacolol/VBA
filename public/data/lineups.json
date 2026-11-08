@@ -2158,5 +2158,167 @@
         "slot": "C"
       }
     ]
+  },
+  {
+    "id": "classic_bos_1973_74_lineup",
+    "teamId": "classic_bos_1973_74",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_bos_1973_74_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_bos_1973_74_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_bos_1973_74_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_bos_1973_74_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_bos_1973_74_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_nyk_1972_73_lineup",
+    "teamId": "classic_nyk_1972_73",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_nyk_1972_73_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_nyk_1972_73_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_nyk_1972_73_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_nyk_1972_73_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_nyk_1972_73_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_was_1977_78_lineup",
+    "teamId": "classic_was_1977_78",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_was_1977_78_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_was_1977_78_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_was_1977_78_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_was_1977_78_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_was_1977_78_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_gsw_1974_75_lineup",
+    "teamId": "classic_gsw_1974_75",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_gsw_1974_75_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_gsw_1974_75_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_gsw_1974_75_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_gsw_1974_75_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_gsw_1974_75_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_sas_1981_82_lineup",
+    "teamId": "classic_sas_1981_82",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_sas_1981_82_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_sas_1981_82_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_sas_1981_82_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_sas_1981_82_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_sas_1981_82_p05",
+        "slot": "C"
+      }
+    ]
+  },
+  {
+    "id": "classic_den_1984_85_lineup",
+    "teamId": "classic_den_1984_85",
+    "formation": "BASKETBALL_5",
+    "starters": [
+      {
+        "playerId": "classic_den_1984_85_p01",
+        "slot": "PG"
+      },
+      {
+        "playerId": "classic_den_1984_85_p02",
+        "slot": "SG"
+      },
+      {
+        "playerId": "classic_den_1984_85_p03",
+        "slot": "SF"
+      },
+      {
+        "playerId": "classic_den_1984_85_p04",
+        "slot": "PF"
+      },
+      {
+        "playerId": "classic_den_1984_85_p05",
+        "slot": "C"
+      }
+    ]
   }
 ]

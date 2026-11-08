@@ -27,6 +27,36 @@ export const CLASSIC_ERAS = [
     ],
   },
   {
+    // Rick Barry Finals MVP — swept the Bullets for the title.
+    id: "classic_gsw_1974_75",
+    franchiseId: "nba_gsw",
+    season: "1974/75",
+    name: "Golden State Warriors — 1974/75",
+    historicLook: {
+      city: "Oakland",
+      primary: "#006BB6",
+      secondary: "#FDB927",
+      badgeAsset: "/assets/emblems/classic_gsw_1974_75.png",
+    },
+    starters: [
+      { name: "Butch Beard", number: 21, pos: "PG" },
+      { name: "Charles Johnson", number: 10, pos: "SG" },
+      { name: "Rick Barry", number: 24, pos: "SF" },
+      { name: "Jamaal Wilkes", number: 41, pos: "PF" },
+      { name: "Clifford Ray", number: 44, pos: "C" },
+    ],
+    bench: [
+      { name: "Derrek Dickey", number: 40, pos: "PF" },
+      { name: "George Johnson", number: 52, pos: "C" },
+      { name: "Jeff Mullins", number: 23, pos: "SG" },
+      { name: "Phil Smith", number: 20, pos: "SG" },
+      { name: "Charles Dudley", number: 15, pos: "PG" },
+      { name: "Steve Bracey", number: 22, pos: "SG" },
+      { name: "Bill Bridges", number: 32, pos: "PF" },
+      { name: "Frank Kendrick", number: 34, pos: "SF" },
+    ],
+  },
+  {
     id: "classic_gsw_2016_17",
     franchiseId: "nba_gsw",
     season: "2016/17",
@@ -50,6 +80,32 @@ export const CLASSIC_ERAS = [
       { name: "Patrick McCaw", number: 0, pos: "SG" },
       { name: "James Michael McAdoo", number: 20, pos: "PF" },
       { name: "Nick Young", number: 6, pos: "SG" },
+    ],
+  },
+  {
+    // Cowens / Havlicek / Jo Jo White title — first post-Russell Celtics chip.
+    id: "classic_bos_1973_74",
+    franchiseId: "nba_bos",
+    season: "1973/74",
+    name: "Boston Celtics — 1973/74",
+    historicLook: {
+      badgeAsset: "/assets/emblems/classic_bos_1973_74.png",
+    },
+    starters: [
+      { name: "Jo Jo White", number: 10, pos: "PG" },
+      { name: "Don Chaney", number: 12, pos: "SG" },
+      { name: "John Havlicek", number: 17, pos: "SF" },
+      { name: "Paul Silas", number: 35, pos: "PF" },
+      { name: "Dave Cowens", number: 18, pos: "C" },
+    ],
+    bench: [
+      { name: "Don Nelson", number: 19, pos: "SF" },
+      { name: "Paul Westphal", number: 44, pos: "SG" },
+      { name: "Steve Kuberski", number: 11, pos: "PF" },
+      { name: "Art Williams", number: 7, pos: "PG" },
+      { name: "Hank Finkel", number: 29, pos: "C" },
+      { name: "Phil Hankinson", number: 20, pos: "SF" },
+      { name: "Steve Downing", number: 32, pos: "C" },
     ],
   },
   {
@@ -199,6 +255,35 @@ export const CLASSIC_ERAS = [
     ],
   },
   {
+    // Iceman peak — Gervin scoring title (32.3), Midwest champs, WCF.
+    id: "classic_sas_1981_82",
+    franchiseId: "nba_sas",
+    season: "1981/82",
+    name: "San Antonio Spurs — 1981/82",
+    historicLook: {
+      primary: "#000000",
+      secondary: "#C4CED4",
+      badgeAsset: "/assets/emblems/classic_sas_1981_82.png",
+    },
+    starters: [
+      { name: "Johnny Moore", number: 0, pos: "PG" },
+      { name: "George Gervin", number: 44, pos: "SG" },
+      { name: "Mike Mitchell", number: 34, pos: "SF" },
+      { name: "Mark Olberding", number: 53, pos: "PF" },
+      { name: "Dave Corzine", number: 40, pos: "C" },
+    ],
+    bench: [
+      { name: "Gene Banks", number: 20, pos: "SF" },
+      { name: "Mike Bratz", number: 23, pos: "PG" },
+      { name: "Ron Brewer", number: 10, pos: "SG" },
+      { name: "George Johnson", number: 52, pos: "C" },
+      { name: "Roger Phegley", number: 21, pos: "SG" },
+      { name: "Paul Griffin", number: 30, pos: "PF" },
+      { name: "Ed Rains", number: 15, pos: "SF" },
+      { name: "Reggie Johnson", number: 32, pos: "PF" },
+    ],
+  },
+  {
     id: "classic_sas_2013_14",
     franchiseId: "nba_sas",
     season: "2013/14",
@@ -239,9 +324,37 @@ export const CLASSIC_ERAS = [
       { name: "Chris Andersen", number: 11, pos: "C" },
       { name: "Norris Cole", number: 30, pos: "PG" },
       { name: "Mike Miller", number: 13, pos: "SF" },
-      { name: "Joel Anthony", number: 50, pos: "C" },
+      { name: "Juwan Howard", number: 5, pos: "PF" },
       { name: "James Jones", number: 22, pos: "SF" },
       { name: "Rashard Lewis", number: 9, pos: "PF" },
+    ],
+  },
+  {
+    // Alex English scoring-champ year — Lever / Natt / Issel skyline Nuggets.
+    id: "classic_den_1984_85",
+    franchiseId: "nba_den",
+    season: "1984/85",
+    name: "Denver Nuggets — 1984/85",
+    historicLook: {
+      primary: "#0E2240",
+      secondary: "#FEC524",
+      badgeAsset: "/assets/emblems/classic_den_1984_85.png",
+    },
+    starters: [
+      { name: "Fat Lever", number: 12, pos: "PG" },
+      { name: "T.R. Dunn", number: 23, pos: "SG" },
+      { name: "Alex English", number: 2, pos: "SF" },
+      { name: "Calvin Natt", number: 33, pos: "PF" },
+      { name: "Wayne Cooper", number: 42, pos: "C" },
+    ],
+    bench: [
+      { name: "Dan Issel", number: 44, pos: "C" },
+      { name: "Mike Evans", number: 5, pos: "SG" },
+      { name: "Bill Hanzlik", number: 24, pos: "SF" },
+      { name: "Danny Schayes", number: 34, pos: "C" },
+      { name: "Elston Turner", number: 20, pos: "SF" },
+      { name: "Joe Kopicki", number: 35, pos: "PF" },
+      { name: "Willie White", number: 10, pos: "SG" },
     ],
   },
   {
@@ -600,6 +713,30 @@ export const CLASSIC_ERAS = [
     ],
   },
   {
+    // Last Knicks title — Frazier / Monroe / Reed / DeBusschere.
+    id: "classic_nyk_1972_73",
+    franchiseId: "nba_nyk",
+    season: "1972/73",
+    name: "New York Knicks — 1972/73",
+    starters: [
+      { name: "Walt Frazier", number: 10, pos: "PG" },
+      { name: "Earl Monroe", number: 15, pos: "SG" },
+      { name: "Bill Bradley", number: 24, pos: "SF" },
+      { name: "Dave DeBusschere", number: 22, pos: "PF" },
+      { name: "Willis Reed", number: 19, pos: "C" },
+    ],
+    bench: [
+      { name: "Jerry Lucas", number: 32, pos: "PF" },
+      { name: "Dean Meminger", number: 7, pos: "SG" },
+      { name: "Phil Jackson", number: 18, pos: "PF" },
+      { name: "Dick Barnett", number: 12, pos: "SG" },
+      { name: "Henry Bibby", number: 17, pos: "PG" },
+      { name: "John Gianelli", number: 40, pos: "C" },
+      { name: "Harthorne Wingo", number: 43, pos: "PF" },
+      { name: "Tom Riker", number: 6, pos: "C" },
+    ],
+  },
+  {
     id: "classic_nyk_1993_94",
     franchiseId: "nba_nyk",
     season: "1993/94",
@@ -698,7 +835,7 @@ export const CLASSIC_ERAS = [
     season: "1990/91",
     name: "Atlanta Hawks — 1990/91",
     historicLook: {
-      badgeAsset: "/assets/emblems/classic_atl_1990_91.png",
+      badgeAsset: "/assets/emblems/classic_nyk_1972_73.png",
     },
     starters: [
       { name: "Spud Webb", number: 4, pos: "PG" },
@@ -862,6 +999,36 @@ export const CLASSIC_ERAS = [
       { name: "Tom Thacker", number: 21, pos: "SG" },
       { name: "Dan Tieman", number: 5, pos: "PG" },
       { name: "Hub Reed", number: 20, pos: "C" },
+    ],
+  },
+  {
+    // Only Bullets title — Unseld Finals MVP (franchise now Wizards).
+    id: "classic_was_1977_78",
+    franchiseId: "nba_was",
+    season: "1977/78",
+    name: "Washington Bullets — 1977/78",
+    historicLook: {
+      city: "Washington",
+      abbr: "WSB",
+      primary: "#E31837",
+      secondary: "#002B5C",
+      badgeAsset: "/assets/emblems/classic_was_1977_78.png",
+    },
+    starters: [
+      { name: "Tom Henderson", number: 14, pos: "PG" },
+      { name: "Charles Johnson", number: 15, pos: "SG" },
+      { name: "Bob Dandridge", number: 10, pos: "SF" },
+      { name: "Elvin Hayes", number: 11, pos: "PF" },
+      { name: "Wes Unseld", number: 41, pos: "C" },
+    ],
+    bench: [
+      { name: "Kevin Grevey", number: 35, pos: "SF" },
+      { name: "Mitch Kupchak", number: 25, pos: "PF" },
+      { name: "Phil Chenier", number: 45, pos: "SG" },
+      { name: "Larry Wright", number: 32, pos: "PG" },
+      { name: "Greg Ballard", number: 42, pos: "SF" },
+      { name: "Joe Pace", number: 44, pos: "C" },
+      { name: "Phil Walker", number: 20, pos: "SG" },
     ],
   },
   {

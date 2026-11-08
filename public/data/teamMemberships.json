@@ -4524,7 +4524,7 @@
   {
     "playerId": "classic_mia_2012_13_p11",
     "teamId": "classic_mia_2012_13",
-    "shirtNumber": 50,
+    "shirtNumber": 5,
     "squadRole": "BENCH",
     "captain": false
   },
@@ -8179,6 +8179,531 @@
     "playerId": "classic_lac_2013_14_p13",
     "teamId": "classic_lac_2013_14",
     "shirtNumber": 26,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p01",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 10,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_bos_1973_74_p02",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 12,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p03",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 17,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p04",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 35,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p05",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 18,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p06",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 19,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p07",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 44,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p08",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 11,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p09",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 7,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p10",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 29,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p11",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 20,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_bos_1973_74_p12",
+    "teamId": "classic_bos_1973_74",
+    "shirtNumber": 32,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p01",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 10,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p02",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 15,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p03",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 24,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p04",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 22,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p05",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 19,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p06",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 32,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p07",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 7,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p08",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 18,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p09",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 12,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p10",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 17,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p11",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 40,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p12",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 43,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_nyk_1972_73_p13",
+    "teamId": "classic_nyk_1972_73",
+    "shirtNumber": 6,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p01",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 14,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_was_1977_78_p02",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 15,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p03",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 10,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p04",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 11,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p05",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 41,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p06",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 35,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p07",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 25,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p08",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 45,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p09",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 32,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p10",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 42,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p11",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 44,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_was_1977_78_p12",
+    "teamId": "classic_was_1977_78",
+    "shirtNumber": 20,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p01",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 21,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p02",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 10,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p03",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 24,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p04",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 41,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p05",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 44,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p06",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 40,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p07",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 52,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p08",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 23,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p09",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 20,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p10",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 15,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p11",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 22,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p12",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 32,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_gsw_1974_75_p13",
+    "teamId": "classic_gsw_1974_75",
+    "shirtNumber": 34,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p01",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 0,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_sas_1981_82_p02",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 44,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p03",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 34,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p04",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 53,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p05",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 40,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p06",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 20,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p07",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 23,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p08",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 10,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p09",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 52,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p10",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 21,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p11",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 30,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p12",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 15,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_sas_1981_82_p13",
+    "teamId": "classic_sas_1981_82",
+    "shirtNumber": 32,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p01",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 12,
+    "squadRole": "FIRST_TEAM",
+    "captain": true
+  },
+  {
+    "playerId": "classic_den_1984_85_p02",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 23,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p03",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 2,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p04",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 33,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p05",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 42,
+    "squadRole": "FIRST_TEAM",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p06",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 44,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p07",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 5,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p08",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 24,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p09",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 34,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p10",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 20,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p11",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 35,
+    "squadRole": "BENCH",
+    "captain": false
+  },
+  {
+    "playerId": "classic_den_1984_85_p12",
+    "teamId": "classic_den_1984_85",
+    "shirtNumber": 10,
     "squadRole": "BENCH",
     "captain": false
   }
